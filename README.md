@@ -1,6 +1,6 @@
 # Welcome to shlomki/HomeAssistant-Config!
 
-Hi! My name is Shlomi, I'm not expert in Home Assistant but I do have some nice automations and ideas to share with you, so I've uploaded my HA configuration here.
+Hi! My name is Shlomi, I'm not an expert in Home Assistant but I do have some nice automations and ideas to share with you, so I've uploaded my HA configuration here.
 Feel free to browse.
 
 
