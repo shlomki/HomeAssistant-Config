@@ -1,0 +1,146 @@
+smartir:
+
+climate: 
+- platform: ekon
+  # This currently unused:
+  name: Main account
+  # Specify the name and password for your account
+  username: !secret ekon_username
+  password: !secret ekon_password
+  # This specifies the server that the component would work with, I have only tried it with EKON server (Airconet APP)
+  # Optional, defults to Airconet server
+  # Use this if you are using "Airconet" app - EKON main server
+  #base_url: https://www.airconet.info/
+  # **UNTESTED** Alternative EKON tadiran server
+  base_url: https://www.airconet.xyz/
+
+- platform: smartir
+  name: Manual AC
+  unique_id: manual_ac
+  device_code: 1340
+  controller_data: remote.living_room
+  temperature_sensor: sensor.living_room_temperature
+  #humidity_sensor: sensor.humidity
+  #power_sensor: binary_sensor.ac_power
+
+input_text:
+  ac_entity_id:
+
+input_boolean:
+  manual_ac:
+  manual_ac_force:
+
+script:
+  toggle_manual_ac:
+    alias: "Toggle Manual AC"
+    sequence:
+      - service: input_boolean.toggle
+        entity_id: input_boolean.manual_ac
+    
+automation:
+  - alias: Manual AC - Choose Manual AC when internet or ac are disconnected
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.internet_connection
+        from: 'on'
+        to: 'off'
+      - platform: state
+        entity_id: device_tracker.ekon_b3c117
+        from: 'home'
+        to: 'not_home'
+      - platform: state
+        entity_id: input_boolean.manual_ac
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.manual_ac_force
+        state: 'off'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.manual_ac
+
+  - alias: Manual AC - Force
+    trigger:
+      - platform: state
+        entity_id: input_boolean.manual_ac_force
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id: input_boolean.manual_ac_force
+        from: 'on'
+        to: 'off'
+    action:
+      - service: 'input_boolean.turn_{{ trigger.to_state.state }}'
+        entity_id: input_boolean.manual_ac
+
+  - alias: Manual AC - Choose ekon when internet and ac are connected
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.internet_connection
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id: device_tracker.ekon_b3c117
+        from: 'not_home'
+        to: 'home'
+      - platform: state
+        entity_id: input_boolean.manual_ac
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: binary_sensor.internet_connection
+            state: 'on'
+          - condition: state
+            entity_id: device_tracker.ekon_b3c117
+            state: 'home'
+          - condition: state
+            entity_id: input_boolean.manual_ac_force
+            state: 'off'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.manual_ac
+
+  - alias: Manual AC - Turn On
+    trigger:
+      - platform: state
+        entity_id: 
+          - input_boolean.manual_ac
+          - input_boolean.manual_ac_force
+        from: 'off'
+        to: 'on'
+    action:
+      #Set the ac_entity_id to manual_ac (for automations & smartauto)
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.ac_entity_id
+          value: 'climate.manual_ac'
+
+      #Copy the current settings to manual_ac
+      - service: climate.set_temperature
+        data:
+          entity_id: climate.manual_ac
+          hvac_mode: "{{ states('climate.ekon5601') }}"
+          temperature: "{{ state_attr('climate.ekon5601', 'temperature') }}"
+
+      - service: climate.set_fan_mode
+        data:
+          entity_id: climate.manual_ac
+          fan_mode: "{% set fan_mode = state_attr('climate.ekon5601', 'fan_mode') %}{{ 'high' if (fan_mode == 'Auto') else fan_mode}}"
+
+  - alias: AC Manual - Turn Off
+    trigger:
+      - platform: state
+        entity_id: 
+          - input_boolean.manual_ac
+          - input_boolean.manual_ac_force
+        from: 'on'
+        to: 'off'
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.ac_entity_id
+          value: 'climate.ekon5601'

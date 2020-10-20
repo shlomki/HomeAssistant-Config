@@ -1,0 +1,30 @@
+automation:
+  - alias: Toilet light on motion
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.toilet_motion
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id: binary_sensor.toilet_door
+        from: 'off'
+        to: 'on'
+    action:
+      - service: light.turn_on
+        entity_id: light.toilet_main
+          
+  - alias: Toilet light off when no motion when door closed
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.toilet_motion
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 20
+    condition:   
+      - condition: state
+        entity_id: binary_sensor.toilet_door
+        state:  'off'
+    action:
+      - service: light.turn_off
+        entity_id: light.toilet_main

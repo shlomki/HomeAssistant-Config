@@ -1,0 +1,11 @@
+binary_sensor.front_door_lock:
+  device_class: lock
+
+sensor.living_room_temperature:
+  friendly_name: Living Room
+
+sensor.bedroom_temperature:
+  friendly_name: Bedroom
+
+cover.living_room_curtain:
+  device_class: curtain

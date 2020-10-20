@@ -1,0 +1,11 @@
+script:
+  notify_all:
+    sequence:
+      - service: tts.google_translate_say
+        data:
+          entity_id: media_player.all_speakers
+          message: '{{ message }}'
+      - service: notify.bffs
+        data:
+          message: '{{ message }}'
+

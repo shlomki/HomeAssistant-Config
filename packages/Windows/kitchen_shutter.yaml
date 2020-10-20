@@ -1,0 +1,75 @@
+time_counter:
+  kitchen_shutter:
+    name: Kitchen Shutter Counter
+    down_duration: 15
+    up_duration: 15
+    debounce: 250
+
+sensor:
+  - platform: template
+    sensors:
+      kitchen_shutter_state:
+        value_template: >
+          {% if states('cover.kitchen_shutter_switch') == 'open' and state_attr("cover.kitchen_shutter_switch", "current_position") == 100 %}
+          closing
+          {% elif states('cover.kitchen_shutter_switch') == 'closed' and state_attr("cover.kitchen_shutter_switch", "current_position") == 50 %}
+          stopped
+          {% elif states('cover.kitchen_shutter_switch') == 'closed' and state_attr("cover.kitchen_shutter_switch", "current_position") == 0 %}
+          opening
+          {% endif %}
+
+cover:
+  - platform: template
+    covers:
+      kitchen_shutter:
+        device_class: shutter
+        friendly_name: "Kitchen Shutter"
+        position_template: "{{ states('time_counter.kitchen_shutter') | int }}"
+        availability_template: "{{ states('cover.kitchen_shutter_switch') != 'unavailable' }}"
+        open_cover:
+          service: cover.open_cover
+          entity_id: cover.kitchen_shutter_switch
+        close_cover:
+          service: cover.close_cover
+          entity_id: cover.kitchen_shutter_switch
+        stop_cover:
+          service: cover.stop_cover
+          entity_id: cover.kitchen_shutter_switch
+        set_cover_position:
+          - service: "cover.{{ 'open_cover' if position > states('time_counter.kitchen_shutter')|int else 'close_cover' }}"
+            entity_id: cover.kitchen_shutter_switch
+          - service: time_counter.set
+            data:
+              entity_id: time_counter.kitchen_shutter
+              state: "{{ position }}"
+        
+
+automation:
+  - alias: Kitchen Shutter Time Counter According To Sensor
+    trigger:
+      - platform: state
+        entity_id: sensor.kitchen_shutter_state
+    action:
+      service: >
+        {% if trigger.to_state.state == 'closing' %}
+          time_counter.downcount
+        {% elif trigger.to_state.state == 'opening' %}
+          time_counter.upcount
+        {% elif trigger.to_state.state == 'stopped' %}
+          time_counter.stop
+        {% endif %}
+      data:
+        entity_id:
+          - time_counter.kitchen_shutter
+
+  - alias: Kitchen Shutter Time Counter Stopped
+    trigger:
+      platform: event
+      event_type: time_counter.stopped
+      event_data:
+        entity_id: time_counter.kitchen_shutter
+    action:
+      - service: cover.stop_cover
+        data:
+          entity_id:
+            - cover.kitchen_shutter_switch

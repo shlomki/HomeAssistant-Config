@@ -1,0 +1,149 @@
+sensor:
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      - 'date_time'
+      - 'date_time_utc'
+      - 'time_date'
+      - 'time_utc'
+
+input_datetime:
+  dawn:
+    name: Dawn
+    has_date: false
+    has_time: true
+  morning:
+    name: Morning
+    has_date: false
+    has_time: true
+  late_morning:
+    name: Late Morning
+    has_date: false
+    has_time: true 
+  noon:
+    name: Noon
+    has_date: false
+    has_time: true 
+  evening:
+    name: Evening
+    has_date: false
+    has_time: true
+  evening_2:
+    name: Evening 2
+    has_date: false
+    has_time: true
+  night:
+    name: Night
+    has_date: false
+    has_time: true
+  late_night:
+    name: Late Night
+    has_date: false
+    has_time: true
+
+automation:
+
+  - alias: Birds Turn On Lights Late Morning
+    trigger:
+      platform: time
+      at: input_datetime.late_morning
+    action:
+      - service: light.turn_on
+        entity_id: light.guest_room_main_combined
+
+  - alias: Birds Dim Lights Evening
+    trigger:
+      platform: time
+      at: input_datetime.evening
+    action:
+      - service: light.turn_on
+        entity_id: light.guest_room_main_combined
+        data:
+          brightness: 1
+
+  - alias: Birds Turn Off Lights Evening 2
+    trigger:
+      platform: time
+      at: input_datetime.evening_2
+    action:
+      - service: light.turn_off
+        entity_id: light.guest_room_main_combined
+
+  - alias: Birds Open Shutter Noon
+    trigger:
+      platform: time
+      at: input_datetime.noon
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: cover.guest_room_shutter
+          position: 100
+
+  - alias: Birds Close Shutter Night
+    trigger:
+      platform: time
+      at: input_datetime.night
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: cover.guest_room_shutter
+          position: 40
+
+  - alias: Living Room Lamp Turn Brightness Down at Night
+    trigger:
+      - platform: state
+        entity_id: light.living_room_lamp_hue
+        from: 'unavailable'
+        to: 'on'
+    condition:
+      - condition: time
+        after: input_datetime.night
+        before: input_datetime.late_morning
+    action:
+      - service: light.turn_on
+        entity_id: light.living_room_lamp_hue
+        data:
+          brightness: 2
+
+  - alias: Bathroom Laundry Turn Brightness Down at Night
+    trigger:
+      - platform: state
+        entity_id: light.laundry_hue
+        from: 'unavailable'
+        to: 'on'
+    condition:
+      - condition: time
+        after: input_datetime.night
+        before: input_datetime.late_morning
+    action:
+      - service: light.turn_on
+        entity_id: light.laundry_hue
+        data:
+          brightness: 2
+
+  - alias: Close shutters and turn on AC at dawn
+    trigger:
+      platform: time
+      at: input_datetime.dawn
+    action:
+      - service: cover.close_cover
+        entity_id: 
+          - cover.living_room_shutter
+          - cover.living_room_curtain
+          - cover.bedroom_shutter
+          - cover.kitchen_shutter
+      - service: fan.turn_on
+        entity_id:
+          - fan.ac_damper_bedroom
+          - fan.ac_damper_living_room
+      - delay: '00:00:20'
+      - service: fan.set_speed
+        entity_id: fan.ac_damper_bedroom
+        data:
+          speed: SmartAuto
+      - service: fan.set_speed
+        entity_id: fan.ac_damper_bedroom
+        data:
+          speed: 'Low'
+

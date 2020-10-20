@@ -1,0 +1,21 @@
+sensor:
+  - platform: template
+    sensors:
+      comm_closet_temp:
+        friendly_name: "Comm Closet"
+        unit_of_measurement: '°C'
+        value_template: '{{ state_attr("binary_sensor.comm_closet", "temperature") }}'
+
+  - platform: template
+    sensors:
+      bathroom_temperature:
+        friendly_name: "Bathroom"
+        unit_of_measurement: '°C'
+        value_template: '{{ state_attr("sensor.cat_motion", "temperature") }}'
+
+  - platform: template
+    sensors:
+      office_temperature:
+        friendly_name: "Office Temperature (Living Room)"
+        unit_of_measurement: '°C'
+        value_template: '{{ states("sensor.living_room_temperature") }}'

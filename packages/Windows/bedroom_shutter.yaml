@@ -1,0 +1,75 @@
+time_counter:
+  bedroom_shutter:
+    name: Bedroom Shutter Counter
+    down_duration: 18
+    up_duration: 19
+    debounce: 250
+
+sensor:
+  - platform: template
+    sensors:
+      bedroom_shutter_state:
+        value_template: >
+          {% if states('cover.bedroom_shutter_switch') == 'open' and state_attr("cover.bedroom_shutter_switch", "current_position") == 100 %}
+          closing
+          {% elif states('cover.bedroom_shutter_switch') == 'closed' and state_attr("cover.bedroom_shutter_switch", "current_position") == 50 %}
+          stopped
+          {% elif states('cover.bedroom_shutter_switch') == 'closed' and state_attr("cover.bedroom_shutter_switch", "current_position") == 0 %}
+          opening
+          {% endif %}
+
+cover:
+  - platform: template
+    covers:
+      bedroom_shutter:
+        device_class: shutter
+        friendly_name: "Bedroom Shutter"
+        position_template: "{{ states('time_counter.bedroom_shutter') | int }}"
+        availability_template: "{{ states('cover.bedroom_shutter_switch') != 'unavailable' }}"
+        open_cover:
+          service: cover.open_cover
+          entity_id: cover.bedroom_shutter_switch
+        close_cover:
+          service: cover.close_cover
+          entity_id: cover.bedroom_shutter_switch
+        stop_cover:
+          service: cover.stop_cover
+          entity_id: cover.bedroom_shutter_switch
+        set_cover_position:
+          - service: "cover.{{ 'open_cover' if position > states('time_counter.bedroom_shutter')|int else 'close_cover' }}"
+            entity_id: cover.bedroom_shutter_switch
+          - service: time_counter.set
+            data:
+              entity_id: time_counter.bedroom_shutter
+              state: "{{ position }}"
+        
+
+automation:
+  - alias: Bedroom Shutter Time Counter According To Sensor
+    trigger:
+      - platform: state
+        entity_id: sensor.bedroom_shutter_state
+    action:
+      service: >
+        {% if trigger.to_state.state == 'closing' %}
+          time_counter.downcount
+        {% elif trigger.to_state.state == 'opening' %}
+          time_counter.upcount
+        {% elif trigger.to_state.state == 'stopped' %}
+          time_counter.stop
+        {% endif %}
+      data:
+        entity_id:
+          - time_counter.bedroom_shutter
+
+  - alias: Bedroom Shutter Time Counter Stopped
+    trigger:
+      platform: event
+      event_type: time_counter.stopped
+      event_data:
+        entity_id: time_counter.bedroom_shutter
+    action:
+      - service: cover.stop_cover
+        data:
+          entity_id:
+            - cover.bedroom_shutter_switch

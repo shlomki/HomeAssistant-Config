@@ -1,0 +1,138 @@
+webostv:
+  - name: Living Room TV
+    host: !secret living_room_tv_ip  
+    turn_on_action:
+      service: wake_on_lan.send_magic_packet
+      data:
+        mac: !secret living_room_tv_mac
+
+  - name: Bedroom TV
+    host: !secret bedroom_tv_ip
+    turn_on_action:
+      service: wake_on_lan.send_magic_packet
+      data:
+        mac: !secret bedroom_tv_mac
+
+automation:
+  - alias: Subwoofer - Turn on
+    trigger:
+      - platform: state
+        entity_id: media_player.living_room_tv
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id: media_player.amplifier
+        from: 'idle'
+        to: 'playing'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.subwoofer_smart_plug
+
+
+  - alias: Subwoofer - Turn off
+    trigger:
+      - platform: state
+        entity_id: media_player.living_room_tv
+        from: 'on'
+        to: 'off'
+      - platform: state
+        entity_id: media_player.amplifier
+        from: 'playing'
+        to: 'idle'
+      - platform: state
+        entity_id: media_player.amplifier
+        from: 'paused'
+        to: 'idle'
+    condition:
+      condition: or
+      conditions:
+        #When tv is off
+        - condition: or
+          conditions:
+            - condition: state
+              entity_id: media_player.living_room_tv
+              state: 'off'
+            - condition: state
+              entity_id: media_player.living_room_tv
+              state: 'unavailable'
+        #When amplifier is off
+        - condition: or
+          conditions:
+            - condition: state
+              entity_id: media_player.amplifier
+              state: 'idle'
+            - condition: state
+              entity_id: media_player.amplifier
+              state: 'unavailable'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.subwoofer_smart_plug
+
+  - alias: Subwoofer smartplug unavailable
+    trigger:
+      - platform: state
+        entity_id: media_player.living_room_tv
+        from: 'off'
+        to: 'on'
+        for:
+          seconds: 5
+      - platform: state
+        entity_id: media_player.amplifier
+        from: 'idle'
+        to: 'playing'
+        for:
+          seconds: 5
+    condition:
+        - condition: state
+          entity_id: switch.subwoofer_smart_plug
+          state:  'unavailable'
+    action:
+      - service: tts.google_translate_say
+        entity_id: media_player.living_room_speaker
+        data:
+          message: "The subwoofer hasn't been turned on, make sure the smart plug is plugged in behind the couch."
+      - service: notify.bffs
+        data:
+          message: "The subwoofer hasn't been turned on, make sure the smart plug is plugged in behind the couch."
+
+  - alias: Subwoofer unplugged from smart plug
+    trigger:
+      - platform: state
+        entity_id: switch.subwoofer_smart_plug
+        from: 'off'
+        to: 'on'
+        for:
+          seconds: 10
+    condition:
+        - condition: state
+          entity_id: sensor.subwoofer_power
+          state: '0'
+    action:
+      - service: tts.google_translate_say
+        entity_id: media_player.living_room_speaker
+        data:
+          message: "The subwoofer hasn't been turned on, make sure it's plugged in behind the couch."
+      - service: notify.bffs
+        data:
+          message: "The subwoofer hasn't been turned on, make sure it's plugged in behind the couch."
+
+  - alias: Subwoofer unplugged from smart plug
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.subwoofer_vibration
+        from: 'off'
+        to: 'on'
+    action:
+      - service: notify.shlomi
+        data:
+          message: "Nugget is moving the subwoofer plug"
+
+
+group:
+  TVs:
+    entities:
+      - media_player.living_room_tv
+      - media_player.bedroom_tv
+      - media_player.amplifier
+      - switch.subwoofer_smart_plug
+

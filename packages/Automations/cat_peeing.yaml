@@ -1,0 +1,23 @@
+automation:
+  - alias: Cat Peeing Announce on Google Speakers
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.cat_motion
+        from: 'off'
+        to: 'on'
+    action:
+      - service: tts.google_translate_say
+        data:
+          entity_id: media_player.all_speakers
+          message: The cat is peeing! Hurry!
+          
+  - alias: Cat Peeing Send Notification
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.cat_motion
+        from: 'off'
+        to: 'on'
+    action:
+      - service: notify.bffs
+        data:
+          message: The cat is peeing! Hurry!

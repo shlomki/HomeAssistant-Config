@@ -1,0 +1,91 @@
+
+script:
+  gray_fan_power:
+    alias: Gray Fan Power
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: "{{ states('input_select.gray_fan_location')|lower|replace(' ','_') }}"
+         packet: 'JgDyACgQKA8MKygQKA8MKw0rDCsNKg4qDSoo7SgPKA8NKygPKBAMKw0qDioNKg0qDioo7CkPKA8NKigQKA8OKQ8pDikPKA4qDSop7CkOKQ8NKikOKQ8OKQ4pDykOKQ4pDykp6ykPKQ4NKikPKQ4OKQ8pDikPKA8pDikp7CoNKg4OKSoNKg4OKQ4pDygPKQ4pDygr6ioOKg0OKSsNKg0PKA8pDikPKA8pDikq6yoNKg0PKSoNKg4OKQ4pDygPKQ4pDygr6ioNKw0OKSoOKg0PKA8pDikOKQ8oDykq6isNKg0PKCsNKg0PKQ4pDikPKQ4pDikqAA0FAAAAAAAA'
+
+  gray_fan_speed:
+    alias: Gray Fan Speed
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: "{{ states('input_select.gray_fan_location')|lower|replace(' ','_') }}"
+         packet: 'JgAeASgQKQ4NKikPKQ4NKg8pDikOKQ8oKg4NAAEHKg4pDg4pKg4pDg4pDykOKQ4pDykpDg4AAQYqDikODiopDikODioOKQ4pDygPKSkODgABBykOKQ4OKikOKQ4OKg4pDikPKQ4pKQ4OAAEHKQ4pDg4qKQ4pDg4qDikOKQ8pDikpDg4AAQcpDikPDSopDikPDSoOKQ4pDykOKSkODgABBykOKQ8NKigPKQ8NKg0qDikOKg0qKA8OAAEHKQ4oEA0qKA8oEA0qDSoOKQ4qDSooDw4AAQcoDygQDSooDygQDCsNKg4pDioNKigPDQABCCgPKBAMKygPKBAMKw0qDioNKg0qKBAMAAEIKBAoDwwrKBAoDwwrDioNKg0qDiooDwwADQUAAAAAAAAAAAAA'
+
+  gray_fan_oscillating:
+    alias: Gray Fan Oscillating
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: "{{ states('input_select.gray_fan_location')|lower|replace(' ','_') }}"
+         packet: 'JgDQACgPKQ8NKygPKg4MKw4qKQ4NKw0qDSoOAAEHKBAoDw4qKQ4pDw0rDSooEAwrDioNKgwAAQkpDikPDCsqDioODSoNKykODioNKgwrDgABBykOKg0OKykOKQ8NKg4qKA8OKgwrDSoOAAEHKQ4qDg0qKg4pDwwrDCspDwwrDSsNKg0AAQcqDikPDSooDykPDSoOKikODioNKg0qDgABBygPKQ8NKikPKA8NKw0qKQ4OKg0qDSoOAAEHKQ4oEA0qKQ8oDw0qDiopDg0rDSoNKg4ADQUAAAAAAAAAAA=='
+
+  gray_fan_wind_type:
+    alias: Gray Fan Wind Type
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: "{{ states('input_select.gray_fan_location')|lower|replace(' ','_') }}"
+         packet: 'JgC2ACkOKg4NKikPKQ4NKg8oDykOKSkPDSoOAAEGKg4pDg4pKg4pDg4qDikOKQ4pKQ8MKw4AAQcpDigQDSooECgPDSoOKg4pDikoEA0qDQABBykPKA8OKigPKBAMKw0qDikOKigPDikPAAEGKA8pDw0qKBAoDwwrDioNKg0qKBANKg4AAQYpDygPDiooDygQDSoOKQ4pDykoDw4pDwABBikOKBANKigQKA8NKg8oDykOKSkPDSoNAA0FAAA='
+
+  gray_fan_timer:
+    alias: Gray Fan Timer
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: "{{ states('input_select.gray_fan_location')|lower|replace(' ','_') }}"
+         packet: 'JgAeASoOKA8OKSkPKg0PKQ4pDikoEAwrDikPAAEGKA8pDw4pKBAoDw4pDykOKSgPDykOKQ4AAQcoDygQDikoDykPDikPKQ4pKA8PKQ4pDgABBygPKg0PKSgPKBAOKQ4pDykqDQwrDykOAAEGKg4qDQ8oKw0qDQ8pDikOKSoODikOKQ8AAQYqDSsNDikqDigPDykOKQ4pKg4OKQ4pDwABBioOKg0OKSoOKg0PKQwrDCsqDg4pDikPAAEGKg4qDQ4pKw0qDg4pDCsNKisNDikOKg4AAQYrDSoODikqDioODikMKw0qKw0OKQ0rDAABCCoOKg0NKygPKBAMKwwrDSsoDwwrDSsMAAEIKBAoDwwrKBAoDw0qDikOKikODSoOKg0ADQUAAAAAAAAAAAAA'
+
+input_boolean:
+  gray_fan:
+  gray_fan_oscillating:
+
+input_select:
+  gray_fan_speed:
+    options:
+      - Low
+      - Medium
+      - High
+
+  gray_fan_location:
+    name: Gray Fan Location
+    options:
+      - Living Room
+      - Office
+      - Guest Room
+      - Secure Space
+      - Bedroom
+
+fan:
+  - platform: template
+    fans:
+      gray_fan:
+        friendly_name: "Gray Fan"
+        value_template: "{{ states('input_boolean.gray_fan') }}"
+        speed_template: "{{ states('input_select.gray_fan_speed') }}"
+        oscillating_template: "{{ 'True' if (states('input_boolean.gray_fan_oscillating') == 'on') else 'False' }}"
+        turn_on:
+          - service: "{{ 'script.gray_fan_power' if states('fan.gray_fan') == 'off' else 'python_script.do_nothing' }}"
+          - service: "{{ 'input_boolean.turn_on' if states('fan.gray_fan') == 'off' else 'python_script.do_nothing' }}"
+            entity_id: input_boolean.gray_fan
+        set_speed:
+          service: python_script.fan_set_speed
+          data:
+            name: gray_fan
+            speed: "{{ speed }}"
+        set_oscillating:
+          - service: script.gray_fan_oscillating
+          - service: input_boolean.toggle
+            entity_id: input_boolean.gray_fan_oscillating
+        turn_off:
+          - service: script.gray_fan_power
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.gray_fan
+        speeds:
+          - 'Low'
+          - 'Medium'
+          - 'High'

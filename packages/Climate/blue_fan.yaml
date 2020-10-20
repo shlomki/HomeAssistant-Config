@@ -1,0 +1,77 @@
+
+script:
+  blue_fan_off:
+    alias: Blue Fan Off
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: "{{ states('input_select.blue_fan_location')|lower|replace(' ','_') }}"
+         packet: 'JgBiACkQKw4PKykQKw4PKg0tDSwNLA0tDSwp7CkQKg8PKikQKw4PKw0sDS0NLA0sDiwp6ykRKg8PKikQKw4PKw8qDSwPKw8qDysq6iwNKg8NLSsOKRANLBEpDyoPKw8qDSwrAA0FAAAAAAAA'
+
+  blue_fan_speed:
+    alias: Blue Fan Speed
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: "{{ states('input_select.blue_fan_location')|lower|replace(' ','_') }}"
+         packet: 'JgBOACkQKRANLSoPKBENLA4sDSwNLA4sKRANAAEIKRAqDw0sKw4pEQwtDSwOLA8qDysoEQwAAQgpESoPDC0rDioPDSwPKw8qDysPKikQDQANBQAAAAAAAAAAAAA='
+
+  blue_fan_mode:
+    alias: Blue Fan Mode
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: "{{ states('input_select.blue_fan_location')|lower|replace(' ','_') }}"
+         packet: 'JgBOACkQKRAPKysOKw4PKg4sDSwNLSgRDSwNAAEIKRApEA0sKREoEQ0sDSwNLQ0sKRANLQ0AAQgoESkQDSwpECkQDS0NLA0tDSwpEA8qDwANBQAAAAAAAAAAAAA='
+
+  blue_fan_timer:
+    alias: Blue Fan Timer
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: "{{ states('input_select.blue_fan_location')|lower|replace(' ','_') }}"
+         packet: 'JgCCACoPKg8OLCoOKRENLA8qDysrDwwsECoPAAEFLA4oEQwtKw8oEQwsECoQKSwNECoPKhAAAQUrDyoPDCwsDisODyoQKRAqKw4PKhAqDwABBSwOKw4PKisPKBEMLBAqDyosDRAqDyoQAAEFKw4rDwwsKw8oEQwtECkQKisODSwQKg8ADQUAAAAAAAA='
+
+input_boolean:
+  blue_fan:
+
+input_select:
+  blue_fan_speed:
+    options:
+      - Low
+      - Medium
+      - High
+
+  blue_fan_location:
+    name: Blue Fan Location
+    options:
+      - Living Room
+      - Office
+      - Guest Room
+      - Secure Space
+      - Bedroom
+
+fan:
+  - platform: template
+    fans:
+      blue_fan:
+        friendly_name: "Blue Fan"
+        value_template: "{{ states('input_boolean.blue_fan') }}"
+        speed_template: "{{ states('input_select.blue_fan_speed') }}"
+        turn_on:
+          - service: "{{ 'script.blue_fan_speed' if states('fan.blue_fan') == 'off' else 'python_script.do_nothing' }}"
+          - service: "{{ 'input_boolean.turn_on' if states('fan.blue_fan') == 'off' else 'python_script.do_nothing' }}"
+            entity_id: input_boolean.blue_fan
+        set_speed:
+          service: python_script.fan_set_speed
+          data:
+            name: blue_fan
+            speed: "{{ speed }}"
+        turn_off:
+          - service: script.blue_fan_off
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.blue_fan
+        speeds:
+          - 'Low'
+          - 'Medium'
+          - 'High'

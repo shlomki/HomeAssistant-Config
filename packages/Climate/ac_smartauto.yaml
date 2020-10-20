@@ -1,0 +1,242 @@
+input_number:
+  ac_smartauto_min_living_room:
+    name: Living Room Min Temp
+    min: 20
+    max: 30
+    step: 0.1
+  ac_smartauto_max_living_room:
+    name: Living Room Max Temp
+    min: 20
+    max: 30
+    step: 0.1
+
+  ac_smartauto_min_office:
+    name: Office Min Temp
+    min: 20
+    max: 30
+    step: 0.1
+  ac_smartauto_max_office:
+    name: Office Max Temp
+    min: 20
+    max: 30
+    step: 0.1
+
+  ac_smartauto_min_guest_room:
+    name: Guest Room Min Temp
+    min: 20
+    max: 30
+    step: 0.1
+  ac_smartauto_max_guest_room:
+    name: Guest Room Max Temp
+    min: 20
+    max: 30
+    step: 0.1
+
+  ac_smartauto_min_secure_space:
+    name: Secure Space Min Temp
+    min: 20
+    max: 30
+    step: 0.1
+  ac_smartauto_max_secure_space:
+    name: Secure Space Max Temp
+    min: 20
+    max: 30
+    step: 0.1
+
+  ac_smartauto_min_bedroom:
+    name: Bedroom Min Temp
+    min: 20
+    max: 30
+    step: 0.1
+  ac_smartauto_max_bedroom:
+    name: Bedroom Max Temp
+    min: 20
+    max: 30
+    step: 0.1
+
+input_boolean:
+  ac_smartauto_min_cycle_passed:
+  # ac_smartauto_manual:
+
+switch:
+  #AC Smart Auto Switch Between Fan & AC (When connected to internet)
+  - platform: template
+    switches:
+      ac_smartauto:
+        value_template: "{{ is_state(states('input_text.ac_entity_id'), states('input_text.last_ac_mode')) }}"
+        turn_on:
+          - service: climate.set_hvac_mode
+            data:
+              entity_id: "{{ states('input_text.ac_entity_id') }}"
+              hvac_mode: "{{ states('input_text.last_ac_mode') }}"
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.ac_smartauto_min_cycle_passed
+        turn_off:
+          - service: climate.set_hvac_mode
+            data:
+              entity_id: "{{ states('input_text.ac_entity_id') }}"
+              hvac_mode: "fan_only"
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.ac_smartauto_min_cycle_passed
+
+  #AC Smart Auto Switch Between Fan & AC (When disconnected from internet)
+  # - platform: template
+  #   switches:
+  #     ac_smartauto_manual:
+  #       value_template: "{{ is_state('input_boolean.ac_smartauto_manual', 'on') }}"
+  #       turn_on:
+  #         - service: python_script.broadlink_send
+  #           data:
+  #             room: 'living_room'
+  #             #AC cool 24 degrees low fan
+  #             packet: 'JgAQAQABBos2GhU4FjkVORY5FToVORY5NhkWOBY5Fjg3GBY4FjkWORU5FjkVORY5Nhk1GRU5FjkWORY4FjkWORc4FTkWORU6FTkWORU5FjkVOhU6FTkWORc4NhgXOBU5OBc2GBc4FToVORY5FjgXOBY5FTk2GTYZNxc2GDYZFTk3GBU6FTkWOD0AApwAAQeHORkVORY5FzcWORY5FTkXODYYFzgVOhU5NxgVORY5FToVORY5FToVOTcYNRkWORU6FTkXOBU5FjkWORU5FjkVOhc4FzgWOBY5FzcWORY5FToWODYYFjkWOTYYNhkVORY5FzgVORY5FTkXOBY5Nhg2GTYYNxg2GBY5NhkWOBc3Fjk8AA0FAAAAAAAAAAA='
+  #         - service: input_boolean.turn_on
+  #           entity_id: input_boolean.ac_smartauto_manual
+  #         - service: input_boolean.turn_off
+  #           entity_id: input_boolean.ac_smartauto_min_cycle_passed
+  #       turn_off:
+  #         - service: python_script.broadlink_send
+  #           data:
+  #             room: 'living_room'
+  #             #AC fan only 24 degrees low fan
+  #             packet: 'JgAQAQABCIk2GBY5FTkXOBU6FjgWORU6Nhg2GhU4Fjk2GBY5FTkWORY5FToWORU5Nhk2GBc4FToWOBY5FjgWORU5FjkWORU5FjkWORU5FjkWORU5FjkVOhU5NxgVORY5Nhg3GBU5FjkWOhc3FzgWOBY5Fjk2GDgXNBoWORU5OBc1GRY5FTkWOTwAA3kAAQeKNhgWORU6FjkVORc4FToWODcYNRkWORY4NhkVORY5FToVORY5FTkWOTYZNRkVORY6FTkWORU5FjkVOhU5FjkVOhU5FjoVORY5FzcWORg2FjkXODYYFjkVOTkWNhgWORU6FTkWORY5FTkWORU6NRk1GjYYFjkVOTcYNhgWORU5Fjk9AA0FAAAAAAAAAAA='
+  #         - service: input_boolean.turn_off
+  #           entity_id: input_boolean.ac_smartauto_manual
+  #         - service: input_boolean.turn_off
+  #           entity_id: input_boolean.ac_smartauto_min_cycle_passed
+
+sensor:
+  - platform: template
+    sensors:
+      ac_smartauto:
+        friendly_name: "AC SmartAuto Sensor"
+        unit_of_measurement: '°C'
+        value_template: >
+          {% if state_attr("fan.ac_damper_living_room", "speed") == "SmartAuto" and is_state("fan.ac_damper_living_room", "on") %}
+            {{ states("sensor.living_room_temperature") }}
+          {% elif state_attr("fan.ac_damper_office", "speed") == "SmartAuto" and is_state("fan.ac_damper_office", "on" ) %}
+            {{ states("sensor.office_temperature") }}
+          {% elif state_attr("fan.ac_damper_guest_room", "speed") == "SmartAuto" and is_state("fan.ac_damper_guest_room", "on") %}
+            {{ states("sensor.guest_room_temperature") }}
+          {% elif state_attr("fan.ac_damper_secure_space", "speed") == "SmartAuto" and is_state("fan.ac_damper_secure_space", "on") %}
+            {{ states("sensor.secure_space_temperature") }}
+          {% elif state_attr("fan.ac_damper_bedroom", "speed") == "SmartAuto" and is_state("fan.ac_damper_bedroom", "on") %}
+            {{ states("sensor.bedroom_temperature") }}
+          {% endif %}
+
+      ac_smartauto_location:
+        friendly_name: "AC SmartAuto Location"
+        value_template: >
+          {% if state_attr("fan.ac_damper_living_room", "speed") == "SmartAuto" and is_state("fan.ac_damper_living_room", "on") %}
+            living_room
+          {% elif state_attr("fan.ac_damper_office", "speed") == "SmartAuto" and is_state("fan.ac_damper_office", "on" ) %}
+            office
+          {% elif state_attr("fan.ac_damper_guest_room", "speed") == "SmartAuto" and is_state("fan.ac_damper_guest_room", "on") %}
+            guest_room
+          {% elif state_attr("fan.ac_damper_secure_space", "speed") == "SmartAuto" and is_state("fan.ac_damper_secure_space", "on") %}
+            secure_space
+          {% elif state_attr("fan.ac_damper_bedroom", "speed") == "SmartAuto" and is_state("fan.ac_damper_bedroom", "on") %}
+            bedroom
+          {% else %}
+            off
+          {% endif %}
+
+binary_sensor:
+  - platform: template
+    sensors:
+      ac_smartauto_enabled:
+        friendly_name: "AC SmartAuto Enabled"
+        delay_on:
+          seconds: 10
+        delay_off:
+          seconds: 10
+        value_template: "{{ not is_state('sensor.ac_smartauto_location', 'off') }}"
+
+automation:
+  - alias: AC SmartAuto Min Cycle Time Passed
+    trigger:
+      - platform: state
+        entity_id: input_boolean.ac_smartauto_min_cycle_passed
+        to: 'off'
+        for:
+          minutes: 10
+
+      - platform: homeassistant
+        event: start
+        
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.ac_smartauto_min_cycle_passed
+
+  - alias: AC SmartAuto
+    trigger:
+        #When temp changes
+        - platform: state
+          entity_id: sensor.ac_smartauto
+
+        #When min cycle time passed
+        - platform: state
+          entity_id: switch.ac_smartauto_min_cycle_passed
+          to: 'on'
+
+        #When SmartAuto is turned on
+        - platform: state
+          entity_id: binary_sensor.ac_smartauto_enabled
+          to: 'on'
+
+    condition:
+      condition: and
+      conditions:
+        #SmartAuto is on
+        - condition: state
+          entity_id: binary_sensor.ac_smartauto_enabled
+          state: 'on'
+
+        #And when any damper is on
+        - condition: state
+          entity_id: group.dampers
+          state: 'on'
+
+        #And when min cycle passed
+        - condition: state
+          entity_id: input_boolean.ac_smartauto_min_cycle_passed
+          state: 'on'
+
+        #And when AC is set to fan, heat, cool, unknown
+        # - condition: state
+        #   entity_id: climate.ekon5601
+        #   state: 
+        #     - 'fan_only'
+        #     - 'cool'
+        #     - 'heat'
+        #     - 'unknown'
+        #     - 'unavailable'
+
+        #And when AC is set to fan, heat, cool, unknown (updated to support manual_ac)
+        - condition: template
+          value_template: "{% set ac_entity_id = states('input_text.ac_entity_id') %}{{ is_state(ac_entity_id, 'fan_only') or is_state(ac_entity_id, 'cool') or is_state(ac_entity_id, 'heat') or is_state(ac_entity_id, 'unknown') or is_state(ac_entity_id, 'unavailable') }}"
+
+    action:
+      - choose:
+        #When Temp is too damn high
+        - conditions:
+          - condition: template
+            value_template: "{{ states('sensor.' + states('sensor.ac_smartauto_location') + '_temperature') > states('input_number.ac_smartauto_max_' + states('sensor.ac_smartauto_location')) }}"
+
+          sequence:
+            - service: switch.{{ "turn_on" if states('input_text.last_ac_mode') == "cool" else "turn_off" }}
+              entity_id: switch.ac_smartauto
+            - service: input_boolean.turn_off
+              entity_id: input_boolean.ac_smartauto_min_cycle_passed
+
+        #When Temp is too low
+        - conditions:
+          - condition: template
+            value_template: "{{ states('sensor.' + states('sensor.ac_smartauto_location') + '_temperature') < states('input_number.ac_smartauto_min_' + states('sensor.ac_smartauto_location')) }}"
+
+          sequence:
+            - service: switch.{{ "turn_off" if states('input_text.last_ac_mode') == "cool" else "turn_on" }}
+              entity_id: switch.ac_smartauto
+            - service: input_boolean.turn_off
+              entity_id: input_boolean.ac_smartauto_min_cycle_passed
+

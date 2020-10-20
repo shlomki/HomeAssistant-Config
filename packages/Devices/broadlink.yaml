@@ -1,0 +1,121 @@
+# switch:
+#   #Living Room
+#   - platform: broadlink
+#     host: !secret living_room
+#     mac: !secret living_room_mac
+#     timeout: 15
+#     type: rm2
+#     switches: !include_dir_merge_named /config/config/BroadlinkSwitches/LivingRoom
+  
+#   #Office
+#   - platform: broadlink
+#     host: !secret office
+#     mac: !secret office_mac
+#     timeout: 15
+#     type: rm2_pro_plus
+#   #   switches: !include_dir_merge_named /config/config/BroadlinkSwitches/Office
+    
+#   #Guest Room
+#   - platform: broadlink
+#     host: !secret guest_room
+#     mac: !secret guest_room_mac
+#     timeout: 15
+#     type: rm_mini
+#   #   switches: !include_dir_merge_named /config/config/BroadlinkSwitches/GuestRoom
+    
+#   #Bedroom
+#   - platform: broadlink
+#     host: !secret bedroom
+#     mac: !secret bedroom_mac
+#     timeout: 15
+#     type: rm2
+#   #   switches: !include_dir_merge_named /config/config/BroadlinkSwitches/Bedroom
+    
+#   #Bedroom
+#   - platform: broadlink
+#     host: !secret secure_space
+#     mac: !secret secure_space_mac
+#     timeout: 15
+#     type: rm_mini
+#   #   switches: !include_dir_merge_named /config/config/BroadlinkSwitches/SecureSpace
+
+# sensor:
+#   - platform: broadlink
+#     name: Living Room
+#     host: !secret living_room
+#     mac: !secret living_room_mac
+#     monitored_conditions:
+#       - 'temperature'
+
+#   - platform: broadlink
+#     name: Bedroom
+#     host: !secret bedroom
+#     mac: !secret bedroom_mac
+#     monitored_conditions:
+#       - 'temperature'
+
+input_text:
+  broadlink_living_room:
+    name: Broadlink Living Room
+    initial: !secret living_room
+  broadlink_office:
+    name: Broadlink Office
+    initial: !secret office
+  broadlink_guest_room:
+    name: Broadlink Guest Room
+    initial: !secret guest_room
+  broadlink_secure_space:
+    name: Broadlink Secure Space
+    initial: !secret secure_space
+  broadlink_bedroom:
+    name: Broadlink Bedroom
+    initial: !secret bedroom
+
+# script:
+#   broadlink_send:
+#     sequence:
+#       - service: broadlink.send
+#         data:
+#           host: >
+#             {% set broadlink_name = "input_text.broadlink_" + room %}
+#             {{ states(broadlink_name) }}
+#           packet: '{{ packet }}'
+
+automation:
+  - alias: Turn on broadlink remotes when online
+    mode: parallel
+    trigger:
+      - platform: state
+        entity_id: 
+          - remote.living_room
+          - remote.office
+          - remote.guest_room
+          - remote.secure_space
+          - remote.bedroom
+        from:  'unavailable'
+    action:
+      - service: remote.turn_on
+        data:
+          entity_id: '{{ trigger.to_state.entity_id }}'
+
+  - alias: Turn on broadlink remotes on home assistant start
+    trigger:
+      platform: homeassistant
+      event: start
+    condition:
+      condition: state
+      entity_id: 
+        - remote.living_room
+        - remote.office
+        - remote.guest_room
+        - remote.secure_space
+        - remote.bedroom
+      state: 'off'
+    action:
+      - service: remote.turn_on
+        entity_id: 
+          - remote.living_room
+          - remote.office
+          - remote.guest_room
+          - remote.secure_space
+          - remote.bedroom

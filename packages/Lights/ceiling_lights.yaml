@@ -1,0 +1,396 @@
+input_boolean:
+  living_room_script_running:
+  office_script_running:
+  guest_room_script_running:
+  secure_space_script_running:
+  
+  living_room_color_fix:
+  office_main_color_fix:
+  guest_room_main_color_fix:
+  secure_space_main_color_fix:
+  
+input_number:
+  living_room_light_level:
+    min: 0
+    max: 18
+    step: 1
+  office_light_level:
+    min: 0
+    max: 18
+    step: 1
+  guest_room_light_level:
+    min: 0
+    max: 18
+    step: 1
+  secure_space_light_level:
+    min: 0
+    max: 18
+    step: 1
+
+
+light:
+  - platform: template
+    lights:
+      living_room_main_combined:
+        friendly_name: "Living Room Main Dimmable"
+        value_template: "{{ is_state('light.living_room_main','on') }}"
+        level_template: "{{ (states.input_number.living_room_light_level.state|int * 14.166)|round }}"
+        availability_template: "{{ not is_state('light.living_room_main','unavailable') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: light.living_room_main
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: light.living_room_main
+        set_level:
+          - service: python_script.ceiling_light_set_level
+            data:
+              room: living_room
+              new_brightness_level: '{{ brightness }}'
+              
+  - platform: template
+    lights:
+      living_room_entrance_combined:
+        friendly_name: "Living Room Entrance Dimmable"
+        value_template: "{{ is_state('light.living_room_entrance','on') }}"
+        level_template: "{{ (states.input_number.living_room_light_level.state|int * 14.166)|round }}"
+        availability_template: "{{ not is_state('light.living_room_entrance','unavailable') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: light.living_room_entrance
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: light.living_room_entrance
+        set_level:
+          - service: python_script.ceiling_light_set_level
+            data:
+              room: living_room
+              new_brightness_level: '{{ brightness }}'
+
+  - platform: template
+    lights:
+      living_room_hallway_combined:
+        friendly_name: "Living Room Hallway Dimmable"
+        value_template: "{{ is_state('light.living_room_hallway','on') }}"
+        level_template: "{{ (states.input_number.living_room_light_level.state|int * 14.166)|round }}"
+        availability_template: "{{ not is_state('light.living_room_hallway','unavailable') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: light.living_room_hallway
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: light.living_room_hallway
+        set_level:
+          - service: python_script.ceiling_light_set_level
+            data:
+              room: living_room
+              new_brightness_level: '{{ brightness }}'
+
+  - platform: template
+    lights:
+      office_main_combined:
+        friendly_name: "Office Main Dimmable"
+        value_template: "{{ is_state('light.office_main','on') }}"
+        level_template: "{{ (states.input_number.office_light_level.state|int * 14.166)|round }}"
+        availability_template: "{{ not is_state('light.office_main','unavailable') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: light.office_main
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: light.office_main
+        set_level:
+          - service: python_script.ceiling_light_set_level
+            data:
+              room: office
+              new_brightness_level: '{{ brightness }}'
+
+  - platform: template
+    lights:
+      guest_room_main_combined:
+        friendly_name: "Guest Room Main Dimmable"
+        value_template: "{{ is_state('light.guest_room_main','on') }}"
+        level_template: "{{ (states.input_number.guest_room_light_level.state|int * 14.166)|round }}"
+        availability_template: "{{ not is_state('light.guest_room_main','unavailable') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: light.guest_room_main
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: light.guest_room_main
+        set_level:
+          - service: python_script.ceiling_light_set_level
+            data:
+              room: guest_room
+              new_brightness_level: '{{ brightness }}'
+
+  - platform: template
+    lights:
+      secure_space_main_combined:
+        friendly_name: "Secure Space Main Dimmable"
+        value_template: "{{ is_state('light.secure_space_main','on') }}"
+        level_template: "{{ (states.input_number.secure_space_light_level.state|int * 14.166)|round }}"
+        availability_template: "{{ not is_state('light.secure_space_main','unavailable') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: light.secure_space_main
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: light.secure_space_main
+        set_level:
+          - service: python_script.ceiling_light_set_level
+            data:
+              room: secure_space
+              new_brightness_level: '{{ brightness }}'
+
+  - platform: template
+    lights:
+      bedroom_entrance_combined:
+        friendly_name: "Bedroom Entrance Dimmable"
+        value_template: "{{ is_state('light.bedroom_entrance','on') }}"
+        level_template: "{% set level = state_attr('light.bedroom_entrance_hue','brightness') %}{{ level if level != None else 0 }}"
+        availability_template: "{{ not is_state('light.bedroom_entrance','unavailable') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: light.bedroom_entrance
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: light.bedroom_entrance
+        set_level:
+          - service: light.turn_on
+            data:
+              entity_id: light.bedroom_entrance_hue
+              brightness: '{{ brightness }}'
+
+  - platform: template
+    lights:
+      bedroom_main_combined:
+        friendly_name: "Bedroom Main Dimmable"
+        value_template: "{{ is_state('light.bedroom_main','on') }}"
+        level_template: "{% set level = state_attr('light.bedroom_main_hue','brightness') %}{{ level if level != None else 0 }}"
+        availability_template: "{{ not is_state('light.bedroom_main','unavailable') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: light.bedroom_main
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: light.bedroom_main
+        set_level:
+          - service: light.turn_on
+            data:
+              entity_id: light.bedroom_main_hue
+              brightness: '{{ brightness }}'
+
+
+  - platform: template
+    lights:
+      kitchen_island_combined:
+        friendly_name: "Kitchen Island Dimmable"
+        value_template: "{{ is_state('light.kitchen_island','on') }}"
+        level_template: "{% set level = state_attr('light.kitchen_island_1','brightness') %}{{ level if level != None else 0 }}"
+        availability_template: "{{ not is_state('light.kitchen_island','unavailable') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: light.kitchen_island
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: light.kitchen_island
+        set_level:
+          - service: light.turn_on
+            data:
+              entity_id: light.kitchen_island_1
+              brightness: '{{ brightness }}'
+          - service: light.turn_on
+            data:
+              entity_id: light.kitchen_island_2
+              brightness: '{{ brightness }}'
+          - service: light.turn_on
+            data:
+              entity_id: light.kitchen_island_3
+              brightness: '{{ brightness }}'
+
+  - platform: template
+    lights:
+      living_room_lamp_combined:
+        friendly_name: "Living Room Lamp Dimmable"
+        value_template: "{{ is_state('switch.living_room_lamp_smart_plug','on') }}"
+        level_template: "{{ state_attr('light.living_room_lamp_hue','brightness') }}"
+        availability_template: "{{ not is_state('switch.living_room_lamp_smart_plug','unavailable') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: switch.living_room_lamp_smart_plug
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: switch.living_room_lamp_smart_plug
+        set_level:
+          - service: light.turn_on
+            data:
+              entity_id: light.living_room_lamp_hue
+              brightness: '{{ brightness }}'
+
+  - platform: template
+    lights:
+      laundry_combined:
+        friendly_name: "Laundry Dimmable"
+        value_template: "{{ is_state('light.bathroom_laundry','on') }}"
+        level_template: "{% set level = state_attr('light.laundry_hue','brightness') %}{{ level if level != None else 0 }}"
+        availability_template: "{{ not is_state('light.bathroom_laundry','unavailable') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: light.bathroom_laundry
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: light.bathroom_laundry
+        set_level:
+          - service: light.turn_on
+            data:
+              entity_id: light.bathroom_laundry
+              brightness: '{{ brightness }}'
+
+
+group:
+  living room dimmable lights:
+    entities:
+      - light.living_room_main_combined
+      - light.living_room_entrance_combined
+      - light.living_room_hallway_combined
+
+automation:
+  - alias: Living Room Light Color Fix Check
+    description: ''
+    trigger:
+      - platform: state
+        entity_id: group.living_room_dimmable_lights
+        from: 'on'
+        to: 'off'
+        for: '20'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.living_room_color_fix
+
+  - alias: Living Room Light Color Fix
+    description: ''
+    trigger:
+      - platform: state
+        entity_id: group.living_room_dimmable_lights
+        from: 'off'
+        to: 'on'
+        for: '5'
+    condition:
+      condition: state
+      entity_id: input_boolean.living_room_color_fix
+      state: 'on'
+    action:
+      - service: script.ceiling_light_color_change2
+        data:
+          room: living_room
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.living_room_color_fix
+
+  - alias: Office Light Color Fix Check
+    description: ''
+    trigger:
+      - platform: state
+        entity_id: light.office_main
+        to: 'off'
+        for: '60'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.office_main_color_fix
+
+  - alias: Office Light Color Fix
+    description: ''
+    trigger:
+      - platform: state
+        entity_id: light.office_main
+        from: 'off'
+        to: 'on'
+        for: '1'
+    condition:
+      condition: state
+      entity_id: input_boolean.office_main_color_fix
+      state: 'on'
+    action:
+      - service: script.ceiling_light_color_change3
+        data:
+          room: office
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.office_main_color_fix
+
+  - alias: Guest Room Light Color Fix Check
+    description: ''
+    trigger:
+      - platform: state
+        entity_id: light.guest_room_main
+        to: 'off'
+        for: '60'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.guest_room_main_color_fix
+
+  - alias: Guest Room Light Color Fix
+    description: ''
+    trigger:
+      - platform: state
+        entity_id: light.guest_room_main
+        from: 'off'
+        to: 'on'
+        for: '1'
+    condition:
+      condition: state
+      entity_id: input_boolean.guest_room_main_color_fix
+      state: 'on'
+    action:
+      - service: script.ceiling_light_color_change3
+        data:
+          room: guest_room
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.guest_room_main_color_fix
+
+  - alias: Secure Space Light Color Fix Check
+    description: ''
+    trigger:
+      - platform: state
+        entity_id: light.secure_space_main
+        to: 'off'
+        for: '60'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.secure_space_main_color_fix
+
+  - alias: Secure Space Light Color Fix
+    description: ''
+    trigger:
+      - platform: state
+        entity_id: light.secure_space_main
+        from: 'off'
+        to: 'on'
+        for: '1'
+    condition:
+      condition: state
+      entity_id: input_boolean.secure_space_main_color_fix
+      state: 'on'
+    action:
+      - service: script.ceiling_light_color_change3
+        data:
+          room: secure_space
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.secure_space_main_color_fix
+
+  - alias: Ceiling Lights Set Full Brightness When Turning On
+    description: ''
+    trigger:
+      - platform: state
+        entity_id: 
+         - light.living_room_entrance
+         - light.living_room_hallway
+         - light.living_room_main
+         - light.office_main
+         - light.guest_room_main
+         - light.secure_space_main
+        from: 'off'
+        to: 'on'
+    action:
+      - service: python_script.ceiling_light_set_level_when_turning_on
+        data:
+          entity_id: '{{ trigger.to_state.entity_id }}'

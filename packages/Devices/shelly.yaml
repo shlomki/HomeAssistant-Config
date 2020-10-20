@@ -1,0 +1,21 @@
+shelly:
+  discover_by_ip:
+    - '192.168.1.69'
+    - '192.168.1.70'
+
+automation:
+- alias: Turn off gate remotes after 3 seconds
+  mode: parallel
+  trigger:
+      - platform: state
+        entity_id:
+          - switch.lower_gate
+          - switch.upper_gate
+        from: 'off'
+        to: 'on'
+        for:
+          seconds: 3
+  action:
+    - service: switch.turn_off
+      data:
+        entity_id: '{{ trigger.to_state.entity_id }}'

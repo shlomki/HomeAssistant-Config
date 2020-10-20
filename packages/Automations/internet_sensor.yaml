@@ -1,0 +1,5 @@
+binary_sensor:
+  - platform: ping
+    host: 8.8.8.8
+    name: "Internet Connection"
+    scan_interval: 120

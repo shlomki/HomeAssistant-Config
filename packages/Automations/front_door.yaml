@@ -1,0 +1,170 @@
+# input_text:
+#   last_door_motion:
+
+automation:
+  # - alias: Remember last door motion
+  #   trigger:
+  #     - platform: state
+  #       entity_id: 
+  #         - binary_sensor.camera_front_door_motion
+  #         - binary_sensor.camera_living_room_motion
+  #       from: 'off'
+  #       to: 'on'
+  #   action:
+  #     - service: input_text.set_value
+  #       entity_id: input_text.last_door_motion
+  #       data:
+  #         value: '{{ trigger.to_state.entity_id }}'
+
+  - alias: Door is opened
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.front_door
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: group.bffs
+        state: home
+    action:
+      - service: notify.bffs
+        data:
+          message: The front door has been opened
+
+  - alias: Door is opened when not home
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.front_door
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: group.bffs
+        state: not_home
+    action:
+      - service: notify.bffs
+        data:
+          message: The front door has been opened and no one's home!
+        
+  - alias: Door is opened with photo from Living Room
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.front_door
+        from: 'off'
+        to: 'on'
+    action:
+      - service: camera.snapshot
+        data:
+          entity_id: camera.living_room
+          filename: 'camera_snaps/living_room.jpg'
+      - service: script.notify_bffs_photo
+        data:
+          message: The front door has been opened
+          file: 'camera_snaps/living_room.jpg'
+
+  - alias: Door is opened with photo from Front Door
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.front_door
+        from: 'off'
+        to: 'on'
+    action:
+      - service: camera.snapshot
+        data:
+          entity_id: camera.front_door
+          filename: 'camera_snaps/front_door.jpg'
+      - service: script.notify_bffs_photo
+        data:
+          message: The front door has been opened
+          file: 'camera_snaps/front_door.jpg'
+
+  - alias: Doorbell ring
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.doorbell
+        from: 'off'
+        to: 'on'
+    action:
+      - service: notify.bffs
+        data:
+          message: "Ding dong! Someone is at the door!"
+      - delay:
+          seconds: 10
+
+  - alias: Doorbell ring with photo
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.doorbell
+        from: 'off'
+        to: 'on'
+    action:
+      - service: camera.snapshot
+        data:
+          entity_id: camera.front_door
+          filename: 'camera_snaps/front_door.jpg'
+      - service: script.notify_bffs_photo
+        data:
+          message: "Ding dong! Someone is at the door!"
+          file: 'camera_snaps/front_door.jpg'
+      - delay:
+          seconds: 10
+
+  # - alias: Door is opened with photo from last motion
+  #   trigger:
+  #     - platform: state
+  #       entity_id: binary_sensor.front_door
+  #       from: 'off'
+  #       to: 'on'
+  #   action:
+  #     - service: camera.snapshot
+  #       data:
+  #         entity_id: '{{ states("input_text.last_door_motion") }}'
+  #         filename: 'camera_snaps/{{ states("input_text.last_door_motion") }}.jpg'
+  #     - service: script.notify_bffs_photo
+  #       data:
+  #         message: The front door has been opened
+  #         file: 'camera_snaps/{{ states("input_text.last_door_motion") }}.jpg'
+
+  - alias: Front door Left Open
+    mode: single
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.front_door
+      from: 'off'
+      to: 'on'
+      for: 
+        minutes: 3
+    action:
+      - service: script.notify_all
+        data:
+          message: Hey, I think the front door was left open
+      - wait_for_trigger:
+        - platform: state
+          entity_id: binary_sensor.front_door
+          from: 'on'
+          to: 'off'
+      - service: script.notify_all
+        data:
+          message: The front door was closed
+
+  - alias: Front door Left Open Reminder
+    mode: single
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.front_door
+      from: 'off'
+      to: 'on'
+      for: 
+        minutes: 10
+    action:
+      - service: script.notify_all
+        data:
+          message: The front door is still open (10 minute reminder).
+
+sensor:
+  - platform: template
+    sensors:
+      front_door_combined:
+        friendly_name: "Front Door"
+        value_template: "{{ 'Closed' if states('binary_sensor.front_door') == 'off' }}{{ 'Open' if states('binary_sensor.front_door') == 'on' }}{{ 'Unknown' if states('binary_sensor.front_door') == 'unknown' }}, {{ 'Locked' if states('binary_sensor.front_door_lock') == 'off'}}{{ 'Unlocked' if states('binary_sensor.front_door_lock') == 'on'}}{{ 'Unknown' if states('binary_sensor.front_door_lock') == 'unknown'}}"
+

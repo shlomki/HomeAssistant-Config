@@ -1,0 +1,51 @@
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram_api_key
+    parse_mode: html
+    allowed_chat_ids:
+      - !secret telegram_shlomi
+      - !secret telegram_inbal
+
+notify:
+  - name: shlomi
+    platform: telegram
+    chat_id: !secret telegram_shlomi
+  - name: inbal
+    platform: telegram
+    chat_id: !secret telegram_inbal
+
+  - name: bffs
+    platform: group
+    services:
+      - service: shlomi
+      - service: inbal
+
+script:
+  notify_bffs_photo:
+    mode: parallel
+    sequence:
+      - service: telegram_bot.send_photo
+        data:
+          caption: '{{ message }}'
+          file: '{{ file }}'
+          target: !secret telegram_all_chats
+
+  notify_bffs_with_actions:
+    sequence:
+      - service: telegram_bot.send_message
+        data:
+          message: '{{ message }}'
+          target: !secret telegram_all_chats
+          inline_keyboard: '{{ inline_keyboard }}'
+
+automation:
+  - alias: Telegram callback
+    trigger:
+      - platform: event
+        event_type: telegram_callback
+    action:
+      - service: python_script.telegram_callback
+        data:
+          callback_data: '{{ trigger.event.data.data }}'
+          callback_query_id: '{{ trigger.event.data.id }}'
+

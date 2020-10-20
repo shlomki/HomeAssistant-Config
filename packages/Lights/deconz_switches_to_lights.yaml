@@ -1,0 +1,136 @@
+light:
+
+  - platform: switch
+    name: Living Room Lamp Toggle
+    entity_id: switch.living_room_lamp_toggle
+
+  - platform: switch
+    name: Living Room Main
+    entity_id: switch.living_room_main
+
+  - platform: switch
+    name: Living Room Entrance
+    entity_id: switch.living_room_entrance
+
+  - platform: switch
+    name: Living Room Hallway
+    entity_id: switch.living_room_hallway
+
+  - platform: switch
+    name: Balcony Main
+    entity_id: switch.balcony_main
+
+  - platform: switch
+    name: Living Room TV Light
+    entity_id: switch.living_room_tv_light
+
+
+  - platform: switch
+    name: Kitchen Counter
+    entity_id: switch.kitchen_counter
+
+  - platform: switch
+    name: Kitchen Pantry
+    entity_id: switch.kitchen_pantry
+
+  - platform: switch
+    name: Kitchen Island
+    entity_id: switch.kitchen_island
+
+
+  - platform: switch
+    name: Hallway Main Toggle
+    entity_id: switch.hallway_main_toggle
+
+  - platform: switch
+    name: Hallway Main
+    entity_id: switch.hallway_main
+
+  - platform: switch
+    name: Toilet Main
+    entity_id: switch.toilet_main
+
+
+  - platform: switch
+    name: Office Main
+    entity_id: switch.office_main
+
+  - platform: switch
+    name: Office BFF Light Toggle
+    entity_id: switch.office_bff_light_toggle
+
+
+  - platform: switch
+    name: Guest Room Main
+    entity_id: switch.guest_room_main
+
+  - platform: switch
+    name: Guest Room Main Toggle
+    entity_id: switch.guest_room_main_toggle
+
+
+
+  - platform: switch
+    name: Bathroom Main
+    entity_id: switch.bathroom_main
+
+  - platform: switch
+    name: Bathroom Laundry
+    entity_id: switch.bathroom_laundry
+
+  - platform: switch
+    name: Bathroom Heater
+    entity_id: switch.bathroom_heater
+
+  - platform: switch
+    name: Secure Space Main
+    entity_id: switch.secure_space_main
+
+  - platform: switch
+    name: Secure Space Main Toggle
+    entity_id: switch.secure_space_main_toggle
+
+  - platform: switch
+    name: Secure Space Scene Toggle
+    entity_id: switch.secure_space_scene_toggle
+
+
+  - platform: switch
+    name: Bedroom Closet
+    entity_id: switch.bedroom_closet
+
+  - platform: switch
+    name: Bedroom Scene
+    entity_id: switch.bedroom_scene
+
+  - platform: switch
+    name: Bedroom Scene Left
+    entity_id: switch.bedroom_scene_left
+
+  - platform: switch
+    name: Bedroom Scene Right
+    entity_id: switch.bedroom_scene_right
+
+  - platform: switch
+    name: Bedroom Main
+    entity_id: switch.bedroom_main
+
+  - platform: switch
+    name: Bedroom Main Toggle Left
+    entity_id: switch.bedroom_main_toggle_left
+
+  - platform: switch
+    name: Bedroom Main Toggle Right
+    entity_id: switch.bedroom_main_toggle_right
+
+  - platform: switch
+    name: Bedroom Entrance
+    entity_id: switch.bedroom_entrance
+
+  - platform: switch
+    name: Bedroom Entrance Toggle Left
+    entity_id: switch.bedroom_entrance_toggle_left
+
+  - platform: switch
+    name: Bedroom Entrance Toggle Right
+    entity_id: switch.bedroom_entrance_toggle_right

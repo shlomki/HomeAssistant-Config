@@ -1,0 +1,29 @@
+automation:
+  - alias: Inbal came home
+    trigger:
+      - platform: state
+        entity_id: person.inbal
+        from: not_home
+        to: home
+
+    action:
+      - service: notify.bffs
+        data:
+          # message: 'Bffushkit came home! &lt;3'
+          message: 'Bffushkit is {{trigger.to_state.state}}'
+
+  - alias: Shlomi came home
+    trigger:
+      - platform: state
+        entity_id: person.shlomi
+        from: not_home
+        to: home
+#    condition:
+#      - condition: state
+#        entity_id: person.inbal
+#        state: not_home
+    action:
+      - service: notify.bffs
+        data:
+          # message: 'Bffush came home! &lt;3'
+          message: 'Bffush is {{trigger.to_state.state}}'

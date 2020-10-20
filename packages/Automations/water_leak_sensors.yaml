@@ -1,0 +1,33 @@
+automation:
+  - alias: Bathroom closet water leak notify
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.bathroom_closet_leak
+        from: 'off'
+        to: 'on'
+    action:
+      - service: script.notify_all
+        data:
+          message: Water is leaking in the bathroom lower closet!
+
+  - alias: Bathroom floor water leak notify
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.bathroom_floor_leak
+        from: 'off'
+        to: 'on'
+    action:
+      - service: script.notify_all
+        data:
+          message: The bathroom floor is flooded with water!
+
+  - alias: Kitchen closet water leak notify
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.kitchen_closet_leak
+        from: 'off'
+        to: 'on'
+    action:
+      - service: script.notify_all
+        data:
+          message: Water is leaking in the kitchen closet!

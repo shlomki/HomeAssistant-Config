@@ -1,0 +1,41 @@
+homeassistant:
+  name: Home
+  latitude: !secret ha_lat
+  longitude: !secret ha_long
+  elevation: 65
+  unit_system: metric
+  time_zone: Asia/Jerusalem
+  packages: !include_dir_named packages
+  customize: !include customize.yaml
+  whitelist_external_dirs:
+    - '/config'
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+
+http:
+  base_url: !secret ha_base_url
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+  server_port: !secret ha_port
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
+
+python_script:
+
+wake_on_lan:
+
+logger:
+  default: warning
+  logs:
+    homeassistant.components.python_script: debug
+    homeassistant.components.python_scripts: debug
+

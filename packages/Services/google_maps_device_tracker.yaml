@@ -1,0 +1,10 @@
+device_tracker:
+  - platform: google_maps
+    username: !secret google_device_tracker_username
+    
+zone:
+  - name: Home
+    latitude: !secret ha_lat
+    longitude: !secret ha_long
+    radius: 150
+    icon: mdi:account-multiple

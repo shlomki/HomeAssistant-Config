@@ -1,0 +1,113 @@
+script:
+  ceiling_light_toggle_on_off:
+    alias: Ceiling Light Toggle On Off
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: '{{ room }}'
+         packet: 'JgBQAAABKJQUEhMSExITEhQSExITEhM4EzcUNxM3FDcUNxM3FDcTEhQ3ExIUERQSExITEhMSFBITEhM3FDcTOBM3FDcTOBM3FAAFGQABKEoTAA0FAAAAAAAAAAA='
+  
+  ceiling_light_brightness_up:
+    alias: Ceiling Light Brightness Up
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: '{{ room }}'
+         packet: 'JgBQAAABJ5YTEhIUEhMSExITExMSExI5EzcTOBM4EzcUNxM4EzcUEhMSEzgTEhMSFDcTEhQSExITNxQSEzcUNxQRFDcTOBM4EwAFGgABKEoTAA0FAAAAAAAAAAA='
+  
+  ceiling_light_brightness_down:
+    alias: Ceiling Light Brightness Down
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: '{{ room }}'
+         packet: 'JgBQAAABKJUTEhMSExIUEhMSExITEhQ3EzgTNxQ3EzgTNxQ3EzgTEhMSEzgTNxQ3EzgTEhMSExMTNxMSFBITEhMSEzgTNxQ3EwAFGgABKEkUAA0FAAAAAAAAAAA='
+  
+  ceiling_light_brightness_highest:
+    alias: Ceiling Light Brightness Highest
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: '{{ room }}'
+         packet: 'JgBgAQABKZQTEhQSExITEhMTExITEhM4EzcUNxM4EzcUNxM4EzcUEhMSEzgTEhMSEzgTEhMSFBITNxQSEzcUNxMSFDcTNxQ3FAAFGQABKUkUAAxpAAEoShMADGoAAShKEwAMagABKEoTAAxqAAEoShMADGoAASlJFAAMaQABKUkUAAxpAAEpShMADGoAAShKEwAMagABKEoTAAxqAAEpSRQADGkAASlJFAAMaQABKUkUAAxqAAEoShMADGoAAShKEwAMagABKEoTAAxqAAEoShMADGoAASlJFAAMagABKEoTAAxqAAEpSRQADGoAAShKEwAMagABKUkUAAxqAAEoShMADGoAASlJFAAMaQABKUkUAAxqAAEoShMADGoAASlJFAAMagABKEoTAAxqAAEpSRQADGkAASlJFAAMagABKEoTAAxqAAEpSRQADGkAASlKEwAMagABKEoTAAxqAAEpSRQADQUAAAAAAAAAAA=='
+  
+  ceiling_light_brightness_lowest:
+    alias: Ceiling Light Brightness Lowest
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: '{{ room }}'
+         packet: 'JgAgAQABJpYSFBEUERQRFREUERQRFBE6EToRORE6EToRORE6EToRFBEUEToROhE5EToRFBEVERQRORIUERQRFBEUEjkROhI4EgAFGwABJkwRAAxsAAEnSxEADGwAASZMEQAMbAABJ0sRAAxrAAEmTBIADGsAASdLEQAMawABJ0sRAAxsAAEnSxEADGwAASdLEQAMbAABJ0sRAAxrAAEnSxIADGsAASdLEgAMawABJ0sSAAxrAAEnSxEADGwAASdLEgAMawABJ0sSAAxrAAEnSxIADGsAASdLEgAMbAABJ0sRAAxsAAEnSxEADGwAASZMEgAMawABJkwRAAxsAAEnSxIADGsAASdLEQAMbAABJ0sRAAxtAAEmSxIADGwAASdLEQANBQAAAAAAAAAA'
+  
+  ceiling_light_color_warm_up:
+    alias: Ceiling Light Color Warm Up
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: '{{ room }}'
+         packet: 'JgBQAAABKZQTEhQSExITEhMSExMTEhM3FDcTOBM3FDcTOBM3FDcTEhQSEzcTEhQSExITEhMSFBITNxQSEzcTOBM3FDcTOBM3FAAFGQABKEoTAA0FAAAAAAAAAAA='
+
+  ceiling_light_color_warm_down:
+    alias: Ceiling Light Color Warm Down
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: '{{ room }}'
+         packet: 'JgBQAAABKJUTEhMSFBITEhMSExITExM3EzgTNxQ3EzgTNxQ3EzgTEhM4EzcUEhMSExITEhQSExITEhMSEzgTOBM3FDcTOBM3EwAFGgABKEoTAA0FAAAAAAAAAAA='
+  
+  ceiling_light_color_warm_highest:
+    alias: Ceiling Light Color Warm Highest
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: '{{ room }}'
+         packet: 'JgCAAQABKJUTEhMTEhMTEhITExMSExI4EzgTOBI4EzgTOBI4EzgSExMTEjgSFBITEhMSExIUEhMSOBMTEjgTOBI5EzcTOBI5EgAFGgABKEoSAAxrAAEoSRQADGkAAShKEwAMagABKEoTAAxpAAEoShIADGoAAShKEwAMagABKEoSAAxqAAEnSxIADGsAASdLEwAMaQABKEoSAAxrAAEoShIADGoAASdLEgAMawABJ0sSAAxqAAEoShMADGoAASdLEgAMawABJ0sSAAxqAAEnSxIADGoAASlJEwAMagABJ0sSAAxrAAEnSxMADGkAAShKEwAMagABJ0sTAAxqAAEnSxIADGsAASdLEwAMaQABKEoTAAxqAAEoShMADGoAASdLEwAMagABJ0sSAAxrAAEnSxIADGsAAShKEgAMawABKEoTAAxqAAEoShIADGsAASdLEgAMawABJ0sSAAxrAAEnSxIADGoAAShKEwAMagABKEoTAAxqAAEnSxIADGsAASdLEgANBQAAAAAAAAAA'
+
+  ceiling_light_color_warm_lowest:
+    alias: Ceiling Light Color Warm Lowest
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: '{{ room }}'
+         packet: 'JgDIAQABKJUSFBITEhMSExIUEhMSExI5EjgTOBI5EjgTOBI5EjgTExI4EzgSExMTEhMSExITExMSExITEjkSOBM4EjkSOBM4EgAFGwABJ0sSAAxqAAEoShMADGoAASdLEgAMawABJ0sSAAxqAAEoShMADGoAASdLEgAMawABJ0sSAAxrAAEnSxMADGoAAShKEgAMawABKEoSAAxrAAEnSxIADGsAASdLEgAMawABJ0sSAAxrAAEnSxIADGsAASdLEgAMawABKEoTAAxqAAEoShMADGoAASdLEgAMawABKEoTAAxqAAEoShMADGsAASdLEgAMawABJ0sSAAxrAAEnSxIADGsAAShKEgAMawABKEoTAAxqAAEoSxIADGsAASdLEgAMawABKEoTAAxqAAEoShQADGoAASdLEgAMawABJ0sSAAxrAAEnSxIADGsAASdLEgAMawABKEsTAAxqAAEnSxIADGsAAShKEwAMawABJ0sSAAxrAAEnSxIADGsAASdLEgAMawABKEoTAAxqAAEoShMADGsAASdLEgAMawABJ0sSAAxrAAEnSxIADGsAAShKEwAMawABJ0sSAAxrAAEoShMADGsAASdLEgANBQ=='
+  
+  ceiling_light_color_change:
+    alias: Ceiling Light Color Change
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: '{{ room }}'
+         packet:  'JgCoAAABJ5QVERQSExITEhQRFBEUERQ3EzcUNxQ2FDcTNxQ3EzcUERQSEzcUNhQSExIUERQRFBEUNxMSFBEUNxM3FDYUNxQ2FAAFFQABKEoUAAxeAAEoShQADF8AASZMFAAMXgABJ0sUAAxfAAEmTBQADF4AASdLFAAMXgABJ0sTAAxgAAEmSxQADF8AASlIFAAMXwABJksUAAxfAAEmSxQADF4AAShLEAANBQ=='
+#         packet: 'JgBIAAABKZQTEhQSExITEhMSFBITEhM3FDcTOBM3FDcTOBM3FDcTEhQSEzcUNxMSFBITEhMSExIUNxMSFBITNxM4EzcUNxM4EwANBQ=='
+
+  ceiling_light_color_change2:
+    alias: Ceiling Light Color Change2
+    sequence:
+     - delay: '00:00:02'
+     - service: python_script.broadlink_send
+       data:
+         room: '{{ room }}'
+         packet: 'JgCoAAABJ5QVERQSExITEhQRFBEUERQ3EzcUNxQ2FDcTNxQ3EzcUERQSEzcUNhQSExIUERQRFBEUNxMSFBEUNxM3FDYUNxQ2FAAFFQABKEoUAAxeAAEoShQADF8AASZMFAAMXgABJ0sUAAxfAAEmTBQADF4AASdLFAAMXgABJ0sTAAxgAAEmSxQADF8AASlIFAAMXwABJksUAAxfAAEmSxQADF4AAShLEAANBQ=='
+     - service: python_script.broadlink_send
+       data:
+         room: '{{ room }}'
+         packet: 'JgCoAAABJ5QVERQSExITEhQRFBEUERQ3EzcUNxQ2FDcTNxQ3EzcUERQSEzcUNhQSExIUERQRFBEUNxMSFBEUNxM3FDYUNxQ2FAAFFQABKEoUAAxeAAEoShQADF8AASZMFAAMXgABJ0sUAAxfAAEmTBQADF4AASdLFAAMXgABJ0sTAAxgAAEmSxQADF8AASlIFAAMXwABJksUAAxfAAEmSxQADF4AAShLEAANBQ=='
+         
+  ceiling_light_color_change3:
+    alias: Ceiling Light Color Change3
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: '{{ room }}'
+         packet: 'JgJIAAABKZQTEhQSExITEhMSFBITEhM3FDcTOBM3FDcTOBM3FDcTEhQSEzcUNxMSFBITEhMSExIUNxMSFBITNxM4EzcUNxM4EwANBQ=='
+
+  ceiling_light_sleep:
+    alias: Ceiling Light Sleep
+    sequence:
+     - service: python_script.broadlink_send
+       data:
+         room: '{{ room }}'
+         packet: 'JgBQAAABKJUTEhMSExMTEhMSExITExM3EzgTNxQ3EzgTNxQ3EzgTEhM4ExITOBMSExITExMSExITEhM4ExITOBM3FDcTOBM4EwAFGQABKEoTAA0FAAAAAAAAAAA='
+
+
+

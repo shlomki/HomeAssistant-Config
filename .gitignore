@@ -1,0 +1,36 @@
+# Example .gitignore file for your config dir.
+# An * ensures that everything will be ignored.
+*
+
+# Ignore folders.
+.storage
+.cloud
+.google.token
+tts
+custom_components
+camera_snaps
+shelly
+
+# files/folders whitelist
+!*.yaml
+!.gitignore
+!*.md
+!*.py
+!packages
+!packages/*
+!python_scripts
+!custom_components
+!custom_components/time_counter.py
+
+# Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
+ip_bans.yaml
+secrets.yaml
+known_devices.yaml
+
+#Other files
+.google_maps*
+*.db
+*.log
+*.bak
+*.config
+config/BroadlinkSwitches

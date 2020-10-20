@@ -1,0 +1,57 @@
+temperatures = {
+    "temp_15": "JgBkAL4/ExIQFBAUEBUQNxQREDgTEhAUEDgTEg8VEBQQOBM1vj8RFBAVDxUQFBA4ExIPOBAVEBQQOBMSEBQQFBA4EzW+PxQREBUPFRAUEDgTEg84FBEQFQ84EBUQFBAVDzgTNf8ADQUAAAAA",
+    "temp_16": "JgBmAL5AEhMPFRAUEBUPOBAVEDgSNhITDzgTEhAUEBUPOBM1vkASEw8VDxUQFBA4ExEROBA4EhMPOBMSEBQQFQ84EzW+QBETEBUPFRAUEDgQFQ84EjYSExA4ExIQFBAUEDgTNQABAAANBQAA",
+    "temp_17": "JgBkAMA9EBQRFBAUEBQRNxE3ERQSEhAVETYRFBAVERIRNxI3wD0QFBEUEBQQFBE3ETcRFBAUEBURNhEUEBQQFBE3ETfBPRAUEBURExAUEDgQOBETERQQFBA4ERQQFBAUETcRN/8ADQUAAAAA",
+    "temp_18": "JgBmAL8+ExIQFBETEBUQOBI2EhIQOBMSEDgSEhAUExIQOBI2vz4QFBEUExESEhE4EjYSEhA4ExEROBISEBQSExE3ETe+PxISERQQFBAUEzUTNRITEDgRExA4EhMQFBAUEjYTNQABAQANBQAA",
+    "temp_19": "JgBmAL8+FBETERMRFBETNRM1EDgSEhQREzUTERQQExITNRM1vz4UEBQREhIUEBQ1EzUTNRMRFBAROBMRExEUERM1EzW+PxQQFBESEhMREDgUNBQ1ExETERQ0FBETERAUFDQTNgABAQANBQAA",
+    "temp_20": "JgBkAME8ERMRFBAUERMRNxE3ETgRNxAUETcRExEUEhIRNxE3wTwRFBAUERMRFBA4EDgRNxE3ERQQOBAUEBQRFBA4EDjAPRAUERQQFBAUETcRNxE4EDgQFBA4ERMRFBAVETYRN/8ADQUAAAAA",
+    "temp_21": "JgBmAL5AExIPFRAUEDgTEg8VEBQQFQ8VEDcUERAVDxUQOBM1vj8TEg8VEBQQOBMSEBQQFQ8UERQQOBMSDxUQFBA4EzW+PxMSEBQQFQ84ExIQFBAVDxUQFBA4ExIPFRAUEDgQOAABAgANBQAA",
+    "temp_22": "JgBmAL8+ExIRExETETcTEhETERMRNxETEjYUEREUEBMSNhQ1vz4TEhATEhMRNxMSEBQRExE3ERMSNhMSERMRExI2EzXBPRMRERQRExE3ExIQExITETcTEhA3ExIRExETETcTNQABAgANBQAA",
+    "temp_23": "JgBmAL8+ExISEhISEDgUERISEDgTEREUEjYSEhAUERQQOBI2vj8TERAVEBQRNxMREhMRNxISEBQRNxMSERMRExE3EzW/PxISEBQSExA4EhITERA4ExIQFBA4ExETEhAUEDgTNQABAQANBQAA",
+    "temp_24": "JgBmAMA9ExISEhISEjYTEhISEjYTNRMSEjUTEhISEhMSNRM1wD0TEhISExISNRMSEhISNhM1ExISNRQREhMSEhI1EzXBPRMSEhISEhI2ExISEhI1EzUUERI2ExISEhISEjYTNQABAQANBQAA",
+    "temp_25": "JgBmAME9EhITEhISEjYTEhI1ExISEhITEjUTEhISEhITNRM1wD0TEhITEhETNRQREjYTEhISEhISNhMSEhISEhI2EzXAPRMSEhISExI1ExISNRMSEhMSEhI1FBESExISEjUUNAABAgANBQAA",
+    "temp_26": "JgBmAME9ExISEhISEjYTEhI1ExISNRMSEjYTEhISEhISNhI2wD0TEhISEhITNRMSEjUTEhI2ExISNRMSEhISEhM1EzXAPRMSEhITEhI1ExISNhMSEjUTEhI1ExISExISEjUTNQABAgANBQAA",
+    "temp_27": "JgBmAME9ExISEhISEjYTEhI1EzUTEhISEjYTEhISEhISNhM1wD0TERMSEhITNRMSEjUTNRQREhMSNRMSEhISEhM1EzXAPRMSEhISExI1ExISNhM1ExISEhI1ExISExISEjUTNQABAgANBQAA",
+    "temp_28": "JgBmAL8+ExIRExETETcTEhA3EjYTNRQRETcTEhAUERMRNxM1vz4TEhATEhMRNxMSEDcTNRM1ExIRNxMSEBMSExE3ETe/PhMSEBQRExE3ExIQNxM1EzUTEhE3ERMRFBATEjYUNQABAQANBQAA",
+    "temp_29": "JgBkAMA9EBURExISEjYQOBEUEBQSEhEUETYRFBISEBUQNxE3wTwRFBITERIRNxE3ERQSExETEBQQOBAVEBQQFBA4EDi+PxAUERQSEhA4EDgRFBETEBQQFRA3ERQQFBISETcRN/8ADQUAAAAA",
+    "temp_30": "JgBkAL4/ExETEhISEjYTNRMRExISNhISEzURFBISEhIQOBM1vj8TEhISEBQTNRM1ExISEhA4ExETNRMSEhISEhE3EzW+QBISEBQQFRI2EjYSEhISEzUTEhI2EhIQFBEUEDgSNv4ADQUAAAAA",
+    "temp_31": "ExERFBAUEDgTNRMRETgRExAUEDgTEhETERMQOBM1vz4TEhAUERMRNxI3EhISNhMREBUSNhETEBQQFRE3Eja+PxISEBQRFBA4ETcTERM1ExIQFBA4ExETEhETEDgTNQABAQANBQAA",
+    "temp_32": "JgBmAL8/EhITERMSEjYSNhISEzUTNRMREzUTEhISExETNRM1vkASEhISExISNhI2EhISNhI2ExETNRMSEhITERM1FDS/PxMREhITERM1EzYSEhM1EjYTERM1ExISEhMREzUTNQABAgANBQAA"
+}
+
+options = { 'blocking': False }
+enableLog = False
+
+#Params
+room = data['room']
+
+#Find room name
+room = room.replace('input_boolean.', '')
+room = room.replace('fan.', '')
+room = room.replace('input_select.', '')
+room = room.replace('sensor.', '')
+room = room.replace('ac_damper_', '')
+room = room.replace('_need_update', '')
+room = room.replace('_temperature', '')
+
+if ('temperature' in data) :
+  temperature = data['temperature']
+  if enableLog:
+    logger.debug("Setting " + room + " damper temperature to: " + str(temperature))
+else: 
+  #Get temperature from sensor
+  temperature_sensor_entity_id = "sensor." + room + "_temperature"
+  exact_temperature = hass.states.get(temperature_sensor_entity_id).state
+  temperature = round(float(exact_temperature))
+  if enableLog:
+    logger.debug("Setting " + room + " damper temperature to: " + str(temperature) + " (" + temperature_sensor_entity_id + " is " + exact_temperature + ")")
+
+#Mark that the script has run
+need_update_entity_id = "input_boolean.ac_damper_" + room + "_need_update"
+hass.services.call('input_boolean', 'turn_on', {'entity_id': need_update_entity_id }, options)
+
+#Update the damper with the current temperature
+hass.services.call('python_script', 'broadlink_send', { 'room': room, 'packet': temperatures['temp_' + str(temperature)] }, options)
+
+#Cleanup
+hass.services.call('input_boolean', 'turn_off', {'entity_id': need_update_entity_id }, options)

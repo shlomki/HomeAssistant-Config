@@ -1,0 +1,235 @@
+automation:
+  - alias: "Notify when entities unavailable"
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id:
+          - light.living_room_entrance
+          - light.living_room_hallway
+          - light.living_room_main
+          - light.living_room_scene
+          - light.living_room_tv_light
+          - light.living_room_scene
+          - light.balcony_main
+          - light.kitchen_counter
+          - light.kitchen_island
+          - light.kitchen_pantry
+          - light.hallway_main
+          - light.hallway_main_toggle
+          - light.toilet_main
+          - light.office_bff_light
+          - light.office_bff_light_toggle
+          - light.office_main
+          - light.office_main_toggle
+          - light.guest_room_main
+          - light.guest_room_main_toggle
+          - light.bathroom_heater
+          - switch.water_boiler
+          - light.bathroom_main
+          - light.bathroom_laundry
+          - light.secure_space_main
+          - light.secure_space_main_toggle
+          - light.secure_space_scene_toggle
+          - light.bedroom_closet
+          - light.bedroom_entrance
+          - light.bedroom_entrance_toggle_left
+          - light.bedroom_entrance_toggle_right
+          - light.bedroom_main
+          - light.bedroom_main_toggle_left
+          - light.bedroom_main_toggle_right
+          - light.bedroom_scene
+          - light.bedroom_scene_left
+          - light.bedroom_scene_right
+          - binary_sensor.fridge
+          - binary_sensor.freezer
+          - binary_sensor.cat_motion
+          - binary_sensor.bedroom_closet_motion
+          - binary_sensor.bathroom_closet_leak
+          - binary_sensor.bathroom_floor_leak
+          - binary_sensor.kitchen_closet_leak
+          - binary_sensor.front_door
+          - binary_sensor.front_door_lock
+          - binary_sensor.bathroom_door
+          - sensor.secure_space_temperature
+          - sensor.toilet_motion
+          - binary_sensor.toilet_door
+          - switch.subwoofer_smart_plug
+          - cover.living_room_shutter_switch
+          - cover.guest_room_shutter_switch
+          - cover.bedroom_shutter_switch
+          - cover.living_room_curtain
+          - binary_sensor.kitchen_window
+          - binary_sensor.office_window
+          - binary_sensor.guest_room_window
+          - binary_sensor.secure_space_window
+          - binary_sensor.bedroom_window
+          - cover.office_curtain_switch
+          - light.yellow_lamp
+          # - switch.lower_gate
+          # - switch.upper_gate
+          - binary_sensor.doorbell
+          - remote.living_room
+          - remote.office
+          - remote.guest_room
+          - remote.secure_space
+          - remote.bedroom
+        to: 'unavailable'
+        for:
+          seconds: 30
+
+      - platform: state
+        entity_id:
+          - light.living_room_entrance
+          - light.living_room_hallway
+          - light.living_room_main
+          - light.living_room_scene
+          - light.living_room_tv_light
+          - light.living_room_scene
+          - light.balcony_main
+          - light.kitchen_counter
+          - light.kitchen_island
+          - light.kitchen_pantry
+          - light.hallway_main
+          - light.hallway_main_toggle
+          - light.toilet_main
+          - light.office_bff_light
+          - light.office_bff_light_toggle
+          - light.office_main
+          - light.office_main_toggle
+          - light.guest_room_main
+          - light.guest_room_main_toggle
+          - light.bathroom_heater
+          - switch.water_boiler
+          - light.bathroom_main
+          - light.bathroom_laundry
+          - light.secure_space_main
+          - light.secure_space_main_toggle
+          - light.secure_space_scene_toggle
+          - light.bedroom_closet
+          - light.bedroom_entrance
+          - light.bedroom_entrance_toggle_left
+          - light.bedroom_entrance_toggle_right
+          - light.bedroom_main
+          - light.bedroom_main_toggle_left
+          - light.bedroom_main_toggle_right
+          - light.bedroom_scene
+          - light.bedroom_scene_left
+          - light.bedroom_scene_right
+          - binary_sensor.fridge
+          - binary_sensor.freezer
+          - binary_sensor.cat_motion
+          - binary_sensor.bedroom_closet_motion
+          - binary_sensor.bathroom_closet_leak
+          - binary_sensor.bathroom_floor_leak
+          - binary_sensor.kitchen_closet_leak
+          - binary_sensor.front_door
+          - binary_sensor.front_door_lock
+          - binary_sensor.bathroom_door
+          - sensor.secure_space_temperature
+          - sensor.toilet_motion
+          - binary_sensor.toilet_door
+          - switch.subwoofer_smart_plug
+          - cover.living_room_shutter_switch
+          - cover.guest_room_shutter_switch
+          - cover.bedroom_shutter_switch
+          - cover.living_room_curtain
+          - binary_sensor.kitchen_window
+          - binary_sensor.office_window
+          - binary_sensor.guest_room_window
+          - binary_sensor.secure_space_window
+          - binary_sensor.bedroom_window
+          - cover.office_curtain_switch
+          - light.yellow_lamp
+          # - switch.lower_gate
+          # - switch.upper_gate
+          - binary_sensor.doorbell
+          - remote.living_room
+          - remote.office
+          - remote.guest_room
+          - remote.secure_space
+          - remote.bedroom
+        from: 'unavailable'
+        to: 'on'
+        for:
+          seconds: 8
+
+      - platform: state
+        entity_id:
+          - light.living_room_entrance
+          - light.living_room_hallway
+          - light.living_room_main
+          - light.living_room_scene
+          - light.living_room_tv_light
+          - light.living_room_scene
+          - light.balcony_main
+          - light.kitchen_counter
+          - light.kitchen_island
+          - light.kitchen_pantry
+          - light.hallway_main
+          - light.hallway_main_toggle
+          - light.toilet_main
+          - light.office_bff_light
+          - light.office_bff_light_toggle
+          - light.office_main
+          - light.office_main_toggle
+          - light.guest_room_main
+          - light.guest_room_main_toggle
+          - light.bathroom_heater
+          - switch.water_boiler
+          - light.bathroom_main
+          - light.bathroom_laundry
+          - light.secure_space_main
+          - light.secure_space_main_toggle
+          - light.secure_space_scene_toggle
+          - light.bedroom_closet
+          - light.bedroom_entrance
+          - light.bedroom_entrance_toggle_left
+          - light.bedroom_entrance_toggle_right
+          - light.bedroom_main
+          - light.bedroom_main_toggle_left
+          - light.bedroom_main_toggle_right
+          - light.bedroom_scene
+          - light.bedroom_scene_left
+          - light.bedroom_scene_right
+          - binary_sensor.fridge
+          - binary_sensor.freezer
+          - binary_sensor.cat_motion
+          - binary_sensor.bedroom_closet_motion
+          - binary_sensor.bathroom_closet_leak
+          - binary_sensor.bathroom_floor_leak
+          - binary_sensor.kitchen_closet_leak
+          - binary_sensor.front_door
+          - binary_sensor.front_door_lock
+          - binary_sensor.bathroom_door
+          - sensor.secure_space_temperature
+          - sensor.toilet_motion
+          - binary_sensor.toilet_door
+          - switch.subwoofer_smart_plug
+          - cover.living_room_shutter_switch
+          - cover.guest_room_shutter_switch
+          - cover.bedroom_shutter_switch
+          - cover.living_room_curtain
+          - binary_sensor.kitchen_window
+          - binary_sensor.office_window
+          - binary_sensor.guest_room_window
+          - binary_sensor.secure_space_window
+          - binary_sensor.bedroom_window
+          - cover.office_curtain_switch
+          - light.yellow_lamp
+          # - switch.lower_gate
+          # - switch.upper_gate
+          - binary_sensor.doorbell
+          - remote.living_room
+          - remote.office
+          - remote.guest_room
+          - remote.secure_space
+          - remote.bedroom
+        from: 'unavailable'
+        to: 'off'
+        for:
+          seconds: 8
+
+    action:
+      service: notify.shlomi
+      data:
+        message: "{{ trigger.to_state.attributes.friendly_name }} is {{ 'unavailable' if trigger.to_state.state == 'unavailable' else 'online' }}"

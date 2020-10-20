@@ -1,0 +1,73 @@
+automation:
+
+  - alias: Fridge Left Open
+    mode: single
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.fridge
+      from: 'off'
+      to: 'on'
+      for: 
+        minutes: 2
+    action:
+      - service: script.notify_all
+        data:
+          message: Hey, I think the fridge was left open
+      - wait_for_trigger:
+        - platform: state
+          entity_id: binary_sensor.fridge
+          from: 'on'
+          to: 'off'
+      - service: script.notify_all
+        data:
+          message: The fridge was closed
+
+  - alias: Fridge Left Open Reminder
+    mode: single
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.fridge
+      from: 'off'
+      to: 'on'
+      for: 
+        minutes: 10
+    action:
+      - service: script.notify_all
+        data:
+          message: The fridge is still open (10 minute reminder).
+
+  - alias: Freezer Left Open
+    mode: single
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.freezer
+      from: 'off'
+      to: 'on'
+      for: 
+        minutes: 2
+    action:
+      - service: script.notify_all
+        data:
+          message: Hey, I think the freezer was left open
+      - wait_for_trigger:
+        - platform: state
+          entity_id: binary_sensor.freezer
+          from: 'on'
+          to: 'off'
+      - service: script.notify_all
+        data:
+          message: The freezer was closed
+
+  - alias: Freezer Left Open Reminder
+    mode: single
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.freezer
+      from: 'off'
+      to: 'on'
+      for: 
+        minutes: 10
+    action:
+      - service: script.notify_all
+        data:
+          message: The freezer is still open (10 minute reminder).
