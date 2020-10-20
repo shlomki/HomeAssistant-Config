@@ -34,3 +34,8 @@ known_devices.yaml
 *.bak
 *.config
 config/BroadlinkSwitches
+
+#Empty Files
+automations.yaml
+groups.yaml
+scripts.yaml
