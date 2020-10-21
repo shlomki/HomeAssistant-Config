@@ -305,8 +305,8 @@ automation:
       - service: python_script.ac_damper
         data:
           room: "{{ room }}"
-          speed: "Low"
-          action: set_speed
+          speed: "Medium"
+          action: send_command
       #Wait for a few more minutes
       - delay: "{{ states('input_number.ac_damper_quick_to_low') | multiply(60) | int }}"
       #If the damper is still set to quick, continue

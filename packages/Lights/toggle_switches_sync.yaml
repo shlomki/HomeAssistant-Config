@@ -1,18 +1,4 @@
 automation:
-  # - alias: Living room switches scene
-  #   trigger:
-  #     - platform: state
-  #       entity_id: light.living_room_scene
-  #   condition:
-  #     condition: not
-  #     conditions:
-  #         - condition: state
-  #           entity_id: light.living_room_scene
-  #           state: 'unknown'
-  #   action:
-  #     - service: script.ceiling_light_color_change
-  #       data:
-  #         room: living_room
 
   - alias: Living room sync lamp
     trigger:
@@ -27,28 +13,10 @@ automation:
             entity_id: 
               - switch.living_room_lamp_smart_plug
               - light.living_room_lamp_toggle
-            state: 'unknown'
+            state: 'unavailable'
     action:
       - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
         entity_id: light.living_room_lamp_group
-
-  - alias: Office switches sync main
-    trigger:
-      - platform: state
-        entity_id: 
-          - light.office_main
-          - light.office_main_toggle
-    condition:
-      condition: not
-      conditions:
-          - condition: state
-            entity_id: 
-              - light.office_main
-              - light.office_main_toggle
-            state: 'unknown'
-    action:
-      - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
-        entity_id: light.office_main_group
 
   - alias: Office switches sync bff light
     trigger:
@@ -63,7 +31,7 @@ automation:
             entity_id: 
               - light.office_bff_light
               - light.office_bff_light_toggle
-            state: 'unknown'
+            state: 'unavailable'
     action:
       - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
         entity_id: light.office_bff_light_group
@@ -81,7 +49,7 @@ automation:
             entity_id: 
               - light.guest_room_main
               - light.guest_room_main_toggle
-            state: 'unknown'
+            state: 'unavailable'
     action:
       - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
         entity_id: light.guest_room_main_group
@@ -99,7 +67,7 @@ automation:
             entity_id: 
               - light.hallway_main
               - light.hallway_main_toggle
-            state: 'unknown'
+            state: 'unavailable'
     action:
       - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
         entity_id: light.hallway_main_group
@@ -117,7 +85,7 @@ automation:
             entity_id: 
               - light.secure_space_main
               - light.secure_space_main_toggle
-            state: 'unknown'
+            state: 'unavailable'
     action:
       - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
         entity_id: light.secure_space_main_group
@@ -136,7 +104,7 @@ automation:
             - condition: state
               entity_id: 
                 - light.secure_space_scene_toggle
-              state: 'unknown'
+              state: 'unavailable'
     action:
       - service: light.turn_on
         entity_id: 
@@ -158,7 +126,7 @@ automation:
             - condition: state
               entity_id: 
                 - light.secure_space_scene_toggle
-              state: 'unknown'
+              state: 'unavailable'
     action:
       - service: light.toggle
         entity_id: 
@@ -181,7 +149,7 @@ automation:
               - light.bedroom_main
               - light.bedroom_main_toggle_left
               - light.bedroom_main_toggle_right
-            state: 'unknown'
+            state: 'unavailable'
     action:
       - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
         entity_id: light.bedroom_main_group
@@ -201,7 +169,7 @@ automation:
               - light.bedroom_entrance
               - light.bedroom_entrance_toggle_left
               - light.bedroom_entrance_toggle_right
-            state: 'unknown'
+            state: 'unavailable'
     action:
       - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
         entity_id: light.bedroom_entrance_group
@@ -221,7 +189,7 @@ automation:
               - light.bedroom_scene
               - light.bedroom_scene_left
               - light.bedroom_scene_right
-            state: 'unknown'
+            state: 'unavailable'
     action:
       - service: light.turn_on
         entity_id: 
@@ -231,3 +199,17 @@ automation:
           transition: 1
           brightness: '{{ 255 if (state_attr("light.bedroom_main_hue", "brightness")|int < 127 or state_attr("light.bedroom_entrance_hue", "brightness")|int < 127) else 2 }}'
 
+  # - alias: Living room switches scene
+  #   trigger:
+  #     - platform: state
+  #       entity_id: light.living_room_scene
+  #   condition:
+  #     condition: not
+  #     conditions:
+  #         - condition: state
+  #           entity_id: light.living_room_scene
+  #           state: 'unavailable'
+  #   action:
+  #     - service: script.ceiling_light_color_change
+  #       data:
+  #         room: living_room

@@ -131,7 +131,7 @@ automation:
           entity_id: climate.manual_ac
           fan_mode: "{% set fan_mode = state_attr('climate.ekon5601', 'fan_mode') %}{{ 'high' if (fan_mode == 'Auto') else fan_mode}}"
 
-  - alias: AC Manual - Turn Off
+  - alias: Manual AC - Turn Off
     trigger:
       - platform: state
         entity_id: 
