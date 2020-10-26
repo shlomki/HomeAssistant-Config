@@ -19,6 +19,10 @@ last_ac_mode_entity_id = "input_text.last_ac_mode"
 damper_state = hass.states.get(damper_state_entity_id).state
 last_ac_mode = hass.states.get(last_ac_mode_entity_id).state
 
+if enableLog:
+  logger.debug("damper_state=" + damper_state)
+  logger.debug("last_ac_mode=" + last_ac_mode)
+
 def send_command(room, speed):
   command_entity_id = "ac_damper_" + speed.lower()
   if (speed != "off"):
@@ -78,4 +82,5 @@ if (action == 'sync') :
 
   #Update current temp
   #hass.services.call('python_script', 'update_ac_room_temp', { 'room': room }, options)
+
 

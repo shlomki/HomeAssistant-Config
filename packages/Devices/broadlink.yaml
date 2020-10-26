@@ -54,22 +54,22 @@
 #     monitored_conditions:
 #       - 'temperature'
 
-input_text:
-  broadlink_living_room:
-    name: Broadlink Living Room
-    initial: !secret living_room
-  broadlink_office:
-    name: Broadlink Office
-    initial: !secret office
-  broadlink_guest_room:
-    name: Broadlink Guest Room
-    initial: !secret guest_room
-  broadlink_secure_space:
-    name: Broadlink Secure Space
-    initial: !secret secure_space
-  broadlink_bedroom:
-    name: Broadlink Bedroom
-    initial: !secret bedroom
+# input_text:
+#   broadlink_living_room:
+#     name: Broadlink Living Room
+#     initial: !secret living_room
+#   broadlink_office:
+#     name: Broadlink Office
+#     initial: !secret office
+#   broadlink_guest_room:
+#     name: Broadlink Guest Room
+#     initial: !secret guest_room
+#   broadlink_secure_space:
+#     name: Broadlink Secure Space
+#     initial: !secret secure_space
+#   broadlink_bedroom:
+#     name: Broadlink Bedroom
+#     initial: !secret bedroom
 
 # script:
 #   broadlink_send:

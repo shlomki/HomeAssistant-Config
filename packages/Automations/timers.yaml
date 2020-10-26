@@ -70,14 +70,16 @@ automation:
       - service: light.turn_off
         entity_id: light.guest_room_main_combined
 
-  - alias: Birds Open Shutter Noon
+  - alias: Open Shutter Noon - birds & office
     trigger:
       platform: time
       at: input_datetime.noon
     action:
       - service: cover.set_cover_position
         data:
-          entity_id: cover.guest_room_shutter
+          entity_id: 
+            - cover.guest_room_shutter
+            - cover.office_shutter
           position: 100
 
   - alias: Birds Close Shutter Night
@@ -133,17 +135,56 @@ automation:
           - cover.living_room_curtain
           - cover.bedroom_shutter
           - cover.kitchen_shutter
+          - cover.office_shutter
+
       - service: fan.turn_on
         entity_id:
           - fan.ac_damper_bedroom
           - fan.ac_damper_living_room
+
       - delay: '00:00:20'
+
       - service: fan.set_speed
         entity_id: fan.ac_damper_bedroom
         data:
           speed: SmartAuto
+
+      - service: fan.set_speed
+        entity_id: fan.ac_damper_living_room
+        data:
+          speed: Low
+
+  - alias: Close shutters and turn on fan at dawn
+    trigger:
+      platform: time
+      at: input_datetime.dawn
+    action:
+      - service: cover.close_cover
+        entity_id: 
+          - cover.living_room_shutter
+          - cover.living_room_curtain
+          - cover.bedroom_shutter
+          - cover.kitchen_shutter
+          - cover.office_shutter
+      
+      - service: climate.set_hvac_mode
+        data:
+          entity_id: "{{ states('input_text.ac_entity_id') }}"
+          hvac_mode: fan_only
+      
+      - service: fan.turn_on
+        entity_id:
+          - fan.ac_damper_bedroom
+          - fan.ac_damper_living_room
+      
+      - delay: '00:00:20'
+      
       - service: fan.set_speed
         entity_id: fan.ac_damper_bedroom
         data:
-          speed: 'Low'
-
+          speed: Low
+      
+      - service: fan.set_speed
+        entity_id: fan.ac_damper_living_room
+        data:
+          speed: Low
