@@ -7,21 +7,31 @@ climate:
   # Specify the name and password for your account
   username: !secret ekon_username
   password: !secret ekon_password
-  # This specifies the server that the component would work with, I have only tried it with EKON server (Airconet APP)
-  # Optional, defults to Airconet server
-  # Use this if you are using "Airconet" app - EKON main server
-  #base_url: https://www.airconet.info/
-  # **UNTESTED** Alternative EKON tadiran server
-  base_url: https://www.airconet.xyz/
+  # This specifies the server that the component would work with, I have only tried it with EKON server (Airconet+ APP)
+  # Optional, 
+  # Use this if you are using "Airconet+" app - EKON main server
+  # base_url and ws_url defults to Airconet server
+  base_url: https://www.activate-ac.com/ 
+  ws_url: wss://www.activate-ac.com/v2
+
+  # If you are using Tadiran Connect, use these instead
+  # base_url: https://www.airconet.xyz/
+  # ws_url: wss://www.airconet.xyz/ws
+
+  # WARNING, Enabling this next option would MAKE YOUR CEDENTIALS PRUNE TO MAN-IN-THE-MIDDLE Attack
+  # Homeassistant ssl libraries in certain configurations has some issues with authenticating the www.activate-ac.com server SSL Certificate
+  # One really bad option is to disable ssl checks altogether, you can use this switch to do that:
+  ssl_ignore: True
+  name_mapping:
+    - id: 3582
+      name: Main AC
 
 - platform: smartir
   name: Manual AC
   unique_id: manual_ac
-  device_code: 1340
+  device_code: 1342
   controller_data: remote.living_room
   temperature_sensor: sensor.living_room_temperature
-  #humidity_sensor: sensor.humidity
-  #power_sensor: binary_sensor.ac_power
 
 input_text:
   ac_entity_id:
@@ -123,13 +133,13 @@ automation:
       - service: climate.set_temperature
         data:
           entity_id: climate.manual_ac
-          hvac_mode: "{{ states('climate.ekon5601') }}"
-          temperature: "{{ state_attr('climate.ekon5601', 'temperature') }}"
+          hvac_mode: "{{ states('climate.main_ac') }}"
+          temperature: "{{ state_attr('climate.main_ac', 'temperature') }}"
 
       - service: climate.set_fan_mode
         data:
           entity_id: climate.manual_ac
-          fan_mode: "{% set fan_mode = state_attr('climate.ekon5601', 'fan_mode') %}{{ 'high' if (fan_mode == 'Auto') else fan_mode}}"
+          fan_mode: "{% set fan_mode = state_attr('climate.main_ac', 'fan_mode') %}{{ 'high' if (fan_mode == 'Auto') else fan_mode}}"
 
   - alias: Manual AC - Turn Off
     trigger:
@@ -143,4 +153,4 @@ automation:
       - service: input_text.set_value
         data:
           entity_id: input_text.ac_entity_id
-          value: 'climate.ekon5601'
+          value: 'climate.main_ac'

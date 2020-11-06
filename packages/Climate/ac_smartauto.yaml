@@ -204,7 +204,7 @@ automation:
 
         #And when AC is set to fan, heat, cool, unknown
         # - condition: state
-        #   entity_id: climate.ekon5601
+        #   entity_id: climate.main_ac
         #   state: 
         #     - 'fan_only'
         #     - 'cool'

@@ -17,6 +17,43 @@
 #"temp_31": "ExERFBAUEDgTNRMRETgRExAUEDgTEhETERMQOBM1vz4TEhAUERMRNxI3EhISNhMREBUSNhETEBQQFRE3Eja+PxISEBQRFBA4ETcTERM1ExIQFBA4ExETEhETEDgTNQABAQANBQAA"
 #"temp_32": "JgBmAL8/EhITERMSEjYSNhISEzUTNRMREzUTEhISExETNRM1vkASEhISExISNhI2EhISNhI2ExETNRMSEhITERM1FDS/PxMREhITERM1EzYSEhM1EjYTERM1ExISEhMREzUTNQABAgANBQAA"
 
+climate:
+- platform: smartir
+  name: AC Damper Living Room
+  unique_id: ac_damper_living_room
+  device_code: 1343
+  controller_data: remote.living_room
+  temperature_sensor: sensor.living_room_temperature
+
+- platform: smartir
+  name: AC Damper Office
+  unique_id: ac_damper_office
+  device_code: 1343
+  controller_data: remote.office
+  temperature_sensor: sensor.office_temperature
+
+- platform: smartir
+  name: AC Damper Guest Room
+  unique_id: ac_damper_guest_room
+  device_code: 1343
+  controller_data: remote.guest_room
+  temperature_sensor: sensor.guest_room_temperature
+  humidity_sensor: sensor.guest_room_humidity
+
+- platform: smartir
+  name: AC Damper Secure Space
+  unique_id: ac_damper_secure_space
+  device_code: 1343
+  controller_data: remote.secure_space
+  temperature_sensor: sensor.secure_space_temperature
+
+- platform: smartir
+  name: AC Damper Bedroom
+  unique_id: ac_damper_bedroom
+  device_code: 1343
+  controller_data: remote.bedroom
+  temperature_sensor: sensor.bedroom_temperature
+
 input_text:
   last_ac_mode:
     name: Last AC Mode
@@ -92,21 +129,30 @@ script:
     alias: AC Damper Auto Cool
     mode: parallel
     sequence:
-      - repeat:
-          count: 3
-          sequence:
-            - service: python_script.broadlink_send
-              data:
-                room: '{{ room }}'
-                #Unknown
-                #packet: 'JgBcAb4/EBQRFBISEzUQFBA4EjYTNRAUERMRFBA4EBQTEREUEjURFBI2EDgTNRAUExISERE3ETcRNxE3ETcRFBISEDgQFBE3EDgQOBA4EDgQOBA4EDgQOBA4EDgQOBA4EDgQOBA4EhIQOBAUERMRNxEUEDgQFL4/EBQQFBETETcRFBA4EDgQOBAUEBQRExE3ERQQFBAUETcRExE3EzURNxEUEBQQFBE3EDgQOBA4EDgQFBEUEDcRFBA4EDgQOBM1EDgTNRA4EDcRNxE3ETcRNxE3ETcRNxE3ERQQNxEUEhIQOBAUETcTEr89ERQQFBAUETcRExE3ETcRNxEUEBQQFBA4EBQRFBAUEDgSEw84EDgQOBAUERMRFBA4EDgQOBA4EDgQFBAUETcSEhE3ETcRNxE3ETcRNxE3ETcSNhE3EDgQOBA4EDgQOBA4EBQRNxETERQSNhAUEDgQFAABAAANBQAAAAAAAAAAAAAAAA=='
+      # - repeat:
+      #     count: 3
+      #     sequence:
+      #       - service: python_script.broadlink_send
+      #         data:
+      #           room: '{{ room }}'
+      #           #Unknown
+      #           #packet: 'JgBcAb4/EBQRFBISEzUQFBA4EjYTNRAUERMRFBA4EBQTEREUEjURFBI2EDgTNRAUExISERE3ETcRNxE3ETcRFBISEDgQFBE3EDgQOBA4EDgQOBA4EDgQOBA4EDgQOBA4EDgQOBA4EhIQOBAUERMRNxEUEDgQFL4/EBQQFBETETcRFBA4EDgQOBAUEBQRExE3ERQQFBAUETcRExE3EzURNxEUEBQQFBE3EDgQOBA4EDgQFBEUEDcRFBA4EDgQOBM1EDgTNRA4EDcRNxE3ETcRNxE3ETcRNxE3ERQQNxEUEhIQOBAUETcTEr89ERQQFBAUETcRExE3ETcRNxEUEBQQFBA4EBQRFBAUEDgSEw84EDgQOBAUERMRFBA4EDgQOBA4EDgQFBAUETcSEhE3ETcRNxE3ETcRNxE3ETcSNhE3EDgQOBA4EDgQOBA4EBQRNxETERQSNhAUEDgQFAABAAANBQAAAAAAAAAAAAAAAA=='
                 
-                #25 degrees, auto fan. Taken at 29 degrees.
-                packet: 'JgBcAcA9ExISEhISEzUTNRMSEhITEhISEhITERM1ExISNhMSEhETEhI2EjYTNRMSEhISEhM1EzUTNRM1EzUUNBQ1ExISNRM1EzUTNRM1FDUTNRM1EzUTNRM1EzUTNRM1FDQUNRM1ExISNRMSEhISNhMSEjUTEsA9ExISERMSEjYSNhMSEhISEhISExETEhI2ExISNRMSEhISEhM1EzUTNRQREhMSERM1FDQUNRI2EzUTNRM1ExISNhM1EzUTNRM1EzUTNRM1EzUTNRM1FDQUNRM1EzUTNRM1ExISNRQREhMSNRMSEjYTEsA8ExISEhISEzUTNRMSEhISExIRExISExI1ExISNRMSEhMSERM1FDUSNhMSEhETEhI2EzUSNhM1EzUTNRM1ExISNhM1EzUTNRM1EzUTNRM1EzUUNBQ1EzUTNRM1EzUTNRM1ExISNhISEhITNRMSEjYSEwABAAANBQAAAAAAAAAAAAAAAA=='
+      #           #25 degrees, auto fan. Taken at 29 degrees.
+      #           packet: 'JgBcAcA9ExISEhISEzUTNRMSEhITEhISEhITERM1ExISNhMSEhETEhI2EjYTNRMSEhISEhM1EzUTNRM1EzUUNBQ1ExISNRM1EzUTNRM1FDUTNRM1EzUTNRM1EzUTNRM1FDQUNRM1ExISNRMSEhISNhMSEjUTEsA9ExISERMSEjYSNhMSEhISEhISExETEhI2ExISNRMSEhISEhM1EzUTNRQREhMSERM1FDQUNRI2EzUTNRM1ExISNhM1EzUTNRM1EzUTNRM1EzUTNRM1FDQUNRM1EzUTNRM1ExISNRQREhMSNRMSEjYTEsA8ExISEhISEzUTNRMSEhISExIRExISExI1ExISNRMSEhMSERM1FDUSNhMSEhETEhI2EzUSNhM1EzUTNRM1ExISNhM1EzUTNRM1EzUTNRM1EzUUNBQ1EzUTNRM1EzUTNRM1ExISNhISEhITNRMSEjYSEwABAAANBQAAAAAAAAAAAAAAAA=='
                 
-                #26 degrees, auto fan. Taken at 30 degrees.
-                #packet: 'JgBcAcA9ExISEhISEjYSNhMSEhISNhMSEhISEhI2ExISNRMSEjUUERI2EzUTNRMSEhISNhMSEhISEhITEhISNRQREhMSEhI1FDQTNhM1EzUTNRM1EzUSNhM1EzUTNRM1EzUUNRM1ExISNRMRExISNhMSEjUTEsA8FBESExISEjUUNRMREhMSNRMSEhISExI1ExISNhITEjUTEhI1FDQUNRMSERMSNRMSEhISExISEhISNhMSEhISEhI2EzUTNRM1EzUTNRM1EzUUNRM1EzUTNRM1EjYTNRM1ExISNhMREhMSNRMSEjYTEsA8ExISEhITEjUTNRMSEhISNhMSEhISEhI2ExISNRMSEjYTEhI1EzUTNRMSEhISNhMSEhISEhITEhETNRQREhMSEhI1FDUTNRM1EzUTNRM1EzUTNRM1EzUTNRM1FDUTNRM1ExISNRMSEhISNhMSEjUTEgABAAANBQAAAAAAAAAAAAAAAA=='
-            - delay: '00:00:01.500'
+      #           #26 degrees, auto fan. Taken at 30 degrees.
+      #           #packet: 'JgBcAcA9ExISEhISEjYSNhMSEhISNhMSEhISEhI2ExISNRMSEjUUERI2EzUTNRMSEhISNhMSEhISEhITEhISNRQREhMSEhI1FDQTNhM1EzUTNRM1EzUSNhM1EzUTNRM1EzUUNRM1ExISNRMRExISNhMSEjUTEsA8FBESExISEjUUNRMREhMSNRMSEhISExI1ExISNhITEjUTEhI1FDQUNRMSERMSNRMSEhISExISEhISNhMSEhISEhI2EzUTNRM1EzUTNRM1EzUUNRM1EzUTNRM1EjYTNRM1ExISNhMREhMSNRMSEjYTEsA8ExISEhITEjUTNRMSEhISNhMSEhISEhI2ExISNRMSEjYTEhI1EzUTNRMSEhISNhMSEhISEhITEhETNRQREhMSEhI1FDUTNRM1EzUTNRM1EzUTNRM1EzUTNRM1FDUTNRM1ExISNRMSEhISNhMSEjUTEgABAAANBQAAAAAAAAAAAAAAAA=='
+      #       - delay: '00:00:01.500'
+      - service: climate.set_fan_mode
+        data:
+          entity_id: "climate.ac_damper_{{room}}"
+          fan_mode: Auto
+      - delay: '00:00:01.500'
+      - service: climate.set_temperature
+        data:
+          entity_id: "climate.ac_damper_{{room}}"
+          temperature: 25
   ac_damper_high_cool:
     alias: AC Damper High Cool
     mode: parallel
@@ -250,7 +296,7 @@ automation:
   - alias: Save last ac mode
     trigger:
       - platform: state
-        entity_id: climate.ekon5601
+        entity_id: climate.main_ac
       - platform: state
         entity_id: climate.manual_ac
     condition:
@@ -328,13 +374,13 @@ automation:
           seconds: 60
       - platform: state
         entity_id: 
-          - climate.ekon5601
+          - climate.main_ac
           - climate.manual_ac
         from:  'fan_only'
         to:  'cool'
       - platform: state
         entity_id: 
-          - climate.ekon5601
+          - climate.main_ac
           - climate.manual_ac
         from:  'fan_only'
         to:  'heat'
@@ -345,13 +391,13 @@ automation:
       # - condition: or
       #   conditions: #When AC is on heat or cool or unknown (when disconnected from server)
       #     - condition: state
-      #       entity_id: climate.ekon5601
+      #       entity_id: climate.main_ac
       #       state: 'heat'
       #     - condition: state
-      #       entity_id: climate.ekon5601
+      #       entity_id: climate.main_ac
       #       state: 'cool'
       #     - condition: state
-      #       entity_id: climate.ekon5601
+      #       entity_id: climate.main_ac
       #       state: 'unknown'
 
       #When AC is on heat or cool or unknown (when disconnected from server) (updated to support manual_ac)
