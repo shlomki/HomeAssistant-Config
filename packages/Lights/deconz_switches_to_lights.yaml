@@ -61,12 +61,12 @@ light:
 
 
   - platform: switch
-    name: Guest Room Main
-    entity_id: switch.guest_room_main
+    name: Birds Main
+    entity_id: switch.birds_main
 
   - platform: switch
-    name: Guest Room Main Toggle
-    entity_id: switch.guest_room_main_toggle
+    name: Birds Main Toggle
+    entity_id: switch.birds_main_toggle
 
 
 
@@ -83,16 +83,16 @@ light:
     entity_id: switch.bathroom_heater
 
   - platform: switch
-    name: Secure Space Main
-    entity_id: switch.secure_space_main
+    name: Riley Main
+    entity_id: switch.riley_main
 
   - platform: switch
-    name: Secure Space Main Toggle
-    entity_id: switch.secure_space_main_toggle
+    name: Riley Main Toggle
+    entity_id: switch.riley_main_toggle
 
   - platform: switch
-    name: Secure Space Scene Toggle
-    entity_id: switch.secure_space_scene_toggle
+    name: Riley Scene Toggle
+    entity_id: switch.riley_scene_toggle
 
 
   - platform: switch

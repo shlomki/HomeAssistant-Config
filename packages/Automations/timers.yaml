@@ -50,7 +50,7 @@ automation:
       at: input_datetime.late_morning
     action:
       - service: light.turn_on
-        entity_id: light.guest_room_main_combined
+        entity_id: light.birds_main_combined
 
   - alias: Birds Dim Lights Evening
     trigger:
@@ -58,7 +58,7 @@ automation:
       at: input_datetime.evening
     action:
       - service: light.turn_on
-        entity_id: light.guest_room_main_combined
+        entity_id: light.birds_main_combined
         data:
           brightness: 1
 
@@ -68,7 +68,7 @@ automation:
       at: input_datetime.evening_2
     action:
       - service: light.turn_off
-        entity_id: light.guest_room_main_combined
+        entity_id: light.birds_main_combined
 
   - alias: Open Shutter Noon - birds & office
     trigger:
@@ -78,7 +78,7 @@ automation:
       - service: cover.set_cover_position
         data:
           entity_id: 
-            - cover.guest_room_shutter
+            - cover.birds_shutter
             - cover.office_shutter
           position: 100
 
@@ -89,7 +89,7 @@ automation:
     action:
       - service: cover.set_cover_position
         data:
-          entity_id: cover.guest_room_shutter
+          entity_id: cover.birds_shutter
           position: 40
 
   - alias: Living Room Lamp Turn Brightness Down at Night

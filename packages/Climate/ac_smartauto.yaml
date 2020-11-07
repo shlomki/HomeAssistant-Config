@@ -21,24 +21,24 @@ input_number:
     max: 30
     step: 0.1
 
-  ac_smartauto_min_guest_room:
-    name: Guest Room Min Temp
+  ac_smartauto_min_birds:
+    name: Birds Min Temp
     min: 20
     max: 30
     step: 0.1
-  ac_smartauto_max_guest_room:
-    name: Guest Room Max Temp
+  ac_smartauto_max_birds:
+    name: Birds Max Temp
     min: 20
     max: 30
     step: 0.1
 
-  ac_smartauto_min_secure_space:
-    name: Secure Space Min Temp
+  ac_smartauto_min_riley:
+    name: Riley Min Temp
     min: 20
     max: 30
     step: 0.1
-  ac_smartauto_max_secure_space:
-    name: Secure Space Max Temp
+  ac_smartauto_max_riley:
+    name: Riley Max Temp
     min: 20
     max: 30
     step: 0.1
@@ -116,10 +116,10 @@ sensor:
             {{ states("sensor.living_room_temperature") }}
           {% elif state_attr("fan.ac_damper_office", "speed") == "SmartAuto" and is_state("fan.ac_damper_office", "on" ) %}
             {{ states("sensor.office_temperature") }}
-          {% elif state_attr("fan.ac_damper_guest_room", "speed") == "SmartAuto" and is_state("fan.ac_damper_guest_room", "on") %}
-            {{ states("sensor.guest_room_temperature") }}
-          {% elif state_attr("fan.ac_damper_secure_space", "speed") == "SmartAuto" and is_state("fan.ac_damper_secure_space", "on") %}
-            {{ states("sensor.secure_space_temperature") }}
+          {% elif state_attr("fan.ac_damper_birds", "speed") == "SmartAuto" and is_state("fan.ac_damper_birds", "on") %}
+            {{ states("sensor.birds_temperature") }}
+          {% elif state_attr("fan.ac_damper_riley", "speed") == "SmartAuto" and is_state("fan.ac_damper_riley", "on") %}
+            {{ states("sensor.riley_temperature") }}
           {% elif state_attr("fan.ac_damper_bedroom", "speed") == "SmartAuto" and is_state("fan.ac_damper_bedroom", "on") %}
             {{ states("sensor.bedroom_temperature") }}
           {% endif %}
@@ -131,10 +131,10 @@ sensor:
             living_room
           {% elif state_attr("fan.ac_damper_office", "speed") == "SmartAuto" and is_state("fan.ac_damper_office", "on" ) %}
             office
-          {% elif state_attr("fan.ac_damper_guest_room", "speed") == "SmartAuto" and is_state("fan.ac_damper_guest_room", "on") %}
-            guest_room
-          {% elif state_attr("fan.ac_damper_secure_space", "speed") == "SmartAuto" and is_state("fan.ac_damper_secure_space", "on") %}
-            secure_space
+          {% elif state_attr("fan.ac_damper_birds", "speed") == "SmartAuto" and is_state("fan.ac_damper_birds", "on") %}
+            birds
+          {% elif state_attr("fan.ac_damper_riley", "speed") == "SmartAuto" and is_state("fan.ac_damper_riley", "on") %}
+            riley
           {% elif state_attr("fan.ac_damper_bedroom", "speed") == "SmartAuto" and is_state("fan.ac_damper_bedroom", "on") %}
             bedroom
           {% else %}

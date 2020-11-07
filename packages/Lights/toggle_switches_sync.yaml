@@ -36,23 +36,23 @@ automation:
       - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
         entity_id: light.office_bff_light_group
 
-  - alias: Guest Room switches sync main
+  - alias: Birds switches sync main
     trigger:
       - platform: state
         entity_id: 
-          - light.guest_room_main
-          - light.guest_room_main_toggle
+          - light.birds_main
+          - light.birds_main_toggle
     condition:
       condition: not
       conditions:
           - condition: state
             entity_id: 
-              - light.guest_room_main
-              - light.guest_room_main_toggle
+              - light.birds_main
+              - light.birds_main_toggle
             state: 'unavailable'
     action:
       - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
-        entity_id: light.guest_room_main_group
+        entity_id: light.birds_main_group
 
   - alias: Hallway switches sync main
     trigger:
@@ -72,60 +72,60 @@ automation:
       - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
         entity_id: light.hallway_main_group
 
-  - alias: Secure space switches sync main
+  - alias: Riley switches sync main
     trigger:
       - platform: state
         entity_id: 
-        - light.secure_space_main
-        - light.secure_space_main_toggle
+        - light.riley_main
+        - light.riley_main_toggle
     condition:
       condition: not
       conditions:
           - condition: state
             entity_id: 
-              - light.secure_space_main
-              - light.secure_space_main_toggle
+              - light.riley_main
+              - light.riley_main_toggle
             state: 'unavailable'
     action:
       - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
-        entity_id: light.secure_space_main_group
+        entity_id: light.riley_main_group
 
-  - alias: Secure space switches scene 
+  - alias: Riley switches scene 
     trigger:
       - platform: state
         entity_id: 
-          - light.secure_space_scene_toggle
+          - light.riley_scene_toggle
     condition:
       - condition: state
-        entity_id: light.secure_space_main_combined
+        entity_id: light.riley_main_combined
         state: 'on'
       - condition: not
         conditions:
             - condition: state
               entity_id: 
-                - light.secure_space_scene_toggle
+                - light.riley_scene_toggle
               state: 'unavailable'
     action:
       - service: light.turn_on
         entity_id: 
-          - light.secure_space_main_combined
+          - light.riley_main_combined
         data:
-          brightness: '{{ 255 if ( (state_attr("light.secure_space_main_combined", "brightness") or state_attr("light.secure_space_main_combined", "brightness")) < 127) else 1 }}'
+          brightness: '{{ 255 if ( (state_attr("light.riley_main_combined", "brightness") or state_attr("light.riley_main_combined", "brightness")) < 127) else 1 }}'
 
-  - alias: Secure space switches scene yellow lamp
+  - alias: Riley switches scene yellow lamp
     trigger:
       - platform: state
         entity_id: 
-          - light.secure_space_scene_toggle
+          - light.riley_scene_toggle
     condition:
       - condition: state
-        entity_id: light.secure_space_main_combined
+        entity_id: light.riley_main_combined
         state: 'off'
       - condition: not
         conditions:
             - condition: state
               entity_id: 
-                - light.secure_space_scene_toggle
+                - light.riley_scene_toggle
               state: 'unavailable'
     action:
       - service: light.toggle

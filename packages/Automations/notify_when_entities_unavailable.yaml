@@ -21,15 +21,15 @@ automation:
           - light.office_bff_light_toggle
           - light.office_main
           - light.office_main_toggle
-          - light.guest_room_main
-          - light.guest_room_main_toggle
+          - light.birds_main
+          - light.birds_main_toggle
           - light.bathroom_heater
           - switch.water_boiler
           - light.bathroom_main
           - light.bathroom_laundry
-          - light.secure_space_main
-          - light.secure_space_main_toggle
-          - light.secure_space_scene_toggle
+          - light.riley_main
+          - light.riley_main_toggle
+          - light.riley_scene_toggle
           - light.bedroom_closet
           - light.bedroom_entrance
           - light.bedroom_entrance_toggle_left
@@ -50,18 +50,18 @@ automation:
           - binary_sensor.front_door
           - binary_sensor.front_door_lock
           - binary_sensor.bathroom_door
-          - sensor.secure_space_temperature
+          - sensor.riley_temperature
           - sensor.toilet_motion
           - binary_sensor.toilet_door
           - switch.subwoofer_smart_plug
           - cover.living_room_shutter_switch
-          - cover.guest_room_shutter_switch
+          - cover.birds_shutter_switch
           - cover.bedroom_shutter_switch
           - cover.living_room_curtain
           - binary_sensor.kitchen_window
           - binary_sensor.office_window
-          - binary_sensor.guest_room_window
-          - binary_sensor.secure_space_window
+          - binary_sensor.birds_window
+          - binary_sensor.riley_window
           - binary_sensor.bedroom_window
           - cover.office_curtain_switch
           - light.yellow_lamp
@@ -70,8 +70,8 @@ automation:
           - binary_sensor.doorbell
           - remote.living_room
           - remote.office
-          - remote.guest_room
-          - remote.secure_space
+          - remote.birds
+          - remote.riley
           - remote.bedroom
         to: 'unavailable'
         for:
@@ -96,15 +96,15 @@ automation:
           - light.office_bff_light_toggle
           - light.office_main
           - light.office_main_toggle
-          - light.guest_room_main
-          - light.guest_room_main_toggle
+          - light.birds_main
+          - light.birds_main_toggle
           - light.bathroom_heater
           - switch.water_boiler
           - light.bathroom_main
           - light.bathroom_laundry
-          - light.secure_space_main
-          - light.secure_space_main_toggle
-          - light.secure_space_scene_toggle
+          - light.riley_main
+          - light.riley_main_toggle
+          - light.riley_scene_toggle
           - light.bedroom_closet
           - light.bedroom_entrance
           - light.bedroom_entrance_toggle_left
@@ -125,18 +125,18 @@ automation:
           - binary_sensor.front_door
           - binary_sensor.front_door_lock
           - binary_sensor.bathroom_door
-          - sensor.secure_space_temperature
+          - sensor.riley_temperature
           - sensor.toilet_motion
           - binary_sensor.toilet_door
           - switch.subwoofer_smart_plug
           - cover.living_room_shutter_switch
-          - cover.guest_room_shutter_switch
+          - cover.birds_shutter_switch
           - cover.bedroom_shutter_switch
           - cover.living_room_curtain
           - binary_sensor.kitchen_window
           - binary_sensor.office_window
-          - binary_sensor.guest_room_window
-          - binary_sensor.secure_space_window
+          - binary_sensor.birds_window
+          - binary_sensor.riley_window
           - binary_sensor.bedroom_window
           - cover.office_curtain_switch
           - light.yellow_lamp
@@ -145,8 +145,8 @@ automation:
           - binary_sensor.doorbell
           - remote.living_room
           - remote.office
-          - remote.guest_room
-          - remote.secure_space
+          - remote.birds
+          - remote.riley
           - remote.bedroom
         from: 'unavailable'
         to: 'on'
@@ -172,15 +172,15 @@ automation:
           - light.office_bff_light_toggle
           - light.office_main
           - light.office_main_toggle
-          - light.guest_room_main
-          - light.guest_room_main_toggle
+          - light.birds_main
+          - light.birds_main_toggle
           - light.bathroom_heater
           - switch.water_boiler
           - light.bathroom_main
           - light.bathroom_laundry
-          - light.secure_space_main
-          - light.secure_space_main_toggle
-          - light.secure_space_scene_toggle
+          - light.riley_main
+          - light.riley_main_toggle
+          - light.riley_scene_toggle
           - light.bedroom_closet
           - light.bedroom_entrance
           - light.bedroom_entrance_toggle_left
@@ -201,18 +201,18 @@ automation:
           - binary_sensor.front_door
           - binary_sensor.front_door_lock
           - binary_sensor.bathroom_door
-          - sensor.secure_space_temperature
+          - sensor.riley_temperature
           - sensor.toilet_motion
           - binary_sensor.toilet_door
           - switch.subwoofer_smart_plug
           - cover.living_room_shutter_switch
-          - cover.guest_room_shutter_switch
+          - cover.birds_shutter_switch
           - cover.bedroom_shutter_switch
           - cover.living_room_curtain
           - binary_sensor.kitchen_window
           - binary_sensor.office_window
-          - binary_sensor.guest_room_window
-          - binary_sensor.secure_space_window
+          - binary_sensor.birds_window
+          - binary_sensor.riley_window
           - binary_sensor.bedroom_window
           - cover.office_curtain_switch
           - light.yellow_lamp
@@ -221,8 +221,8 @@ automation:
           - binary_sensor.doorbell
           - remote.living_room
           - remote.office
-          - remote.guest_room
-          - remote.secure_space
+          - remote.birds
+          - remote.riley
           - remote.bedroom
         from: 'unavailable'
         to: 'off'

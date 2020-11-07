@@ -2,10 +2,10 @@ automation:
   - alias: House humidity high
     trigger:
       - platform: numeric_state
-        entity_id: sensor.guest_room_humidity
+        entity_id: sensor.birds_humidity
         above: 70
       - platform: numeric_state
-        entity_id: sensor.secure_space_humidity
+        entity_id: sensor.riley_humidity
         above: 70
       - platform: numeric_state
         entity_id: sensor.bedroom_closet_humidity
@@ -24,10 +24,10 @@ automation:
         entity_id: sensor.living_room_temperature
         below: 19
       - platform: numeric_state
-        entity_id: sensor.guest_room_temperature
+        entity_id: sensor.birds_temperature
         below: 19
       - platform: numeric_state
-        entity_id: sensor.secure_space_temperature
+        entity_id: sensor.riley_temperature
         below: 19
       - platform: numeric_state
         entity_id: sensor.bedroom_temperature
@@ -44,10 +44,10 @@ automation:
         entity_id: sensor.living_room_temperature
         above: 29
       - platform: numeric_state
-        entity_id: sensor.guest_room_temperature
+        entity_id: sensor.birds_temperature
         above: 29
       - platform: numeric_state
-        entity_id: sensor.secure_space_temperature
+        entity_id: sensor.riley_temperature
         above: 29
       - platform: numeric_state
         entity_id: sensor.bedroom_temperature

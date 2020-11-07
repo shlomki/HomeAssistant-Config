@@ -47,8 +47,8 @@ input_select:
     options:
       - Living Room
       - Office
-      - Guest Room
-      - Secure Space
+      - Birds
+      - Riley
       - Bedroom
 
 fan:

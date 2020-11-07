@@ -1,6 +1,6 @@
 time_counter:
-  guest_room_shutter:
-    name: Guest Room Shutter Counter
+  birds_shutter:
+    name: Birds Shutter Counter
     down_duration: 18
     up_duration: 19
     debounce: 250
@@ -8,47 +8,47 @@ time_counter:
 sensor:
   - platform: template
     sensors:
-      guest_room_shutter_state:
+      birds_shutter_state:
         value_template: >
-          {% if states('cover.guest_room_shutter_switch') == 'open' and state_attr("cover.guest_room_shutter_switch", "current_position") == 100 %}
+          {% if states('cover.birds_shutter_switch') == 'open' and state_attr("cover.birds_shutter_switch", "current_position") == 100 %}
           closing
-          {% elif states('cover.guest_room_shutter_switch') == 'closed' and state_attr("cover.guest_room_shutter_switch", "current_position") == 50 %}
+          {% elif states('cover.birds_shutter_switch') == 'closed' and state_attr("cover.birds_shutter_switch", "current_position") == 50 %}
           stopped
-          {% elif states('cover.guest_room_shutter_switch') == 'closed' and state_attr("cover.guest_room_shutter_switch", "current_position") == 0 %}
+          {% elif states('cover.birds_shutter_switch') == 'closed' and state_attr("cover.birds_shutter_switch", "current_position") == 0 %}
           opening
           {% endif %}
 
 cover:
   - platform: template
     covers:
-      guest_room_shutter:
+      birds_shutter:
         device_class: shutter
-        friendly_name: "Guest Room Shutter"
-        position_template: "{{ states('time_counter.guest_room_shutter') | int }}"
-        availability_template: "{{ states('cover.guest_room_shutter_switch') != 'unavailable' }}"
+        friendly_name: "Birds Shutter"
+        position_template: "{{ states('time_counter.birds_shutter') | int }}"
+        availability_template: "{{ states('cover.birds_shutter_switch') != 'unavailable' }}"
         open_cover:
           service: cover.open_cover
-          entity_id: cover.guest_room_shutter_switch
+          entity_id: cover.birds_shutter_switch
         close_cover:
           service: cover.close_cover
-          entity_id: cover.guest_room_shutter_switch
+          entity_id: cover.birds_shutter_switch
         stop_cover:
           service: cover.stop_cover
-          entity_id: cover.guest_room_shutter_switch
+          entity_id: cover.birds_shutter_switch
         set_cover_position:
-          - service: "cover.{{ 'open_cover' if position > states('time_counter.guest_room_shutter')|int else 'close_cover' }}"
-            entity_id: cover.guest_room_shutter_switch
+          - service: "cover.{{ 'open_cover' if position > states('time_counter.birds_shutter')|int else 'close_cover' }}"
+            entity_id: cover.birds_shutter_switch
           - service: time_counter.set
             data:
-              entity_id: time_counter.guest_room_shutter
+              entity_id: time_counter.birds_shutter
               state: "{{ position }}"
         
 
 automation:
-  - alias: Guest Room Shutter Time Counter According To Sensor
+  - alias: Birds Shutter Time Counter According To Sensor
     trigger:
       - platform: state
-        entity_id: sensor.guest_room_shutter_state
+        entity_id: sensor.birds_shutter_state
     action:
       service: >
         {% if trigger.to_state.state == 'closing' %}
@@ -60,16 +60,16 @@ automation:
         {% endif %}
       data:
         entity_id:
-          - time_counter.guest_room_shutter
+          - time_counter.birds_shutter
 
-  - alias: Guest Room Shutter Time Counter Stopped
+  - alias: Birds Shutter Time Counter Stopped
     trigger:
       platform: event
       event_type: time_counter.stopped
       event_data:
-        entity_id: time_counter.guest_room_shutter
+        entity_id: time_counter.birds_shutter
     action:
       - service: cover.stop_cover
         data:
           entity_id:
-            - cover.guest_room_shutter_switch
+            - cover.birds_shutter_switch

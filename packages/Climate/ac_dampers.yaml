@@ -33,19 +33,19 @@ climate:
   temperature_sensor: sensor.office_temperature
 
 - platform: smartir
-  name: AC Damper Guest Room
-  unique_id: ac_damper_guest_room
+  name: AC Damper Birds
+  unique_id: ac_damper_birds
   device_code: 1343
-  controller_data: remote.guest_room
-  temperature_sensor: sensor.guest_room_temperature
-  humidity_sensor: sensor.guest_room_humidity
+  controller_data: remote.birds
+  temperature_sensor: sensor.birds_temperature
+  humidity_sensor: sensor.birds_humidity
 
 - platform: smartir
-  name: AC Damper Secure Space
-  unique_id: ac_damper_secure_space
+  name: AC Damper Riley
+  unique_id: ac_damper_riley
   device_code: 1343
-  controller_data: remote.secure_space
-  temperature_sensor: sensor.secure_space_temperature
+  controller_data: remote.riley
+  temperature_sensor: sensor.riley_temperature
 
 - platform: smartir
   name: AC Damper Bedroom
@@ -214,16 +214,16 @@ script:
 input_boolean:
   ac_damper_living_room:
   ac_damper_office:
-  ac_damper_guest_room:
-  ac_damper_secure_space:
+  ac_damper_birds:
+  ac_damper_riley:
   ac_damper_bedroom:
 
   ac_damper_oscillating:
 
   ac_damper_living_room_need_update:
   ac_damper_office_need_update:
-  ac_damper_guest_room_need_update:
-  ac_damper_secure_space_need_update:
+  ac_damper_birds_need_update:
+  ac_damper_riley_need_update:
   ac_damper_bedroom_need_update:
 
 group:
@@ -231,8 +231,8 @@ group:
     entities:
       - fan.ac_damper_living_room
       - fan.ac_damper_office
-      - fan.ac_damper_guest_room
-      - fan.ac_damper_secure_space
+      - fan.ac_damper_birds
+      - fan.ac_damper_riley
       - fan.ac_damper_bedroom
 
 input_select:
@@ -254,7 +254,7 @@ input_select:
       - Quick
       - SmartAuto
 
-  ac_damper_guest_room:
+  ac_damper_birds:
     options:
       - Low
       - Medium
@@ -263,7 +263,7 @@ input_select:
       - Quick
       - SmartAuto
 
-  ac_damper_secure_space:
+  ac_damper_riley:
     options:
       - Low
       - Medium
@@ -338,8 +338,8 @@ automation:
         entity_id: 
           - fan.ac_damper_living_room
           - fan.ac_damper_office
-          - fan.ac_damper_guest_room
-          - fan.ac_damper_secure_space
+          - fan.ac_damper_birds
+          - fan.ac_damper_riley
           - fan.ac_damper_bedroom
         attribute: 'speed'
         to: 'Quick'
@@ -433,8 +433,8 @@ automation:
           entity_id:
             - fan.ac_damper_living_room
             - fan.ac_damper_office
-            - fan.ac_damper_guest_room
-            - fan.ac_damper_secure_space
+            - fan.ac_damper_birds
+            - fan.ac_damper_riley
             - fan.ac_damper_bedroom
           to: 'on'
           for:
@@ -445,8 +445,8 @@ automation:
           entity_id:
             - input_select.ac_damper_living_room
             - input_select.ac_damper_office
-            - input_select.ac_damper_guest_room
-            - input_select.ac_damper_secure_space
+            - input_select.ac_damper_birds
+            - input_select.ac_damper_riley
             - input_select.ac_damper_bedroom
           to: 'Auto'
           for:
@@ -457,8 +457,8 @@ automation:
           entity_id:
             - input_boolean.ac_damper_living_room_need_update
             - input_boolean.ac_damper_office_need_update
-            - input_boolean.ac_damper_guest_room_need_update
-            - input_boolean.ac_damper_secure_space_need_update
+            - input_boolean.ac_damper_birds_need_update
+            - input_boolean.ac_damper_riley_need_update
             - input_boolean.ac_damper_bedroom_need_update
           to: 'off'
           for:
@@ -469,8 +469,8 @@ automation:
           entity_id: 
             - sensor.living_room_temperature
             - sensor.office_temperature
-            - sensor.guest_room_temperature
-            - sensor.secure_space_temperature
+            - sensor.birds_temperature
+            - sensor.riley_temperature
             - sensor.bedroom_temperature
 
     condition:
@@ -571,33 +571,33 @@ fan:
 
   - platform: template
     fans:
-      ac_damper_guest_room:
-        friendly_name: "Guest Room AC"
-        value_template: "{{ states('input_boolean.ac_damper_guest_room') }}"
-        speed_template: "{{ states('input_select.ac_damper_guest_room') }}"
+      ac_damper_birds:
+        friendly_name: "Birds AC"
+        value_template: "{{ states('input_boolean.ac_damper_birds') }}"
+        speed_template: "{{ states('input_select.ac_damper_birds') }}"
         oscillating_template: "{{ 'True' if (states('input_boolean.ac_damper_oscillating') == 'on') else 'False' }}"
-        availability_template: "{{ is_state('remote.guest_room', 'on') }}"
+        availability_template: "{{ is_state('remote.birds', 'on') }}"
         turn_on:
           service: python_script.ac_damper
           data:
-            room: guest_room
+            room: birds
             speed: "{{ speed }}"
             action: turn_on
         set_speed:
           service: python_script.ac_damper
           data:
-            room: guest_room
+            room: birds
             speed: "{{ speed }}"
             action: set_speed
         set_oscillating:
           service: python_script.ac_damper
           data:
-            room: guest_room
+            room: birds
             action: sync
         turn_off:
           - service: python_script.ac_damper
             data:
-              room: guest_room
+              room: birds
               action: turn_off
         speeds:
           - 'Low'
@@ -609,33 +609,33 @@ fan:
 
   - platform: template
     fans:
-      ac_damper_secure_space:
-        friendly_name: "Secure Space AC"
-        value_template: "{{ states('input_boolean.ac_damper_secure_space') }}"
-        speed_template: "{{ states('input_select.ac_damper_secure_space') }}"
+      ac_damper_riley:
+        friendly_name: "Riley AC"
+        value_template: "{{ states('input_boolean.ac_damper_riley') }}"
+        speed_template: "{{ states('input_select.ac_damper_riley') }}"
         oscillating_template: "{{ 'True' if (states('input_boolean.ac_damper_oscillating') == 'on') else 'False' }}"
-        availability_template: "{{ is_state('remote.secure_space', 'on') }}"
+        availability_template: "{{ is_state('remote.riley', 'on') }}"
         turn_on:
           service: python_script.ac_damper
           data:
-            room: secure_space
+            room: riley
             speed: "{{ speed }}"
             action: turn_on
         set_speed:
           service: python_script.ac_damper
           data:
-            room: secure_space
+            room: riley
             speed: "{{ speed }}"
             action: set_speed
         set_oscillating:
           service: python_script.ac_damper
           data:
-            room: secure_space
+            room: riley
             action: sync
         turn_off:
           - service: python_script.ac_damper
             data:
-              room: secure_space
+              room: riley
               action: turn_off
         speeds:
           - 'Low'

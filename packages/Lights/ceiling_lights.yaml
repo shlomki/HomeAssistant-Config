@@ -1,13 +1,13 @@
 input_boolean:
   living_room_script_running:
   office_script_running:
-  guest_room_script_running:
-  secure_space_script_running:
+  birds_script_running:
+  riley_script_running:
   
   living_room_color_fix:
   office_main_color_fix:
-  guest_room_main_color_fix:
-  secure_space_main_color_fix:
+  birds_main_color_fix:
+  riley_main_color_fix:
   
 input_number:
   living_room_light_level:
@@ -18,11 +18,11 @@ input_number:
     min: 0
     max: 18
     step: 1
-  guest_room_light_level:
+  birds_light_level:
     min: 0
     max: 18
     step: 1
-  secure_space_light_level:
+  riley_light_level:
     min: 0
     max: 18
     step: 1
@@ -107,40 +107,40 @@ light:
 
   - platform: template
     lights:
-      guest_room_main_combined:
-        friendly_name: "Guest Room Main Dimmable"
-        value_template: "{{ is_state('light.guest_room_main','on') }}"
-        level_template: "{{ (states.input_number.guest_room_light_level.state|int * 14.166)|round }}"
-        availability_template: "{{ not is_state('light.guest_room_main','unavailable') }}"
+      birds_main_combined:
+        friendly_name: "Birds Main Dimmable"
+        value_template: "{{ is_state('light.birds_main','on') }}"
+        level_template: "{{ (states.input_number.birds_light_level.state|int * 14.166)|round }}"
+        availability_template: "{{ not is_state('light.birds_main','unavailable') }}"
         turn_on:
           - service: homeassistant.turn_on
-            entity_id: light.guest_room_main
+            entity_id: light.birds_main
         turn_off:
           - service: homeassistant.turn_off
-            entity_id: light.guest_room_main
+            entity_id: light.birds_main
         set_level:
           - service: python_script.ceiling_light_set_level
             data:
-              room: guest_room
+              room: birds
               new_brightness_level: '{{ brightness }}'
 
   - platform: template
     lights:
-      secure_space_main_combined:
-        friendly_name: "Secure Space Main Dimmable"
-        value_template: "{{ is_state('light.secure_space_main','on') }}"
-        level_template: "{{ (states.input_number.secure_space_light_level.state|int * 14.166)|round }}"
-        availability_template: "{{ not is_state('light.secure_space_main','unavailable') }}"
+      riley_main_combined:
+        friendly_name: "Riley Main Dimmable"
+        value_template: "{{ is_state('light.riley_main','on') }}"
+        level_template: "{{ (states.input_number.riley_light_level.state|int * 14.166)|round }}"
+        availability_template: "{{ not is_state('light.riley_main','unavailable') }}"
         turn_on:
           - service: homeassistant.turn_on
-            entity_id: light.secure_space_main
+            entity_id: light.riley_main
         turn_off:
           - service: homeassistant.turn_off
-            entity_id: light.secure_space_main
+            entity_id: light.riley_main
         set_level:
           - service: python_script.ceiling_light_set_level
             data:
-              room: secure_space
+              room: riley
               new_brightness_level: '{{ brightness }}'
 
   - platform: template
@@ -317,65 +317,65 @@ automation:
       - service: input_boolean.turn_off
         entity_id: input_boolean.office_main_color_fix
 
-  - alias: Guest Room Light Color Fix Check
+  - alias: Birds Light Color Fix Check
     description: ''
     trigger:
       - platform: state
-        entity_id: light.guest_room_main
+        entity_id: light.birds_main
         to: 'off'
         for: '60'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.guest_room_main_color_fix
+        entity_id: input_boolean.birds_main_color_fix
 
-  - alias: Guest Room Light Color Fix
+  - alias: Birds Light Color Fix
     description: ''
     trigger:
       - platform: state
-        entity_id: light.guest_room_main
+        entity_id: light.birds_main
         from: 'off'
         to: 'on'
         for: '1'
     condition:
       condition: state
-      entity_id: input_boolean.guest_room_main_color_fix
+      entity_id: input_boolean.birds_main_color_fix
       state: 'on'
     action:
       - service: script.ceiling_light_color_change3
         data:
-          room: guest_room
+          room: birds
       - service: input_boolean.turn_off
-        entity_id: input_boolean.guest_room_main_color_fix
+        entity_id: input_boolean.birds_main_color_fix
 
-  - alias: Secure Space Light Color Fix Check
+  - alias: Riley Light Color Fix Check
     description: ''
     trigger:
       - platform: state
-        entity_id: light.secure_space_main
+        entity_id: light.riley_main
         to: 'off'
         for: '60'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.secure_space_main_color_fix
+        entity_id: input_boolean.riley_main_color_fix
 
-  - alias: Secure Space Light Color Fix
+  - alias: Riley Light Color Fix
     description: ''
     trigger:
       - platform: state
-        entity_id: light.secure_space_main
+        entity_id: light.riley_main
         from: 'off'
         to: 'on'
         for: '1'
     condition:
       condition: state
-      entity_id: input_boolean.secure_space_main_color_fix
+      entity_id: input_boolean.riley_main_color_fix
       state: 'on'
     action:
       - service: script.ceiling_light_color_change3
         data:
-          room: secure_space
+          room: riley
       - service: input_boolean.turn_off
-        entity_id: input_boolean.secure_space_main_color_fix
+        entity_id: input_boolean.riley_main_color_fix
 
   - alias: Ceiling Lights Set Full Brightness When Turning On
     description: ''
@@ -386,8 +386,8 @@ automation:
          - light.living_room_hallway
          - light.living_room_main
          - light.office_main
-         - light.guest_room_main
-         - light.secure_space_main
+         - light.birds_main
+         - light.riley_main
         from: 'off'
         to: 'on'
     action:
