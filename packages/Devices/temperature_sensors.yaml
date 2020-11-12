@@ -19,3 +19,10 @@ sensor:
         friendly_name: "Office Temperature (Living Room)"
         unit_of_measurement: '°C'
         value_template: '{{ states("sensor.living_room_temperature") }}'
+
+  - platform: template
+    sensors:
+      outside_temperature:
+        friendly_name: "Outside Temperature"
+        unit_of_measurement: '°C'
+        value_template: '{{ state_attr("binary_sensor.rain", "temperature") }}'

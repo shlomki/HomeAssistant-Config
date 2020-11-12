@@ -73,6 +73,7 @@ automation:
           - remote.birds
           - remote.riley
           - remote.bedroom
+          - binary_sensor.rain
         to: 'unavailable'
         for:
           seconds: 30
@@ -148,6 +149,7 @@ automation:
           - remote.birds
           - remote.riley
           - remote.bedroom
+          - binary_sensor.rain
         from: 'unavailable'
         to: 'on'
         for:
@@ -224,6 +226,7 @@ automation:
           - remote.birds
           - remote.riley
           - remote.bedroom
+          - binary_sensor.rain
         from: 'unavailable'
         to: 'off'
         for:

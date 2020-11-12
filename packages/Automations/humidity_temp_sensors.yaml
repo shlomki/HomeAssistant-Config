@@ -52,6 +52,11 @@ automation:
       - platform: numeric_state
         entity_id: sensor.bedroom_temperature
         above: 29
+    condition: #Ignore wrong updates from Broadlink
+      - condition: not
+        conditions:
+          - condition: template
+            value_template: "{{ states(trigger.to_state.entity_id) != 249.0 }}"
     action:
       - service: script.telegram_message_with_ac_buttons
         data:

@@ -1,0 +1,56 @@
+automation:
+  # - alias: Close shutters for open windows when raining
+  #   trigger:
+  #     - platform: state
+  #       entity_id: sensor.rain
+  #       from: 'off'
+  #       to: 'on'
+  #   condition:
+  #     - condition: state
+  #       entity_id: group.windows
+  #       state: 'on'
+  #   action:
+
+    - alias: Notify when raining
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.rain
+          from: 'off'
+          to: 'on'
+        - platform: state
+          entity_id: binary_sensor.rain
+          from: 'on'
+          to: 'off'
+      action:
+        - choose:
+          - conditions:
+              - condition: and
+                conditions:
+                  - condition: template
+                    value_template: "{{ trigger.to_state.state == 'on' }}"
+                  - condition: state
+                    entity_id: group.windows
+                    state: 'on'
+            sequence:
+              - service: notify.bffs
+                data:
+                  message: >
+                    It's raining! These windows are open: {%- for entity_id in states.group.windows.attributes.entity_id -%}
+                    {% set parts = entity_id.split('.') -%}
+                    {%- if states(entity_id) == 'on' %}
+                    {%- if loop.first %} {% elif loop.last %}, {% else %}, {% endif -%}{{ states[parts[0]][parts[1]].name | replace(" Window", "") }}{% endif -%}
+                    {%- endfor %}
+          - conditions:
+              - condition: template
+                value_template: "{{ trigger.to_state.state == 'on' }}"
+            sequence:
+              - service: notify.bffs
+                data:
+                  message: It's raining!
+          - conditions:
+              - condition: template
+                value_template: "{{ trigger.to_state.state == 'off' }}"
+            sequence:
+              - service: notify.bffs
+                data:
+                  message: It's not raining anymore!
