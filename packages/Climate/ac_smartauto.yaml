@@ -110,7 +110,7 @@ sensor:
     sensors:
       ac_smartauto:
         friendly_name: "AC SmartAuto Sensor"
-        unit_of_measurement: '°C'
+        unit_of_measurement: "°C"
         value_template: >
           {% if state_attr("fan.ac_damper_living_room", "speed") == "SmartAuto" and is_state("fan.ac_damper_living_room", "on") %}
             {{ states("sensor.living_room_temperature") }}
@@ -157,32 +157,32 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.ac_smartauto_min_cycle_passed
-        to: 'off'
+        to: "off"
         for:
           minutes: 10
 
       - platform: homeassistant
         event: start
-        
+
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.ac_smartauto_min_cycle_passed
 
   - alias: AC SmartAuto
     trigger:
-        #When temp changes
-        - platform: state
-          entity_id: sensor.ac_smartauto
+      #When temp changes
+      - platform: state
+        entity_id: sensor.ac_smartauto
 
-        #When min cycle time passed
-        - platform: state
-          entity_id: switch.ac_smartauto_min_cycle_passed
-          to: 'on'
+      #When min cycle time passed
+      - platform: state
+        entity_id: switch.ac_smartauto_min_cycle_passed
+        to: "on"
 
-        #When SmartAuto is turned on
-        - platform: state
-          entity_id: binary_sensor.ac_smartauto_enabled
-          to: 'on'
+      #When SmartAuto is turned on
+      - platform: state
+        entity_id: binary_sensor.ac_smartauto_enabled
+        to: "on"
 
     condition:
       condition: and
@@ -190,22 +190,22 @@ automation:
         #SmartAuto is on
         - condition: state
           entity_id: binary_sensor.ac_smartauto_enabled
-          state: 'on'
+          state: "on"
 
         #And when any damper is on
         - condition: state
           entity_id: group.dampers
-          state: 'on'
+          state: "on"
 
         #And when min cycle passed
         - condition: state
           entity_id: input_boolean.ac_smartauto_min_cycle_passed
-          state: 'on'
+          state: "on"
 
         #And when AC is set to fan, heat, cool, unknown
         # - condition: state
-        #   entity_id: climate.main_ac
-        #   state: 
+        #   entity_id: climate.mainac
+        #   state:
         #     - 'fan_only'
         #     - 'cool'
         #     - 'heat'
@@ -218,25 +218,24 @@ automation:
 
     action:
       - choose:
-        #When Temp is too damn high
-        - conditions:
-          - condition: template
-            value_template: "{{ states('sensor.' + states('sensor.ac_smartauto_location') + '_temperature') > states('input_number.ac_smartauto_max_' + states('sensor.ac_smartauto_location')) }}"
+          #When Temp is too damn high
+          - conditions:
+              - condition: template
+                value_template: "{{ states('sensor.' + states('sensor.ac_smartauto_location') + '_temperature') > states('input_number.ac_smartauto_max_' + states('sensor.ac_smartauto_location')) }}"
 
-          sequence:
-            - service: switch.{{ "turn_on" if states('input_text.last_ac_mode') == "cool" else "turn_off" }}
-              entity_id: switch.ac_smartauto
-            - service: input_boolean.turn_off
-              entity_id: input_boolean.ac_smartauto_min_cycle_passed
+            sequence:
+              - service: switch.{{ "turn_on" if states('input_text.last_ac_mode') == "cool" else "turn_off" }}
+                entity_id: switch.ac_smartauto
+              - service: input_boolean.turn_off
+                entity_id: input_boolean.ac_smartauto_min_cycle_passed
 
-        #When Temp is too low
-        - conditions:
-          - condition: template
-            value_template: "{{ states('sensor.' + states('sensor.ac_smartauto_location') + '_temperature') < states('input_number.ac_smartauto_min_' + states('sensor.ac_smartauto_location')) }}"
+          #When Temp is too low
+          - conditions:
+              - condition: template
+                value_template: "{{ states('sensor.' + states('sensor.ac_smartauto_location') + '_temperature') < states('input_number.ac_smartauto_min_' + states('sensor.ac_smartauto_location')) }}"
 
-          sequence:
-            - service: switch.{{ "turn_off" if states('input_text.last_ac_mode') == "cool" else "turn_on" }}
-              entity_id: switch.ac_smartauto
-            - service: input_boolean.turn_off
-              entity_id: input_boolean.ac_smartauto_min_cycle_passed
-
+            sequence:
+              - service: switch.{{ "turn_off" if states('input_text.last_ac_mode') == "cool" else "turn_on" }}
+                entity_id: switch.ac_smartauto
+              - service: input_boolean.turn_off
+                entity_id: input_boolean.ac_smartauto_min_cycle_passed

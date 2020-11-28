@@ -1,0 +1,75 @@
+time_counter:
+  kitchen_curtain:
+    name: Kitchen Curtain Counter
+    down_duration: 17
+    up_duration: 17.5
+    debounce: 1000
+
+sensor:
+  - platform: template
+    sensors:
+      kitchen_curtain_state:
+        value_template: >
+          {% if states('cover.kitchen_curtain_switch') == 'open' and state_attr("cover.kitchen_curtain_switch", "current_position") == 100 %}
+          closing
+          {% elif states('cover.kitchen_curtain_switch') == 'closed' and state_attr("cover.kitchen_curtain_switch", "current_position") == 50 %}
+          stopped
+          {% elif states('cover.kitchen_curtain_switch') == 'closed' and state_attr("cover.kitchen_curtain_switch", "current_position") == 0 %}
+          opening
+          {% endif %}
+
+cover:
+  - platform: template
+    covers:
+      kitchen_curtain:
+        device_class: curtain
+        friendly_name: "Kitchen Curtain"
+        position_template: "{{ states('time_counter.kitchen_curtain') | int }}"
+        availability_template: "{{ states('cover.kitchen_curtain_switch') != 'unavailable' }}"
+        open_cover:
+          service: cover.open_cover
+          entity_id: cover.kitchen_curtain_switch
+        close_cover:
+          service: cover.close_cover
+          entity_id: cover.kitchen_curtain_switch
+        stop_cover:
+          service: cover.stop_cover
+          entity_id: cover.kitchen_curtain_switch
+        set_cover_position:
+          - service: "cover.{{ 'open_cover' if position > states('time_counter.kitchen_curtain')|int else 'close_cover' }}"
+            entity_id: cover.kitchen_curtain_switch
+          - service: time_counter.set
+            data:
+              entity_id: time_counter.kitchen_curtain
+              state: "{{ position }}"
+        
+
+automation:
+  - alias: Kitchen Curtain Time Counter According To Sensor
+    trigger:
+      - platform: state
+        entity_id: sensor.kitchen_curtain_state
+    action:
+      service: >
+        {% if trigger.to_state.state == 'closing' %}
+          time_counter.downcount
+        {% elif trigger.to_state.state == 'opening' %}
+          time_counter.upcount
+        {% elif trigger.to_state.state == 'stopped' %}
+          time_counter.stop
+        {% endif %}
+      data:
+        entity_id:
+          - time_counter.kitchen_curtain
+
+  - alias: Kitchen Curtain Time Counter Stopped
+    trigger:
+      platform: event
+      event_type: time_counter.stopped
+      event_data:
+        entity_id: time_counter.kitchen_curtain
+    action:
+      - service: cover.stop_cover
+        data:
+          entity_id:
+            - cover.kitchen_curtain_switch

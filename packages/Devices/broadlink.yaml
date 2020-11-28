@@ -103,14 +103,23 @@ automation:
       platform: homeassistant
       event: start
     condition:
-      condition: state
-      entity_id: 
-        - remote.living_room
-        - remote.office
-        - remote.birds
-        - remote.riley
-        - remote.bedroom
-      state: 'off'
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: remote.living_room
+          state: 'off'
+        - condition: state
+          entity_id: remote.office
+          state: 'off'
+        - condition: state
+          entity_id: remote.birds
+          state: 'off'
+        - condition: state
+          entity_id: remote.riley
+          state: 'off'
+        - condition: state
+          entity_id: remote.bedroom
+          state: 'off'
     action:
       - service: remote.turn_on
         entity_id: 

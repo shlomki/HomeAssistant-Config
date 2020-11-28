@@ -24,6 +24,10 @@ light:
     name: Living Room TV Light
     entity_id: switch.living_room_tv_light
 
+  - platform: switch
+    name: Stairs
+    entity_id: switch.stairs
+
 
   - platform: switch
     name: Kitchen Counter

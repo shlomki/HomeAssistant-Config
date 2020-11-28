@@ -1,16 +1,15 @@
 automation:
-- alias: Turn off gate remotes after 3 seconds
+- alias: Intercom Turn off after 1 second
   mode: parallel
   trigger:
       - platform: state
         entity_id:
-          - switch.lower_gate
-          - switch.upper_gate
+          - switch.intercom
         from: 'off'
         to: 'on'
         for:
-          seconds: 3
+          seconds: 1
   action:
     - service: switch.turn_off
       data:
-        entity_id: '{{ trigger.to_state.entity_id }}'
+        entity_id: switch.intercom

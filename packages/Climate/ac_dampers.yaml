@@ -18,41 +18,41 @@
 #"temp_32": "JgBmAL8/EhITERMSEjYSNhISEzUTNRMREzUTEhISExETNRM1vkASEhISExISNhI2EhISNhI2ExETNRMSEhITERM1FDS/PxMREhITERM1EzYSEhM1EjYTERM1ExISEhMREzUTNQABAgANBQAA"
 
 climate:
-- platform: smartir
-  name: AC Damper Living Room
-  unique_id: ac_damper_living_room
-  device_code: 1343
-  controller_data: remote.living_room
-  temperature_sensor: sensor.living_room_temperature
+  - platform: smartir
+    name: AC Damper Living Room
+    unique_id: ac_damper_living_room
+    device_code: 1343
+    controller_data: remote.living_room
+    temperature_sensor: sensor.living_room_temperature
 
-- platform: smartir
-  name: AC Damper Office
-  unique_id: ac_damper_office
-  device_code: 1343
-  controller_data: remote.office
-  temperature_sensor: sensor.office_temperature
+  - platform: smartir
+    name: AC Damper Office
+    unique_id: ac_damper_office
+    device_code: 1343
+    controller_data: remote.office
+    temperature_sensor: sensor.office_temperature
 
-- platform: smartir
-  name: AC Damper Birds
-  unique_id: ac_damper_birds
-  device_code: 1343
-  controller_data: remote.birds
-  temperature_sensor: sensor.birds_temperature
-  humidity_sensor: sensor.birds_humidity
+  - platform: smartir
+    name: AC Damper Birds
+    unique_id: ac_damper_birds
+    device_code: 1343
+    controller_data: remote.birds
+    temperature_sensor: sensor.birds_temperature
+    humidity_sensor: sensor.birds_humidity
 
-- platform: smartir
-  name: AC Damper Riley
-  unique_id: ac_damper_riley
-  device_code: 1343
-  controller_data: remote.riley
-  temperature_sensor: sensor.riley_temperature
+  - platform: smartir
+    name: AC Damper Riley
+    unique_id: ac_damper_riley
+    device_code: 1343
+    controller_data: remote.riley
+    temperature_sensor: sensor.riley_temperature
 
-- platform: smartir
-  name: AC Damper Bedroom
-  unique_id: ac_damper_bedroom
-  device_code: 1343
-  controller_data: remote.bedroom
-  temperature_sensor: sensor.bedroom_temperature
+  - platform: smartir
+    name: AC Damper Bedroom
+    unique_id: ac_damper_bedroom
+    device_code: 1343
+    controller_data: remote.bedroom
+    temperature_sensor: sensor.bedroom_temperature
 
 input_text:
   last_ac_mode:
@@ -85,9 +85,9 @@ script:
           sequence:
             - service: python_script.broadlink_send
               data:
-                room: '{{ room }}'
-                packet: 'JgBcAb89ExISEhISEhITNBM1EzUTNRMSEhISEhI1ExISNRMSEjUTEhI1EzUTNRMSEjUTEhISEjUTNRM1ExISNRMSEhISNRM1EzUTNBQ0FDQTNRM1EzUTNRM0FDQTNRM1EzUTNRM0FBETNBQRExETEhISEjUTEr88FBETEhISEhITNBM1EzUTNRMRExISEhI1ExISNRMSEzQTEhM0EzUTNRMSEjUTEhISEjUTNRM1ExETNRMRExISNRM1EzQUNBQ0EzUTNRM1EzQUNBQ0EzUTNRM0FDQUNBM1ExISNRMSEhISEhISEzQUEcA8FBESEhMRExETNBQ0FDQTNRMSEhITERM0FBETNBQREzQUERM0FDQTNRMSEjUTEhISEjUTNRM1ExISNRMSEhISNRM1EzUTNBQ0FDQTNRM1EzUTNBQ0FDQTNRM1EzUTNBQ0ExISNRQREhITERMSEjUTEgABAAANBQAAAAAAAAAAAAAAAA=='
-            - delay: '00:00:01.500'
+                room: "{{ room }}"
+                packet: "JgBcAb89ExISEhISEhITNBM1EzUTNRMSEhISEhI1ExISNRMSEjUTEhI1EzUTNRMSEjUTEhISEjUTNRM1ExISNRMSEhISNRM1EzUTNBQ0FDQTNRM1EzUTNRM0FDQTNRM1EzUTNRM0FBETNBQRExETEhISEjUTEr88FBETEhISEhITNBM1EzUTNRMRExISEhI1ExISNRMSEzQTEhM0EzUTNRMSEjUTEhISEjUTNRM1ExETNRMRExISNRM1EzQUNBQ0EzUTNRM1EzQUNBQ0EzUTNRM0FDQUNBM1ExISNRMSEhISEhISEzQUEcA8FBESEhMRExETNBQ0FDQTNRMSEhITERM0FBETNBQREzQUERM0FDQTNRMSEjUTEhISEjUTNRM1ExISNRMSEhISNRM1EzUTNBQ0FDQTNRM1EzUTNBQ0FDQTNRM1EzUTNBQ0ExISNRQREhITERMSEjUTEgABAAANBQAAAAAAAAAAAAAAAA=="
+            - delay: "00:00:01.500"
   ac_damper_high_heat:
     alias: AC Damper High Heat
     mode: parallel
@@ -97,9 +97,9 @@ script:
           sequence:
             - service: python_script.broadlink_send
               data:
-                room: '{{ room }}'
-                packet: 'JgBcAb4/ExIPFRAUEDgSEhAVDzgTNRMSEBQQFBA4EjYSEhAVDzgTEhA3EzUTEhAUEBUPFRAUEDgRNxA4EhIQFQ8VEBQQOBE3ETYSNhM1EjYTNRM1EzUSNhM1EjYSNhA4EjYTNRI2ExIPOBITEBQQFQ8VDzgSE74+EhMQFBAVDzgTEg8VEDcSNhITEBQQFQ84EjYTEhETEDgRExE3EDgRExETEhMRExETEDgQOBA4ERQPFQ8VEBQSNhE3ETcRNxE3ETYSNhI2EjYSNxI1EjYSNhI2EjYSNhI2EhMRNhISERQSEhAVDzgSE74+EhISExETEjYQFRETDzgRNxITERMRExE3ETcRFA8VDzgSExE2EjYSExETEhMRExETEjYRNhI2EhMSEw8VERMQNxI2EjcRNhI2EjYSNhI2EjYSNhI2EjYSNhI2ETcSNhI2ERMQOBITERMRExAVETYQFQABAAANBQAAAAAAAAAAAAAAAA=='
-            - delay: '00:00:01.500'
+                room: "{{ room }}"
+                packet: "JgBcAb4/ExIPFRAUEDgSEhAVDzgTNRMSEBQQFBA4EjYSEhAVDzgTEhA3EzUTEhAUEBUPFRAUEDgRNxA4EhIQFQ8VEBQQOBE3ETYSNhM1EjYTNRM1EzUSNhM1EjYSNhA4EjYTNRI2ExIPOBITEBQQFQ8VDzgSE74+EhMQFBAVDzgTEg8VEDcSNhITEBQQFQ84EjYTEhETEDgRExE3EDgRExETEhMRExETEDgQOBA4ERQPFQ8VEBQSNhE3ETcRNxE3ETYSNhI2EjYSNxI1EjYSNhI2EjYSNhI2EhMRNhISERQSEhAVDzgSE74+EhISExETEjYQFRETDzgRNxITERMRExE3ETcRFA8VDzgSExE2EjYSExETEhMRExETEjYRNhI2EhMSEw8VERMQNxI2EjcRNhI2EjYSNhI2EjYSNhI2EjYSNhI2ETcSNhI2ERMQOBITERMRExAVETYQFQABAAANBQAAAAAAAAAAAAAAAA=="
+            - delay: "00:00:01.500"
   ac_damper_medium_heat:
     alias: AC Damper Medium Heat
     mode: parallel
@@ -109,9 +109,9 @@ script:
           sequence:
             - service: python_script.broadlink_send
               data:
-                room: '{{ room }}'
-                packet: 'JgBaAb0/FBEQFBAUEDgUEQ8VEDcUNBMSEBQQFBA4FDQTEg8VEDcUERA4ExEQOBMSDxQQFRAUEDgUNBM1ExEQFQ8UEBUQOBQ0EDcUNBE3EDgUNBM1FDQTNRM1EzUTNRM1EzUQOBA4FBAQOBMSDxUQFBAUEDgUEcA8FBEPFBAVEDcUERAUEDgUNBAVDxUPFRA4EDcRFBAUEDgUEQ84EBQQOBQRDxUQFBAUEDgUNBQ0ExIPFBEUEBQQOBQ0EzUTNRQ0EzUTNBQ0FDQUNBQ0EzUTNRM1FDQTNRM1EBUPOBQREBQQFBAUEDgQFME8FBEPFBEUEDgQFBAUEDgTNRMSDxUQFBA4EzQUERAVDzgUEBA4ExIQNxQREBQQFBAUEDgUNBM1ExIPFRAUEBQQOBQ0EzUTNRM1EzUQNxE3FDQQOBA4EzUTNRQ0EzUTNRM1ExEQOBQREBQQFBAUEDgUEf0ADQUAAAAAAAAAAAAAAAAAAA=='
-            - delay: '00:00:01.500'
+                room: "{{ room }}"
+                packet: "JgBaAb0/FBEQFBAUEDgUEQ8VEDcUNBMSEBQQFBA4FDQTEg8VEDcUERA4ExEQOBMSDxQQFRAUEDgUNBM1ExEQFQ8UEBUQOBQ0EDcUNBE3EDgUNBM1FDQTNRM1EzUTNRM1EzUQOBA4FBAQOBMSDxUQFBAUEDgUEcA8FBEPFBAVEDcUERAUEDgUNBAVDxUPFRA4EDcRFBAUEDgUEQ84EBQQOBQRDxUQFBAUEDgUNBQ0ExIPFBEUEBQQOBQ0EzUTNRQ0EzUTNBQ0FDQUNBQ0EzUTNRM1FDQTNRM1EBUPOBQREBQQFBAUEDgQFME8FBEPFBEUEDgQFBAUEDgTNRMSDxUQFBA4EzQUERAVDzgUEBA4ExIQNxQREBQQFBAUEDgUNBM1ExIPFRAUEBQQOBQ0EzUTNRM1EzUQNxE3FDQQOBA4EzUTNRQ0EzUTNRM1ExEQOBQREBQQFBAUEDgUEf0ADQUAAAAAAAAAAAAAAAAAAA=="
+            - delay: "00:00:01.500"
   ac_damper_low_heat:
     alias: AC Damper Low Heat
     mode: parallel
@@ -121,9 +121,9 @@ script:
           sequence:
             - service: python_script.broadlink_send
               data:
-                room: '{{ room }}'
-                packet: 'JgBaAcE8ExIQFBAUEDgTEg8VDzgTNRMSEBQQFBA4EDgTEg8VEDcTEhA3FBEQFQ8VDxUQFBAUEDgTNRM1EhMPFRAUEBQQFQ84EzUTNRM1EzUTNRE3EzUTNRM1EDgTNRM1EDgTNRM1ExEQOBMSDxUPFRAUEDgTEcA9EBQQFQ8VEDcTEhAUEDgQOBMSDxUPFBE3EzUTEhAUEDgTEg84ExIPFRAUEBUPFQ8VEDcTNRQ1EhIQFBAVDxQQFRA4EzUTNBQ0FDQUNBQ0EzUTNRM1EzUTNRM1EzUTNRM1EBUPOBQREBQQFBAVDzgTEsA8ExIPFRAUEDgUEQ8VDzgTNRQREBQQFBA4EzUTEg8UEDgQFBE3FBEQFBAUEBUQFBAUEDgQOBQ0ExIPFBAUERQQFBA4EzUQOBM1EzUTNRM1EzUTNRM0FDQUNBQ0FDQTNRM1ExIQNxQREBQQFBAUETcUEf4ADQUAAAAAAAAAAAAAAAAAAA=='
-            - delay: '00:00:01.500'
+                room: "{{ room }}"
+                packet: "JgBaAcE8ExIQFBAUEDgTEg8VDzgTNRMSEBQQFBA4EDgTEg8VEDcTEhA3FBEQFQ8VDxUQFBAUEDgTNRM1EhMPFRAUEBQQFQ84EzUTNRM1EzUTNRE3EzUTNRM1EDgTNRM1EDgTNRM1ExEQOBMSDxUPFRAUEDgTEcA9EBQQFQ8VEDcTEhAUEDgQOBMSDxUPFBE3EzUTEhAUEDgTEg84ExIPFRAUEBUPFQ8VEDcTNRQ1EhIQFBAVDxQQFRA4EzUTNBQ0FDQUNBQ0EzUTNRM1EzUTNRM1EzUTNRM1EBUPOBQREBQQFBAVDzgTEsA8ExIPFRAUEDgUEQ8VDzgTNRQREBQQFBA4EzUTEg8UEDgQFBE3FBEQFBAUEBUQFBAUEDgQOBQ0ExIPFBAUERQQFBA4EzUQOBM1EzUTNRM1EzUTNRM0FDQUNBQ0FDQTNRM1ExIQNxQREBQQFBAUETcUEf4ADQUAAAAAAAAAAAAAAAAAAA=="
+            - delay: "00:00:01.500"
 
   ac_damper_auto_cool:
     alias: AC Damper Auto Cool
@@ -137,10 +137,10 @@ script:
       #           room: '{{ room }}'
       #           #Unknown
       #           #packet: 'JgBcAb4/EBQRFBISEzUQFBA4EjYTNRAUERMRFBA4EBQTEREUEjURFBI2EDgTNRAUExISERE3ETcRNxE3ETcRFBISEDgQFBE3EDgQOBA4EDgQOBA4EDgQOBA4EDgQOBA4EDgQOBA4EhIQOBAUERMRNxEUEDgQFL4/EBQQFBETETcRFBA4EDgQOBAUEBQRExE3ERQQFBAUETcRExE3EzURNxEUEBQQFBE3EDgQOBA4EDgQFBEUEDcRFBA4EDgQOBM1EDgTNRA4EDcRNxE3ETcRNxE3ETcRNxE3ERQQNxEUEhIQOBAUETcTEr89ERQQFBAUETcRExE3ETcRNxEUEBQQFBA4EBQRFBAUEDgSEw84EDgQOBAUERMRFBA4EDgQOBA4EDgQFBAUETcSEhE3ETcRNxE3ETcRNxE3ETcSNhE3EDgQOBA4EDgQOBA4EBQRNxETERQSNhAUEDgQFAABAAANBQAAAAAAAAAAAAAAAA=='
-                
+
       #           #25 degrees, auto fan. Taken at 29 degrees.
       #           packet: 'JgBcAcA9ExISEhISEzUTNRMSEhITEhISEhITERM1ExISNhMSEhETEhI2EjYTNRMSEhISEhM1EzUTNRM1EzUUNBQ1ExISNRM1EzUTNRM1FDUTNRM1EzUTNRM1EzUTNRM1FDQUNRM1ExISNRMSEhISNhMSEjUTEsA9ExISERMSEjYSNhMSEhISEhISExETEhI2ExISNRMSEhISEhM1EzUTNRQREhMSERM1FDQUNRI2EzUTNRM1ExISNhM1EzUTNRM1EzUTNRM1EzUTNRM1FDQUNRM1EzUTNRM1ExISNRQREhMSNRMSEjYTEsA8ExISEhISEzUTNRMSEhISExIRExISExI1ExISNRMSEhMSERM1FDUSNhMSEhETEhI2EzUSNhM1EzUTNRM1ExISNhM1EzUTNRM1EzUTNRM1EzUUNBQ1EzUTNRM1EzUTNRM1ExISNhISEhITNRMSEjYSEwABAAANBQAAAAAAAAAAAAAAAA=='
-                
+
       #           #26 degrees, auto fan. Taken at 30 degrees.
       #           #packet: 'JgBcAcA9ExISEhISEjYSNhMSEhISNhMSEhISEhI2ExISNRMSEjUUERI2EzUTNRMSEhISNhMSEhISEhITEhISNRQREhMSEhI1FDQTNhM1EzUTNRM1EzUSNhM1EzUTNRM1EzUUNRM1ExISNRMRExISNhMSEjUTEsA8FBESExISEjUUNRMREhMSNRMSEhISExI1ExISNhITEjUTEhI1FDQUNRMSERMSNRMSEhISExISEhISNhMSEhISEhI2EzUTNRM1EzUTNRM1EzUUNRM1EzUTNRM1EjYTNRM1ExISNhMREhMSNRMSEjYTEsA8ExISEhITEjUTNRMSEhISNhMSEhISEhI2ExISNRMSEjYTEhI1EzUTNRMSEhISNhMSEhISEhITEhETNRQREhMSEhI1FDUTNRM1EzUTNRM1EzUTNRM1EzUTNRM1FDUTNRM1ExISNRMSEhISNhMSEjUTEgABAAANBQAAAAAAAAAAAAAAAA=='
       #       - delay: '00:00:01.500'
@@ -148,7 +148,7 @@ script:
         data:
           entity_id: "climate.ac_damper_{{room}}"
           fan_mode: Auto
-      - delay: '00:00:01.500'
+      - delay: "00:00:01.500"
       - service: climate.set_temperature
         data:
           entity_id: "climate.ac_damper_{{room}}"
@@ -162,9 +162,9 @@ script:
           sequence:
             - service: python_script.broadlink_send
               data:
-                room: '{{ room }}'
-                packet: 'JgBaAb1AExEQFQ8VEDcUERAUEDgUNBAUEBQQFRAUEDgTEg84EzUTEg84FDQTEhAUEBQQFBAVEDcUNBMSEDgTNBQREDgQFBA4EzUTNRM1EDgTNRM1EzUTNRM1EzUTNRM1EzQRNxQ1EBQQOBQQEBUPOBQREDcTEsA8ExIQFBAVDzgUEQ8VEDcUNBQREBQQFQ8VEDgQFBA4EzUTERA4EzUTEg8VDxQRFBAUEDgTNRMSDzgTNRAVDzgTEhA3FDQTNRM1EzUTNRM1EDgTNRM1EzUTNRM1EzUTNRM1ExIPOBAUEBQRNxQREDgTEcA8FBEQFQ8VDzgTEhAUEDgTNRMREBUPFQ8VEDcUERA4EzUTERA4EzUTEg8VDxUQFBAVDzgTNRMSDzgTNRMSDzgTEhA3FDQUNBQ0EzUQOBA4EzUTNRM1EzUTNRM1EzUTNRA4ERQPOBMSDxUQNxQREDgTEf4ADQUAAAAAAAAAAAAAAAAAAA=='
-            - delay: '00:00:01.500'
+                room: "{{ room }}"
+                packet: "JgBaAb1AExEQFQ8VEDcUERAUEDgUNBAUEBQQFRAUEDgTEg84EzUTEg84FDQTEhAUEBQQFBAVEDcUNBMSEDgTNBQREDgQFBA4EzUTNRM1EDgTNRM1EzUTNRM1EzUTNRM1EzQRNxQ1EBQQOBQQEBUPOBQREDcTEsA8ExIQFBAVDzgUEQ8VEDcUNBQREBQQFQ8VEDgQFBA4EzUTERA4EzUTEg8VDxQRFBAUEDgTNRMSDzgTNRAVDzgTEhA3FDQTNRM1EzUTNRM1EDgTNRM1EzUTNRM1EzUTNRM1ExIPOBAUEBQRNxQREDgTEcA8FBEQFQ8VDzgTEhAUEDgTNRMREBUPFQ8VEDcUERA4EzUTERA4EzUTEg8VDxUQFBAVDzgTNRMSDzgTNRMSDzgTEhA3FDQUNBQ0EzUQOBA4EzUTNRM1EzUTNRM1EzUTNRA4ERQPOBMSDxUQNxQREDgTEf4ADQUAAAAAAAAAAAAAAAAAAA=="
+            - delay: "00:00:01.500"
   ac_damper_medium_cool:
     alias: AC Damper Medium Cool
     mode: parallel
@@ -174,9 +174,9 @@ script:
           sequence:
             - service: python_script.broadlink_send
               data:
-                room: '{{ room }}'
-                packet: 'JgBaAb0/FBEQFBAUEDgQFQ8VEDgUMxQREBQQFBAVEDcSExA4EzUTERA4FBEPOBQRDxUQFBAUEDgQOBMSDzgTNRMSEDcUERA4EzUTNRM1EzUUMxQ1EDcUNBQ0FDQTNRM1FDQUNBM1ExIQNxQREBQQOBQRDzgQFcA8ExIPFRAUEDgTEg8UEDgTNRAUERQQFBAUEDgUEQ84EzUUERA3FBEQOBQQEBQQFBAVEDcUNBQREDgUNBAUEDgUEQ84FDQUNBM1EzUTNRA4FDQTNRM1EzUQOBM1ETcTNRM0FBEQOBAUEBQQOBQREDcRFMA8FBEQFBAVDzgUEQ8VEDcRNxQREBQQFBAUEDgUERA3FDQUERA4FBAQOBQRDxUPFRAUEDgQOBQQEDgTNRMSDzgQFQ84EzUTNRM1EzUTNRM1EzUTNRQ0EDgTNRI2EzUTNBQ0FBEQOBMREBUPOBQRDzgUEf4ADQUAAAAAAAAAAAAAAAAAAA=='
-            - delay: '00:00:01.500'
+                room: "{{ room }}"
+                packet: "JgBaAb0/FBEQFBAUEDgQFQ8VEDgUMxQREBQQFBAVEDcSExA4EzUTERA4FBEPOBQRDxUQFBAUEDgQOBMSDzgTNRMSEDcUERA4EzUTNRM1EzUUMxQ1EDcUNBQ0FDQTNRM1FDQUNBM1ExIQNxQREBQQOBQRDzgQFcA8ExIPFRAUEDgTEg8UEDgTNRAUERQQFBAUEDgUEQ84EzUUERA3FBEQOBQQEBQQFBAVEDcUNBQREDgUNBAUEDgUEQ84FDQUNBM1EzUTNRA4FDQTNRM1EzUQOBM1ETcTNRM0FBEQOBAUEBQQOBQREDcRFMA8FBEQFBAVDzgUEQ8VEDcRNxQREBQQFBAUEDgUERA3FDQUERA4FBAQOBQRDxUPFRAUEDgQOBQQEDgTNRMSDzgQFQ84EzUTNRM1EzUTNRM1EzUTNRQ0EDgTNRI2EzUTNBQ0FBEQOBMREBUPOBQRDzgUEf4ADQUAAAAAAAAAAAAAAAAAAA=="
+            - delay: "00:00:01.500"
   ac_damper_low_cool:
     alias: AC Damper Low Cool
     mode: parallel
@@ -186,9 +186,9 @@ script:
           sequence:
             - service: python_script.broadlink_send
               data:
-                room: '{{ room }}'
-                packet: 'JgBaAb4/FBEPFBITETcUEBAUEDgUNBMSDxUQFBETEDgUEQ84FDQTEg84FBEQFBAUEBQQFRAUEDgRNxQRDzgUNBMREDgUNBM1EzUTNRM1EzUTNRM1EDgUNBM1EzUTNRM1EzUTNRM0FBERNxQRDxQRNxMSEDcUEcA8ERQQFBAUEDgUEQ8VEDcVMxQREBQQFBAVEDcUERA4EzURExA4EBQQFBAVEBQQFBAUETcUNBQREDcRNxMSEDgUMxQ1EzQRNxQ0EzUQOBQ0EzUQOBQ0EzUUNBM1FDQTNRM1ExIPOBQREBQQNxQREDgTEcE7FBEQFBAUEDgUERAUEDgUNBAUEBQQFBEUEDgUEBA4EDgQFBA4EBQQFBEUEBQQFBAUETcUNBAVEDgUNBMREDgTNRM1EzUTNRM0FDQUNBQ0FDQUNBQ0FDQTNRQ0EzUTNRM1ExIPOBQREBQQOBQRDzgTEv0ADQUAAAAAAAAAAAAAAAAAAA=='
-            - delay: '00:00:01.500'
+                room: "{{ room }}"
+                packet: "JgBaAb4/FBEPFBITETcUEBAUEDgUNBMSDxUQFBETEDgUEQ84FDQTEg84FBEQFBAUEBQQFRAUEDgRNxQRDzgUNBMREDgUNBM1EzUTNRM1EzUTNRM1EDgUNBM1EzUTNRM1EzUTNRM0FBERNxQRDxQRNxMSEDcUEcA8ERQQFBAUEDgUEQ8VEDcVMxQREBQQFBAVEDcUERA4EzURExA4EBQQFBAVEBQQFBAUETcUNBQREDcRNxMSEDgUMxQ1EzQRNxQ0EzUQOBQ0EzUQOBQ0EzUUNBM1FDQTNRM1ExIPOBQREBQQNxQREDgTEcE7FBEQFBAUEDgUERAUEDgUNBAUEBQQFBEUEDgUEBA4EDgQFBA4EBQQFBEUEBQQFBAUETcUNBAVEDgUNBMREDgTNRM1EzUTNRM0FDQUNBQ0FDQUNBQ0FDQTNRQ0EzUTNRM1ExIPOBQREBQQOBQRDzgTEv0ADQUAAAAAAAAAAAAAAAAAAA=="
+            - delay: "00:00:01.500"
   ac_damper_off:
     alias: AC Damper Off
     mode: parallel
@@ -198,10 +198,10 @@ script:
           sequence:
             - service: python_script.broadlink_send
               data:
-                room: '{{ room }}'
-        #         packet: 'JgJaAb1AFBAQFBAUEDgUERAUEDgTEg8UEBQRFBA4EDgUEBAUEDgUEQ8VEDcUERAUEBQQOBQREBQQOBQQEBUPFBEUEDgQOBM1EDcUNBE3FDQUNBA4FDQUNBM1EzUQOBA4EzUUNBM1ExIPOBQRDxUQFBAUEDgUEcA8FBEPFBEUEDgUEBAUEDgUEBEUEBQQFBA4FDQTEg8VEDcUERAUEDgUEQ8UEBUQNxQREBQQOBQRDxQQFRAUEDgUNBQ0EzUTNRM1FDMUNBE3FDQTNRQ0FDQTNRM1EzUTNRM1ExIPOBQREBQQFBAUEDgUEcE7ExERFBAUEDgUEQ8UEDgUERAUEBQQFBA4FDQQFRAUEDgUEBAVDzgTEg8VEBQQOBQQEBQQOBQRDxUQFBAUEDgUNBA4FDQTNRM1EzUTNRM1EzUQOBM1EzQUNBQ0FDQUNBM1FBEQNxEUEBQQFBAUETcUEf4ADQUAAAAAAAAAAAAAAAAAAA=='
-                packet: 'JgBaAb1AFBAQFBAUEDgUERAUEDgTEg8UEBQRFBA4EDgUEBAUEDgUEQ8VEDcUERAUEBQQOBQREBQQOBQQEBUPFBEUEDgQOBM1EDcUNBE3FDQUNBA4FDQUNBM1EzUQOBA4EzUUNBM1ExIPOBQRDxUQFBAUEDgUEcA8FBEPFBEUEDgUEBAUEDgUEBEUEBQQFBA4FDQTEg8VEDcUERAUEDgUEQ8UEBUQNxQREBQQOBQRDxQQFRAUEDgUNBQ0EzUTNRM1FDMUNBE3FDQTNRQ0FDQTNRM1EzUTNRM1ExIPOBQREBQQFBAUEDgUEcE7ExERFBAUEDgUEQ8UEDgUERAUEBQQFBA4FDQQFRAUEDgUEBAVDzgTEg8VEBQQOBQQEBQQOBQRDxUQFBAUEDgUNBA4FDQTNRM1EzUTNRM1EzUQOBM1EzQUNBQ0FDQUNBM1FBEQNxEUEBQQFBAUETcUEf4ADQUAAAAAAAAAAAAAAAAAAA=='
-            - delay: '00:00:01.500'
+                room: "{{ room }}"
+                #         packet: 'JgJaAb1AFBAQFBAUEDgUERAUEDgTEg8UEBQRFBA4EDgUEBAUEDgUEQ8VEDcUERAUEBQQOBQREBQQOBQQEBUPFBEUEDgQOBM1EDcUNBE3FDQUNBA4FDQUNBM1EzUQOBA4EzUUNBM1ExIPOBQRDxUQFBAUEDgUEcA8FBEPFBEUEDgUEBAUEDgUEBEUEBQQFBA4FDQTEg8VEDcUERAUEDgUEQ8UEBUQNxQREBQQOBQRDxQQFRAUEDgUNBQ0EzUTNRM1FDMUNBE3FDQTNRQ0FDQTNRM1EzUTNRM1ExIPOBQREBQQFBAUEDgUEcE7ExERFBAUEDgUEQ8UEDgUERAUEBQQFBA4FDQQFRAUEDgUEBAVDzgTEg8VEBQQOBQQEBQQOBQRDxUQFBAUEDgUNBA4FDQTNRM1EzUTNRM1EzUQOBM1EzQUNBQ0FDQUNBM1FBEQNxEUEBQQFBAUETcUEf4ADQUAAAAAAAAAAAAAAAAAAA=='
+                packet: "JgBaAb1AFBAQFBAUEDgUERAUEDgTEg8UEBQRFBA4EDgUEBAUEDgUEQ8VEDcUERAUEBQQOBQREBQQOBQQEBUPFBEUEDgQOBM1EDcUNBE3FDQUNBA4FDQUNBM1EzUQOBA4EzUUNBM1ExIPOBQRDxUQFBAUEDgUEcA8FBEPFBEUEDgUEBAUEDgUEBEUEBQQFBA4FDQTEg8VEDcUERAUEDgUEQ8UEBUQNxQREBQQOBQRDxQQFRAUEDgUNBQ0EzUTNRM1FDMUNBE3FDQTNRQ0FDQTNRM1EzUTNRM1ExIPOBQREBQQFBAUEDgUEcE7ExERFBAUEDgUEQ8UEDgUERAUEBQQFBA4FDQQFRAUEDgUEBAVDzgTEg8VEBQQOBQQEBQQOBQRDxUQFBAUEDgUNBA4FDQTNRM1EzUTNRM1EzUQOBM1EzQUNBQ0FDQUNBM1FBEQNxEUEBQQFBAUETcUEf4ADQUAAAAAAAAAAAAAAAAAAA=="
+            - delay: "00:00:01.500"
 
   # ac_main_off:
   #   mode: parallel
@@ -286,7 +286,7 @@ automation:
     trigger:
       platform: state
       entity_id: group.dampers
-      to: 'off'
+      to: "off"
       for:
         seconds: 10
     action:
@@ -296,7 +296,7 @@ automation:
   - alias: Save last ac mode
     trigger:
       - platform: state
-        entity_id: climate.main_ac
+        entity_id: climate.mainac
       - platform: state
         entity_id: climate.manual_ac
     condition:
@@ -306,14 +306,14 @@ automation:
       - service: input_text.set_value
         entity_id: input_text.last_ac_mode
         data:
-          value: '{{ trigger.to_state.state }}'
+          value: "{{ trigger.to_state.state }}"
 
   - alias: Reset oscillating
     trigger:
       platform: state
       entity_id: input_boolean.ac_damper_oscillating
-      from: 'off'
-      to: 'on'
+      from: "off"
+      to: "on"
       for:
         seconds: 1
     action:
@@ -335,14 +335,14 @@ automation:
     mode: parallel
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - fan.ac_damper_living_room
           - fan.ac_damper_office
           - fan.ac_damper_birds
           - fan.ac_damper_riley
           - fan.ac_damper_bedroom
-        attribute: 'speed'
-        to: 'Quick'
+        attribute: "speed"
+        to: "Quick"
         for:
           minutes: "{{ states('input_number.ac_damper_quick_to_medium')|int }}"
     variables:
@@ -360,62 +360,61 @@ automation:
         value_template: "{{ state_attr(trigger.to_state.entity_id, 'speed') == 'Quick' }}"
       - service: fan.set_speed
         data:
-          entity_id: 'fan.ac_damper_{{room}}'
-          speed: 'Low'
+          entity_id: "fan.ac_damper_{{room}}"
+          speed: "Low"
 
-#Notify when windows are open
+  #Notify when windows are open
   - alias: AC on with open window - Living Room
     trigger:
       - platform: state
         entity_id: input_boolean.ac_damper_living_room
-        from: 'off'
-        to: 'on'
+        from: "off"
+        to: "on"
         for:
           seconds: 60
       - platform: state
-        entity_id: 
-          - climate.main_ac
+        entity_id:
+          - climate.mainac
           - climate.manual_ac
-        from:  'fan_only'
-        to:  'cool'
+        from: "fan_only"
+        to: "cool"
       - platform: state
-        entity_id: 
-          - climate.main_ac
+        entity_id:
+          - climate.mainac
           - climate.manual_ac
-        from:  'fan_only'
-        to:  'heat'
+        from: "fan_only"
+        to: "heat"
     condition:
       condition: and
-      conditions: 
+      conditions:
+        # - condition: or
+        #   conditions: #When AC is on heat or cool or unknown (when disconnected from server)
+        #     - condition: state
+        #       entity_id: climate.mainac
+        #       state: 'heat'
+        #     - condition: state
+        #       entity_id: climate.mainac
+        #       state: 'cool'
+        #     - condition: state
+        #       entity_id: climate.mainac
+        #       state: 'unknown'
 
-      # - condition: or
-      #   conditions: #When AC is on heat or cool or unknown (when disconnected from server)
-      #     - condition: state
-      #       entity_id: climate.main_ac
-      #       state: 'heat'
-      #     - condition: state
-      #       entity_id: climate.main_ac
-      #       state: 'cool'
-      #     - condition: state
-      #       entity_id: climate.main_ac
-      #       state: 'unknown'
+        #When AC is on heat or cool or unknown (when disconnected from server) (updated to support manual_ac)
+        - condition: template
+          value_template: "{% set ac_entity_id = states('input_text.ac_entity_id') %}{{ is_state(ac_entity_id, 'heat') or is_state(ac_entity_id, 'cool') or is_state(ac_entity_id, 'unknown') or is_state(ac_entity_id, 'unavailable') }}"
 
-      #When AC is on heat or cool or unknown (when disconnected from server) (updated to support manual_ac)
-      - condition: template
-        value_template: "{% set ac_entity_id = states('input_text.ac_entity_id') %}{{ is_state(ac_entity_id, 'heat') or is_state(ac_entity_id, 'cool') or is_state(ac_entity_id, 'unknown') or is_state(ac_entity_id, 'unavailable') }}"
+        - condition: or
+          conditions: #When balcony or bathroom open
+            - condition: state
+              entity_id: binary_sensor.balcony_window
+              state: "on"
+            - condition: state
+              entity_id: binary_sensor.bathroom_door
+              state: "on"
 
-      - condition: or
-        conditions: #When balcony or bathroom open
-          - condition: state
-            entity_id: binary_sensor.balcony_window
-            state: 'on'
-          - condition: state
-            entity_id: binary_sensor.bathroom_door
-            state: 'on'
-
-      - condition: state
-        entity_id: input_boolean.ac_damper_living_room
-        state: 'on'
+        - condition: state
+          entity_id: input_boolean.ac_damper_living_room
+          state: "on"
     action:
       - service: script.notify_all
         data:
@@ -428,50 +427,50 @@ automation:
   - alias: Update room temperature for dampers
     mode: parallel
     trigger:
-        #Damper was turned on 15 seconds ago
-        - platform: state
-          entity_id:
-            - fan.ac_damper_living_room
-            - fan.ac_damper_office
-            - fan.ac_damper_birds
-            - fan.ac_damper_riley
-            - fan.ac_damper_bedroom
-          to: 'on'
-          for:
-            seconds: 15
+      #Damper was turned on 15 seconds ago
+      - platform: state
+        entity_id:
+          - fan.ac_damper_living_room
+          - fan.ac_damper_office
+          - fan.ac_damper_birds
+          - fan.ac_damper_riley
+          - fan.ac_damper_bedroom
+        to: "on"
+        for:
+          seconds: 15
 
-        #Damper speed has changed 10 seconds ago
-        - platform: state
-          entity_id:
-            - input_select.ac_damper_living_room
-            - input_select.ac_damper_office
-            - input_select.ac_damper_birds
-            - input_select.ac_damper_riley
-            - input_select.ac_damper_bedroom
-          to: 'Auto'
-          for:
-            seconds: 10
+      #Damper speed has changed 10 seconds ago
+      - platform: state
+        entity_id:
+          - input_select.ac_damper_living_room
+          - input_select.ac_damper_office
+          - input_select.ac_damper_birds
+          - input_select.ac_damper_riley
+          - input_select.ac_damper_bedroom
+        to: "Auto"
+        for:
+          seconds: 10
 
-        # It's been 4 minutes since last update
-        - platform: state
-          entity_id:
-            - input_boolean.ac_damper_living_room_need_update
-            - input_boolean.ac_damper_office_need_update
-            - input_boolean.ac_damper_birds_need_update
-            - input_boolean.ac_damper_riley_need_update
-            - input_boolean.ac_damper_bedroom_need_update
-          to: 'off'
-          for:
-            minutes: 4
+      # It's been 4 minutes since last update
+      - platform: state
+        entity_id:
+          - input_boolean.ac_damper_living_room_need_update
+          - input_boolean.ac_damper_office_need_update
+          - input_boolean.ac_damper_birds_need_update
+          - input_boolean.ac_damper_riley_need_update
+          - input_boolean.ac_damper_bedroom_need_update
+        to: "off"
+        for:
+          minutes: 4
 
-        #Temperature sensor changed
-        - platform: state
-          entity_id: 
-            - sensor.living_room_temperature
-            - sensor.office_temperature
-            - sensor.birds_temperature
-            - sensor.riley_temperature
-            - sensor.bedroom_temperature
+      #Temperature sensor changed
+      - platform: state
+        entity_id:
+          - sensor.living_room_temperature
+          - sensor.office_temperature
+          - sensor.birds_temperature
+          - sensor.riley_temperature
+          - sensor.bedroom_temperature
 
     condition:
       #Is damper on
@@ -490,7 +489,7 @@ automation:
     action:
       - service: python_script.update_ac_room_temp
         data:
-          room: '{{ trigger.to_state.entity_id }}'
+          room: "{{ trigger.to_state.entity_id }}"
 
 fan:
   - platform: template
@@ -524,12 +523,12 @@ fan:
               room: living_room
               action: turn_off
         speeds:
-          - 'Low'
-          - 'Medium'
-          - 'High'
-          - 'Auto'
-          - 'Quick'
-          - 'SmartAuto'
+          - "Low"
+          - "Medium"
+          - "High"
+          - "Auto"
+          - "Quick"
+          - "SmartAuto"
 
   - platform: template
     fans:
@@ -562,12 +561,12 @@ fan:
               room: office
               action: turn_off
         speeds:
-          - 'Low'
-          - 'Medium'
-          - 'High'
-          - 'Auto'
-          - 'Quick'
-          - 'SmartAuto'
+          - "Low"
+          - "Medium"
+          - "High"
+          - "Auto"
+          - "Quick"
+          - "SmartAuto"
 
   - platform: template
     fans:
@@ -600,12 +599,12 @@ fan:
               room: birds
               action: turn_off
         speeds:
-          - 'Low'
-          - 'Medium'
-          - 'High'
-          - 'Auto'
-          - 'Quick'
-          - 'SmartAuto'
+          - "Low"
+          - "Medium"
+          - "High"
+          - "Auto"
+          - "Quick"
+          - "SmartAuto"
 
   - platform: template
     fans:
@@ -638,12 +637,12 @@ fan:
               room: riley
               action: turn_off
         speeds:
-          - 'Low'
-          - 'Medium'
-          - 'High'
-          - 'Auto'
-          - 'Quick'
-          - 'SmartAuto'
+          - "Low"
+          - "Medium"
+          - "High"
+          - "Auto"
+          - "Quick"
+          - "SmartAuto"
 
   - platform: template
     fans:
@@ -676,9 +675,9 @@ fan:
               room: bedroom
               action: turn_off
         speeds:
-          - 'Low'
-          - 'Medium'
-          - 'High'
-          - 'Auto'
-          - 'Quick'
-          - 'SmartAuto'
+          - "Low"
+          - "Medium"
+          - "High"
+          - "Auto"
+          - "Quick"
+          - "SmartAuto"

@@ -33,7 +33,7 @@ def send_command(room, speed):
   hass.services.call('script', command_entity_id , { 'room' : room } , options)
 
 def turn_damper_on():
-  hass.services.call('input_boolean', "turn_on" , { 'entity_id': damper_state_entity_id, }, options)
+  hass.services.call('input_boolean', "turn_on" , { 'entity_id': damper_state_entity_id }, options)
   if enableLog:
     logger.debug("Turn on entity_id: " + damper_state_entity_id)
 
@@ -52,13 +52,13 @@ if (action == 'set_speed'):
     logger.debug("Set entity_id: " + damper_speed_entity_id + " to: " + requested_speed)
   hass.services.call('input_select', "select_option" , { 'entity_id': damper_speed_entity_id, 'option': requested_speed }, options)
 
-  if (damper_state == 'on'):
-    turn_damper_on()
+  #if (damper_state == 'on'):
+  turn_damper_on()
 
 if (action == 'send_command'):
   send_command(room, requested_speed)
   
-if (action == 'turn_on') and (requested_speed == 'None'): #This is done to ignore turning on the damper when changing speed when it's off
+if (action == 'turn_on') and (requested_speed == None): #This is done to ignore turning on the damper twice (happens when setting speed when it's off)
   turn_damper_on()
 
 if (action == 'turn_off') :

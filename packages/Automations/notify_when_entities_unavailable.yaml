@@ -65,8 +65,8 @@ automation:
           - binary_sensor.bedroom_window
           - cover.office_curtain_switch
           - light.yellow_lamp
-          # - switch.lower_gate
-          # - switch.upper_gate
+          - switch.lower_gate
+          - switch.upper_gate
           - binary_sensor.doorbell
           - remote.living_room
           - remote.office
@@ -74,6 +74,10 @@ automation:
           - remote.riley
           - remote.bedroom
           - binary_sensor.rain
+          - switch.intercom
+          - light.stairs
+          - switch.stairs_module
+          - binary_sensor.stairs_motion
         to: 'unavailable'
         for:
           seconds: 30
@@ -141,8 +145,8 @@ automation:
           - binary_sensor.bedroom_window
           - cover.office_curtain_switch
           - light.yellow_lamp
-          # - switch.lower_gate
-          # - switch.upper_gate
+          - switch.lower_gate
+          - switch.upper_gate
           - binary_sensor.doorbell
           - remote.living_room
           - remote.office
@@ -150,6 +154,10 @@ automation:
           - remote.riley
           - remote.bedroom
           - binary_sensor.rain
+          - switch.intercom
+          - light.stairs
+          - switch.stairs_module
+          - binary_sensor.stairs_motion
         from: 'unavailable'
         to: 'on'
         for:
@@ -218,8 +226,8 @@ automation:
           - binary_sensor.bedroom_window
           - cover.office_curtain_switch
           - light.yellow_lamp
-          # - switch.lower_gate
-          # - switch.upper_gate
+          - switch.lower_gate
+          - switch.upper_gate
           - binary_sensor.doorbell
           - remote.living_room
           - remote.office
@@ -227,6 +235,10 @@ automation:
           - remote.riley
           - remote.bedroom
           - binary_sensor.rain
+          - switch.intercom
+          - light.stairs
+          - switch.stairs_module
+          - binary_sensor.stairs_motion
         from: 'unavailable'
         to: 'off'
         for:

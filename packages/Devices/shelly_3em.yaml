@@ -1,0 +1,18 @@
+input_text:
+  power_nis_per_kwh:
+    name: Power NIS per kWh
+
+sensor:
+  - platform: template
+    sensors:
+      power_total:
+        friendly_name: "Total Power"
+        unit_of_measurement: 'watt'
+        value_template: "{{ states('sensor.shelly_3em_channel_a_power') | float + states('sensor.shelly_3em_channel_b_power') | float  + states('sensor.shelly_3em_channel_c_power') | float}}"
+
+  - platform: template
+    sensors:
+      power_cost_per_hour:
+        friendly_name: "Cost per Hour"
+        unit_of_measurement: 'NIS'
+        value_template: "{{ states('sensor.power_total') | float / 1000 * states('input_text.power_nis_per_kwh') | float }}"

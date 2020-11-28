@@ -1,0 +1,12 @@
+apcupsd:
+  host: !secret apcupsd_ip
+
+sensor:
+  - platform: apcupsd
+    resources:
+      - bcharge
+      - status
+      - tonbatt
+      - loadpct
+      - timeleft
+      - numxfers

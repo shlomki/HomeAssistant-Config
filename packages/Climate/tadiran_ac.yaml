@@ -1,37 +1,44 @@
 smartir:
 
-climate: 
-- platform: ekon
-  # This currently unused:
-  name: Main account
-  # Specify the name and password for your account
-  username: !secret ekon_username
-  password: !secret ekon_password
-  # This specifies the server that the component would work with, I have only tried it with EKON server (Airconet+ APP)
-  # Optional, 
-  # Use this if you are using "Airconet+" app - EKON main server
-  # base_url and ws_url defults to Airconet server
-  base_url: https://www.activate-ac.com/ 
-  ws_url: wss://www.activate-ac.com/v2
+# climate:
+# - platform: ekon
+#   # This currently unused:
+#   name: Main account
+#   # Specify the name and password for your account
+#   username: !secret ekon_username
+#   password: !secret ekon_password
+#   # This specifies the server that the component would work with, I have only tried it with EKON server (Airconet+ APP)
+#   # Optional,
+#   # Use this if you are using "Airconet+" app - EKON main server
+#   # base_url and ws_url defults to Airconet server
+#   base_url: https://www.activate-ac.com/
+#   ws_url: wss://www.activate-ac.com/v2
 
-  # If you are using Tadiran Connect, use these instead
-  # base_url: https://www.airconet.xyz/
-  # ws_url: wss://www.airconet.xyz/ws
+#   # If you are using Tadiran Connect, use these instead
+#   # base_url: https://www.airconet.xyz/
+#   # ws_url: wss://www.airconet.xyz/ws
 
-  # WARNING, Enabling this next option would MAKE YOUR CEDENTIALS PRUNE TO MAN-IN-THE-MIDDLE Attack
-  # Homeassistant ssl libraries in certain configurations has some issues with authenticating the www.activate-ac.com server SSL Certificate
-  # One really bad option is to disable ssl checks altogether, you can use this switch to do that:
-  ssl_ignore: True
-  name_mapping:
-    - id: 3582
-      name: Main AC
+#   # WARNING, Enabling this next option would MAKE YOUR CEDENTIALS PRUNE TO MAN-IN-THE-MIDDLE Attack
+#   # Homeassistant ssl libraries in certain configurations has some issues with authenticating the www.activate-ac.com server SSL Certificate
+#   # One really bad option is to disable ssl checks altogether, you can use this switch to do that:
+#   ssl_ignore: True
+#   name_mapping:
+#     - id: 3582
+#       name: Main AC
 
-- platform: smartir
-  name: Manual AC
-  unique_id: manual_ac
-  device_code: 1342
-  controller_data: remote.living_room
-  temperature_sensor: sensor.living_room_temperature
+climate:
+  - platform: ekon-local
+    name: MainAC
+    udp_server_port: !secret ha_ekon_port
+    udp_server_addr: !secret ha_address
+    device_addr: !secret ekon_ip
+
+  - platform: smartir
+    name: Manual AC
+    unique_id: manual_ac
+    device_code: 1342
+    controller_data: remote.living_room
+    temperature_sensor: sensor.living_room_temperature
 
 input_text:
   ac_entity_id:
@@ -46,26 +53,26 @@ script:
     sequence:
       - service: input_boolean.toggle
         entity_id: input_boolean.manual_ac
-    
+
 automation:
   - alias: Manual AC - Choose Manual AC when internet or ac are disconnected
     trigger:
       - platform: state
         entity_id: binary_sensor.internet_connection
-        from: 'on'
-        to: 'off'
+        from: "on"
+        to: "off"
       - platform: state
         entity_id: device_tracker.ekon_b3c117
-        from: 'home'
-        to: 'not_home'
+        from: "home"
+        to: "not_home"
       - platform: state
         entity_id: input_boolean.manual_ac
-        from: 'off'
-        to: 'on'
+        from: "off"
+        to: "on"
     condition:
       - condition: state
         entity_id: input_boolean.manual_ac_force
-        state: 'off'
+        state: "off"
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.manual_ac
@@ -74,42 +81,42 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.manual_ac_force
-        from: 'off'
-        to: 'on'
+        from: "off"
+        to: "on"
       - platform: state
         entity_id: input_boolean.manual_ac_force
-        from: 'on'
-        to: 'off'
+        from: "on"
+        to: "off"
     action:
-      - service: 'input_boolean.turn_{{ trigger.to_state.state }}'
+      - service: "input_boolean.turn_{{ trigger.to_state.state }}"
         entity_id: input_boolean.manual_ac
 
   - alias: Manual AC - Choose ekon when internet and ac are connected
     trigger:
       - platform: state
         entity_id: binary_sensor.internet_connection
-        from: 'off'
-        to: 'on'
+        from: "off"
+        to: "on"
       - platform: state
         entity_id: device_tracker.ekon_b3c117
-        from: 'not_home'
-        to: 'home'
+        from: "not_home"
+        to: "home"
       - platform: state
         entity_id: input_boolean.manual_ac
-        from: 'off'
-        to: 'on'
+        from: "off"
+        to: "on"
     condition:
       - condition: and
         conditions:
           - condition: state
             entity_id: binary_sensor.internet_connection
-            state: 'on'
+            state: "on"
           - condition: state
             entity_id: device_tracker.ekon_b3c117
-            state: 'home'
+            state: "home"
           - condition: state
             entity_id: input_boolean.manual_ac_force
-            state: 'off'
+            state: "off"
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.manual_ac
@@ -117,40 +124,40 @@ automation:
   - alias: Manual AC - Turn On
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - input_boolean.manual_ac
           - input_boolean.manual_ac_force
-        from: 'off'
-        to: 'on'
+        from: "off"
+        to: "on"
     action:
       #Set the ac_entity_id to manual_ac (for automations & smartauto)
       - service: input_text.set_value
         data:
           entity_id: input_text.ac_entity_id
-          value: 'climate.manual_ac'
+          value: "climate.manual_ac"
 
       #Copy the current settings to manual_ac
       - service: climate.set_temperature
         data:
           entity_id: climate.manual_ac
-          hvac_mode: "{{ states('climate.main_ac') }}"
-          temperature: "{{ state_attr('climate.main_ac', 'temperature') }}"
+          hvac_mode: "{{ states('climate.mainac') }}"
+          temperature: "{{ state_attr('climate.mainac', 'temperature') }}"
 
       - service: climate.set_fan_mode
         data:
           entity_id: climate.manual_ac
-          fan_mode: "{% set fan_mode = state_attr('climate.main_ac', 'fan_mode') %}{{ 'high' if (fan_mode == 'Auto') else fan_mode}}"
+          fan_mode: "{% set fan_mode = state_attr('climate.mainac', 'fan_mode') %}{{ 'high' if (fan_mode == 'Auto') else fan_mode}}"
 
   - alias: Manual AC - Turn Off
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - input_boolean.manual_ac
           - input_boolean.manual_ac_force
-        from: 'on'
-        to: 'off'
+        from: "on"
+        to: "off"
     action:
       - service: input_text.set_value
         data:
           entity_id: input_text.ac_entity_id
-          value: 'climate.main_ac'
+          value: "climate.mainac"

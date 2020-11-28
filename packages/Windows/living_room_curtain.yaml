@@ -1,0 +1,31 @@
+sensor:
+  - platform: template
+    sensors:
+      living_room_curtain_state:
+        value_template: >
+          {% if states('cover.living_room_curtain_switch') == 'open' and state_attr("cover.living_room_curtain_switch", "current_position") == 100 %}
+          closing
+          {% elif states('cover.living_room_curtain_switch') == 'closed' and state_attr("cover.living_room_curtain_switch", "current_position") == 50 %}
+          stopped
+          {% elif states('cover.living_room_curtain_switch') == 'closed' and state_attr("cover.living_room_curtain_switch", "current_position") == 0 %}
+          opening
+          {% endif %}
+
+automation:
+  - alias: Living Room Curtain According To Sensor
+    trigger:
+      - platform: state
+        entity_id: sensor.living_room_curtain_state
+    action:
+      service: >
+        {% if trigger.to_state.state == 'closing' %}
+          cover.close_cover
+        {% elif trigger.to_state.state == 'opening' %}
+          cover.open_cover
+        {% elif trigger.to_state.state == 'stopped' %}
+          cover.stop_cover
+        {% endif %}
+      data:
+        entity_id:
+          - cover.living_room_curtain
+
