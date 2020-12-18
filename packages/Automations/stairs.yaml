@@ -21,13 +21,13 @@ automation:
         from: "on"
         to: "off"
     condition: #Turn off only if both door is closed and there is no motion
-      - condition: and
-        conditions:
-          - condition: state
-            entity_id: 
-              - binary_sensor.front_door
-              - binary_sensor.stairs_motion
-            state: 'off'
+      condition: state
+      entity_id: 
+        - binary_sensor.front_door
+        - binary_sensor.stairs_motion
+      state: 
+        - 'off'
+        - 'unavailable'
     action:
       - service: light.turn_off
         entity_id: light.stairs
@@ -43,7 +43,9 @@ automation:
     condition:
       condition: state
       entity_id: binary_sensor.stairs_motion
-      state: 'off'
+      state: 
+        - 'off'
+        - 'unavailable'
     action:
       - service: light.turn_off
         entity_id: light.stairs

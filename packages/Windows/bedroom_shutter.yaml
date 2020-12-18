@@ -55,7 +55,7 @@ automation:
           time_counter.downcount
         {% elif trigger.to_state.state == 'opening' %}
           time_counter.upcount
-        {% elif trigger.to_state.state == 'stopped' %}
+        {% else %}
           time_counter.stop
         {% endif %}
       data:
@@ -69,7 +69,21 @@ automation:
       event_data:
         entity_id: time_counter.bedroom_shutter
     action:
-      - service: cover.stop_cover
-        data:
-          entity_id:
-            - cover.bedroom_shutter_switch
+      - choose:
+          # IF at extremities, give extra 2 seconds
+          - conditions:
+              - condition: template
+                value_template: "{{ states('time_counter.bedroom_shutter') | int == 0 or states('time_counter.bedroom_shutter') | int == 100 }}"
+            sequence:
+              - delay:
+                  seconds: 2
+              - service: cover.stop_cover
+                data:
+                  entity_id:
+                    - cover.bedroom_shutter_switch
+        # ELSE stop right away
+        default:
+          - service: cover.stop_cover
+            data:
+              entity_id:
+                - cover.bedroom_shutter_switch

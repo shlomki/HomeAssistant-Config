@@ -38,4 +38,5 @@ logger:
   logs:
     homeassistant.components.python_script: debug
     homeassistant.components.python_scripts: debug
+    # custom_components.ekon-local: debug
 

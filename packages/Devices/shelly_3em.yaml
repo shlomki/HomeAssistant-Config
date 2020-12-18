@@ -1,6 +1,26 @@
 input_text:
   power_nis_per_kwh:
     name: Power NIS per kWh
+  power_monthly_additional_cost:
+    name: Power Monthly Additional Cost
+  energy_total_previous_bill:
+    name: Total Energy Previous Bill
+  energy_total_yesterday:
+    name: Total Energy Yesterday
+
+input_number:
+  power_bill_cutoff_day:
+    name: Bill Cutoff Day
+    min: 1
+    max: 31
+    step: 1
+
+input_select:
+  power_bill_cutoff_month:
+    name: Power Bill Cutoff Month
+    options:
+      - Odd
+      - Even
 
 sensor:
   - platform: template
@@ -15,4 +35,69 @@ sensor:
       power_cost_per_hour:
         friendly_name: "Cost per Hour"
         unit_of_measurement: 'NIS'
-        value_template: "{{ states('sensor.power_total') | float / 1000 * states('input_text.power_nis_per_kwh') | float }}"
+        value_template: "{{ (states('sensor.power_total') | float / 1000 * states('input_text.power_nis_per_kwh') | float)|round(2) }}"
+
+  - platform: template
+    sensors:
+      energy_total:
+        friendly_name: "Total Energy"
+        unit_of_measurement: 'kWh'
+        value_template: "{{ states('sensor.shelly_3em_channel_a_energy') | float + states('sensor.shelly_3em_channel_b_energy') | float  + states('sensor.shelly_3em_channel_c_energy') | float}}"
+
+  - platform: template
+    sensors:
+      energy_total_next_bill:
+        friendly_name: "Total Energy Next Bill"
+        value_template: "{{ (states('sensor.energy_total') | float) - (states('input_text.energy_total_previous_bill') | float) }}"
+        unit_of_measurement: "kWh"
+
+  - platform: template
+    sensors:
+      energy_total_next_bill_cost:
+        friendly_name: "Next Bill Cost"
+        value_template: "{{ ((states('sensor.energy_total_next_bill') | float) * (states('input_text.power_nis_per_kwh') | float) + (states('input_text.power_monthly_additional_cost') | int ))|round(1)}}"
+        unit_of_measurement: "NIS"
+
+  - platform: template
+    sensors:
+      energy_total_today:
+        friendly_name: "Total Energy Today"
+        value_template: "{{ (states('sensor.energy_total') | float) - (states('input_text.energy_total_yesterday') | float) }}"
+        unit_of_measurement: "kWh"
+
+  - platform: template
+    sensors:
+      energy_total_today_cost:
+        friendly_name: "Today Cost"
+        value_template: "{{ ((states('sensor.energy_total_today') | float) * (states('input_text.power_nis_per_kwh') | float))|round(1) }}"
+        unit_of_measurement: "NIS"
+
+automation:
+  - alias: Energy save previous bill
+    trigger:
+      - platform: time
+        at: "00:00:00"
+    condition:
+      # Allow automation to run only on a certain day, at an even or odd month
+      - condition: template
+        value_template: >
+          {% set month_odd_even = 0 if (states('input_select.power_bill_cutoff_month') == 'Even') else 1 %}
+          {{ now().month % 2 == month_odd_even and now().day == states('input_number.power_bill_cutoff_day') | int }}
+    action:
+      - service: notify.bffs
+        data:
+            message: "The upcoming electricity bill will be approximately {{ states('sensor.energy_total_next_bill_cost') }} NIS. A new bill starts today."
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.energy_total_previous_bill
+          value: "{{ states('sensor.energy_total') }}"
+
+  - alias: Energy save yesterday
+    trigger:
+      - platform: time
+        at: "00:00:00"
+    action:
+      service: input_text.set_value
+      data:
+        entity_id: input_text.energy_total_yesterday
+        value: "{{ states('sensor.energy_total') }}"

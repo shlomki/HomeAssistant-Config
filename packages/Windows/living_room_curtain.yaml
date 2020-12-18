@@ -22,7 +22,7 @@ automation:
           cover.close_cover
         {% elif trigger.to_state.state == 'opening' %}
           cover.open_cover
-        {% elif trigger.to_state.state == 'stopped' %}
+        {% else %}
           cover.stop_cover
         {% endif %}
       data:

@@ -104,7 +104,6 @@ automation:
           filename: 'camera_snaps/front_door.jpg'
       - service: script.notify_bffs_photo
         data:
-          message: "Ding dong! Someone is at the door!"
           file: 'camera_snaps/front_door.jpg'
       - delay:
           seconds: 10

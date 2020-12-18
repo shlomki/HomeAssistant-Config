@@ -59,6 +59,10 @@ automation:
     action:
       - service: light.turn_on
         entity_id: light.birds_main_combined
+      - delay:
+          seconds: 20
+      - service: light.turn_on
+        entity_id: light.birds_main_combined
         data:
           brightness: 1
 
@@ -82,10 +86,28 @@ automation:
             - cover.office_shutter
           position: 100
 
+  - alias: Birds turn off light noon
+    trigger:
+      platform: time
+      at: input_datetime.noon
+    action:
+      - delay:
+          seconds: 30
+      - service: light.turn_off
+        entity_id: light.birds_main_combined
+
   - alias: Birds Close Shutter Night
     trigger:
       platform: time
       at: input_datetime.night
+    action:
+      - service: cover.close_cover
+        entity_id: cover.birds_shutter
+
+  - alias: Birds Open Shutter Partly Morning
+    trigger:
+      platform: time
+      at: input_datetime.morning
     action:
       - service: cover.set_cover_position
         data:
