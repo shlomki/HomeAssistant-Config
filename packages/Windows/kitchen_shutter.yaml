@@ -36,7 +36,7 @@ cover:
           service: cover.stop_cover
           entity_id: cover.kitchen_shutter_switch
         set_cover_position:
-          - service: "cover.{{ 'open_cover' if position > states('time_counter.kitchen_shutter')|int else 'close_cover' }}"
+          - service: "cover.{{ 'open_cover' if position > states('time_counter.kitchen_curtain')|int else 'stop_cover' if position == states('time_counter.kitchen_curtain')|int else 'close_cover' }}"
             entity_id: cover.kitchen_shutter_switch
           - service: time_counter.set
             data:

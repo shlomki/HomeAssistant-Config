@@ -1,0 +1,59 @@
+automation:
+  - alias: Bathroom light on motion
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.bathroom_motion
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id: binary_sensor.bathroom_door
+        from: 'off'
+        to: 'on'
+    action:
+      - choose:
+        - conditions:
+          - condition: time
+            after: input_datetime.morning
+            before: input_datetime.night
+          sequence:
+            - service: light.turn_on
+              entity_id: light.bathroom_main
+        - conditions:
+          - condition: time
+            after: input_datetime.night
+            before: input_datetime.late_night
+          sequence:
+            - service: light.turn_on
+              entity_id: light.laundry_combined
+        - conditions:
+          - condition: time
+            after: input_datetime.late_night
+            before: input_datetime.morning
+          sequence:
+            - service: light.turn_on
+              entity_id: light.bathroom_night_light
+      - delay:
+          seconds: 5
+          
+  - alias: Bathroom light off when no motion
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.bathroom_motion
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 25
+    action:
+      - service: light.turn_off
+        entity_id: 
+          - light.bathroom_main
+          - light.bathroom_night_light
+
+switch:
+  - platform: broadlink
+    mac: !secret office_mac
+    switches:
+      - name: Bathroom Night Light
+        command_on: 'shQyABEFEQUHEAcQEQUHEBEGEQYHEBEGBxAHEBEGEQYRBgcQBhAGEBEGBhARBREFBhARBQaiAAAAAAAA'
+        command_off: 'shIyABEFEQUGEAYQBhARBQYQBxARBQYQEQYGohEFEQUGEAYQEQUHEBEFEQUHEBEFBxAGEBEFAAAAAAAA'

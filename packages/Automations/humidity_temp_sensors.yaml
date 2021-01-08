@@ -2,17 +2,17 @@ automation:
   - alias: House humidity high
     trigger:
       - platform: numeric_state
-        entity_id: sensor.birds_humidity
-        above: 70
-      - platform: numeric_state
-        entity_id: sensor.riley_humidity
+        entity_id: 
+          - sensor.living_room_humidity
+          - sensor.office_humidity
+          - sensor.birds_humidity
+          - sensor.riley_humidity
+          - sensor.bedroom_humidity
+          - sensor.bedroom_closet_humidity
         above: 70
       - platform: numeric_state
         entity_id: sensor.bedroom_closet_humidity
         above: 67
-      - platform: numeric_state
-        entity_id: sensor.bedroom_closet_humidity
-        above: 70
     action:
       - service: notify.bffs
         data:
@@ -21,16 +21,12 @@ automation:
   - alias: House temp too low
     trigger:
       - platform: numeric_state
-        entity_id: sensor.living_room_temperature
-        below: 19
-      - platform: numeric_state
-        entity_id: sensor.birds_temperature
-        below: 19
-      - platform: numeric_state
-        entity_id: sensor.riley_temperature
-        below: 19
-      - platform: numeric_state
-        entity_id: sensor.bedroom_temperature
+        entity_id: 
+          - sensor.living_room_temperature
+          - sensor.office_temperature
+          - sensor.birds_temperature
+          - sensor.riley_temperature
+          - sensor.bedroom_temperature
         below: 19
     action:
       - service: script.telegram_message_with_ac_buttons
@@ -41,22 +37,13 @@ automation:
   - alias: House temp too high
     trigger:
       - platform: numeric_state
-        entity_id: sensor.living_room_temperature
+        entity_id: 
+          - sensor.living_room_temperature
+          - sensor.office_temperature
+          - sensor.birds_temperature
+          - sensor.riley_temperature
+          - sensor.bedroom_temperature
         above: 29
-      - platform: numeric_state
-        entity_id: sensor.birds_temperature
-        above: 29
-      - platform: numeric_state
-        entity_id: sensor.riley_temperature
-        above: 29
-      - platform: numeric_state
-        entity_id: sensor.bedroom_temperature
-        above: 29
-    condition: #Ignore wrong updates from Broadlink
-      - condition: not
-        conditions:
-          - condition: template
-            value_template: "{{ states(trigger.to_state.entity_id) != 249.0 }}"
     action:
       - service: script.telegram_message_with_ac_buttons
         data:

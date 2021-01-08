@@ -17,6 +17,8 @@ default_config:
 tts:
   - platform: google_translate
 
+sun:
+
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml

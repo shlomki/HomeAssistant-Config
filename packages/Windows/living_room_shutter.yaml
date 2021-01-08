@@ -36,7 +36,7 @@ cover:
           service: cover.stop_cover
           entity_id: cover.living_room_shutter_switch
         set_cover_position:
-          - service: "cover.{{ 'open_cover' if position > states('time_counter.living_room_shutter')|int else 'close_cover' }}"
+          - service: "cover.{{ 'open_cover' if position > states('time_counter.living_room_shutter')|int else 'stop_cover' if position == states('time_counter.living_room_shutter')|int else 'close_cover' }}"
             entity_id: cover.living_room_shutter_switch
           - service: time_counter.set
             data:

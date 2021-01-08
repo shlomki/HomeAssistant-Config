@@ -138,3 +138,12 @@ light:
   - platform: switch
     name: Bedroom Entrance Toggle Right
     entity_id: switch.bedroom_entrance_toggle_right
+
+
+  - platform: switch
+    name: Toilet Night Light
+    entity_id: switch.toilet_night_light
+
+  - platform: switch
+    name: Bathroom Night Light
+    entity_id: switch.bathroom_night_light

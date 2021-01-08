@@ -11,8 +11,21 @@ automation:
         from: 'off'
         to: 'on'
     action:
-      - service: light.turn_on
-        entity_id: light.toilet_main
+      - choose:
+        - conditions:
+          - condition: time
+            after: input_datetime.late_night
+            before: input_datetime.morning
+          sequence:
+            - service: light.turn_on
+              entity_id: light.toilet_night_light
+        - conditions:
+          - condition: time
+            after: input_datetime.morning
+            before: input_datetime.late_night
+          sequence:
+            - service: light.turn_on
+              entity_id: light.toilet_main
       - delay:
           seconds: 5
           
@@ -30,7 +43,9 @@ automation:
         state:  'off'
     action:
       - service: light.turn_off
-        entity_id: light.toilet_main
+        entity_id: 
+          - light.toilet_main
+          - light.toilet_night_light
 
   - alias: Toilet light off when no motion when door is open
     trigger:
@@ -44,7 +59,9 @@ automation:
         state:  'on'
     action:
       - service: light.turn_off
-        entity_id: light.toilet_main
+        entity_id: 
+          - light.toilet_main
+          - light.toilet_night_light
 
   - alias: Toilet Turn on vent after flushing
     mode: restart
@@ -68,3 +85,10 @@ switch:
       - name: Toilet Vent
         command_on: 'si4yABEFEQUHDwcPEQUHDxEFEQUHDxEFBxAHDxEFEQURBQcQBw8HDxEFBw8RBQcQEQURBQehAAAAAAAA'
         command_off: 'sm0yABEFEQURBQcPBw8HDxEFBw8HDwcPEgURBQehEgUSBQcPBw8RBQcPEQURBQcPEQUHDwcPAAAAAAAA'
+
+  - platform: broadlink
+    mac: !secret office_mac
+    switches:
+      - name: Toilet Night Light
+        command_on: 'siAyAAcQEQUGEBEFEQUGEBEFBxAGEBEFEQURBQYQBxAHEBEFBhARBQcPBw8RBQaiEQURBQYQAAAAAAAA'
+        command_off: 'siQyABEFEQUGEAcQEQUGEBEFEQUGEBEFBxAGEBEFEQURBQYQBxAGDxEFBhAGEAYQBxARBQeiAAAAAAAA'
