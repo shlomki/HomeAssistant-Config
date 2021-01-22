@@ -51,6 +51,7 @@ SERVICE_UPCOUNT = 'upcount'
 SERVICE_DOWNCOUNT = 'downcount'
 SERVICE_STOP = 'stop'
 SERVICE_SET = 'set'
+SERVICE_RESET = 'reset'
 
 
 SERVICE_SCHEMA = vol.Schema({
@@ -121,6 +122,9 @@ async def async_setup(hass, config):
     component.async_register_entity_service(
         SERVICE_SET, SERVICE_SCHEMA_SET,
         'async_set')
+    component.async_register_entity_service(
+        SERVICE_RESET, SERVICE_SCHEMA_SET,
+        'async_reset')
 
     await component.async_add_entities(entities)
     return True
@@ -261,6 +265,10 @@ class TimeCounter(RestoreEntity):
         self._boundary_listener = async_track_point_in_utc_time(self._hass,
                                                        self.async_finish,
                                                        self._boundary_end)
+
+    async def async_reset(self, state):
+        self._state = state
+        await self.async_update_ha_state()
 
     async def async_stop(self):
         """Stop counter."""
