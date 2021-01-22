@@ -47,6 +47,8 @@ automation:
           message: The front door has been opened and no one's home!
         
   - alias: Door is opened with photo from Living Room
+    variables:
+      filename: /config/www/camera_snaps/living_room.jpg
     trigger:
       - platform: state
         entity_id: binary_sensor.front_door
@@ -56,13 +58,15 @@ automation:
       - service: camera.snapshot
         data:
           entity_id: camera.living_room
-          filename: 'camera_snaps/living_room.jpg'
+          filename: '{{ filename }}'
       - service: script.notify_bffs_photo
         data:
           message: The front door has been opened
-          file: 'camera_snaps/living_room.jpg'
+          file: '{{ filename }}'
 
   - alias: Door is opened with photo from Front Door
+    variables:
+      filename: /config/www/camera_snaps/front_door.jpg
     trigger:
       - platform: state
         entity_id: binary_sensor.front_door
@@ -72,11 +76,11 @@ automation:
       - service: camera.snapshot
         data:
           entity_id: camera.front_door
-          filename: 'camera_snaps/front_door.jpg'
+          filename: '{{ filename }}'
       - service: script.notify_bffs_photo
         data:
           message: The front door has been opened
-          file: 'camera_snaps/front_door.jpg'
+          file: '{{ filename }}'
 
   - alias: Doorbell ring
     trigger:
@@ -92,6 +96,8 @@ automation:
           seconds: 10
 
   - alias: Doorbell ring with photo
+    variables:
+      filename: /config/www/camera_snaps/front_door.jpg
     trigger:
       - platform: state
         entity_id: binary_sensor.doorbell
@@ -101,10 +107,10 @@ automation:
       - service: camera.snapshot
         data:
           entity_id: camera.front_door
-          filename: 'camera_snaps/front_door.jpg'
+          filename: '{{ filename }}'
       - service: script.notify_bffs_photo
         data:
-          file: 'camera_snaps/front_door.jpg'
+          file: '{{ filename }}'
       - delay:
           seconds: 10
 
