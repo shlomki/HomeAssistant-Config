@@ -140,32 +140,6 @@ automation:
         data:
           message: "The bathroom heater has been turned off."
 
-  - alias: Heater on when door open turn off unavailable
-    trigger:
-      - platform: state
-        entity_id: light.bathroom_heater
-        from: 'off'
-        to: 'on'
-        for: '60'
-      - platform: state
-        entity_id: binary_sensor.bathroom_door
-        from: 'off'
-        to: 'on'
-        for: '60'
-    condition:
-      - condition: state
-        entity_id: light.bathroom_heater
-        state:  'unavailable'
-    action:
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.all_speakers
-          media_content_id: !secret alarm_mp3_url
-          media_content_type: music
-      - service: script.notify_all
-        data:
-          message: "WARNING! Unable to turn off heater!"
-
 #Water boiler
   - alias: Water boiler timer change
     initial_state: True
