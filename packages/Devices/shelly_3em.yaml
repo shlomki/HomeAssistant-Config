@@ -28,7 +28,7 @@ sensor:
       power_total:
         friendly_name: "Total Power"
         unit_of_measurement: 'watt'
-        value_template: "{{ states('sensor.shelly_3em_channel_a_power') | float + states('sensor.shelly_3em_channel_b_power') | float  + states('sensor.shelly_3em_channel_c_power') | float}}"
+        value_template: "{{ (states('sensor.shelly_3em_channel_a_power') | float + states('sensor.shelly_3em_channel_b_power') | float  + states('sensor.shelly_3em_channel_c_power') | float) | round(2)}}"
 
   - platform: template
     sensors:
