@@ -7,8 +7,6 @@ homeassistant:
   time_zone: Asia/Jerusalem
   packages: !include_dir_named packages
   customize: !include customize.yaml
-  whitelist_external_dirs:
-    - '/config'
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
@@ -16,6 +14,7 @@ default_config:
 # Text to speech
 tts:
   - platform: google_translate
+    base_url: !secret ha_base_url
 
 sun:
 
@@ -24,7 +23,6 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 
 http:
-  base_url: !secret ha_base_url
   ssl_certificate: /ssl/fullchain.pem
   ssl_key: /ssl/privkey.pem
   server_port: !secret ha_port
@@ -41,4 +39,5 @@ logger:
     homeassistant.components.python_script: debug
     homeassistant.components.python_scripts: debug
     # custom_components.ekon-local: debug
+    #homeassistant.components.shell_command: debug
 
