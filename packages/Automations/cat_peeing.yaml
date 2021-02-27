@@ -8,7 +8,7 @@ automation:
     action:
       - service: tts.google_translate_say
         data:
-          entity_id: media_player.all_speakers
+          entity_id: media_player.announcements
           message: The cat is peeing! Hurry!
           
   - alias: Cat Peeing Send Notification
