@@ -22,8 +22,8 @@ automation:
         to: 'on'
       - platform: state
         entity_id: media_player.amplifier
-        from: 'idle'
-        to: 'playing'
+        from: 'off'
+        to: 'on'
     action:
       - service: switch.turn_on
         entity_id: switch.subwoofer_smart_plug
@@ -37,14 +37,10 @@ automation:
         to: 'off'
       - platform: state
         entity_id: media_player.amplifier
-        from: 'playing'
-        to: 'idle'
-      - platform: state
-        entity_id: media_player.amplifier
-        from: 'paused'
-        to: 'idle'
+        from: 'on'
+        to: 'off'
     condition:
-      condition: or
+      condition: and
       conditions:
         #When tv is off
         - condition: or
@@ -60,7 +56,7 @@ automation:
           conditions:
             - condition: state
               entity_id: media_player.amplifier
-              state: 'idle'
+              state: 'off'
             - condition: state
               entity_id: media_player.amplifier
               state: 'unavailable'
@@ -78,8 +74,8 @@ automation:
           seconds: 5
       - platform: state
         entity_id: media_player.amplifier
-        from: 'idle'
-        to: 'playing'
+        from: 'off'
+        to: 'on'
         for:
           seconds: 5
     condition:
