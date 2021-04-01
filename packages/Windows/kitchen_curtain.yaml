@@ -1,9 +1,14 @@
-time_counter:
-  kitchen_curtain:
-    name: Kitchen Curtain Counter
-    down_duration: 17
-    up_duration: 17.5
-    debounce: 1000
+cover:
+  - platform: cover_rf_time_based
+    devices:
+      kitchen_curtain:
+        name: Kitchen Curtain
+        travelling_time_up: 17.5
+        travelling_time_down: 17
+        close_script_entity_id: script.kitchen_curtain_close
+        stop_script_entity_id: script.kitchen_curtain_stop
+        open_script_entity_id: script.kitchen_curtain_open
+        send_stop_at_ends: False
 
 sensor:
   - platform: template
@@ -11,79 +16,42 @@ sensor:
       kitchen_curtain_state:
         value_template: >
           {% if states('cover.kitchen_curtain_switch') == 'open' and state_attr("cover.kitchen_curtain_switch", "current_position") == 100 %}
-          closing
-          {% elif states('cover.kitchen_curtain_switch') == 'closed' and state_attr("cover.kitchen_curtain_switch", "current_position") == 50 %}
-          stopped
+          close
+          {% elif states('cover.kitchen_curtain_switch') == 'open' and state_attr("cover.kitchen_curtain_switch", "current_position") == 50 %}
+          stop
           {% elif states('cover.kitchen_curtain_switch') == 'closed' and state_attr("cover.kitchen_curtain_switch", "current_position") == 0 %}
-          opening
+          open
           {% endif %}
 
-cover:
-  - platform: template
-    covers:
-      kitchen_curtain:
-        device_class: curtain
-        friendly_name: "Kitchen Curtain"
-        position_template: "{{ states('time_counter.kitchen_curtain') | int }}"
-        availability_template: "{{ states('cover.kitchen_curtain_switch') != 'unavailable' }}"
-        open_cover:
-          service: cover.open_cover
-          entity_id: cover.kitchen_curtain_switch
-        close_cover:
-          service: cover.close_cover
-          entity_id: cover.kitchen_curtain_switch
-        stop_cover:
-          service: cover.stop_cover
-          entity_id: cover.kitchen_curtain_switch
-        set_cover_position:
-          - service: "cover.{{ 'open_cover' if position > states('time_counter.kitchen_shutter')|int else 'stop_cover' if position == states('time_counter.kitchen_shutter')|int else 'close_cover' }}"
-            entity_id: cover.kitchen_curtain_switch
-          - service: time_counter.set
-            data:
-              entity_id: time_counter.kitchen_curtain
-              state: "{{ position }}"
-        
-
 automation:
-  - alias: Kitchen Curtain Time Counter According To Sensor
+  - alias: Kitchen Curtain Update Position From Physical Switch
     trigger:
       - platform: state
         entity_id: sensor.kitchen_curtain_state
+    condition:
+      - condition: not
+        conditions:
+          - condition: state
+            entity_id: cover.kitchen_curtain
+            state: 
+              - "closing"
+              - "opening"
     action:
-      service: >
-        {% if trigger.to_state.state == 'closing' %}
-          time_counter.downcount
-        {% elif trigger.to_state.state == 'opening' %}
-          time_counter.upcount
-        {% else %}
-          time_counter.stop
-        {% endif %}
+      service: cover_rf_time_based.set_known_action
+      entity_id: cover.kitchen_curtain
       data:
-        entity_id:
-          - time_counter.kitchen_curtain
+        action: "{{ trigger.to_state.state }}"
 
-  - alias: Kitchen Curtain Time Counter Stopped
-    trigger:
-      platform: event
-      event_type: time_counter.stopped
-      event_data:
-        entity_id: time_counter.kitchen_curtain
-    action:
-      - choose:
-          # IF at extremities, give extra 2 seconds
-          - conditions:
-              - condition: template
-                value_template: "{{ states('time_counter.kitchen_curtain') | int == 0 or states('time_counter.kitchen_curtain') | int == 100 }}"
-            sequence:
-              - delay:
-                  seconds: 2
-              - service: cover.stop_cover
-                data:
-                  entity_id:
-                    - cover.kitchen_curtain_switch
-        # ELSE stop right away
-        default:
-          - service: cover.stop_cover
-            data:
-              entity_id:
-                - cover.kitchen_curtain_switch
+script:
+  kitchen_curtain_open:
+    sequence:
+      service: cover.open_cover
+      entity_id: cover.kitchen_curtain_switch
+  kitchen_curtain_close:
+    sequence:
+      service: cover.close_cover
+      entity_id: cover.kitchen_curtain_switch
+  kitchen_curtain_stop:
+    sequence:
+      service: cover.stop_cover
+      entity_id: cover.kitchen_curtain_switch

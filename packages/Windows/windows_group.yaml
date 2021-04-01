@@ -16,3 +16,26 @@ group:
       - cover.office_shutter
       - cover.birds_shutter
       - cover.bedroom_shutter
+
+# automation:
+#   - alias: Shutter Update Position From Physical Switch
+#     mode: parallel
+#     trigger:
+#       - platform: state
+#         entity_id: 
+#           - sensor.living_room_shutter_state
+#           - sensor.kitchen_shutter_state
+#           - sensor.kitchen_curtain_state
+#           - sensor.office_shutter_state
+#           - sensor.birds_shutter_state
+#           - sensor.bedroom_shutter_state
+#     variables:
+#       cover_entity_id: "cover.{{ trigger.to_state.entity_id | replace('sensor.', '') | replace('_state', '') }}"
+#     condition:
+#       - condition: template
+#         value_template: "{{ states(cover_entity_id) != 'opening' and states(cover_entity_id) != 'closing' }}"
+#     action:
+#       service: cover_rf_time_based.set_known_action
+#       data:
+#         entity_id: '{{ cover_entity_id }}'
+#         action: '{{ trigger.to_state.state }}'

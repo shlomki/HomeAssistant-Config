@@ -1,5 +1,4 @@
 light:
-
   - platform: switch
     name: Living Room Lamp Toggle
     entity_id: switch.living_room_lamp_toggle
@@ -28,7 +27,6 @@ light:
     name: Stairs
     entity_id: switch.stairs
 
-
   - platform: switch
     name: Kitchen Counter
     entity_id: switch.kitchen_counter
@@ -40,7 +38,6 @@ light:
   - platform: switch
     name: Kitchen Island
     entity_id: switch.kitchen_island
-
 
   - platform: switch
     name: Hallway Main Toggle
@@ -54,15 +51,17 @@ light:
     name: Toilet Main
     entity_id: switch.toilet_main
 
-
   - platform: switch
     name: Office Main
     entity_id: switch.office_main
 
   - platform: switch
+    name: Office BFF Light
+    entity_id: switch.office_bff_light
+
+  - platform: switch
     name: Office BFF Light Toggle
     entity_id: switch.office_bff_light_toggle
-
 
   - platform: switch
     name: Birds Main
@@ -71,8 +70,6 @@ light:
   - platform: switch
     name: Birds Main Toggle
     entity_id: switch.birds_main_toggle
-
-
 
   - platform: switch
     name: Bathroom Main
@@ -97,7 +94,6 @@ light:
   - platform: switch
     name: Riley Scene Toggle
     entity_id: switch.riley_scene_toggle
-
 
   - platform: switch
     name: Bedroom Closet
@@ -138,7 +134,6 @@ light:
   - platform: switch
     name: Bedroom Entrance Toggle Right
     entity_id: switch.bedroom_entrance_toggle_right
-
 
   - platform: switch
     name: Toilet Night Light

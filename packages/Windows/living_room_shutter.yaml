@@ -1,9 +1,14 @@
-time_counter:
-  living_room_shutter:
-    name: Living Room Shutter Counter
-    down_duration: 25
-    up_duration: 27
-    debounce: 250
+cover:
+  - platform: cover_rf_time_based
+    devices:
+      living_room_shutter:
+        name: Living Room Shutter
+        travelling_time_up: 19
+        travelling_time_down: 18
+        close_script_entity_id: script.living_room_shutter_close
+        stop_script_entity_id: script.living_room_shutter_stop
+        open_script_entity_id: script.living_room_shutter_open
+        send_stop_at_ends: False
 
 sensor:
   - platform: template
@@ -11,79 +16,42 @@ sensor:
       living_room_shutter_state:
         value_template: >
           {% if states('cover.living_room_shutter_switch') == 'open' and state_attr("cover.living_room_shutter_switch", "current_position") == 100 %}
-          closing
-          {% elif states('cover.living_room_shutter_switch') == 'closed' and state_attr("cover.living_room_shutter_switch", "current_position") == 50 %}
-          stopped
+          close
+          {% elif states('cover.living_room_shutter_switch') == 'open' and state_attr("cover.living_room_shutter_switch", "current_position") == 50 %}
+          stop
           {% elif states('cover.living_room_shutter_switch') == 'closed' and state_attr("cover.living_room_shutter_switch", "current_position") == 0 %}
-          opening
+          open
           {% endif %}
 
-cover:
-  - platform: template
-    covers:
-      living_room_shutter:
-        device_class: shutter
-        friendly_name: "Living Room Shutter"
-        position_template: "{{ states('time_counter.living_room_shutter') | int }}"
-        availability_template: "{{ states('cover.living_room_shutter_switch') != 'unavailable' }}"
-        open_cover:
-          service: cover.open_cover
-          entity_id: cover.living_room_shutter_switch
-        close_cover:
-          service: cover.close_cover
-          entity_id: cover.living_room_shutter_switch
-        stop_cover:
-          service: cover.stop_cover
-          entity_id: cover.living_room_shutter_switch
-        set_cover_position:
-          - service: "cover.{{ 'open_cover' if position > states('time_counter.living_room_shutter')|int else 'stop_cover' if position == states('time_counter.living_room_shutter')|int else 'close_cover' }}"
-            entity_id: cover.living_room_shutter_switch
-          - service: time_counter.set
-            data:
-              entity_id: time_counter.living_room_shutter
-              state: "{{ position }}"
-        
-
 automation:
-  - alias: Living Room Shutter Time Counter According To Sensor
+  - alias: Living Room Shutter Update Position From Physical Switch
     trigger:
       - platform: state
         entity_id: sensor.living_room_shutter_state
+    condition:
+      - condition: not
+        conditions:
+          - condition: state
+            entity_id: cover.living_room_shutter
+            state: 
+              - "closing"
+              - "opening"
     action:
-      service: >
-        {% if trigger.to_state.state == 'closing' %}
-          time_counter.downcount
-        {% elif trigger.to_state.state == 'opening' %}
-          time_counter.upcount
-        {% else %}
-          time_counter.stop
-        {% endif %}
+      service: cover_rf_time_based.set_known_action
+      entity_id: cover.living_room_shutter
       data:
-        entity_id:
-          - time_counter.living_room_shutter
+        action: "{{ trigger.to_state.state }}"
 
-  - alias: Living Room Shutter Time Counter Stopped
-    trigger:
-      platform: event
-      event_type: time_counter.stopped
-      event_data:
-        entity_id: time_counter.living_room_shutter
-    action:
-      - choose:
-          # IF at extremities, give extra 2 seconds
-          - conditions:
-              - condition: template
-                value_template: "{{ states('time_counter.living_room_shutter') | int == 0 or states('time_counter.living_room_shutter') | int == 100 }}"
-            sequence:
-              - delay:
-                  seconds: 2
-              - service: cover.stop_cover
-                data:
-                  entity_id:
-                    - cover.living_room_shutter_switch
-        # ELSE stop right away
-        default:
-          - service: cover.stop_cover
-            data:
-              entity_id:
-                - cover.living_room_shutter_switch
+script:
+  living_room_shutter_open:
+    sequence:
+      service: cover.open_cover
+      entity_id: cover.living_room_shutter_switch
+  living_room_shutter_close:
+    sequence:
+      service: cover.close_cover
+      entity_id: cover.living_room_shutter_switch
+  living_room_shutter_stop:
+    sequence:
+      service: cover.stop_cover
+      entity_id: cover.living_room_shutter_switch

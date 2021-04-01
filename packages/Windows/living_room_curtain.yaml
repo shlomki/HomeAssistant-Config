@@ -4,11 +4,11 @@ sensor:
       living_room_curtain_state:
         value_template: >
           {% if states('cover.living_room_curtain_switch') == 'open' and state_attr("cover.living_room_curtain_switch", "current_position") == 100 %}
-          closing
-          {% elif states('cover.living_room_curtain_switch') == 'closed' and state_attr("cover.living_room_curtain_switch", "current_position") == 50 %}
-          stopped
+          close
+          {% elif states('cover.living_room_curtain_switch') == 'open' and state_attr("cover.living_room_curtain_switch", "current_position") == 50 %}
+          stop
           {% elif states('cover.living_room_curtain_switch') == 'closed' and state_attr("cover.living_room_curtain_switch", "current_position") == 0 %}
-          opening
+          open
           {% endif %}
 
 automation:
@@ -17,15 +17,7 @@ automation:
       - platform: state
         entity_id: sensor.living_room_curtain_state
     action:
-      service: >
-        {% if trigger.to_state.state == 'closing' %}
-          cover.close_cover
-        {% elif trigger.to_state.state == 'opening' %}
-          cover.open_cover
-        {% else %}
-          cover.stop_cover
-        {% endif %}
-      data:
-        entity_id:
-          - cover.living_room_curtain
+      service: "cover.{{trigger.to_state.state}}_cover"
+      entity_id:
+        - cover.living_room_curtain
 
