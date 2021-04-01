@@ -27,7 +27,7 @@ room = data['room']
 
 #Find room name
 room = room.replace('input_boolean.', '')
-room = room.replace('fan.', '')
+room = room.replace('climate.', '')
 room = room.replace('input_select.', '')
 room = room.replace('sensor.', '')
 room = room.replace('ac_damper_', '')

@@ -79,32 +79,6 @@ switch:
           - service: input_boolean.turn_off
             entity_id: input_boolean.ac_smartauto_min_cycle_passed
 
-  #AC Smart Auto Switch Between Fan & AC (When disconnected from internet)
-  # - platform: template
-  #   switches:
-  #     ac_smartauto_manual:
-  #       value_template: "{{ is_state('input_boolean.ac_smartauto_manual', 'on') }}"
-  #       turn_on:
-  #         - service: python_script.broadlink_send
-  #           data:
-  #             room: 'living_room'
-  #             #AC cool 24 degrees low fan
-  #             packet: 'JgAQAQABBos2GhU4FjkVORY5FToVORY5NhkWOBY5Fjg3GBY4FjkWORU5FjkVORY5Nhk1GRU5FjkWORY4FjkWORc4FTkWORU6FTkWORU5FjkVOhU6FTkWORc4NhgXOBU5OBc2GBc4FToVORY5FjgXOBY5FTk2GTYZNxc2GDYZFTk3GBU6FTkWOD0AApwAAQeHORkVORY5FzcWORY5FTkXODYYFzgVOhU5NxgVORY5FToVORY5FToVOTcYNRkWORU6FTkXOBU5FjkWORU5FjkVOhc4FzgWOBY5FzcWORY5FToWODYYFjkWOTYYNhkVORY5FzgVORY5FTkXOBY5Nhg2GTYYNxg2GBY5NhkWOBc3Fjk8AA0FAAAAAAAAAAA='
-  #         - service: input_boolean.turn_on
-  #           entity_id: input_boolean.ac_smartauto_manual
-  #         - service: input_boolean.turn_off
-  #           entity_id: input_boolean.ac_smartauto_min_cycle_passed
-  #       turn_off:
-  #         - service: python_script.broadlink_send
-  #           data:
-  #             room: 'living_room'
-  #             #AC fan only 24 degrees low fan
-  #             packet: 'JgAQAQABCIk2GBY5FTkXOBU6FjgWORU6Nhg2GhU4Fjk2GBY5FTkWORY5FToWORU5Nhk2GBc4FToWOBY5FjgWORU5FjkWORU5FjkWORU5FjkWORU5FjkVOhU5NxgVORY5Nhg3GBU5FjkWOhc3FzgWOBY5Fjk2GDgXNBoWORU5OBc1GRY5FTkWOTwAA3kAAQeKNhgWORU6FjkVORc4FToWODcYNRkWORY4NhkVORY5FToVORY5FTkWOTYZNRkVORY6FTkWORU5FjkVOhU5FjkVOhU5FjoVORY5FzcWORg2FjkXODYYFjkVOTkWNhgWORU6FTkWORY5FTkWORU6NRk1GjYYFjkVOTcYNhgWORU5Fjk9AA0FAAAAAAAAAAA='
-  #         - service: input_boolean.turn_off
-  #           entity_id: input_boolean.ac_smartauto_manual
-  #         - service: input_boolean.turn_off
-  #           entity_id: input_boolean.ac_smartauto_min_cycle_passed
-
 sensor:
   - platform: template
     sensors:

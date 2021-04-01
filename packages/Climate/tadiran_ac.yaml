@@ -36,7 +36,7 @@ climate:
   - platform: smartir
     name: Manual AC
     unique_id: manual_ac
-    device_code: 1342
+    device_code: 1346
     controller_data: remote.living_room
     temperature_sensor: sensor.living_room_temperature
 
