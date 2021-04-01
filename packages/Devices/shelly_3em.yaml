@@ -28,7 +28,7 @@ sensor:
       power_total:
         friendly_name: "Total Power"
         unit_of_measurement: 'watt'
-        value_template: "{{ (states('sensor.shelly_3em_channel_a_power') | float + states('sensor.shelly_3em_channel_b_power') | float  + states('sensor.shelly_3em_channel_c_power') | float) | round(2)}}"
+        value_template: "{{ (states('sensor.shelly_3em_meter_power_0') | float + states('sensor.shelly_3em_meter_power_1') | float  + states('sensor.shelly_3em_meter_power_2') | float) | round(2)}}"
 
   - platform: template
     sensors:
@@ -42,7 +42,7 @@ sensor:
       energy_total:
         friendly_name: "Total Energy"
         unit_of_measurement: 'kWh'
-        value_template: "{{ states('sensor.shelly_3em_channel_a_energy') | float + states('sensor.shelly_3em_channel_b_energy') | float  + states('sensor.shelly_3em_channel_c_energy') | float}}"
+        value_template: "{{ states('sensor.shelly_3em_meter_total_0') | float + states('sensor.shelly_3em_meter_total_1') | float  + states('sensor.shelly_3em_meter_total_2') | float}}"
 
   - platform: template
     sensors:
