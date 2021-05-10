@@ -145,3 +145,13 @@ automation:
         entity_id: light.laundry_hue
         data:
           brightness: 2
+
+  - alias: Office Close Shutter Partly Late Night
+    trigger:
+      platform: time
+      at: input_datetime.late_night
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: cover.office_shutter
+          position: 35

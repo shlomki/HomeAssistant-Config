@@ -1,14 +1,11 @@
 automation:
-  - alias: Bedroom closet light on motion during daytime
+  - alias: Bedroom closet light on motion
+
     trigger:
       - platform: state
         entity_id: binary_sensor.bedroom_closet_motion
         from: 'off'
         to: 'on'
-    condition:
-      - condition: time
-        after: input_datetime.late_morning
-        before: input_datetime.evening
     action:
       - service: light.turn_on
         entity_id: light.bedroom_closet
