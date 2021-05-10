@@ -202,10 +202,11 @@ automation:
             {% set both = (balcony_window and bathroom_door) %}
             Living Room AC is on. Please close the {{ 'balcony window' if balcony_window }}{{ ' and the ' if both }}{{ 'bathroom door' if bathroom_door }}.
 
-  - alias: Update room temperature for dampers
+  - id: Update room temperature for dampers
+    alias: Update room temperature for dampers
     mode: parallel
     trigger:
-      #Damper was turned on 15 seconds ago
+      #Damper state has changed 15 seconds ago
       - platform: state
         entity_id:
           - climate.ac_damper_living_room
@@ -213,7 +214,6 @@ automation:
           - climate.ac_damper_birds
           - climate.ac_damper_riley
           - climate.ac_damper_bedroom
-        to: "fan_only"
         for:
           seconds: 15
 
@@ -268,3 +268,26 @@ automation:
       - service: python_script.update_ac_room_temp
         data:
           room: "{{ trigger.to_state.entity_id }}"
+
+  - id: Repeat damper transmission
+    alias: Repeat damper transmission
+    trigger:
+      - platform: state
+        entity_id:
+          - climate.ac_damper_living_room
+          - climate.ac_damper_office
+          - climate.ac_damper_birds
+          - climate.ac_damper_riley
+          - climate.ac_damper_bedroom
+        for:
+          seconds: 3
+    action:
+      - alias: "Repeat transmission 3 times with 3 seconds delay"
+        repeat:
+          count: "{{ 3 }}"
+          sequence:
+            - service: "climate.turn_{{ trigger.to_state.state | replace('fan_only', 'on') }}"
+              data:
+                entity_id: "{{ trigger.to_state.entity_id }}"
+            - delay:
+                seconds: 3
