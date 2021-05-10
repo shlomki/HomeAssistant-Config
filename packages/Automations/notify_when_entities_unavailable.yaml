@@ -64,7 +64,6 @@ automation:
           - binary_sensor.riley_window
           - binary_sensor.bedroom_window
           - cover.office_curtain_switch
-          - light.yellow_lamp
           - switch.lower_gate
           - switch.upper_gate
           - binary_sensor.doorbell
@@ -85,6 +84,7 @@ automation:
           - sensor.bedroom
           - binary_sensor.toilet_flush
           - switch.shelly_3em
+          - binary_sensor.big_freezer
         to: 'unavailable'
         for:
           seconds: 30
@@ -151,7 +151,6 @@ automation:
           - binary_sensor.riley_window
           - binary_sensor.bedroom_window
           - cover.office_curtain_switch
-          - light.yellow_lamp
           - switch.lower_gate
           - switch.upper_gate
           - binary_sensor.doorbell
@@ -171,6 +170,7 @@ automation:
           - sensor.riley
           - sensor.bedroom
           - binary_sensor.toilet_flush
+          - binary_sensor.big_freezer
         from: 'unavailable'
         to: 'on'
         for:
@@ -238,7 +238,6 @@ automation:
           - binary_sensor.riley_window
           - binary_sensor.bedroom_window
           - cover.office_curtain_switch
-          - light.yellow_lamp
           - switch.lower_gate
           - switch.upper_gate
           - binary_sensor.doorbell
@@ -258,6 +257,7 @@ automation:
           - sensor.riley
           - sensor.bedroom
           - binary_sensor.toilet_flush
+          - binary_sensor.big_freezer
         from: 'unavailable'
         to: 'off'
         for:
