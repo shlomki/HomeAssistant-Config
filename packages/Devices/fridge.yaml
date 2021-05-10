@@ -71,3 +71,53 @@ automation:
       - service: script.notify_all
         data:
           message: The freezer is still open (10 minute reminder).
+
+  - alias: Big Freezer Left Open
+    mode: single
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.big_freezer
+      from: 'off'
+      to: 'on'
+      for: 
+        minutes: 2
+    action:
+      - service: script.notify_all
+        data:
+          message: Hey, I think the big freezer was left open
+      - wait_for_trigger:
+        - platform: state
+          entity_id: binary_sensor.freezer
+          from: 'on'
+          to: 'off'
+      - service: script.notify_all
+        data:
+          message: The big freezer was closed
+
+  - alias: Big Freezer Left Open Reminder 10
+    mode: single
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.big_freezer
+      from: 'off'
+      to: 'on'
+      for: 
+        minutes: 10
+    action:
+      - service: script.notify_all
+        data:
+          message: The big freezer is still open (10 minute reminder).
+
+  - alias: Big Freezer Left Open Reminder 20
+    mode: single
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.big_freezer
+      from: 'off'
+      to: 'on'
+      for: 
+        minutes: 20
+    action:
+      - service: script.notify_all
+        data:
+          message: The big freezer is still open (20 minute reminder).
