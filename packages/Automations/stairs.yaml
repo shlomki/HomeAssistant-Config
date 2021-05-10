@@ -10,7 +10,7 @@ automation:
         to: "on"
     action:
       - service: light.turn_on
-        entity_id: light.stairs
+        entity_id: light.stairs_group
 
   - alias: Stairs light auto off
     trigger:
@@ -30,7 +30,7 @@ automation:
         - 'unavailable'
     action:
       - service: light.turn_off
-        entity_id: light.stairs
+        entity_id: light.stairs_group
 
   - alias: Stairs light off when front door is open for 5 mins
     trigger:
@@ -48,4 +48,4 @@ automation:
         - 'unavailable'
     action:
       - service: light.turn_off
-        entity_id: light.stairs
+        entity_id: light.stairs_group

@@ -18,6 +18,24 @@ automation:
       - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
         entity_id: light.living_room_lamp_group
 
+  - alias: Stairs switch sync
+    trigger:
+      - platform: state
+        entity_id: 
+          - light.stairs
+          - switch.stairs_module
+    condition:
+      condition: not
+      conditions:
+          - condition: state
+            entity_id: 
+              - light.stairs
+              - switch.stairs_module
+            state: 'unavailable'
+    action:
+      - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
+        entity_id: light.stairs_group
+
   - alias: Office switches sync bff light
     trigger:
       - platform: state
@@ -111,28 +129,6 @@ automation:
           - light.riley_main_combined
         data:
           brightness: '{{ 255 if ( (state_attr("light.riley_main_combined", "brightness") or state_attr("light.riley_main_combined", "brightness")) < 127) else 1 }}'
-
-  - alias: Riley switches scene yellow lamp
-    trigger:
-      - platform: state
-        entity_id: 
-          - light.riley_scene_toggle
-    condition:
-      - condition: state
-        entity_id: light.riley_main_combined
-        state: 'off'
-      - condition: not
-        conditions:
-            - condition: state
-              entity_id: 
-                - light.riley_scene_toggle
-              state: 'unavailable'
-    action:
-      - service: light.toggle
-        entity_id: 
-          - light.yellow_lamp
-        data:
-          brightness: 2
 
   - alias: Bedroom switches sync main
     trigger:
