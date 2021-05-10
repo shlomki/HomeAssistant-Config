@@ -29,13 +29,9 @@ automation:
       - platform: state
         entity_id: sensor.birds_shutter_state
     condition:
-      - condition: not
-        conditions:
-          - condition: state
-            entity_id: cover.birds_shutter
-            state: 
-              - "closing"
-              - "opening"
+      - alias: "not already in the same state" #Otherwise causes some weird racing condition between template cover and switch
+        condition: template
+        value_template: "{{ (trigger.to_state.state | replace('open', 'opening') | replace('close', 'closing')) != states('cover.birds_shutter') }}"    
     action:
       service: cover_rf_time_based.set_known_action
       entity_id: cover.birds_shutter
