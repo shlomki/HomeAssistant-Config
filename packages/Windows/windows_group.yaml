@@ -17,6 +17,25 @@ group:
       - cover.birds_shutter
       - cover.bedroom_shutter
 
+script:
+  all_shutters:
+    alias: "All Shutters"
+    sequence:
+      - service: "{{ service }}"
+        entity_id: cover.kitchen_shutter
+      - delay: "00:00:01"
+      - service: "{{ service }}"
+        entity_id: cover.office_shutter
+      - delay: "00:00:01"
+      - service: "{{ service }}"
+        entity_id: cover.birds_shutter
+      - delay: "00:00:01"
+      - service: "{{ service }}"
+        entity_id: cover.bedroom_shutter
+      - delay: "00:00:{{ living_room_shutter_delay if living_room_shutter_delay else '01' }}" #Custom delay for living_room_shutter
+      - service: "{{ service }}"
+        entity_id: cover.living_room_shutter
+
 # automation:
 #   - alias: Shutter Update Position From Physical Switch
 #     mode: parallel
