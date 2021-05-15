@@ -33,11 +33,13 @@ python_script:
 
 wake_on_lan:
 
-logger:
-  default: warning
-  logs:
-    homeassistant.components.python_script: debug
-    homeassistant.components.python_scripts: debug
+# logger:
+#   default: warning
+#   logs:
+    #homeassistant.components.python_script: debug
+    #homeassistant.components.python_scripts: debug
+    # pydeconz: debug
+    # homeassistant.components.deconz: debug
     # custom_components.ekon-local: debug
     #homeassistant.components.shell_command: debug
 
