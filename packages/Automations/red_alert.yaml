@@ -1,0 +1,183 @@
+sensor:
+  - platform: template
+    sensors:
+      red_alert_in_my_area:
+        friendly_name: "Rishon LeZion Red Alert"
+        icon_template: mdi:bell-ring-outline
+        value_template: >-
+          {% set city = 'ראשון לציון - מזרח' %}
+          {% set redAlertData=state_attr('sensor.red_alert', 'data') %}
+          {% if redAlertData is not none %}
+            {% if city in redAlertData %} on {% else %} off {% endif %}
+          {% else %}
+            off
+          {% endif %}
+  ################################################
+  
+  - platform: rest
+    resource: https://www.oref.org.il/WarningMessages/alert/alerts.json
+    name: red_alert
+    value_template: "{{ value_json.data }}"
+    json_attributes:
+      - alertDate
+      - title
+      - data
+    scan_interval: 2
+    headers:
+      Referer: https://www.oref.org.il/
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36
+      X-Requested-With: XMLHttpRequest
+
+################################################
+
+automation:
+  - alias: Red Alert - Close shutters
+    trigger:
+      - platform: state
+        entity_id: sensor.red_alert_in_my_area
+        from: "off"
+        to: "on"
+        for:
+          seconds: 1
+    action:
+      - service: notify.bffs
+        data:
+          message: Red Alert! Closing shutters.
+      - service: script.all_shutters
+        data:
+          service: cover.close_cover
+          living_room_shutter_delay: 12
+
+  - alias: Red Alert - Turn on lights living room kitchen
+    trigger:
+      - platform: state
+        entity_id: sensor.red_alert_in_my_area
+        from: "off"
+        to: "on"
+    condition:
+      condition: and
+      conditions:
+        - alias: All lights are off
+          condition: state
+          entity_id:
+            - light.living_room_main_combined
+            - light.living_room_entrance
+            - light.living_room_hallway
+            - light.living_room_lamp_combined
+            - light.living_room_tv_light
+            - light.kitchen_island_combined
+            - light.kitchen_pantry
+            - light.kitchen_counter
+          state: "off"
+
+        - alias: It's daytime
+          condition: state
+          entity_id: sun.sun
+          state: "above_horizon"
+
+        - alias: Shutters are open
+          condition: numeric_state
+          attribute: current_position
+          entity_id:
+            - cover.living_room_shutter
+            - cover.kitchen_shutter
+          above: 30
+
+    action:
+      - service: light.turn_on
+        entity_id: light.living_room_main_combined
+
+  - alias: Red Alert - Turn on lights office
+    trigger:
+      - platform: state
+        entity_id: sensor.red_alert_in_my_area
+        from: "off"
+        to: "on"
+    condition:
+      condition: and
+      conditions:
+        - alias: All lights are off
+          condition: state
+          entity_id:
+            - light.office_main_combined
+            - light.office_bff_light
+          state: "off"
+
+        - alias: It's daytime
+          condition: state
+          entity_id: sun.sun
+          state: "above_horizon"
+
+        - alias: Shutters are open
+          condition: numeric_state
+          attribute: current_position
+          entity_id:
+            - cover.office_shutter
+          above: 30
+
+    action:
+      - service: light.turn_on
+        entity_id: light.office_main_combined
+
+  - alias: Red Alert - Turn on lights birds
+    trigger:
+      - platform: state
+        entity_id: sensor.red_alert_in_my_area
+        from: "off"
+        to: "on"
+    condition:
+      condition: and
+      conditions:
+        - alias: All lights are off
+          condition: state
+          entity_id:
+            - light.birds_main_combined
+          state: "off"
+
+        - alias: It's daytime
+          condition: state
+          entity_id: sun.sun
+          state: "above_horizon"
+
+        - alias: Shutters are open
+          condition: numeric_state
+          attribute: current_position
+          entity_id:
+            - cover.birds_shutter
+          above: 30
+
+    action:
+      - service: light.turn_on
+        entity_id: light.birds_main_combined
+
+  - alias: Red Alert - Turn on lights bedroom
+    trigger:
+      - platform: state
+        entity_id: sensor.red_alert_in_my_area
+        from: "off"
+        to: "on"
+    condition:
+      condition: and
+      conditions:
+        - alias: All lights are off
+          condition: state
+          entity_id:
+            - light.bedroom_main_combined
+            - light.bedroom_entrance_combined
+          state: "off"
+
+        - alias: It's daytime
+          condition: state
+          entity_id: sun.sun
+          state: "above_horizon"
+
+        - alias: Shutters are open
+          condition: numeric_state
+          attribute: current_position
+          entity_id:
+            - cover.bedroom_shutter
+          above: 30
+
+    action:
+      - service: light.turn_on
+        entity_id: light.bedroom_main_combined
