@@ -279,8 +279,37 @@ automation:
           - climate.ac_damper_birds
           - climate.ac_damper_riley
           - climate.ac_damper_bedroom
+        from:
+          - 'off'
+          - 'fan_only'
+        to:
+          - 'off'
+          - 'fan_only'
         for:
           seconds: 3
+
+      - platform: state
+        entity_id:
+          - climate.ac_damper_living_room
+          - climate.ac_damper_office
+          - climate.ac_damper_birds
+          - climate.ac_damper_riley
+          - climate.ac_damper_bedroom
+        attribute: temperature
+        for:
+          seconds: 3
+
+      - platform: state
+        entity_id:
+          - climate.ac_damper_living_room
+          - climate.ac_damper_office
+          - climate.ac_damper_birds
+          - climate.ac_damper_riley
+          - climate.ac_damper_bedroom
+        attribute: fan_mode
+        for:
+          seconds: 3
+
     action:
       - alias: "Repeat transmission 3 times with 3 seconds delay"
         repeat:
