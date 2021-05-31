@@ -20,20 +20,29 @@ group:
 script:
   all_shutters:
     alias: "All Shutters"
+    variables:
+      service_to_call: >-
+        {% if service %}
+          {{ service }}
+        {% elif states('group.shutters') == 'open' %}
+          cover.close_cover
+        {% else %}
+          cover.open_cover
+        {% endif %}
     sequence:
-      - service: "{{ service }}"
+      - service: "{{ service_to_call }}"
         entity_id: cover.kitchen_shutter
       - delay: "00:00:01"
-      - service: "{{ service }}"
+      - service: "{{ service_to_call }}"
         entity_id: cover.office_shutter
       - delay: "00:00:01"
-      - service: "{{ service }}"
+      - service: "{{ service_to_call }}"
         entity_id: cover.birds_shutter
       - delay: "00:00:01"
-      - service: "{{ service }}"
+      - service: "{{ service_to_call }}"
         entity_id: cover.bedroom_shutter
       - delay: "00:00:{{ living_room_shutter_delay if living_room_shutter_delay else '01' }}" #Custom delay for living_room_shutter
-      - service: "{{ service }}"
+      - service: "{{ service_to_call }}"
         entity_id: cover.living_room_shutter
 
 # automation:
