@@ -173,3 +173,14 @@ sensor:
         friendly_name: "Front Door"
         value_template: "{{ 'Closed' if states('binary_sensor.front_door') == 'off' }}{{ 'Open' if states('binary_sensor.front_door') == 'on' }}{{ 'Unknown' if states('binary_sensor.front_door') == 'unknown' }}, {{ 'Locked' if states('binary_sensor.front_door_lock') == 'off'}}{{ 'Unlocked' if states('binary_sensor.front_door_lock') == 'on'}}{{ 'Unknown' if states('binary_sensor.front_door_lock') == 'unknown'}}"
 
+script:
+  front_door_lock_toggle:
+    alias: "Front Door Lock Toggle"
+    sequence:
+      - alias: "If door is open, do nothing"
+        condition: state
+        entity_id: binary_sensor.front_door
+        state: "off"
+
+      - service: "{{ 'lock.lock' if is_state('binary_sensor.front_door_lock', 'on') else 'lock.unlock' }}"
+        entity_id: lock.front_door
