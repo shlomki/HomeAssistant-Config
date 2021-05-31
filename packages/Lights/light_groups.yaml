@@ -1,0 +1,171 @@
+group:
+  All Lights:
+    entities:
+      - switch.living_room_lights
+      - switch.balcony_lights
+      - switch.kitchen_lights
+      - light.hallway_main
+      - switch.office_lights
+      - light.birds_main_combined
+      - light.riley_main_combined
+      - switch.bedroom_lights
+      - switch.toilet_lights
+      - switch.bathroom_lights
+
+  Living Room Lights:
+    entities:
+      - light.living_room_main_combined
+      - light.living_room_entrance_combined
+      - light.living_room_hallway_combined
+      - light.living_room_tv_light
+      - light.living_room_lamp_combined
+
+  Balcony Lights:
+    entities:
+      - light.balcony_main
+      - switch.bedroom_smart_plug
+
+  Kitchen Lights:
+    entities:
+      - light.kitchen_island_combined
+      - light.kitchen_pantry
+      - light.kitchen_counter
+
+  Office Lights:
+    entities:
+      - light.office_main
+      - light.office_bff_light
+
+  Toilet Lights:
+    entities:
+      - light.toilet_main
+      - light.toilet_night_light
+      - switch.toilet_vent
+
+  Bathroom Lights:
+    entities:
+      - light.bathroom_main
+      - light.bathroom_laundry
+      - light.bathroom_night_light
+
+  Bedroom Lights:
+    entities:
+      - light.bedroom_main_combined
+      - light.bedroom_entrance
+      - light.bedroom_closet
+
+switch:
+  - platform: template
+    switches:
+      all_lights:
+        value_template: "{{ is_state('group.all_lights', 'on') }}"
+        turn_on:
+          service: homeassistant.turn_on
+          target:
+            entity_id: 
+              - switch.living_room_lights
+              - switch.balcony_lights
+              - switch.kitchen_lights
+              - light.hallway_main
+              - switch.office_lights
+              - switch.bedroom_lights
+              - switch.toilet_lights
+              - switch.bathroom_lights
+        turn_off:
+          - service: light.turn_off
+            target:
+              entity_id: light.master
+          - service: homeassistant.turn_off
+            target:
+              entity_id: group.living_room_lights
+
+  - platform: template
+    switches:
+      living_room_lights:
+        value_template: "{{ is_state('group.living_room_lights', 'on') }}"
+        turn_on:
+          service: light.turn_on
+          target:
+            entity_id: light.living_room_lamp_combined
+        turn_off:
+          service: homeassistant.turn_off
+          target:
+            entity_id: group.living_room_lights
+
+  - platform: template
+    switches:
+      balcony_lights:
+        value_template: "{{ is_state('group.balcony_lights', 'on') }}"
+        turn_on:
+          service: switch.turn_on
+          target:
+            entity_id: switch.bedroom_smart_plug
+        turn_off:
+          service: homeassistant.turn_off
+          target:
+            entity_id: group.balcony_lights
+
+  - platform: template
+    switches:
+      kitchen_lights:
+        value_template: "{{ is_state('group.kitchen_lights', 'on') }}"
+        turn_on:
+          service: light.turn_on
+          target:
+            entity_id: light.kitchen_island_combined
+        turn_off:
+          service: homeassistant.turn_off
+          target:
+            entity_id: group.kitchen_lights
+
+  - platform: template
+    switches:
+      office_lights:
+        value_template: "{{ is_state('group.office_lights', 'on') }}"
+        turn_on:
+          service: light.turn_on
+          target:
+            entity_id: light.office_main_combined
+        turn_off:
+          service: homeassistant.turn_off
+          target:
+            entity_id: group.office_lights
+
+  - platform: template
+    switches:
+      toilet_lights:
+        value_template: "{{ is_state('group.toilet_lights', 'on') }}"
+        turn_on:
+          service: light.turn_on
+          target:
+            entity_id: light.toilet_main
+        turn_off:
+          service: homeassistant.turn_off
+          target:
+            entity_id: group.toilet_lights
+
+  - platform: template
+    switches:
+      bathroom_lights:
+        value_template: "{{ is_state('group.bathroom_lights', 'on') }}"
+        turn_on:
+          service: light.turn_on
+          target:
+            entity_id: light.bathroom_main
+        turn_off:
+          service: homeassistant.turn_off
+          target:
+            entity_id: group.bathroom_lights
+
+  - platform: template
+    switches:
+      bedroom_lights:
+        value_template: "{{ is_state('group.bedroom_lights', 'on') }}"
+        turn_on:
+          service: light.turn_on
+          target:
+            entity_id: light.bedroom_main_combined
+        turn_off:
+          service: homeassistant.turn_off
+          target:
+            entity_id: group.bedroom_lights
