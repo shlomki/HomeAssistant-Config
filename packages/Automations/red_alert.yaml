@@ -17,12 +17,8 @@ sensor:
   - platform: rest
     resource: https://www.oref.org.il/WarningMessages/alert/alerts.json
     name: red_alert
-    value_template: "{{ value_json.data }}"
-    json_attributes:
-      - alertDate
-      - title
-      - data
-    scan_interval: 2
+    value_template: "{{ value_json.data if value else [] }}"
+    scan_interval: 5
     headers:
       Referer: https://www.oref.org.il/
       User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36
