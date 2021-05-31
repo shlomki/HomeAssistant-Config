@@ -269,16 +269,13 @@ automation:
         data:
           room: "{{ trigger.to_state.entity_id }}"
 
-  - id: Repeat damper transmission
-    alias: Repeat damper transmission
+  - id: Repeat damper transmission - living room
+    mode: restart
+    alias: Repeat damper transmission - living room
     trigger:
       - platform: state
         entity_id:
           - climate.ac_damper_living_room
-          - climate.ac_damper_office
-          - climate.ac_damper_birds
-          - climate.ac_damper_riley
-          - climate.ac_damper_bedroom
         from:
           - 'off'
           - 'fan_only'
@@ -291,10 +288,6 @@ automation:
       - platform: state
         entity_id:
           - climate.ac_damper_living_room
-          - climate.ac_damper_office
-          - climate.ac_damper_birds
-          - climate.ac_damper_riley
-          - climate.ac_damper_bedroom
         attribute: temperature
         for:
           seconds: 3
@@ -302,9 +295,169 @@ automation:
       - platform: state
         entity_id:
           - climate.ac_damper_living_room
+        attribute: fan_mode
+        for:
+          seconds: 3
+
+    action:
+      - alias: "Repeat transmission 3 times with 3 seconds delay"
+        repeat:
+          count: "{{ 3 }}"
+          sequence:
+            - service: "climate.turn_{{ trigger.to_state.state | replace('fan_only', 'on') }}"
+              data:
+                entity_id: "{{ trigger.to_state.entity_id }}"
+            - delay:
+                seconds: 3
+
+  - id: Repeat damper transmission - office
+    mode: restart
+    alias: Repeat damper transmission - office
+    trigger:
+      - platform: state
+        entity_id:
           - climate.ac_damper_office
+        from:
+          - 'off'
+          - 'fan_only'
+        to:
+          - 'off'
+          - 'fan_only'
+        for:
+          seconds: 3
+
+      - platform: state
+        entity_id:
+          - climate.ac_damper_office
+        attribute: temperature
+        for:
+          seconds: 3
+
+      - platform: state
+        entity_id:
+          - climate.ac_damper_office
+        attribute: fan_mode
+        for:
+          seconds: 3
+
+    action:
+      - alias: "Repeat transmission 3 times with 3 seconds delay"
+        repeat:
+          count: "{{ 3 }}"
+          sequence:
+            - service: "climate.turn_{{ trigger.to_state.state | replace('fan_only', 'on') }}"
+              data:
+                entity_id: "{{ trigger.to_state.entity_id }}"
+            - delay:
+                seconds: 3
+
+  - id: Repeat damper transmission - birds
+    mode: restart
+    alias: Repeat damper transmission - birds
+    trigger:
+      - platform: state
+        entity_id:
           - climate.ac_damper_birds
+        from:
+          - 'off'
+          - 'fan_only'
+        to:
+          - 'off'
+          - 'fan_only'
+        for:
+          seconds: 3
+
+      - platform: state
+        entity_id:
+          - climate.ac_damper_birds
+        attribute: temperature
+        for:
+          seconds: 3
+
+      - platform: state
+        entity_id:
+          - climate.ac_damper_birds
+        attribute: fan_mode
+        for:
+          seconds: 3
+
+    action:
+      - alias: "Repeat transmission 3 times with 3 seconds delay"
+        repeat:
+          count: "{{ 3 }}"
+          sequence:
+            - service: "climate.turn_{{ trigger.to_state.state | replace('fan_only', 'on') }}"
+              data:
+                entity_id: "{{ trigger.to_state.entity_id }}"
+            - delay:
+                seconds: 3
+
+  - id: Repeat damper transmission - riley
+    mode: restart
+    alias: Repeat damper transmission - riley
+    trigger:
+      - platform: state
+        entity_id:
           - climate.ac_damper_riley
+        from:
+          - 'off'
+          - 'fan_only'
+        to:
+          - 'off'
+          - 'fan_only'
+        for:
+          seconds: 3
+
+      - platform: state
+        entity_id:
+          - climate.ac_damper_riley
+        attribute: temperature
+        for:
+          seconds: 3
+
+      - platform: state
+        entity_id:
+          - climate.ac_damper_riley
+        attribute: fan_mode
+        for:
+          seconds: 3
+
+    action:
+      - alias: "Repeat transmission 3 times with 3 seconds delay"
+        repeat:
+          count: "{{ 3 }}"
+          sequence:
+            - service: "climate.turn_{{ trigger.to_state.state | replace('fan_only', 'on') }}"
+              data:
+                entity_id: "{{ trigger.to_state.entity_id }}"
+            - delay:
+                seconds: 3
+
+  - id: Repeat damper transmission - bedroom
+    mode: restart
+    alias: Repeat damper transmission - bedroom
+    trigger:
+      - platform: state
+        entity_id:
+          - climate.ac_damper_bedroom
+        from:
+          - 'off'
+          - 'fan_only'
+        to:
+          - 'off'
+          - 'fan_only'
+        for:
+          seconds: 3
+
+      - platform: state
+        entity_id:
+          - climate.ac_damper_bedroom
+        attribute: temperature
+        for:
+          seconds: 3
+
+      - platform: state
+        entity_id:
           - climate.ac_damper_bedroom
         attribute: fan_mode
         for:
@@ -320,3 +473,4 @@ automation:
                 entity_id: "{{ trigger.to_state.entity_id }}"
             - delay:
                 seconds: 3
+
