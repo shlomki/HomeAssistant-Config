@@ -1,6 +1,6 @@
-device_tracker:
-  - platform: google_maps
-    username: !secret google_device_tracker_username
+# device_tracker:
+#   - platform: google_maps
+#     username: !secret google_device_tracker_username
     
 zone:
   - name: Home
