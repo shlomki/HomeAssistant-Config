@@ -53,7 +53,7 @@ automation:
           - sensor.riley_temperature
           - sensor.toilet_motion
           - binary_sensor.toilet_door
-          - switch.subwoofer_smart_plug
+          - switch.subwoofer
           - cover.living_room_shutter_switch
           - cover.birds_shutter_switch
           - cover.bedroom_shutter_switch
@@ -85,6 +85,8 @@ automation:
           - binary_sensor.toilet_flush
           - switch.shelly_3em
           - binary_sensor.big_freezer
+          - switch.living_room_lamp_smart_plug
+          - switch.gray_fan_smart_plug
         to: 'unavailable'
         for:
           seconds: 30
@@ -140,7 +142,7 @@ automation:
           - sensor.riley_temperature
           - sensor.toilet_motion
           - binary_sensor.toilet_door
-          - switch.subwoofer_smart_plug
+          - switch.subwoofer
           - cover.living_room_shutter_switch
           - cover.birds_shutter_switch
           - cover.bedroom_shutter_switch
@@ -171,6 +173,8 @@ automation:
           - sensor.bedroom
           - binary_sensor.toilet_flush
           - binary_sensor.big_freezer
+          - switch.living_room_lamp_smart_plug
+          - switch.gray_fan_smart_plug
         from: 'unavailable'
         to: 'on'
         for:
@@ -227,7 +231,7 @@ automation:
           - sensor.riley_temperature
           - sensor.toilet_motion
           - binary_sensor.toilet_door
-          - switch.subwoofer_smart_plug
+          - switch.subwoofer
           - cover.living_room_shutter_switch
           - cover.birds_shutter_switch
           - cover.bedroom_shutter_switch
@@ -258,6 +262,8 @@ automation:
           - sensor.bedroom
           - binary_sensor.toilet_flush
           - binary_sensor.big_freezer
+          - switch.living_room_lamp_smart_plug
+          - switch.gray_fan_smart_plug
         from: 'unavailable'
         to: 'off'
         for:
