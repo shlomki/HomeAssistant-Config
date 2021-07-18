@@ -26,7 +26,7 @@ automation:
         to: 'on'
     action:
       - service: switch.turn_on
-        entity_id: switch.subwoofer_smart_plug
+        entity_id: switch.subwoofer
 
 
   - alias: Subwoofer - Turn off
@@ -62,7 +62,7 @@ automation:
               state: 'unavailable'
     action:
       - service: switch.turn_off
-        entity_id: switch.subwoofer_smart_plug
+        entity_id: switch.subwoofer
 
   - alias: Subwoofer smartplug unavailable
     trigger:
@@ -80,7 +80,7 @@ automation:
           seconds: 5
     condition:
         - condition: state
-          entity_id: switch.subwoofer_smart_plug
+          entity_id: switch.subwoofer
           state:  'unavailable'
     action:
       - service: tts.google_translate_say
@@ -91,37 +91,37 @@ automation:
         data:
           message: "The subwoofer hasn't been turned on, make sure the smart plug is plugged in behind the couch."
 
-  - alias: Subwoofer unplugged from smart plug
-    trigger:
-      - platform: state
-        entity_id: switch.subwoofer_smart_plug
-        from: 'off'
-        to: 'on'
-        for:
-          seconds: 10
-    condition:
-        - condition: state
-          entity_id: sensor.subwoofer_power
-          state: '0'
-    action:
-      - service: tts.google_translate_say
-        entity_id: media_player.living_room_speaker
-        data:
-          message: "The subwoofer hasn't been turned on, make sure it's plugged in behind the couch."
-      - service: notify.bffs
-        data:
-          message: "The subwoofer hasn't been turned on, make sure it's plugged in behind the couch."
+  # - alias: Subwoofer unplugged from smart plug
+  #   trigger:
+  #     - platform: state
+  #       entity_id: switch.subwoofer
+  #       from: 'off'
+  #       to: 'on'
+  #       for:
+  #         seconds: 10
+  #   condition:
+  #       - condition: state
+  #         entity_id: sensor.subwoofer_power
+  #         state: '0'
+  #   action:
+  #     - service: tts.google_translate_say
+  #       entity_id: media_player.living_room_speaker
+  #       data:
+  #         message: "The subwoofer hasn't been turned on, make sure it's plugged in behind the couch."
+  #     - service: notify.bffs
+  #       data:
+  #         message: "The subwoofer hasn't been turned on, make sure it's plugged in behind the couch."
 
-  - alias: Subwoofer unplugged from smart plug
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.subwoofer_vibration
-        from: 'off'
-        to: 'on'
-    action:
-      - service: notify.shlomi
-        data:
-          message: "Nugget is moving the subwoofer plug"
+  # - alias: Subwoofer unplugged from smart plug
+  #   trigger:
+  #     - platform: state
+  #       entity_id: binary_sensor.subwoofer_vibration
+  #       from: 'off'
+  #       to: 'on'
+  #   action:
+  #     - service: notify.shlomi
+  #       data:
+  #         message: "Nugget is moving the subwoofer plug"
 
 
 group:
@@ -130,5 +130,9 @@ group:
       - media_player.living_room_tv
       - media_player.bedroom_tv
       - media_player.amplifier
-      - switch.subwoofer_smart_plug
+      - switch.subwoofer
 
+
+media_player:
+  - platform: denon
+    host: 192.168.20.23
