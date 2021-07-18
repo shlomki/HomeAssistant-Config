@@ -1,0 +1,29 @@
+spotify:
+  client_id: !secret spotify_client_id
+  client_secret: !secret spotify_client_secret
+
+spotcast:
+  sp_dc: !secret sp_dc
+  sp_key: !secret sp_key
+
+sensor:
+  - platform: spotcast
+
+automation:
+  - alias: Spotify cast to CC Audio
+    trigger:
+      platform: state
+      entity_id: media_player.everywhere
+      to: 'playing'
+    action:
+      - service: media_player.select_source
+        entity_id: media_player.amplifier
+        data:
+          source: CD
+        target:
+          entity_id: media_player.amplifier
+      - service: media_player.volume_set
+        data:
+          volume_level: 1
+        target:
+          entity_id: media_player.cc_audio
