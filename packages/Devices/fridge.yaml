@@ -1,3 +1,10 @@
+group:
+  fridges:
+    entities:
+      - binary_sensor.fridge
+      - binary_sensor.freezer
+      - binary_sensor.big_freezer
+
 automation:
 
   - alias: Fridge Left Open
