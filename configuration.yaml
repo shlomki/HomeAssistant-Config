@@ -5,6 +5,8 @@ homeassistant:
   elevation: 65
   unit_system: metric
   time_zone: Asia/Jerusalem
+  allowlist_external_dirs:
+    - "/media/front_door"
   packages: !include_dir_named packages
   customize: !include customize.yaml
 
@@ -33,13 +35,21 @@ python_script:
 
 wake_on_lan:
 
+browser_mod:
+  prefix: "browser_"
+
 # logger:
 #   default: warning
 #   logs:
-    #homeassistant.components.python_script: debug
-    #homeassistant.components.python_scripts: debug
-    # pydeconz: debug
-    # homeassistant.components.deconz: debug
-    # custom_components.ekon-local: debug
-    #homeassistant.components.shell_command: debug
+#     homeassistant.components.heos: debug
+#     homeassistant.components.denonavr: debug
+#     custom_components.xiaomi_miio_fan.fan: debug
+#     python-miio: debug
+#     homeassistant.components.python_script: debug
+#     homeassistant.components.python_scripts: debug
+#     pydeconz: debug
+#     homeassistant.components.deconz: debug
+#     custom_components.ekon-local: debug
+#     homeassistant.components.shell_command: debug
+
 
