@@ -66,26 +66,68 @@ fan:
       gray_fan:
         friendly_name: "Gray Fan"
         value_template: "{{ states('input_boolean.gray_fan') }}"
-        speed_template: "{{ states('input_select.gray_fan_speed') }}"
+        percentage_template: "{{ states('input_select.gray_fan_speed') }}"
         oscillating_template: "{{ 'True' if (states('input_boolean.gray_fan_oscillating') == 'on') else 'False' }}"
         turn_on:
+          #Turn on smart plug if it's off
+          - service: "{{ 'switch.turn_on' if states('switch.gray_fan_smart_plug') == 'off' else 'python_script.do_nothing' }}"
+            entity_id: switch.gray_fan_smart_plug
+
+          #Turn on fan only if it's off
           - service: "{{ 'script.gray_fan_power' if states('fan.gray_fan') == 'off' else 'python_script.do_nothing' }}"
+
+          #Mark fan as on
           - service: "{{ 'input_boolean.turn_on' if states('fan.gray_fan') == 'off' else 'python_script.do_nothing' }}"
             entity_id: input_boolean.gray_fan
-        set_speed:
-          service: python_script.fan_set_speed
-          data:
-            name: gray_fan
-            speed: "{{ speed }}"
+        set_percentage:
+          service: script.gray_fan_speed
         set_oscillating:
           - service: script.gray_fan_oscillating
           - service: input_boolean.toggle
             entity_id: input_boolean.gray_fan_oscillating
         turn_off:
-          - service: script.gray_fan_power
-          - service: input_boolean.turn_off
+          #Turn off fan only if it's on
+          - service: "{{ 'script.gray_fan_power' if states('fan.gray_fan') == 'on' else 'python_script.do_nothing' }}"
+
+          #Mark fan as off
+          - service: "{{ 'input_boolean.turn_off' if states('fan.gray_fan') == 'on' else 'python_script.do_nothing' }}"
             entity_id: input_boolean.gray_fan
-        speeds:
-          - 'Low'
-          - 'Medium'
-          - 'High'
+        speed_count: 3
+
+automation:
+  - id: Gray Fan update power from socket
+    alias: Gray Fan update power from socket
+    variables:
+      new_state: "{{ 'on' if (states('sensor.gray_fan_smart_plug_power') | int) > 1 else 'off' }}"
+    trigger:
+      - platform: state
+        entity_id: sensor.gray_fan_smart_plug_power
+    condition:
+      - condition: and
+        conditions:
+          - alias: "Not in this state already"
+            condition: template
+            value_template: "{{ states('input_boolean.gray_fan') != new_state }}"
+
+          - condition: not
+            conditions:
+              - alias: "Smart plug is unavailable"
+                condition: state
+                entity_id: sensor.gray_fan_smart_plug_power
+                state: "unavailable"
+
+    action:
+      - service: input_boolean.turn_{{ new_state }}
+        entity_id: input_boolean.gray_fan
+
+    
+  - id: Gray Fan turn on socket when plugged in
+    alias: Gray Fan turn on socket when plugged in
+    trigger:
+      - platform: state
+        entity_id: switch.gray_fan_smart_plug
+        from: "unavailable"
+        to: "off"
+    action:
+      - service: switch.turn_on
+        entity_id: switch.gray_fan_smart_plug

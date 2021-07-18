@@ -1,0 +1,47 @@
+fan:
+  - platform: xiaomi_miio_fan
+    name: Bedroom Fan
+    host: !secret xiaomi_bedroom_fan_ip
+    token: !secret xiaomi_bedroom_fan_token
+
+  - platform: xiaomi_miio_fan
+    name: Office Fan
+    host: !secret xiaomi_office_fan_ip
+    token: !secret xiaomi_office_fan_token
+
+input_text:
+  temp_fan_angle:
+
+script:
+  reset_fan:
+    sequence:
+      - service: xiaomi_miio_fan.fan_set_child_lock_on
+        data:
+          entity_id: '{{ entity_id }}'
+
+      - service: input_text.set_value
+        entity_id: input_text.temp_fan_angle
+        data:
+          value: "{{ state_attr(entity_id, 'angle') }}"
+
+      - service: xiaomi_miio_fan.fan_set_oscillation_angle
+        data:
+          entity_id: '{{ entity_id }}'
+          angle: 140
+
+      - service: fan.oscillate
+        data:
+          entity_id: '{{ entity_id }}'
+          oscillating: True
+      
+      - delay:
+          seconds: 30
+
+      - service: xiaomi_miio_fan.fan_set_oscillation_angle
+        data:
+          entity_id: '{{ entity_id }}'
+          angle: "{{ states('input_text.temp_fan_angle') }}"
+
+      - service: xiaomi_miio_fan.fan_set_child_lock_off
+        data:
+          entity_id: '{{ entity_id }}'
