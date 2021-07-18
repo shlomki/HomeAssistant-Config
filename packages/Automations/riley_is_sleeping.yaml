@@ -1,0 +1,8 @@
+input_boolean:
+  riley_is_sleeping:
+
+script:
+  update_riley_sleeping_status:
+    sequence:
+      - service: input_boolean.turn_{{ status }}
+        entity_id: input_boolean.riley_is_sleeping

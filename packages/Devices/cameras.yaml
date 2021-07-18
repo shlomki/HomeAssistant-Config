@@ -1,0 +1,22 @@
+group:
+  cameras:
+    entities:
+      - camera.front_door
+      - camera.living_room
+      - camera.hallway
+      - camera.office
+      - camera.birds
+      - camera.riley
+      - camera.bedroom
+
+template:
+  binary_sensor:
+    name: Cameras Online
+    state: >
+          {{ not is_state('camera.front_door', 'unavailable')
+             and not is_state('camera.living_room', 'unavailable')
+             and not is_state('camera.hallway', 'unavailable')
+             and not is_state('camera.office', 'unavailable')
+             and not is_state('camera.birds', 'unavailable')
+             and not is_state('camera.riley', 'unavailable')
+             and not is_state('camera.bedroom', 'unavailable') }}
