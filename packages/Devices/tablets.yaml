@@ -1,0 +1,141 @@
+input_text:
+  tablet_password:
+  house_tablet_ip:
+  black_tablet_ip:
+
+input_number:
+  house_tablet_volume:
+    name: Volume
+    min: 0
+    max: 9
+    step: 1
+  house_tablet_brightness:
+    name: Brightness
+    min: 0
+    max: 9
+    step: 1
+
+  black_tablet_volume:
+    name: Volume
+    min: 0
+    max: 9
+    step: 1
+  black_tablet_brightness:
+    name: Brightness
+    min: 0
+    max: 9
+    step: 1
+
+
+input_select:
+  house_tablet_volume:
+    options:
+      - Mute
+      - Low
+      - Medium
+      - High
+
+  house_tablet_brightness:
+    options:
+      - Min
+      - Low
+      - Medium
+      - High
+
+  black_tablet_volume:
+    options:
+      - Mute
+      - Low
+      - Medium
+      - High
+
+  black_tablet_brightness:
+    options:
+      - Min
+      - Low
+      - Medium
+      - High
+
+rest_command:
+  autoremote_tablet_command: 
+    method: GET
+    url: "http://{{ip}}/sendmessage?password={{ states('input_text.tablet_password') }}&message={{message}}"
+
+script:
+  autoremote_house_tablet_command:
+    mode: queued
+    sequence:
+      - service: rest_command.autoremote_tablet_command
+        data:
+          ip: "{{ states('input_text.house_tablet_ip') }}"
+          message: "{{ message }}"
+
+  autoremote_black_tablet_command:
+    mode: queued
+    sequence:
+      - service: rest_command.autoremote_tablet_command
+        data:
+          ip: "{{ states('input_text.black_tablet_ip') }}"
+          message: "{{ message }}"
+
+  autoremote_tablet_reolink_command:
+    mode: queued
+    sequence:
+      - service: rest_command.autoremote_tablet_command
+        data:
+          ip: "{{ states('input_text.' + tablet + '_ip') }}"
+          message: "re"
+
+switch:
+  - platform: template
+    switches:
+      house_tablet:
+        friendly_name: House Tablet
+        value_template: "{{ is_state('binary_sensor.house_tablet_interactive', 'on') }}"
+        turn_on:
+          service: script.autoremote_house_tablet_command
+          data:
+            message: 'sw'
+        turn_off:
+          service: script.autoremote_house_tablet_command
+          data:
+            message: 'sl'
+
+  - platform: template
+    switches:
+      black_tablet:
+        friendly_name: Black Tablet
+        value_template: "{{ is_state('binary_sensor.black_tablet_interactive', 'on') }}"
+        turn_on:
+          service: script.autoremote_black_tablet_command
+          data:
+            message: 'sw'
+        turn_off:
+          service: script.autoremote_black_tablet_command
+          data:
+            message: 'sl'
+
+automation:
+  - alias: Tablets change setting
+    trigger:
+      - platform: state
+        entity_id: 
+          - input_number.house_tablet_volume
+          - input_number.house_tablet_brightness
+          - input_number.black_tablet_volume
+          - input_number.black_tablet_brightness
+
+          - input_select.house_tablet_volume
+          - input_select.house_tablet_brightness
+          - input_select.black_tablet_volume
+          - input_select.black_tablet_brightness
+
+    variables:
+      command: "{{ trigger.to_state.entity_id  | replace('input_number.', '') | replace('input_select.', '') | replace('black_tablet_', '') | replace('house_tablet_', '') | replace('olume', '') | replace('rightness', '') }}"
+      value: "{{ states(trigger.to_state.entity_id) | replace('Mute', '0') | replace('Min', '0') | replace('Low', '3')  | replace('Medium', '6') | replace('High', '9') | int }}"
+      tablet_name: "{{ trigger.to_state.entity_id | replace('input_number.', '')  | replace('input_select.', '') | replace('_volume', '') | replace('_brightness', '') }}"
+
+    action:
+      - service: "script.autoremote_{{ tablet_name }}_command"
+        data:
+          message: "{{ command }}{{ value }}"
