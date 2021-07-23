@@ -88,6 +88,34 @@ automation:
           message: The front door has been opened
           file: '{{ filename }}'
 
+  - alias: Door is opened with photo actions
+    variables:
+      today_name: >
+        {% set sensor_names = [ 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday','Saturday','Sunday'] %}
+        {{ sensor_names[now().weekday()] }}
+      front_door_photo: "/media/front_door/{{today_name}}/{{ now().strftime('%H.%M.%S') }}_front_door.jpg"
+      living_room_photo: "/media/front_door/{{today_name}}/{{ now().strftime('%H.%M.%S') }}_living_room.jpg"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.front_door
+        from: 'off'
+        to: 'on'
+    action:
+      - service: camera.snapshot
+        data:
+          entity_id: camera.front_door
+          filename: '{{ front_door_photo }}'
+      - service: camera.snapshot
+        data:
+          entity_id: camera.living_room
+          filename: '{{ living_room_photo }}'
+      - service: script.notify_bffs_with_photo_actions
+        data:
+          message: The front door has been opened
+          front_door_photo: '{{ front_door_photo }}'
+          living_room_photo: '{{ living_room_photo }}'
+
+
   - alias: Doorbell ring
     trigger:
       - platform: state
@@ -216,8 +244,20 @@ automation:
         data:
           message: The front door is still open (10 minute reminder).
 
+  - alias: Delete old front door snapshots
+    trigger:
+      platform: time
+      at: "00:00:10"
+    action:
+      - service: shell_command.removesnapshots
+        data:
+          day: >
+            {% set sensor_names = [ 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday','Saturday','Sunday'] %}
+            {{ sensor_names[now().weekday()] }}
 
 
+shell_command:
+  removesnapshots: 'find /media/front_door/{{ day }}/* -exec rm {} \;'  
 
 sensor:
   - platform: template
@@ -237,3 +277,5 @@ script:
 
       - service: "{{ 'lock.lock' if is_state('binary_sensor.front_door_lock', 'on') else 'lock.unlock' }}"
         entity_id: lock.front_door
+
+

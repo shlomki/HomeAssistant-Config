@@ -21,6 +21,15 @@ notify:
       - service: inbal
 
 script:
+  notify_photo:
+    mode: parallel
+    sequence:
+      - service: telegram_bot.send_photo
+        data:
+          caption: '{{ message }}'
+          file: '{{ file }}'
+          target: '{{ target }}'
+
   notify_bffs_photo:
     mode: parallel
     sequence:
@@ -31,21 +40,53 @@ script:
           target: !secret telegram_all_chats
 
   notify_bffs_with_actions:
+    mode: parallel
+    sequence:
+      - service: telegram_bot.send_message
+        data:
+          caption: '{{ message }}'
+          target: !secret telegram_all_chats
+          inline_keyboard: '{{ inline_keyboard }}'
+
+  notify_bffs_with_photo_actions:
     sequence:
       - service: telegram_bot.send_message
         data:
           message: '{{ message }}'
+          message_tag: 'front_door_photo'
           target: !secret telegram_all_chats
-          inline_keyboard: '{{ inline_keyboard }}'
+          inline_keyboard: >
+            Front Door Photo:/send_photo {{ front_door_photo }},
+            Living Room Photo:/send_photo {{ living_room_photo }}
 
 automation:
-  - alias: Telegram callback
+  - alias: Telegram callback turn on off
     trigger:
       - platform: event
         event_type: telegram_callback
+        event_data:
+          command: "/turn_on"
+      - platform: event
+        event_type: telegram_callback
+        event_data:
+          command: "/turn_off"
     action:
       - service: python_script.telegram_callback
         data:
           callback_data: '{{ trigger.event.data.data }}'
           callback_query_id: '{{ trigger.event.data.id }}'
+
+  - alias: Telegram callback send photo
+    mode: parallel
+    trigger:
+      - platform: event
+        event_type: telegram_callback
+        event_data:
+          command: "/send_photo"
+    action:
+      - service: python_script.telegram_send_photo_callback
+        data:
+          callback_data: '{{ trigger.event.data.data }}'
+          callback_query_id: '{{ trigger.event.data.id }}'
+          chat_id: '{{ trigger.event.data.chat_id }}'
 

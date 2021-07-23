@@ -57,5 +57,5 @@ script:
         data:
           message: "{{ message }}"
           inline_keyboard: >
-            {{ room_friendly_name }} AC On:/turn_on:climate.ac_damper_{{ room_friendly_name | string | regex_replace(find=' ', replace='_', ignorecase=True)| lower }},
-            {{ room_friendly_name }} AC Off:/turn_off:climate.ac_damper_{{ room_friendly_name | string | regex_replace(find=' ', replace='_', ignorecase=True)| lower }}
+            {{ room_friendly_name }} AC On:/turn_on climate.ac_damper_{{ room_friendly_name | string | regex_replace(find=' ', replace='_', ignorecase=True)| lower }},
+            {{ room_friendly_name }} AC Off:/turn_off climate.ac_damper_{{ room_friendly_name | string | regex_replace(find=' ', replace='_', ignorecase=True)| lower }}

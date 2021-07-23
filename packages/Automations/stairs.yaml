@@ -4,10 +4,16 @@ automation:
     trigger: #Turn on when either door is opened or there is motion
       - platform: state
         entity_id: 
-          - binary_sensor.front_door
           - binary_sensor.stairs_motion
         from: "off"
         to: "on"
+      - platform: state
+        entity_id:
+          - binary_sensor.front_door
+        from: "off"
+        to: "on"
+        for: 
+          seconds: 1
     action:
       - service: light.turn_on
         entity_id: light.stairs_group
