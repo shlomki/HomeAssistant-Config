@@ -17,10 +17,10 @@ sensor:
         value_template: >
           {% if states('cover.kitchen_curtain_switch') == 'open' and state_attr("cover.kitchen_curtain_switch", "current_position") == 100 %}
           close
-          {% elif states('cover.kitchen_curtain_switch') == 'open' and state_attr("cover.kitchen_curtain_switch", "current_position") == 50 %}
-          stop
           {% elif states('cover.kitchen_curtain_switch') == 'closed' and state_attr("cover.kitchen_curtain_switch", "current_position") == 0 %}
           open
+          {% else %}
+          stop
           {% endif %}
 
 automation:
