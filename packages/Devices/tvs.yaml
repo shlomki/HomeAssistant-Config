@@ -2,16 +2,16 @@ webostv:
   - name: Living Room TV
     host: !secret living_room_tv_ip  
     turn_on_action:
-      service: wake_on_lan.send_magic_packet
+      service: script.turn_on_lg_tv
       data:
-        mac: !secret living_room_tv_mac
+        remote: remote.living_room
 
   - name: Bedroom TV
     host: !secret bedroom_tv_ip
     turn_on_action:
-      service: wake_on_lan.send_magic_packet
+      service: script.turn_on_lg_tv
       data:
-        mac: !secret bedroom_tv_mac
+        remote: remote.bedroom
 
 automation:
   - alias: Subwoofer - Turn on
@@ -136,3 +136,13 @@ group:
 media_player:
   - platform: denon
     host: 192.168.20.23
+
+script:
+  turn_on_lg_tv:
+    sequence:
+      service: remote.send_command
+      data:
+        command: "b64:JgBWAAABJpITEhMSEzcTEhMSExITERMSEzcTNxMSEzcTNxM3EzcTNxMSExITNxMSExITEhM3EzcTNxM3ExITNxM3EzcTERMSEwAFNwABJkkTAAxiAAEmSROSDQU="
+      target:
+        entity_id: "{{ remote }}"
+
