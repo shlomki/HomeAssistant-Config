@@ -7,6 +7,8 @@ homeassistant:
   time_zone: Asia/Jerusalem
   allowlist_external_dirs:
     - "/media/front_door"
+  media_dirs:
+    front_door: "/media/front_door"
   packages: !include_dir_named packages
   customize: !include customize.yaml
 
