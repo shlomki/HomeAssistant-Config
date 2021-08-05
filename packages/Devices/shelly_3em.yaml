@@ -1,8 +1,8 @@
 input_text:
   power_nis_per_kwh:
-    name: Power NIS per kWh
+    name: Power NIS per kWh (incl. VAT)
   power_monthly_additional_cost:
-    name: Power Monthly Additional Cost
+    name: Power Monthly Additional Cost (incl. VAT)
   energy_total_previous_bill:
     name: Total Energy Previous Bill
   energy_total_yesterday:
