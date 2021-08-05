@@ -1,5 +1,5 @@
-# input_text:
-#   last_door_motion:
+input_text:
+  gallery_display_day:
 
 rest_command:
   autoremote_house_tablet_doorbell_command: 
@@ -255,6 +255,17 @@ automation:
             {% set sensor_names = [ 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday','Saturday','Sunday'] %}
             {{ sensor_names[now().weekday()] }}
 
+  - alias: Set gallery day
+    trigger:
+      platform: time
+      at: "00:00:00"
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.gallery_display_day
+          value: >
+            {% set sensor_names = [ 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday','Saturday','Sunday'] %}
+            {{ sensor_names[now().weekday()] }}
 
 shell_command:
   removesnapshots: 'find /media/front_door/{{ day }}/* -exec rm {} \;'  
