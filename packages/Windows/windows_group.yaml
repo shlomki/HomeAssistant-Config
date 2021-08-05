@@ -17,6 +17,15 @@ group:
       - cover.birds_shutter
       - cover.bedroom_shutter
 
+cover:
+  - platform: group
+    name: Curtains
+    entities:
+      - cover.living_room_curtain
+      - cover.kitchen_curtain
+      - cover.office_curtain
+
+
 script:
   all_shutters:
     alias: "All Shutters"
