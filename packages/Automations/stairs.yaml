@@ -13,7 +13,7 @@ automation:
         from: "off"
         to: "on"
         for: 
-          seconds: 1
+          seconds: 1.5
     action:
       - service: light.turn_on
         entity_id: light.stairs_group
