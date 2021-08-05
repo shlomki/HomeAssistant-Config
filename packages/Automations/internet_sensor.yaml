@@ -1,5 +1,12 @@
 binary_sensor:
   - platform: ping
     host: 8.8.8.8
-    name: "Internet Connection"
-    scan_interval: 120
+    name: "Google Connection"
+    scan_interval: 60
+
+  - platform: template
+    sensors:
+      internet_connection:
+        friendly_name: Internet Connection
+        value_template: "{{ states('binary_sensor.google_connection') == 'on' and states('binary_sensor.edgeos_internet_interface') == 'on'}}"
+        device_class: connectivity
