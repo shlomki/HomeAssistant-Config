@@ -20,6 +20,12 @@
 sensor:
   - platform: season
 
+  - platform: template
+    sensors:
+      ac_state:
+        friendly_name: AC State
+        value_template: "{{ states(states('input_text.ac_entity_id')) + '_' + states('group.dampers') }}"
+
 climate:
   - platform: smartir
     name: Living Room
@@ -80,6 +86,12 @@ script:
     sequence:
       - service: python_script.ac_damper_sync_all
 
+  toggle_dampers:
+    alias: Toggle Dampers
+    mode: queued
+    sequence:
+      - service: homeassistant.turn_{{ 'on' if states('group.dampers') == 'off' else 'off' }}
+        entity_id: group.dampers
 
 input_boolean:
   ac_damper_living_room_need_update:
@@ -108,6 +120,30 @@ automation:
     action:
       - service: switch.turn_on
         entity_id: switch.ac_smartauto
+
+#Turn on Living Room Damper when Main AC set to Fan Only (and no other dampers are on)
+  - alias: Turn on LR AC when Main AC set to Fan
+    trigger:
+      - platform: state
+        entity_id: 
+          - climate.mainac
+          - climate.manual_ac
+
+        from: 
+          - heat
+          - cool
+        to: 
+          - fan_only
+
+    condition:
+      - condition: state
+        entity_id: group.dampers
+        state: "off"
+
+    action:
+      - service: climate.turn_on
+        entity_id: climate.ac_damper_living_room
+
 
   - alias: Save last ac mode
     trigger:
@@ -220,18 +256,6 @@ automation:
         for:
           seconds: 15
 
-      # #Damper speed has changed 10 seconds ago
-      # - platform: state
-      #   entity_id:
-      #     - input_select.ac_damper_living_room
-      #     - input_select.ac_damper_office
-      #     - input_select.ac_damper_birds
-      #     - input_select.ac_damper_riley
-      #     - input_select.ac_damper_bedroom
-      #   to: "Auto"
-      #   for:
-      #     seconds: 10
-
       # It's been 4 minutes since last update
       - platform: state
         entity_id:
@@ -244,14 +268,14 @@ automation:
         for:
           minutes: 4
 
-      #Temperature sensor changed
-      - platform: state
-        entity_id:
-          - sensor.living_room_temperature
-          - sensor.office_temperature
-          - sensor.birds_temperature
-          - sensor.riley_temperature
-          - sensor.bedroom_temperature
+      # #Temperature sensor changed
+      # - platform: state
+      #   entity_id:
+      #     - sensor.living_room_temperature
+      #     - sensor.office_temperature
+      #     - sensor.birds_temperature
+      #     - sensor.riley_temperature
+      #     - sensor.bedroom_temperature
 
     condition:
       #Is damper on
