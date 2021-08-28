@@ -23,7 +23,7 @@ group:
   Balcony Lights:
     entities:
       - light.balcony_main
-      - switch.bedroom_smart_plug
+      - light.balcony_string_lights
 
   Kitchen Lights:
     entities:
@@ -33,7 +33,7 @@ group:
 
   Office Lights:
     entities:
-      - light.office_main
+      - light.office_main_combined
       - light.office_bff_light
 
   Toilet Lights:
@@ -51,7 +51,7 @@ group:
   Bedroom Lights:
     entities:
       - light.bedroom_main_combined
-      - light.bedroom_entrance
+      - light.bedroom_entrance_combined
       - light.bedroom_closet
 
 switch:
@@ -97,9 +97,9 @@ switch:
       balcony_lights:
         value_template: "{{ is_state('group.balcony_lights', 'on') }}"
         turn_on:
-          service: switch.turn_on
+          service: light.turn_on
           target:
-            entity_id: switch.bedroom_smart_plug
+            entity_id: light.balcony_string_lights
         turn_off:
           service: homeassistant.turn_off
           target:

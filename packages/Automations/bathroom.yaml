@@ -57,3 +57,21 @@ switch:
       - name: Bathroom Night Light
         command_on: 'shQyABEFEQUHEAcQEQUHEBEGEQYHEBEGBxAHEBEGEQYRBgcQBhAGEBEGBhARBREFBhARBQaiAAAAAAAA'
         command_off: 'shIyABEFEQUGEAYQBhARBQYQBxARBQYQEQYGohEFEQUGEAYQEQUHEBEFEQUHEBEFBxAGEBEFAAAAAAAA'
+
+group:
+  shower:
+    entities:
+      - switch.water_boiler
+      - switch.bathroom_heater
+
+script:
+  toggle_shower:
+    variables:
+      action: switch.turn_{{ 'on' if states('group.shower') == 'off' else 'off' }}
+    sequence:
+      - service: "{{ action }}"
+        entity_id: switch.water_boiler
+      - delay:
+          seconds: 2
+      - service: "{{ action }}"
+        entity_id: switch.bathroom_heater

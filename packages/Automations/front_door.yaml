@@ -268,14 +268,14 @@ automation:
             {{ sensor_names[now().weekday()] }}
 
 shell_command:
-  removesnapshots: 'find /media/front_door/{{ day }}/* -exec rm {} \;'  
+  removesnapshots: 'find /media/front_door/{{ day }}/ -exec rm {} \;'  
 
 sensor:
   - platform: template
     sensors:
       front_door_combined:
         friendly_name: "Front Door"
-        value_template: "{{ 'Closed' if states('binary_sensor.front_door') == 'off' }}{{ 'Open' if states('binary_sensor.front_door') == 'on' }}{{ 'Unknown' if states('binary_sensor.front_door') == 'unknown' }}, {{ 'Locked' if states('binary_sensor.front_door_lock') == 'off'}}{{ 'Unlocked' if states('binary_sensor.front_door_lock') == 'on'}}{{ 'Unknown' if states('binary_sensor.front_door_lock') == 'unknown'}}"
+        value_template: "{{ states('binary_sensor.front_door') | replace('off', 'Closed') | replace('on', 'Open') | capitalize }}, {{ states('lock.front_door') if is_state('binary_sensor.front_door_lock', 'unavailable') else states('binary_sensor.front_door_lock') | replace('off', 'Locked') | replace('on', 'Unlocked') | capitalize }}"
 
 script:
   front_door_lock_toggle:
