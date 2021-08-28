@@ -1,0 +1,194 @@
+
+script:
+  balcony_fan_off:
+    sequence:
+      - service: python_script.broadlink_send
+        data:
+          room: "living_room"
+          packet: "sgBwAQ4jJQslxSUMJQsOIw0jJgslDA0jJgslDA0jDiMlDCULDiMlCw4jDiMlCw4jJQwlCyUMDSMOJCULDiMNJA0jJQwlxSULJQwNIw4jJgslCw4jJQwlCw4jDSMmCyUMDSMlDA0kDSMlDA4jJQslDCULDiMOIyUMDSMOIw0kJQsmxCUMJQsOIw0jJgslDA0jJgslDA0jDiMlCyYLDSMmCw4jDSQlCw4jJQwlCyYLDSQNIyYLDiMNIw4jJQsmxCYLJQsOIw4jJQsmCw0jJgsmCw0jDiMmCyUMDSMlDA0jDiMlCw4jJQwlCyYLDiMNJCULDiMOIw0jJQwlxSULJQwNIw4jJQwlCw4jJQwlCw4jDSMmCyUMDSMmCw4jDSMmCw4jJQwlCyUMDSMOIyUMDSMOIw4jJQsmxCYLJQsOIw0kJQsmCw0jJgsmCw0jDiMlCyYLDiMlCw4jDiMlCw4jJQwlCyYLDSMOJCULDiMNIw4jJQwlAAXcAAAAAAAAAAA="
+
+  balcony_fan_speed_0:
+    sequence:
+      - service: fan.turn_off
+        entity_id: fan.balcony_fan
+
+  balcony_fan_speed_1:
+    sequence:
+      - service: python_script.broadlink_send
+        data:
+          room: "living_room"
+          packet: "sgGEAyULDiMOIyULJQwOIyULJgsOIg4jJgslCw4jJQwNIw4jJQwNIyYLJgslCyYLJQwNJCULDSQNIw4jDdslCyUMDSMOIyUMJQsOIyUMJQsOIw0jJgslCw4jJQwNIw4jJQwNIyYLJQwlCyYLJQwNJCULDiMNIw4jDtolCyUMDSQNIyUMJQsOIyUMJQsOIw0kJQslDA0jJQwNJA0jJQwOIyULJQwlCyYLJQwNJCULDiMNJA0jDdomCyUMDSMOIyULJgsOIyULJgsOIw0jJQwlCw4jJQwNJA0jJQwNIyUMJgslCyYLJQwNJCULDiMOIw0jDtkmCyUMDSMOIyULJgsOIyULJgsOIw0jJgslCw4jJQwNIw4jJQwNJCULJQwlCyYLJQwNJCULDiMNJA0jDtkmCyUMDSMOIyULJgsOIyULJgsOIw0jJgslDA0jJQwNJA0jJQwNIyYLJQwlDCULJQwNJCULDSQNIw4jDdomCyUMDSMOIyULJgsOIyULJgsOIw0jJgslDA0jJQwNIw4jJQwNIyYLJQwlCyYLJQwNJCULDSQNJA0jDtkmCyUMDSMOIyUMJQsOIyULJgsOIw0jJQwlCw4jJQwNIw4jJQwNIyUMJQsmCyUMJQwNIyYLDiMNIw4jDdomCyULDiMOIyULJgsNIyYLJgsNIw4jJQwlCw4jJQwNIw4jJgoOIyUMJQwlCyYLJQwNIyYLDiMNIw4jDdomCyUMDSMOIyUMJQsOIyULJQwOIg4jJgslCw4jJQwNIw4jJQsOIyYLJQwlCyYLJQwNJCULDiMNJA0jDtkmCyUMDSMOIyUMJQsOIyULJgsOIw0jJgslDA0jJQwNJA0jJQwNIyYLJQwlCyYLJQwNJCULDiMNIw4jDtolCyULDiMOIyULJQwOIyULJgsOIw0jJQwlCw4jJQwNIw4jJQwNIyUMJQwlCyYLJQwNJCULDiMNIw4jDtolCyUMDSMOIyUMJQsNJCULJgsOIw0jJgslDA0jJgsNIw4jJgsNIyYLJQwlCyYLJQwNJCULDiMNJA0jDdolDCUMDSMOIyUMJQsOIyULJgsOIw0jJgslDA0jJgsNIw4jJQwNIyYLJQwlCyYLJQwNJCULDiMNIw4jDtklDCULDiMOIyULJQwOIyULJgsNIw4jJQwlCw4jJQwNIw4jJQsOIyYLJQwlCyYLJQwNIyYLDiMNIw4jDQAF3AAAAAA="
+
+  balcony_fan_speed_2:
+    sequence:
+      - service: python_script.broadlink_send
+        data:
+          room: "living_room"
+          packet: "sgGEAyYLDSMOIyUMJQsOIyUMJQsOIw0jJgslDA0jJgsOIw0jJQwOIyUMJQslDCULDSQOIyULDiMOIw0jJsEmCyUMDSMNJCUMJQsNJCUMJQsNJA0jJgslCw4jJQwNIw4jJQwNIyYLJQwlCyYLDSQNJCULDiMNJA0jJcImCiYLDiMNIyYLJQwNIyUMJgsNIw4jJQsmCw4jJQsOIw4jJQsOIyUMJQsmCyULDiQNIyUMDSMOIw4jJcIlCyYLDSQNIyUMJQwNIyUMJQwNIw0kJQslDA0jJgsNJA4iJgsNJCULJgslDCULDiMOIyUMDSMOIw0jJsEmCyULDiMOIyULJgsNIyYLJgsNIw4jJgslCw4jJQwNIw4jJQwNIyUMJgslCyYLDSQNJCULDiMNIw4jJcIlDCULDiMNJCULJQwNIyYLJQwNIw4jJQwlCw4jJQsOIw4jJQsOIyUMJQsmCyULDiMOIyUMDSMOIw4iJsIlCyYLDSQNIyUMJQsOIyUMJQsOIw0kJQslDA0jJgsNJA0jJgsOIyULJgslDCULDiMNJCULDiMOIg4jJcIlDCUMDSMOIyULJQwNJCULJQwNJA0jJQwlCw4jJQwNIw4jJQwNIyUMJQwlCyUMDSMOJCULDiMNIw4jJcIlCyYLDiMNIyYLJQwNIyUMJQsOIw0kJQsmCw0jJgsOIw0kJQsNJCULJgslDCULDiMNJCULDiMOIw0jJsEmCyUMDSMOIyUMJQsOIyULJgsOIw0jJgslDA0jJQwNIw4jJQwNIyYLJQwlCyUMDSQNJCULDiMNIw4jJcImCyULDiMNIyYLJQwNIyYLJgsNIw4jJQsmCw4jJQsOIw4jJQsOIyUMJQsmCyUMDSQNIyUMDSMOIw4jJcIlCyYLDiMNIyUMJQsOIyUMJQsOIw4jJQsmCw0jJgsOIw0jJgsOIyUMJQsmCyULDiMOIyUMDSMOIw4jJcIlCyUMDiMNIyUMJQsOIyUMJQsOIw0jJgslDA0jJQwNIw4jJQwNIyYLJgslCyYLDiMNJCUMDSMOIw0jJsEmCyULDiMOIyULJgsOIyULJgsNJA0jJQwlDA0jJQsOIw4jJQwNIyUMJQwlCyYLDSQNJCULDiMNIw4jJcIlCyYLDiMNIyUMJQwNIyYLJgoOIw4jJQsmCw4jJQsOIw4jJQsOIyUMJQwlCyUMDSMOIyYLDSMOIw4jJQAF3AAAAAA="
+
+  balcony_fan_speed_3:
+    sequence:
+      - service: python_script.broadlink_send
+        data:
+          room: "living_room"
+          packet: "sgKEAyUMDSMOIyUMJQsOIyULJgsOIw0jJgslCw4jJgsNJA0jJgsOIiYLJQwlCw4jJQwNJCULDiMNJCULDtkmCyULDiMOIyULJgsOIyULJgsNIw4jJgslCw4jJQsOIw4jJQsOIyYLJQsmCw4jJQwNIyYLDiMNIyYLDdomCyULDiMNIyYLJgsOIiYLJgsNIw4jJQwlCw4jJQsOIw4jJQsOIyYLJQwlCw4jJQsOIyYLDiMNIyYLDdolDCULDiMOIyULJgoOIyYLJQwNIw4jJQwlCw4jJQsOIw4jJQsOIyUMJQslDA4iJgsOIyYLDiMNIyYKDtolCyYLDiMNIyYLJQsOIyUMJQsOIw4jJQsmCw0jJgsOIw4iJgsOIyULJgsmCw4iJgsOIyYLDSMOIyUMDdolCyYLDSQNIyUMJQsOIyUMJQsOIw0kJQsmCw0jJgsOIw0jJgsNIyYLJgslDA0jJQwOIyYKDiMOIiYLDtkmCyULDiMOIyULJgsOIyULJgsOIw0jJgslCw4jJQwNIw4jJgoOIyUMJQwlCw4jJQsOIyYLDiMNJCULDtkmCyULDiMNIyYLJQwNIyYLJgsNIw4jJQwlCw4jJQwNIw4jJQwNIyUMJQsmCw4jJQsOJCULDiMNIyYLDdolDCULDiMNIyYLJgoOIyUMJgoOIw4jJQsmCw4jJQsOIw4jJQsOIyUMJQslDA0jJgsOIyUMDSMOIyUMDdolCyYLDiMNIyUMJQsOIyUMJQsOIw4jJQsmCw0kJQsOIw4jJQsOIyULJgslDA0jJgsOIyULDiMOIyULDtkmCyUMDSMOIyULJgsOIyULJgsOIw0jJgsmCw0jJQwOIw0jJgsNJCULJgslCw4jJgsNJCULDiMNJCULDtkmCyUMDSMOIyULJgsNJCULJgsOIg4jJQwlCw4jJQsOIw4jJQwNIyYLJQsmCw4jJQsOIyYLDiMNIyYLDdomCyULDiMNJCULJgsNIyYLJQwNIw4jJQsmCw4jJQsOIw4jJQsOIyUMJQsmCw4jJQsOIyYLDiIOIyUMDdolCyYLDiMNIyYLJQwNIyYLJQsOIw4jJQwlCw0jJgsOIw4jJQsOIyULJgslDA4iJgsOIyYLDSMOIyUMDdolCyYLDiIOIyUMJQsOIyUMJQsOIw0jJQwlDA0jJQwNJA0jJgsNIyUMJgslCw4jJQwNJCULDiMNJCULDQAF3AAAAAA="
+
+  balcony_fan_speed_4:
+    sequence:
+      - service: python_script.broadlink_send
+        data:
+          room: "living_room"
+          packet: "sgCuACUMJQsOIyUMJQsOIw0jJgslDA0jJQwOIw4iJgsOIiYMJQslDA0jDiMOIyUMDSMOIyULJsEmCyULDiMOIyULJgsNIyYLJgsNIw4jJQwlCw4jJQwNIw4jJQsOIyUMJQwlCw4jDSQNJCULDiMNJCULJcIlCyUMDiMNIyUMJQwNIyUMJQwNIw0kJQsmCw0jJgsOIw0kJQsOIyULJgsmCw4jDSMOIyYKDiMOIyULJgAF3AAAAAAAAAAAAAA="
+
+  balcony_fan_speed_5:
+    sequence:
+      - service: python_script.broadlink_send
+        data:
+          room: "living_room"
+          packet: "sgGEAyUMDSMOIyUMJQsOIyULJgsOIw0jJgslCw4jJQwNIw4jJQwNIyYLJgsNIyYLJQwNJCULDiMlDA0jDtsmCyULDiMOIyULJgsNJCULJgsNJA0jJQwlCw4jJQwNIw4jJQsOIyUMJQsOIyUMJQsOIyYLDSMmCw4jDdwlDCULDiMNIyYLJQwNIyUMJQsOIw4jJQsmCw4iJgsOIw0jJgsOIyUMJQsOIyUMJQsOIyYLDSMmCw0jDtwlCyYLDSQNIyUMJQwNIyUMJQsOIw4jJQslDA0kJQsOIw4jJQsOIyULJgsOIyULJgsOIyULDiMlDA0jDtwlCyUMDSMOIyUMJQsOIyUMJQsOIw0jJgslDA0jJQwNJA0jJQwNIyYLJQwNIyYLJQwNJCULDiMlCw4jDtwlCyULDiMNJCULJgsNJCULJgsOIw0jJQwlDA0jJQwNIw4jJQwNIyUMJQwNIyYLJQwNIyYLDiMlCw4jDdwlDCULDiMNIyYLJQwNIyYLJgsNIw4jJQsmCw4jJQsOIw4jJQsOIyUMJQwNIyUMJQsOIyUMDSMmCw4jDdwlDCULDiMNIyYLJQwNIyUMJQsOIw4jJQsmCw0jJgsOIw0kJQsNJCUMJQsOIyULJgsOIyUMDSMmCw0kDdwlCyYLDiIOIyUMJQsOIyUMJQsOIw4jJQsmCw0jJgsOIw0jJgsOIyUMJQsOIyULJgsOIyULDiMmCw0jDtwlCyYLDSQNIyYLJQsOIyUMJQsOIw4jJQsmCw0kJQsOIw4jJQsOIyULJgsOIyULJgsNJCUMDSMlDA0jDtwlCyYLDiMNIyUMJQsOIyUMJQsOIw0jJgsmCw4iJgsOIw4iJQwOIiYMJQsOIyULJgsOIyULDiMmCw0jDtwlCyYLDiMNIyUMJQsOIyUMJQsOIw4jJQsmCw0kJQsOIw0jJgsOIyULJgsOIyULJgsOIyUMDSMlDA0kDdwlCyYLDSMOIyUMJQsOIyUMJQsOIw0jJgslDA0jJQwOIw0jJgsOIiYLJgsNIyYLJgsOIyUMDSMlDA4iDtwlCyYLDSMOIyUMJQsOIyUMJQsOIw0jJgslDA0jJgsNJA0kJQsOIyULJQwOIyULJgsOIyULDiMlDA0jDtwlCyYLDiIOIyUMJQsOIyUMJQsOIw0jJgslDA0jJgsNJA0kJQsNJCULJgsOIyULJQwOIyULDiMlDA0jDgAF3AAAAAA="
+
+  balcony_fan_speed_6:
+    sequence:
+      - service: python_script.broadlink_send
+        data:
+          room: "living_room"
+          packet: "sgGEAyULDSMOIyUMJQsOIyUMJQsOIw4iJgslDA0jJQwOIw0jJgsOIiYMJQsOIyULDiMOIyUMDSMlDA0kJcMlCyYLDSMOIyUMJQsOIyUMJQsOIw0jJQwlDA0jJQwNIw4jJgsNIyYLJgsNJCULDiMOIyULDiMlDA0jJsImCyUMDSMOIyULJgsOIyUMJQsOIw0jJgslCw4jJQwNIw4jJQwNIyYLJgsNJCULDSQOIyULDiMlCw4jJsImCyUMDSMOIyULJgsNJCULJQwNJA0jJQwlCw4jJQwNIw4jJQsOIyUMJQwNIyYLDSQNIyYLDiMlCw4jJcMlDCULDiMNIyYLJQwNIyYLJQwNIw4jJQwlCw4jJQsOIw4jJQsOIyUMJQsOIyUMDSMOIyUMDSMmCw4iJsMlCyUMDiMNIyUMJQsOIyUMJQwNIw4jJQsmCw0kJQsOIw0jJgsOIyULJgsOIyULDiMOIyULDiMlDA0jJsImCyUMDSMOIyUMJQsOIyULJgsOIw0jJgslDA0jJQwNJA0jJgsNJCULJQwNIyUMDiMNJCULDiMlCw4jJsImCyYLDSMNJCULJgsNIyYLJgsNIw4jJQwlCw4jJQsOIw4jJQsOIyUMJQwNIyYLDSQNIyYLDiImCw4jJcMlDCULDiMNIyUMJQwNIyYLJgoOIw4jJQsmCw4jJQsOIw4jJQsOIyUMJQwNIyUMDSMOIyUMDSMmCw4jJcMlDCULDiMNIyYLJQsOIyUMJQsOIw4jJQsmCw0jJgsOIw0jJgsOIyUMJQsOIyULDiMOIyULDiMlDA0jJcMmCyUMDSMOIyULJgsOIyUMJQsOIw0jJgslCw4jJQwNIw4jJQwNIyYLJgsNJCULDiMNJCULDiMlDA0jJcMmCyUMDSMOIyULJgsNJCULJgsNJA0jJQwlCw4jJQwNIw4jJQwNIyUMJQwNIyUMDiMNIyYLDiMlCw4jJcMlDCULDiMNIyYLJQwOIiYLJgsNIw4jJQsmCw4jJQsOIw0kJQsOIyUMJQsOIyUMDSMOIyYLDSQlCw0kJcMlDCULDSQNIyYLJQsOIyUMJQsOIw4jJQsmCw0jJgsOIw0jJgsOIyUMJQsOIyULDiMOIyUMDSMmCw0kJcMlCyYLDSQNIyUMJQsOIyUMJQsOIw0kJQslDA0jJgsNJA0jJgsNJCULJQwNIyYLDiMNJCULDiMmCw0jJgAF3AAAAAA="
+
+  balcony_fan_direction:
+    sequence:
+      - service: python_script.broadlink_send
+        data:
+          room: "living_room"
+          packet: "sgD4ACULJQwN2iULJgsNJA0jJgslDA0jJQwlDA0jDiMlDCQMDSQlCw4jDSMmCw4jJQwlCw0kDSQlCw4jJgsNIyYLJQwN2iULJQwNIw4jJQwlCw4jJQwlCw4jDiMlCyUMDSMmCw0kDSMmCw0jJgsmCw0kDSMlDA4jJQwNIyUMJQsO2SUMJQwNIw0kJQwkDA0kJQsmCw4jDSMlDCUMDSMlDA0kDSMlDA0jJgslDA0kDSMlDA0kJQsOIyUMJQsO2SUMJQsOIw4jJQslDA0jJQwlDA0kDSMlDCUMDSMlDA0jDiMlDA0jJQwlDA0jDiMlDA0kJQsOIyULJgsOAAXc"
+
+  balcony_fan_natural_wind:
+    sequence:
+      - service: python_script.broadlink_send
+        data:
+          room: "living_room"
+          packet: "sgA0ASUMJQsmwiYLJQwNIw4jJQsmCw4jJQwlCw0kDSMmCyUMDSMmCw0jDiMlDA0kJAwlDA0kDSMOIw0kJQsOIyUMJQslwyYLJQwNIw4jJQwlCw0kJQsmCw0kDSMlDCUMDSMlDA0kDSMlDA0kJQslDA0kDSMNJA0kJQsOIyUMJQslwyYLJQwNIw4jJQwkDA0kJQsmCw0kDSMmCyULDiMlDA0jDiMlDA0jJgslDA0jDiMNJA0kJQsOIyULJgslwyUMJQsOIw4jJQslDA0kJQsmCw0kDSMlDCULDiMlDA0jDiMlDA0jJgslDA0jDiMNJA0kJQsOIyULJgslwyUMJQsOIw0kJQsmCw0kJQsmCw0kDSMlDCULDiMlDA0jDiMlDA0jJQwlDA0jDiMNJA0kJQsOIyUMJQslAAXcAAAAAA=="
+
+  balcony_fan_light:
+    alias: Balcony Fan Light
+    sequence:
+      - service: python_script.broadlink_send
+        data:
+          room: "living_room"
+          packet: "sgCIAiUMJQsOIw0jJgslDA0jJQwNJA0jJQwNIyYLDiMlCw4jJgslDA0kJQsNJCULDtwmCyULDiMNJCULJQwNIyYLJQwNIw4jJQwlCw0kJQsOIw0kJQwNIyUMDiMlCw4jJQwlCw4jJQwNIyUMDtwlCyUMDSQNIyUMJQsOIyUMJQwNIw0kJQslDA0jJgsOIw0jJgsNJCUMDSMlDA0jJQwlDA0kJQsOIyULDtsmCyUMDSMOIyULJgsOIyULJgsOIw0jJQwlDA0jJQwNJA0jJQwNIyYLDiMlDA0jJQwlDA0kJAwNJCULDtsmCyUMDSMOIyULJgsOIyUMJAwNJA0jJgslDA0jJgsNJA0jJQwNIyUMDSQlCw4jJQwlDA0jJgsNIyYLDtsmCyULDiMNJCULJQwNJCUMJAwNJA0jJQwlCw4jJQwNJA0jJQwNIyUMDiMlCw4jJQwlDA0jJQwNIyYLDtslDCULDiMNJCULJQwNIyYLJgsNJA0jJQwlCw4jJQwNIw4jJQwNIyUMDiMlCw4jJQwlDA0jJQwNIyYLDdwlDCULDiMOIyULJQwNJCULJQwNIw4jJQwlCw4jJQwNJA0jJQwNIyUMDSQlCw0kJQwlDA0jJQwNIyYLDtslDCULDiMNJCULJQwNIyYLJgsNJA0jJQwlDA0jJQwNIw4jJQwNIyYLDSQlCw4jJQwlDA0jJQwNJCULDtslDCULDiMNIyYLJQwNIyYLJQwNIw4jJQwlCw4jJQwNIw0kJQsOIyUMDSQlCw0kJQwkDA4jJQwNJCQMDdwlDCULDiMNJCULJQwNIyUMJQwNIw0kJQslDA0kJQsOIw0kJQsOIyUMDSMmCw0jJgslDA4jJQsOIyUMDQAF3A=="
+
+input_boolean:
+  balcony_fan_power:
+  balcony_fan_light:
+
+input_number:
+  balcony_fan_speed:
+    name: Balcony Fan Speed
+    min: 0
+    max: 6
+    step: 1
+
+input_select:
+  balcony_fan_preset:
+    name: Balcony Fan Preset
+    options:
+      - Normal
+      - Natural Wind
+
+  balcony_fan_direction:
+    name: Balcony Fan Direction
+    options:
+      - forward
+      - reverse
+
+fan:
+  - platform: template
+    fans:
+      balcony_fan:
+        friendly_name: "Balcony Fan"
+        value_template: "{{ states('input_boolean.balcony_fan_power') }}"
+        preset_mode_template: "{{ states('input_select.balcony_fan_preset') }}"
+        percentage_template: "{{ (states('input_number.balcony_fan_speed') | int * 16.666 ) | round }}"
+        direction_template: "{{ states('input_select.balcony_fan_direction') }}"
+        speed_count: 6
+        preset_modes:
+          - 'Normal'
+          - 'Natural Wind'
+
+        turn_on:
+          #Send ON (speed) command
+          - service: "script.balcony_fan_speed_{{ states('input_number.balcony_fan_speed') | round }}"
+
+          #Mark fan as on
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.balcony_fan_power
+
+        set_percentage:
+          #Send speed command
+          - service: "{{ 'script.balcony_fan_speed_' + (((percentage / 16.666) | round) | string) }}"
+
+          #Save new speed
+          - service: input_number.set_value
+            entity_id: input_number.balcony_fan_speed
+            data:
+              value: "{{ (percentage / 16.666) | round }}"
+
+          #Mark fan as on
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.balcony_fan_power
+
+        turn_off:
+          #Send OFF command
+          - service: script.balcony_fan_off
+          
+          #Mark fan as off
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.balcony_fan_power
+
+        set_preset_mode:
+          #Send preset command
+          - service: script.balcony_fan_natural_wind
+
+          #Save preset mode
+          - service: input_select.select_option
+            entity_id: input_select.balcony_fan_preset
+            data:
+              option: "{{ preset_mode }}"
+
+          #Mark fan as on
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.balcony_fan_power
+
+        set_direction:
+          #Send direction command
+          - service: script.balcony_fan_direction
+
+          #Save new direction
+          - service: input_select.select_option
+            entity_id: input_select.balcony_fan_direction
+            data:
+              option: "{{ direction }}"
+
+          #Mark fan as on
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.balcony_fan_power
+
+
+light:
+  - platform: template
+    lights:
+      balcony_fan_light:
+        friendly_name: "Balcony Fan Light"
+        value_template: "{{ is_state('input_boolean.balcony_fan_light', 'on') }}"
+        turn_on:
+          - service: script.balcony_fan_light
+          
+          #Mark light as on
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.balcony_fan_light
+
+        turn_off:
+          - service: script.balcony_fan_light
+          
+          #Mark light as off
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.balcony_fan_light

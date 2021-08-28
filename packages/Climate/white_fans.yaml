@@ -1,13 +1,13 @@
 fan:
   - platform: xiaomi_miio_fan
+    name: Living Room Fan
+    host: !secret xiaomi_living_room_fan_ip
+    token: !secret xiaomi_living_room_fan_token
+
+  - platform: xiaomi_miio_fan
     name: Bedroom Fan
     host: !secret xiaomi_bedroom_fan_ip
     token: !secret xiaomi_bedroom_fan_token
-
-  - platform: xiaomi_miio_fan
-    name: Office Fan
-    host: !secret xiaomi_office_fan_ip
-    token: !secret xiaomi_office_fan_token
 
 input_text:
   temp_fan_angle:
