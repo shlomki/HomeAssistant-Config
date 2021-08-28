@@ -33,6 +33,7 @@ climate:
     device_code: 1344
     controller_data: remote.living_room
     temperature_sensor: sensor.living_room_temperature
+    humidity_sensor: sensor.living_room_humidity
 
   - platform: smartir
     name: Office
@@ -40,6 +41,7 @@ climate:
     device_code: 1344
     controller_data: remote.office
     temperature_sensor: sensor.office_temperature
+    humidity_sensor: sensor.office_humidity
 
   - platform: smartir
     name: Birds
@@ -55,6 +57,7 @@ climate:
     device_code: 1344
     controller_data: remote.riley
     temperature_sensor: sensor.riley_temperature
+    humidity_sensor: sensor.riley_humidity
 
   - platform: smartir
     name: Bedroom
@@ -62,6 +65,7 @@ climate:
     device_code: 1344
     controller_data: remote.bedroom
     temperature_sensor: sensor.bedroom_temperature
+    humidity_sensor: sensor.bedroom_humidity
 
 input_text:
   last_ac_mode:
