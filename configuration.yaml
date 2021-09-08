@@ -39,14 +39,14 @@ wake_on_lan:
 
 browser_mod:
   prefix: "browser_"
+  disable:
+    - all
 
 # logger:
 #   default: warning
 #   logs:
 #     homeassistant.components.heos: debug
 #     homeassistant.components.denonavr: debug
-#     custom_components.xiaomi_miio_fan.fan: debug
-#     python-miio: debug
 #     homeassistant.components.python_script: debug
 #     homeassistant.components.python_scripts: debug
 #     pydeconz: debug
