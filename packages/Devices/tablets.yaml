@@ -86,6 +86,15 @@ script:
           ip: "{{ states('input_text.' + tablet + '_ip') }}"
           message: "re"
 
+  toggle_tablet_setting:
+    mode: queued
+    sequence: 
+      - service: input_number.set_value
+        target:
+          entity_id: "{{ entity_id }}"
+        data:
+          value: "{{ default_value if states(entity_id) == '0.0' else 0 }}"
+
 switch:
   - platform: template
     switches:
@@ -139,3 +148,46 @@ automation:
       - service: "script.autoremote_{{ tablet_name }}_command"
         data:
           message: "{{ command }}{{ value }}"
+
+
+  - id: Control tablets from hue remote - power
+    alias: Control tablets from hue remote - power
+    trigger:
+      - platform: event
+        event_type: deconz_event
+        event_data:
+          device_id: !secret philips_hue_remote_1_device_id
+          event: 1000
+      - platform: event
+        event_type: deconz_event
+        event_data:
+          device_id: !secret philips_hue_remote_1_device_id
+          event: 4000
+    action:
+      service: switch.toggle
+      target:
+        entity_id: 'switch.{{ trigger.event.data.event | regex_replace("100\d", "house_tablet") | regex_replace("400\d", "black_tablet") }}'
+
+  - id: Control tablets from hue remote - volume
+    alias: Control tablets from hue remote - volume
+    trigger:
+      - platform: event
+        event_type:
+          - deconz_event
+        event_data:
+          device_id: !secret philips_hue_remote_1_device_id
+          event: 2000
+      - platform: event
+        event_type:
+          - deconz_event
+        event_data:
+          device_id: !secret philips_hue_remote_1_device_id
+          event: 3000
+    action:
+      - service: input_number.set_value
+        target:
+          entity_id: 
+            - input_number.house_tablet_volume
+            - input_number.black_tablet_volume
+        data:
+          value: "{{ trigger.event.data.event | replace('2000', '4') | replace('3000', '0') }}"
