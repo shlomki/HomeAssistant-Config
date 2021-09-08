@@ -209,3 +209,39 @@ automation:
   #     - service: script.ceiling_light_color_change
   #       data:
   #         room: living_room
+
+  - alias: Balcony fan sync switch
+    trigger:
+      - platform: state
+        entity_id: 
+          - fan.balcony_fan
+          - switch.balcony_fan_toggle
+    condition:
+      condition: not
+      conditions:
+          - condition: state
+            entity_id: 
+              - fan.balcony_fan
+              - switch.balcony_fan_toggle
+            state: 'unavailable'
+    action:
+      - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
+        entity_id: group.balcony_fan_group
+
+  - alias: Balcony string lights sync switch
+    trigger:
+      - platform: state
+        entity_id: 
+          - light.balcony_string_lights
+          - light.balcony_string_lights_toggle
+    condition:
+      condition: not
+      conditions:
+          - condition: state
+            entity_id: 
+              - light.balcony_string_lights
+              - light.balcony_string_lights_toggle
+            state: 'unavailable'
+    action:
+      - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
+        entity_id: light.balcony_string_lights_group

@@ -24,6 +24,10 @@ light:
     entity_id: switch.balcony_string_lights
 
   - platform: switch
+    name: Balcony String Lights Toggle
+    entity_id: switch.balcony_string_lights_toggle
+
+  - platform: switch
     name: Living Room TV Light
     entity_id: switch.living_room_tv_light
 
