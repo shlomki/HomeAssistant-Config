@@ -104,6 +104,11 @@ light:
             data:
               room: office
               new_brightness_level: '{{ brightness }}'
+        set_temperature:
+          service: script.ceiling_light_color_change
+          data:
+            room: office
+
 
   - platform: template
     lights:
@@ -227,26 +232,6 @@ light:
             data:
               entity_id: light.living_room_lamp_hue
               brightness: '{{ brightness }}'
-
-  - platform: template
-    lights:
-      laundry_combined:
-        friendly_name: "Laundry Dimmable"
-        value_template: "{{ is_state('light.bathroom_laundry','on') }}"
-        level_template: "{% set level = state_attr('light.laundry_hue','brightness') %}{{ level if level != None else 0 }}"
-        availability_template: "{{ not is_state('light.bathroom_laundry','unavailable') }}"
-        turn_on:
-          - service: homeassistant.turn_on
-            entity_id: light.bathroom_laundry
-        turn_off:
-          - service: homeassistant.turn_off
-            entity_id: light.bathroom_laundry
-        set_level:
-          - service: light.turn_on
-            data:
-              entity_id: light.bathroom_laundry
-              brightness: '{{ brightness }}'
-
 
 group:
   living room dimmable lights:
