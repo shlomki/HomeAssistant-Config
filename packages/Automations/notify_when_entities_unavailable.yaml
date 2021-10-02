@@ -22,11 +22,14 @@ automation:
     trigger:
       - platform: state
         entity_id: sensor.unavailable_entities
+        
+        #Let other entities change as well so that we don't spam.
+        #Has to be a minimum of 1 second, otherwise you won't get ONLINE notifications (because of the way I wrote this).
         for:
-          seconds: 10 #Let other entities change as well so that we don't spam
+          seconds: 10
 
     action:
-      - service: notify.shlomi
+      - service: notify.shlomi #Notifies me via telegram. Change this to your preferred service (such as: persistent_notification.create).
         data:
           message: |
             {% if became_unavailable != '' -%}🚨 Became <b>UNAVAILABLE</b>: {{ became_unavailable }}{%- endif %}
@@ -42,8 +45,8 @@ automation:
 
   #######################################################
   ### When entities start changing, 
-  ### store the list temporarily so that we could tell 
-  ### which entities have changes.
+  ### store the initial state temporarily so that 
+  ### we could tell which entities have changes.
   #######################################################
 
   - id: Unavailable Entities - Store Temp State
@@ -66,7 +69,8 @@ automation:
 
 
   #######################################################
-  ### Sensor for unavailable entities, also good for UI. 
+  ### Sensor for unavailable entities, also good for UI.
+  ### Updates immediately as soon as entities change.
   #######################################################
 
 template:
@@ -90,6 +94,8 @@ group:
       - light.living_room_tv_light
       - light.living_room_scene
       - light.balcony_main
+      - light.balcony_string_lights
+      - light.balcony_string_lights_toggle
       - light.kitchen_counter
       - light.kitchen_island
       - light.kitchen_pantry
@@ -128,6 +134,7 @@ group:
       - binary_sensor.kitchen_closet_leak
       - binary_sensor.front_door
       - binary_sensor.front_door_lock
+      - switch.front_door_camera_module
       - binary_sensor.bathroom_door
       - sensor.riley_temperature
       - sensor.toilet_motion
@@ -137,11 +144,15 @@ group:
       - cover.birds_shutter_switch
       - cover.bedroom_shutter_switch
       - cover.living_room_curtain
+      - cover.living_room_curtain_switch
+      - binary_sensor.balcony_window
       - binary_sensor.kitchen_window
       - binary_sensor.office_window
       - binary_sensor.birds_window
       - binary_sensor.riley_window
       - binary_sensor.bedroom_window
+      - cover.office_shutter_switch
+      - cover.office_curtain
       - cover.office_curtain_switch
       - switch.lower_gate
       - switch.upper_gate
@@ -167,3 +178,9 @@ group:
       - switch.living_room_lamp_smart_plug
       - switch.gray_fan_smart_plug
       - switch.bedroom_smart_plug
+      - sensor.outside_temperature
+      - switch.il_smart_plug_1
+      - switch.il_smart_plug_2
+      - cover.kitchen_shutter_switch
+      - cover.kitchen_curtain_switch
+      - lock.front_door
