@@ -76,7 +76,7 @@ automation:
 template:
   - sensor:
       - name: "Unavailable Entities"
-        state: "{{ expand('group.monitored_entities') | selectattr('state', 'in', ['unavailable', 'unknown', 'none']) | join(', ', attribute='attributes.friendly_name') }}"
+        state: "{{ expand('group.monitored_entities') | selectattr('state', 'in', ['unavailable', 'unknown', 'none']) | join(', ', attribute='attributes.friendly_name') | truncate(252) }}"
 
 
   #######################################################
