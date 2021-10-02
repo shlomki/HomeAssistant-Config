@@ -1,275 +1,169 @@
+input_text:
+  unavailable_entities_temp_state:
+
 automation:
-  - alias: "Notify when entities unavailable"
-    initial_state: true
+
+  #######################################################
+  ### Alert about entities becoming unavailable or online 
+  #######################################################
+
+  - id: Unavailable Entities - Notify
+    alias: Unavailable Entities - Notify
+    variables:
+      from_state: "{{ states('input_text.unavailable_entities_temp_state') }}"
+      from_state_list: "{{ from_state.split(', ') }}"
+      to_state: "{{ trigger.to_state.state }}"
+      to_state_list: "{{ to_state.split(', ') }}"
+      became_online: "{{ from_state_list | reject('in', to_state_list) | join(', ') }}"
+      became_unavailable_list: "{{ to_state_list | reject('in', from_state_list) | list }}"
+      became_unavailable: "{{ became_unavailable_list | join(', ') }}"
+      other_unavailable_entities: "{{ to_state_list | reject('in', became_unavailable_list) | join(', ') }}"
+
     trigger:
       - platform: state
-        entity_id:
-          - light.living_room_entrance
-          - light.living_room_hallway
-          - light.living_room_main
-          - light.living_room_scene
-          - light.living_room_tv_light
-          - light.living_room_scene
-          - light.balcony_main
-          - light.kitchen_counter
-          - light.kitchen_island
-          - light.kitchen_pantry
-          - light.hallway_main
-          - light.hallway_main_toggle
-          - light.toilet_main
-          - light.office_bff_light
-          - light.office_bff_light_toggle
-          - light.office_main
-          - light.office_main_toggle
-          - light.birds_main
-          - light.birds_main_toggle
-          - light.bathroom_heater
-          - switch.water_boiler
-          - light.bathroom_main
-          - light.bathroom_laundry
-          - light.riley_main
-          - light.riley_main_toggle
-          - light.riley_scene_toggle
-          - light.bedroom_closet
-          - light.bedroom_entrance
-          - light.bedroom_entrance_toggle_left
-          - light.bedroom_entrance_toggle_right
-          - light.bedroom_main
-          - light.bedroom_main_toggle_left
-          - light.bedroom_main_toggle_right
-          - light.bedroom_scene
-          - light.bedroom_scene_left
-          - light.bedroom_scene_right
-          - binary_sensor.fridge
-          - binary_sensor.freezer
-          - binary_sensor.cat_motion
-          - binary_sensor.bedroom_closet_motion
-          - binary_sensor.bathroom_closet_leak
-          - binary_sensor.bathroom_floor_leak
-          - binary_sensor.kitchen_closet_leak
-          - binary_sensor.front_door
-          - binary_sensor.front_door_lock
-          - binary_sensor.bathroom_door
-          - sensor.riley_temperature
-          - sensor.toilet_motion
-          - binary_sensor.toilet_door
-          - switch.subwoofer
-          - cover.living_room_shutter_switch
-          - cover.birds_shutter_switch
-          - cover.bedroom_shutter_switch
-          - cover.living_room_curtain
-          - binary_sensor.kitchen_window
-          - binary_sensor.office_window
-          - binary_sensor.birds_window
-          - binary_sensor.riley_window
-          - binary_sensor.bedroom_window
-          - cover.office_curtain_switch
-          - switch.lower_gate
-          - switch.upper_gate
-          - binary_sensor.doorbell
-          - remote.living_room
-          - remote.office
-          - remote.birds
-          - remote.riley
-          - remote.bedroom
-          - binary_sensor.rain
-          - switch.intercom
-          - light.stairs
-          - switch.stairs_module
-          - binary_sensor.stairs_motion
-          - sensor.living_room
-          - sensor.office
-          - sensor.birds
-          - sensor.riley
-          - sensor.bedroom
-          - binary_sensor.toilet_flush
-          - switch.shelly_3em
-          - binary_sensor.big_freezer
-          - switch.living_room_lamp_smart_plug
-          - switch.gray_fan_smart_plug
-        to: 'unavailable'
+        entity_id: sensor.unavailable_entities
         for:
-          seconds: 30
-
-      - platform: state
-        entity_id:
-          - light.living_room_entrance
-          - light.living_room_hallway
-          - light.living_room_main
-          - light.living_room_scene
-          - light.living_room_tv_light
-          - light.living_room_scene
-          - light.balcony_main
-          - light.kitchen_counter
-          - light.kitchen_island
-          - light.kitchen_pantry
-          - light.hallway_main
-          - light.hallway_main_toggle
-          - light.toilet_main
-          - light.office_bff_light
-          - light.office_bff_light_toggle
-          - light.office_main
-          - light.office_main_toggle
-          - light.birds_main
-          - light.birds_main_toggle
-          - light.bathroom_heater
-          - switch.water_boiler
-          - light.bathroom_main
-          - light.bathroom_laundry
-          - light.riley_main
-          - light.riley_main_toggle
-          - light.riley_scene_toggle
-          - light.bedroom_closet
-          - light.bedroom_entrance
-          - light.bedroom_entrance_toggle_left
-          - light.bedroom_entrance_toggle_right
-          - light.bedroom_main
-          - light.bedroom_main_toggle_left
-          - light.bedroom_main_toggle_right
-          - light.bedroom_scene
-          - light.bedroom_scene_left
-          - light.bedroom_scene_right
-          - binary_sensor.fridge
-          - binary_sensor.freezer
-          - binary_sensor.cat_motion
-          - binary_sensor.bedroom_closet_motion
-          - binary_sensor.bathroom_closet_leak
-          - binary_sensor.bathroom_floor_leak
-          - binary_sensor.kitchen_closet_leak
-          - binary_sensor.front_door
-          - binary_sensor.front_door_lock
-          - binary_sensor.bathroom_door
-          - sensor.riley_temperature
-          - sensor.toilet_motion
-          - binary_sensor.toilet_door
-          - switch.subwoofer
-          - cover.living_room_shutter_switch
-          - cover.birds_shutter_switch
-          - cover.bedroom_shutter_switch
-          - cover.living_room_curtain
-          - binary_sensor.kitchen_window
-          - binary_sensor.office_window
-          - binary_sensor.birds_window
-          - binary_sensor.riley_window
-          - binary_sensor.bedroom_window
-          - cover.office_curtain_switch
-          - switch.lower_gate
-          - switch.upper_gate
-          - binary_sensor.doorbell
-          - remote.living_room
-          - remote.office
-          - remote.birds
-          - remote.riley
-          - remote.bedroom
-          - binary_sensor.rain
-          - switch.intercom
-          - light.stairs
-          - switch.stairs_module
-          - binary_sensor.stairs_motion
-          - sensor.living_room
-          - sensor.office
-          - sensor.birds
-          - sensor.riley
-          - sensor.bedroom
-          - binary_sensor.toilet_flush
-          - binary_sensor.big_freezer
-          - switch.living_room_lamp_smart_plug
-          - switch.gray_fan_smart_plug
-        from: 'unavailable'
-        to: 'on'
-        for:
-          seconds: 8
-
-      - platform: state
-        entity_id:
-          - light.living_room_entrance
-          - light.living_room_hallway
-          - light.living_room_main
-          - light.living_room_scene
-          - light.living_room_tv_light
-          - light.living_room_scene
-          - light.balcony_main
-          - light.kitchen_counter
-          - light.kitchen_island
-          - light.kitchen_pantry
-          - light.hallway_main
-          - light.hallway_main_toggle
-          - light.toilet_main
-          - light.office_bff_light
-          - light.office_bff_light_toggle
-          - light.office_main
-          - light.office_main_toggle
-          - light.birds_main
-          - light.birds_main_toggle
-          - light.bathroom_heater
-          - switch.water_boiler
-          - light.bathroom_main
-          - light.bathroom_laundry
-          - light.riley_main
-          - light.riley_main_toggle
-          - light.riley_scene_toggle
-          - light.bedroom_closet
-          - light.bedroom_entrance
-          - light.bedroom_entrance_toggle_left
-          - light.bedroom_entrance_toggle_right
-          - light.bedroom_main
-          - light.bedroom_main_toggle_left
-          - light.bedroom_main_toggle_right
-          - light.bedroom_scene
-          - light.bedroom_scene_left
-          - light.bedroom_scene_right
-          - binary_sensor.fridge
-          - binary_sensor.freezer
-          - binary_sensor.cat_motion
-          - binary_sensor.bedroom_closet_motion
-          - binary_sensor.bathroom_closet_leak
-          - binary_sensor.bathroom_floor_leak
-          - binary_sensor.kitchen_closet_leak
-          - binary_sensor.front_door
-          - binary_sensor.front_door_lock
-          - binary_sensor.bathroom_door
-          - sensor.riley_temperature
-          - sensor.toilet_motion
-          - binary_sensor.toilet_door
-          - switch.subwoofer
-          - cover.living_room_shutter_switch
-          - cover.birds_shutter_switch
-          - cover.bedroom_shutter_switch
-          - cover.living_room_curtain
-          - binary_sensor.kitchen_window
-          - binary_sensor.office_window
-          - binary_sensor.birds_window
-          - binary_sensor.riley_window
-          - binary_sensor.bedroom_window
-          - cover.office_curtain_switch
-          - switch.lower_gate
-          - switch.upper_gate
-          - binary_sensor.doorbell
-          - remote.living_room
-          - remote.office
-          - remote.birds
-          - remote.riley
-          - remote.bedroom
-          - binary_sensor.rain
-          - switch.intercom
-          - light.stairs
-          - switch.stairs_module
-          - binary_sensor.stairs_motion
-          - sensor.living_room
-          - sensor.office
-          - sensor.birds
-          - sensor.riley
-          - sensor.bedroom
-          - binary_sensor.toilet_flush
-          - binary_sensor.big_freezer
-          - switch.living_room_lamp_smart_plug
-          - switch.gray_fan_smart_plug
-        from: 'unavailable'
-        to: 'off'
-        for:
-          seconds: 8
+          seconds: 10 #Let other entities change as well so that we don't spam
 
     action:
-      service: notify.shlomi
+      - service: notify.shlomi
+        data:
+          message: |
+            {% if became_unavailable != '' -%}🚨 Became <b>UNAVAILABLE</b>: {{ became_unavailable }}{%- endif %}
+            {%- if became_online != ''%}
+            ✅ Became <b>ONLINE</b>: {{ became_online }}{%- endif %}
+            
+            {% if other_unavailable_entities != '' %}🚨 Still <b>UNAVAILABLE</b>: {{ other_unavailable_entities }}{%- endif %}
+
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.unavailable_entities_temp_state
+          value: ''
+
+  #######################################################
+  ### When entities start changing, 
+  ### store the list temporarily so that we could tell 
+  ### which entities have changes.
+  #######################################################
+
+  - id: Unavailable Entities - Store Temp State
+    alias: Unavailable Entities - Store Temp State
+
+    trigger:
+      - platform: state
+        entity_id: sensor.unavailable_entities
+
+    condition:
+      alias: "Temp State is Empty"
+      condition: template
+      value_template: "{{ is_state('input_text.unavailable_entities_temp_state', '') }}"
+
+    action:
+      service: input_text.set_value
       data:
-        message: "{{ trigger.to_state.attributes.friendly_name }} is {{ 'unavailable' if trigger.to_state.state == 'unavailable' else 'online' }}"
+        entity_id: input_text.unavailable_entities_temp_state
+        value: "{{ trigger.from_state.state }}"
+
+
+  #######################################################
+  ### Sensor for unavailable entities, also good for UI. 
+  #######################################################
+
+template:
+  - sensor:
+      - name: "Unavailable Entities"
+        state: "{{ expand('group.monitored_entities') | selectattr('state', 'in', ['unavailable', 'unknown', 'none']) | join(', ', attribute='attributes.friendly_name') }}"
+
+
+  #######################################################
+  ### Group of monitored entities.
+  ### Add any entities you want to be notified about. 
+  #######################################################
+
+group:
+  monitored_entities:
+    entities:
+      - light.living_room_entrance
+      - light.living_room_hallway
+      - light.living_room_main
+      - light.living_room_scene
+      - light.living_room_tv_light
+      - light.living_room_scene
+      - light.balcony_main
+      - light.kitchen_counter
+      - light.kitchen_island
+      - light.kitchen_pantry
+      - light.hallway_main
+      - light.hallway_main_toggle
+      - light.toilet_main
+      - light.office_bff_light
+      - light.office_bff_light_toggle
+      - light.office_main
+      - light.office_main_toggle
+      - light.birds_main
+      - light.birds_main_toggle
+      - light.bathroom_heater
+      - switch.water_boiler
+      - light.bathroom_main
+      - light.bathroom_laundry
+      - light.riley_main
+      - light.riley_main_toggle
+      - light.riley_scene_toggle
+      - light.bedroom_closet
+      - light.bedroom_entrance
+      - light.bedroom_entrance_toggle_left
+      - light.bedroom_entrance_toggle_right
+      - light.bedroom_main
+      - light.bedroom_main_toggle_left
+      - light.bedroom_main_toggle_right
+      - light.bedroom_scene
+      - light.bedroom_scene_left
+      - light.bedroom_scene_right
+      - binary_sensor.fridge
+      - binary_sensor.freezer
+      - binary_sensor.cat_motion
+      - binary_sensor.bedroom_closet_motion
+      - binary_sensor.bathroom_closet_leak
+      - binary_sensor.bathroom_floor_leak
+      - binary_sensor.kitchen_closet_leak
+      - binary_sensor.front_door
+      - binary_sensor.front_door_lock
+      - binary_sensor.bathroom_door
+      - sensor.riley_temperature
+      - sensor.toilet_motion
+      - binary_sensor.toilet_door
+      - switch.subwoofer
+      - cover.living_room_shutter_switch
+      - cover.birds_shutter_switch
+      - cover.bedroom_shutter_switch
+      - cover.living_room_curtain
+      - binary_sensor.kitchen_window
+      - binary_sensor.office_window
+      - binary_sensor.birds_window
+      - binary_sensor.riley_window
+      - binary_sensor.bedroom_window
+      - cover.office_curtain_switch
+      - switch.lower_gate
+      - switch.upper_gate
+      - binary_sensor.doorbell
+      - remote.living_room
+      - remote.office
+      - remote.birds
+      - remote.riley
+      - remote.bedroom
+      - binary_sensor.rain
+      - switch.intercom
+      - light.stairs
+      - switch.stairs_module
+      - binary_sensor.stairs_motion
+      - sensor.living_room
+      - sensor.office
+      - sensor.birds
+      - sensor.riley
+      - sensor.bedroom
+      - binary_sensor.toilet_flush
+      - switch.shelly_3em
+      - binary_sensor.big_freezer
+      - switch.living_room_lamp_smart_plug
+      - switch.gray_fan_smart_plug
+      - switch.bedroom_smart_plug
