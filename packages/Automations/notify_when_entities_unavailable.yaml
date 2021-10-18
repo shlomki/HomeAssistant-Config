@@ -1,10 +1,23 @@
+  #######################################################
+  ### Sensor for unavailable entities, also good for UI.
+  ### Updates immediately as soon as entities change.
+  #######################################################
+
+template:
+  - sensor:
+      - name: "Unavailable Entities"
+        state: "{{ expand('group.monitored_entities') | selectattr('state', 'in', ['unavailable', 'unknown', 'none']) | join(', ', attribute='attributes.friendly_name') | truncate(252) or 'Online' }}"
+
+  #######################################################
+  ### Helper
+  #######################################################
+
 input_text:
   unavailable_entities_temp_state:
 
 automation:
-
   #######################################################
-  ### Alert about entities becoming unavailable or online 
+  ### Alert about entities becoming unavailable or online
   #######################################################
 
   - id: Unavailable Entities - Notify
@@ -12,7 +25,7 @@ automation:
     variables:
       from_state: "{{ states('input_text.unavailable_entities_temp_state') }}"
       from_state_list: "{{ from_state.split(', ') }}"
-      to_state: "{{ trigger.to_state.state }}"
+      to_state: "{{ trigger.to_state.state if trigger.to_state.state != 'Online' else '' }}"
       to_state_list: "{{ to_state.split(', ') }}"
       became_online: "{{ from_state_list | reject('in', to_state_list) | join(', ') }}"
       became_unavailable_list: "{{ to_state_list | reject('in', from_state_list) | list }}"
@@ -22,7 +35,7 @@ automation:
     trigger:
       - platform: state
         entity_id: sensor.unavailable_entities
-        
+
         #Let other entities change as well so that we don't spam.
         #Has to be a minimum of 1 second, otherwise you won't get ONLINE notifications (because of the way I wrote this).
         for:
@@ -32,20 +45,21 @@ automation:
       - service: notify.shlomi #Notifies me via telegram. Change this to your preferred service (such as: persistent_notification.create).
         data:
           message: |
-            {% if became_unavailable != '' -%}🚨 Became <b>UNAVAILABLE</b>: {{ became_unavailable }}{%- endif %}
+            {% if became_unavailable != '' -%}🚨 Became <b>UNAVAILABLE</b>: {{ became_unavailable }}
+            ------{%- endif %}
             {%- if became_online != ''%}
-            ✅ Became <b>ONLINE</b>: {{ became_online }}{%- endif %}
-            
-            {% if other_unavailable_entities != '' %}🚨 Still <b>UNAVAILABLE</b>: {{ other_unavailable_entities }}{%- endif %}
+            ✅ Became <b>ONLINE</b>: {{ became_online }}
+            ------{%- endif %}
+            {% if other_unavailable_entities != '' %}🚨 Still <b>UNAVAILABLE</b>: {{ other_unavailable_entities }}{% else %}✅ Everything else is ONLINE!{%- endif %}
 
       - service: input_text.set_value
         data:
           entity_id: input_text.unavailable_entities_temp_state
-          value: ''
+          value: ""
 
   #######################################################
-  ### When entities start changing, 
-  ### store the initial state temporarily so that 
+  ### When entities start changing,
+  ### store the initial state temporarily so that
   ### we could tell which entities have changes.
   #######################################################
 
@@ -65,23 +79,13 @@ automation:
       service: input_text.set_value
       data:
         entity_id: input_text.unavailable_entities_temp_state
-        value: "{{ trigger.from_state.state }}"
+        value: "{{ '' if trigger.from_state.state == 'Online' else trigger.from_state.state }}"
 
-
-  #######################################################
-  ### Sensor for unavailable entities, also good for UI.
-  ### Updates immediately as soon as entities change.
-  #######################################################
-
-template:
-  - sensor:
-      - name: "Unavailable Entities"
-        state: "{{ expand('group.monitored_entities') | selectattr('state', 'in', ['unavailable', 'unknown', 'none']) | join(', ', attribute='attributes.friendly_name') | truncate(252) }}"
 
 
   #######################################################
   ### Group of monitored entities.
-  ### Add any entities you want to be notified about. 
+  ### Add any entities you want to be notified about.
   #######################################################
 
 group:
@@ -137,7 +141,7 @@ group:
       - switch.front_door_camera_module
       - binary_sensor.bathroom_door
       - sensor.riley_temperature
-      - sensor.toilet_motion
+      - binary_sensor.toilet_motion
       - binary_sensor.toilet_door
       - switch.subwoofer
       - cover.living_room_shutter_switch
@@ -177,10 +181,23 @@ group:
       - binary_sensor.big_freezer
       - switch.living_room_lamp_smart_plug
       - switch.gray_fan_smart_plug
-      - switch.bedroom_smart_plug
       - sensor.outside_temperature
       - switch.il_smart_plug_1
       - switch.il_smart_plug_2
       - cover.kitchen_shutter_switch
       - cover.kitchen_curtain_switch
       - lock.front_door
+      - fan.bedroom_fan
+      - fan.living_room_fan
+      - media_player.living_room_tv
+      - media_player.bedroom_tv
+      - media_player.google_tv
+      - media_player.bedroom_google_tv
+      - cover.bedroom_curtain_motor
+      - cover.bedroom_curtain_switch
+
+
+
+
+
+
