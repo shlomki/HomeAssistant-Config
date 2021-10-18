@@ -1,6 +1,7 @@
 automation:
 
   - alias: Living room sync lamp
+    max_exceeded: silent
     trigger:
       - platform: state
         entity_id: 
@@ -19,6 +20,7 @@ automation:
         entity_id: light.living_room_lamp_group
 
   - alias: Stairs switch sync
+    max_exceeded: silent
     trigger:
       - platform: state
         entity_id: 
@@ -37,6 +39,7 @@ automation:
         entity_id: light.stairs_group
 
   - alias: Office switches sync bff light
+    max_exceeded: silent
     trigger:
       - platform: state
         entity_id: 
@@ -55,6 +58,7 @@ automation:
         entity_id: light.office_bff_light_group
 
   - alias: Birds switches sync main
+    max_exceeded: silent
     trigger:
       - platform: state
         entity_id: 
@@ -73,6 +77,7 @@ automation:
         entity_id: light.birds_main_group
 
   - alias: Hallway switches sync main
+    max_exceeded: silent
     trigger:
       - platform: state
         entity_id: 
@@ -91,6 +96,7 @@ automation:
         entity_id: light.hallway_main_group
 
   - alias: Riley switches sync main
+    max_exceeded: silent
     trigger:
       - platform: state
         entity_id: 
@@ -108,7 +114,8 @@ automation:
       - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
         entity_id: light.riley_main_group
 
-  - alias: Riley switches scene 
+  - alias: Riley switches scene
+    max_exceeded: silent
     trigger:
       - platform: state
         entity_id: 
@@ -131,6 +138,7 @@ automation:
           brightness: '{{ 255 if ( (state_attr("light.riley_main_combined", "brightness") or state_attr("light.riley_main_combined", "brightness")) < 127) else 1 }}'
 
   - alias: Bedroom switches sync main
+    max_exceeded: silent
     trigger:
       - platform: state
         entity_id: 
@@ -150,7 +158,8 @@ automation:
       - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
         entity_id: light.bedroom_main_group
 
-  - alias: Bedroom switches sync entrance 
+  - alias: Bedroom switches sync entrance
+    max_exceeded: silent
     trigger:
       - platform: state
         entity_id: 
@@ -170,7 +179,8 @@ automation:
       - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
         entity_id: light.bedroom_entrance_group
 
-  - alias: Bedroom switches scene 
+  - alias: Bedroom switches scene
+    max_exceeded: silent
     trigger:
       - platform: state
         entity_id: 
@@ -211,6 +221,7 @@ automation:
   #         room: living_room
 
   - alias: Balcony fan sync switch
+    max_exceeded: silent
     trigger:
       - platform: state
         entity_id: 
@@ -229,6 +240,7 @@ automation:
         entity_id: group.balcony_fan_group
 
   - alias: Balcony string lights sync switch
+    max_exceeded: silent
     trigger:
       - platform: state
         entity_id: 
