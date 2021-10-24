@@ -198,12 +198,10 @@ automation:
             state: 'unavailable'
     action:
       - service: light.turn_on
-        entity_id: 
-          - light.bedroom_main_hue
-          - light.bedroom_entrance_hue
+        entity_id: light.bedroom_dimmable_lights
         data:
-          transition: 1
-          brightness: '{{ 255 if (state_attr("light.bedroom_main_hue", "brightness")|int < 127 or state_attr("light.bedroom_entrance_hue", "brightness")|int < 127) else 2 }}'
+          brightness: "{{ 255 if state_attr('light.bedroom_dimmable_lights', 'brightness')|int < 127 else 1 }}"
+
 
   # - alias: Living room switches scene
   #   trigger:

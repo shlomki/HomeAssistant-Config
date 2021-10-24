@@ -16,6 +16,10 @@ light:
     entity_id: switch.living_room_hallway
 
   - platform: switch
+    name: Living Room BFF Light
+    entity_id: switch.living_room_bff_light
+
+  - platform: switch
     name: Balcony Main
     entity_id: switch.balcony_main
 

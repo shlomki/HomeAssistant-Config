@@ -19,6 +19,14 @@ group:
       - light.living_room_hallway_combined
       - light.living_room_tv_light
       - light.living_room_lamp_combined
+      - light.living_room_bff_light
+
+  Living Room Dimmable Lights2:
+    entities:
+      - light.living_room_main_combined
+      - light.living_room_entrance_combined
+      - light.living_room_hallway_combined
+      - light.living_room_lamp_combined
 
   Balcony Lights:
     entities:
@@ -53,6 +61,55 @@ group:
       - light.bedroom_main_combined
       - light.bedroom_entrance_combined
       - light.bedroom_closet
+
+  Bedroom Dimmable Lights:
+    entities:
+      - light.bedroom_main_combined
+      - light.bedroom_entrance_combined
+
+light:
+  - platform: template
+    lights:
+      living_room_dimmable_lights:
+        friendly_name: "Living Room Dimmable Lights"
+        value_template: "{{ expand('group.living_room_dimmable_lights2') | selectattr('state', 'equalto', 'on') | map(attribute='entity_id') | list | count > 0 }} " #Are any lights in the group on?
+        level_template: "{{ max((expand('group.living_room_dimmable_lights2') | selectattr('state', 'equalto', 'on') | map(attribute='attributes.brightness') | list) or [0]) }} " #What's the max brighthness in thr group?
+        availability_template: "{{ expand('group.living_room_dimmable_lights2') | selectattr('state', 'in', ['on','off']) | list | count > 0 }}" #Are all lights in the group available?
+        turn_on:
+          - service: light.turn_on
+            data:
+              entity_id: "{{ expand('group.living_room_dimmable_lights2') | map(attribute='entity_id') | list }}" #Turn on all lights in the group
+        turn_off:
+          - service: light.turn_off
+            data:
+              entity_id: "{{ expand('group.living_room_dimmable_lights2') | map(attribute='entity_id') | list }}" #Turn off all lights in the group
+        set_level:
+          - service: light.turn_on
+            data:
+              entity_id: "{{ expand('group.living_room_dimmable_lights2') | selectattr('state', 'equalto', 'on') | map(attribute='entity_id') | list }}" #Set brightness for lights that are on only
+              brightness: '{{ brightness }}'
+
+
+  - platform: template
+    lights:
+      bedroom_dimmable_lights:
+        friendly_name: "Bedroom Dimmable Lights"
+        value_template: "{{ expand('group.bedroom_dimmable_lights') | selectattr('state', 'equalto', 'on') | map(attribute='entity_id') | list | count > 0 }} " #Are any lights in the group on?
+        level_template: "{{ max((expand('group.bedroom_dimmable_lights') | selectattr('state', 'equalto', 'on') | map(attribute='attributes.brightness') | list) or [0]) }} " #What's the max brighthness in thr group?
+        availability_template: "{{ expand('group.bedroom_dimmable_lights') | selectattr('state', 'in', ['on','off']) | list | count > 0 }}" #Are all lights in the group available?
+        turn_on:
+          - service: light.turn_on
+            data:
+              entity_id: "{{ expand('group.bedroom_dimmable_lights') | map(attribute='entity_id') | list }}" #Turn on all lights in the group
+        turn_off:
+          - service: light.turn_off
+            data:
+              entity_id: "{{ expand('group.bedroom_dimmable_lights') | map(attribute='entity_id') | list }}" #Turn off all lights in the group
+        set_level:
+          - service: light.turn_on
+            data:
+              entity_id: "{{ expand('group.bedroom_dimmable_lights') | selectattr('state', 'equalto', 'on') | map(attribute='entity_id') | list }}" #Set brightness for lights that are on only
+              brightness: '{{ brightness }}'
 
 switch:
   - platform: template
@@ -169,3 +226,11 @@ switch:
           service: homeassistant.turn_off
           target:
             entity_id: group.bedroom_lights
+
+
+script:
+  light_test:
+    sequence:
+      - service: light.turn_off
+        data:
+          entity_id: "{{ expand('group.office_lights') | selectattr('state', 'equalto', 'on') | map(attribute='entity_id') | list }}"
