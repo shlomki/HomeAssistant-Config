@@ -123,6 +123,7 @@ automation:
         from: 'off'
         to: 'on'
     action:
+      - service: script.blink_living_room_bff_light
       - service: notify.bffs
         data:
           message: "Ding dong! Someone is at the door!"
@@ -190,6 +191,7 @@ automation:
         data:
           deviceID:
             - house_tablet
+
 
 
   # - alias: Door is opened with photo from last motion
@@ -289,4 +291,13 @@ script:
       - service: "{{ 'lock.lock' if is_state('binary_sensor.front_door_lock', 'on') else 'lock.unlock' }}"
         entity_id: lock.front_door
 
-
+  blink_living_room_bff_light:
+    alias: Blink Living Room BFF Light
+    sequence:
+      - repeat:
+          count: 10
+          sequence:
+            - service: light.toggle
+              entity_id: light.living_room_bff_light
+            - delay:
+                seconds: 0.5
