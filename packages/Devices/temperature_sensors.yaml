@@ -6,10 +6,10 @@ sensor:
         unit_of_measurement: '°C'
         value_template: '{{ state_attr("sensor.cat_motion", "temperature") }}'
 
-      outside_temperature:
-        friendly_name: "Outside Temperature"
-        unit_of_measurement: '°C'
-        value_template: '{{ state_attr("binary_sensor.rain", "temperature") }}'
+      # outside_temperature:
+      #   friendly_name: "Outside Temperature"
+      #   unit_of_measurement: '°C'
+      #   value_template: '{{ state_attr("binary_sensor.rain", "temperature") }}'
 
       living_room_temperature_monitor:
         friendly_name: Living Room Temperature
@@ -124,7 +124,7 @@ automation:
           - sensor.season
 
     variables:
-      season: "{{ states('sensor.season') }}"
+      season: "{{ states('sensor.season') | replace('autumn', 'summer') | replace('fall', 'winter') }}"
 
     action:
       - service: input_number.set_value
