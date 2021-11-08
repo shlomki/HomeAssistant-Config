@@ -1,0 +1,99 @@
+############################################
+# Shutdown and wakeup computers & servers
+############################################
+
+switch:
+  - platform: wake_on_lan
+    name: Shlomi PC
+    host: !secret shlomi_pc_ip
+    mac: !secret shlomi_pc_mac
+    broadcast_address: !secret lan_broadcast
+    turn_off:
+      service: hassio.addon_stdin
+      data:
+        addon: core_rpc_shutdown
+        input: shlomi-pc
+
+  - platform: wake_on_lan
+    name: Unraid Server
+    host: !secret unraid_server_ip
+    mac: !secret unraid_server_mac
+    broadcast_address: !secret lan_broadcast
+    turn_off:
+      service: script.unraid_server_action
+      data:
+        action: shutdown
+
+############################################
+# Scripts for shutdown & reboot devices
+############################################
+
+script:
+  ubiquiti_edgerouter_action:
+    sequence:
+      - service: "shell_command.ssh_{{ 'shutdown' if action == 'shutdown' else 'reboot' if action == 'reboot' else 'reboot' if action == 'restart' else 'none' }}" #Doing this to avoid command injections
+        data:
+          username: !secret ubiquiti_edgerouter_username
+          host: !secret ubiquiti_edgerouter_ip
+          
+  ubiquiti_unifi_nanohd_living_room_action:
+    sequence:
+      - service: "shell_command.ssh_unifi_{{ 'shutdown' if action == 'shutdown' else 'reboot' if action == 'reboot' else 'reboot' if action == 'restart' else 'none' }}" #Doing this to avoid command injections
+        data:
+          username: !secret ubiquiti_unifi_username
+          host: !secret ubiquiti_unifi_nanohd_livingroom_ip
+
+  ubiquiti_unifi_nanohd_bedroom_action:
+    sequence:
+      - service: "shell_command.ssh_unifi_{{ 'shutdown' if action == 'shutdown' else 'reboot' if action == 'reboot' else 'reboot' if action == 'restart' else 'none' }}" #Doing this to avoid command injections
+        data:
+          username: !secret ubiquiti_unifi_username
+          host: !secret ubiquiti_unifi_nanohd_bedroom_ip
+
+  ubiquiti_unifi_house_switch_1_action:
+    sequence:
+      - service: "shell_command.ssh_unifi_{{ 'shutdown' if action == 'shutdown' else 'reboot' if action == 'reboot' else 'reboot' if action == 'restart' else 'none' }}" #Doing this to avoid command injections
+        data:
+          username: !secret ubiquiti_unifi_username
+          host: !secret ubiquiti_unifi_house_switch_1_ip
+
+  network_devices_action:
+    sequence:
+      - service: script.ubiquiti_unifi_nanohd_bedroom_action
+        data:
+          action: "{{ action }}"
+      - service: script.ubiquiti_unifi_nanohd_living_room_action
+        data:
+          action: "{{ action }}"
+      - wait_template: "{{ is_state('device_tracker.livingroom_nanohd', 'away') and is_state('device_tracker.bedroom_nanohd', 'away') }}"
+        timeout:
+          minutes: 1.5
+        continue_on_timeout: true
+      - service: script.ubiquiti_unifi_house_switch_1_action
+        data:
+          action: "{{ action }}"
+      - service: script.ubiquiti_edgerouter_action
+        data:
+          action: "{{ action }}"
+
+  network_devices_restart_wifi:
+    sequence:
+      - service: script.ubiquiti_unifi_nanohd_bedroom_action
+        data:
+          action: restart
+      - service: script.ubiquiti_unifi_nanohd_living_room_action
+        data:
+          action: restart
+
+  unraid_server_action:
+    sequence:
+      - service: "shell_command.ssh_{{ 'shutdown' if action == 'shutdown' else 'reboot' if action == 'reboot' else 'reboot' if action == 'restart' else 'none' }}" #Doing this to avoid command injections
+        data:
+          username: !secret unraid_server_username
+          host: !secret unraid_server_ip
+
+shell_command:
+  ssh_shutdown: "ssh -i /config/ssh_keys/id_rsa -o 'StrictHostKeyChecking=no' {{ username }}@{{ host }} 'sudo shutdown -h now'"
+  ssh_reboot: "ssh -i /config/ssh_keys/id_rsa -o 'StrictHostKeyChecking=no' {{ username }}@{{ host }} reboot now"
+  ssh_unifi_shutdown: "ssh -i /config/ssh_keys/id_rsa -o 'StrictHostKeyChecking=no' {{ username }}@{{ host }} poweroff"
+  ssh_unifi_reboot: "ssh -i /config/ssh_keys/id_rsa -o 'StrictHostKeyChecking=no' {{ username }}@{{ host }} reboot"
