@@ -5,9 +5,7 @@ cover:
         name: Kitchen Shutter
         travelling_time_up: 15
         travelling_time_down: 15
-        close_script_entity_id: script.kitchen_shutter_close
-        stop_script_entity_id: script.kitchen_shutter_stop
-        open_script_entity_id: script.kitchen_shutter_open
+        cover_entity_id: cover.kitchen_shutter_switch
         send_stop_at_ends: False
 
 sensor:
@@ -37,17 +35,3 @@ automation:
       entity_id: cover.kitchen_shutter
       data:
         action: "{{ trigger.to_state.state }}"
-
-script:
-  kitchen_shutter_open:
-    sequence:
-      service: cover.open_cover
-      entity_id: cover.kitchen_shutter_switch
-  kitchen_shutter_close:
-    sequence:
-      service: cover.close_cover
-      entity_id: cover.kitchen_shutter_switch
-  kitchen_shutter_stop:
-    sequence:
-      service: cover.stop_cover
-      entity_id: cover.kitchen_shutter_switch

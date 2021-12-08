@@ -3,12 +3,10 @@ cover:
     devices:
       kitchen_curtain:
         name: Kitchen Curtain
-        travelling_time_up: 17.5
-        travelling_time_down: 17
-        close_script_entity_id: script.kitchen_curtain_close
-        stop_script_entity_id: script.kitchen_curtain_stop
-        open_script_entity_id: script.kitchen_curtain_open
-        send_stop_at_ends: False
+        travelling_time_up: 16
+        travelling_time_down: 16
+        cover_entity_id: cover.kitchen_curtain_motor
+        send_stop_at_ends: True
 
 sensor:
   - platform: template
@@ -24,7 +22,7 @@ sensor:
           {% endif %}
 
 automation:
-  - alias: Kitchen Curtain Update Position From Physical Switch
+  - alias: Kitchen Cover Update Position From Physical Switch
     trigger:
       - platform: state
         entity_id: sensor.kitchen_curtain_state
@@ -33,21 +31,10 @@ automation:
         condition: template
         value_template: "{{ (trigger.to_state.state | replace('open', 'opening') | replace('close', 'closing')) != states('cover.kitchen_curtain') }}"    
     action:
-      service: cover_rf_time_based.set_known_action
-      entity_id: cover.kitchen_curtain
-      data:
-        action: "{{ trigger.to_state.state }}"
+      - service: cover_rf_time_based.set_known_action
+        entity_id: cover.kitchen_curtain
+        data:
+          action: "{{ trigger.to_state.state }}"
+      - service: "cover.{{ trigger.to_state.state }}_cover"
+        entity_id: cover.kitchen_curtain_motor
 
-script:
-  kitchen_curtain_open:
-    sequence:
-      service: cover.open_cover
-      entity_id: cover.kitchen_curtain_switch
-  kitchen_curtain_close:
-    sequence:
-      service: cover.close_cover
-      entity_id: cover.kitchen_curtain_switch
-  kitchen_curtain_stop:
-    sequence:
-      service: cover.stop_cover
-      entity_id: cover.kitchen_curtain_switch

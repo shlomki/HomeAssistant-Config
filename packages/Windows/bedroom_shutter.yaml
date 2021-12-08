@@ -5,9 +5,7 @@ cover:
         name: Bedroom Shutter
         travelling_time_up: 19
         travelling_time_down: 18
-        close_script_entity_id: script.bedroom_shutter_close
-        stop_script_entity_id: script.bedroom_shutter_stop
-        open_script_entity_id: script.bedroom_shutter_open
+        cover_entity_id: cover.bedroom_shutter_switch
         send_stop_at_ends: False
 
 sensor:
@@ -38,16 +36,3 @@ automation:
       data:
         action: "{{ trigger.to_state.state }}"
 
-script:
-  bedroom_shutter_open:
-    sequence:
-      service: cover.open_cover
-      entity_id: cover.bedroom_shutter_switch
-  bedroom_shutter_close:
-    sequence:
-      service: cover.close_cover
-      entity_id: cover.bedroom_shutter_switch
-  bedroom_shutter_stop:
-    sequence:
-      service: cover.stop_cover
-      entity_id: cover.bedroom_shutter_switch

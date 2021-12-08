@@ -5,9 +5,7 @@ cover:
         name: Office Shutter
         travelling_time_up: 19
         travelling_time_down: 19
-        close_script_entity_id: script.office_shutter_close
-        stop_script_entity_id: script.office_shutter_stop
-        open_script_entity_id: script.office_shutter_open
+        cover_entity_id: cover.office_shutter_switch
         send_stop_at_ends: False
 
 sensor:
@@ -37,17 +35,3 @@ automation:
       entity_id: cover.office_shutter
       data:
         action: "{{ trigger.to_state.state }}"
-
-script:
-  office_shutter_open:
-    sequence:
-      service: cover.open_cover
-      entity_id: cover.office_shutter_switch
-  office_shutter_close:
-    sequence:
-      service: cover.close_cover
-      entity_id: cover.office_shutter_switch
-  office_shutter_stop:
-    sequence:
-      service: cover.stop_cover
-      entity_id: cover.office_shutter_switch

@@ -1,15 +1,3 @@
-cover:
-  - platform: cover_rf_time_based
-    devices:
-      bedroom_curtain:
-        name: Bedroom Curtain
-        travelling_time_up: 25
-        travelling_time_down: 24
-        close_script_entity_id: script.bedroom_curtain_close
-        stop_script_entity_id: script.bedroom_curtain_stop
-        open_script_entity_id: script.bedroom_curtain_open
-        send_stop_at_ends: True
-
 sensor:
   - platform: template
     sensors:
@@ -24,33 +12,12 @@ sensor:
           {% endif %}
 
 automation:
-  - alias: Bedroom Cover Update Position From Physical Switch
+  - alias: Bedroom Curtain According To Sensor
     trigger:
       - platform: state
         entity_id: sensor.bedroom_curtain_state
-    condition:
-      - alias: "not already in the same state" #Otherwise causes some weird racing condition between template cover and switch
-        condition: template
-        value_template: "{{ (trigger.to_state.state | replace('open', 'opening') | replace('close', 'closing')) != states('cover.bedroom_curtain') }}"    
     action:
-      - service: cover_rf_time_based.set_known_action
-        entity_id: cover.bedroom_curtain
-        data:
-          action: "{{ trigger.to_state.state }}"
-      - service: "cover.{{ trigger.to_state.state }}_cover"
-        entity_id: cover.bedroom_curtain_motor
+      service: "cover.{{trigger.to_state.state}}_cover"
+      entity_id:
+        - cover.bedroom_curtain
 
-
-script:
-  bedroom_curtain_open:
-    sequence:
-      service: cover.open_cover
-      entity_id: cover.bedroom_curtain_motor
-  bedroom_curtain_close:
-    sequence:
-      service: cover.close_cover
-      entity_id: cover.bedroom_curtain_motor
-  bedroom_curtain_stop:
-    sequence:
-      service: cover.stop_cover
-      entity_id: cover.bedroom_curtain_motor
