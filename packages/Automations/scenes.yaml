@@ -1,0 +1,14 @@
+scene:
+  - name: Sleep
+    icon: "mdi:sleep"
+    entities:
+      group.all_lights: off
+      cover.bedroom_shutter:
+        state: open
+        current_position: 9
+      lock.front_door: "locked"
+      switch.black_tablet: on
+      switch.house_tablet: off
+      media_player.living_room_tv: off
+
+
