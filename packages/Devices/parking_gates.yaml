@@ -1,0 +1,43 @@
+rest_command:
+  open_parking_gate:
+    url: "https://api1.pal-es.com/v1/bt/device/{{deviceId}}/open-gate?outputNum=1" 
+    method: "GET"
+    headers:
+      x-bt-user-token: !secret palgate_token
+    timeout: 60
+
+script:
+  open_lower_gate_online:
+    alias: Open Lower Gate Online
+    sequence:
+        - service: rest_command.open_parking_gate
+          data:
+            deviceId: !secret palgate_deviceId
+
+automation:
+- alias: Parking gates - Turn off remotes after 3 seconds
+  mode: parallel
+  trigger:
+      - platform: state
+        entity_id:
+          - switch.lower_gate
+          - switch.upper_gate
+        from: 'off'
+        to: 'on'
+        for:
+          seconds: 3
+  action:
+    - service: switch.turn_off
+      data:
+        entity_id: '{{ trigger.to_state.entity_id }}'
+
+- alias: Parking gates - open lower gate online
+  mode: parallel
+  trigger:
+      - platform: state
+        entity_id:
+          - switch.lower_gate
+        from: 'off'
+        to: 'on'
+  action:
+    - service: script.open_lower_gate_online
