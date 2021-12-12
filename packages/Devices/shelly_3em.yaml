@@ -10,7 +10,7 @@
 ####### 3. input_text.energy_total_previous_bill = 0             #######
 ####### 4. input_text.energy_total_yesterday = 0                 #######
 ####### 5. Set the day and months your bill closes. For example: #######
-#######    if your bill closes on months 1,3,5,6,7,9,11 on the   #######
+#######    if your bill closes on months 1,3,5,7,9,11 on the     #######
 #######    third day of each month,                              #######
 #######    set input_number.power_bill_cutoff_month = Odd        #######
 #######    and set input_number.power_bill_cutoff_day = 3        #######
