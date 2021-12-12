@@ -62,26 +62,18 @@ rest_command:
     url: "http://{{ip}}/sendmessage?password={{ states('input_text.tablet_password') }}&message={{message}}"
 
 script:
-  autoremote_house_tablet_command:
+  autoremote_tablet_command:
     mode: queued
-    sequence:
+    sequence: 
       - service: rest_command.autoremote_tablet_command
         data:
-          ip: "{{ states('input_text.house_tablet_ip') }}"
-          message: "{{ message }}"
-
-  autoremote_black_tablet_command:
-    mode: queued
-    sequence:
-      - service: rest_command.autoremote_tablet_command
-        data:
-          ip: "{{ states('input_text.black_tablet_ip') }}"
+          ip: "{{ states('input_text.' + tablet + '_ip') }}"
           message: "{{ message }}"
 
   autoremote_tablet_reolink_command:
-    mode: queued
+    mode: parallel
     sequence:
-      - service: rest_command.autoremote_tablet_command
+      - service: script.tablet_command
         data:
           ip: "{{ states('input_text.' + tablet + '_ip') }}"
           message: "re"
@@ -102,13 +94,15 @@ switch:
         friendly_name: House Tablet
         value_template: "{{ is_state('binary_sensor.house_tablet_interactive', 'on') }}"
         turn_on:
-          service: script.autoremote_house_tablet_command
+          service: script.autoremote_tablet_command
           data:
             message: 'sw'
+            tablet: 'house_tablet'
         turn_off:
-          service: script.autoremote_house_tablet_command
+          service: script.autoremote_tablet_command
           data:
             message: 'sl'
+            tablet: 'house_tablet'
 
   - platform: template
     switches:
@@ -116,13 +110,15 @@ switch:
         friendly_name: Black Tablet
         value_template: "{{ is_state('binary_sensor.black_tablet_interactive', 'on') }}"
         turn_on:
-          service: script.autoremote_black_tablet_command
+          service: script.autoremote_tablet_command
           data:
             message: 'sw'
+            tablet: 'black_tablet'
         turn_off:
-          service: script.autoremote_black_tablet_command
+          service: script.autoremote_tablet_command
           data:
             message: 'sl'
+            tablet: 'black_tablet'
 
 automation:
   - alias: Tablets change setting
@@ -145,9 +141,10 @@ automation:
       tablet_name: "{{ trigger.to_state.entity_id | replace('input_number.', '')  | replace('input_select.', '') | replace('_volume', '') | replace('_brightness', '') }}"
 
     action:
-      - service: "script.autoremote_{{ tablet_name }}_command"
+      - service: "script.autoremote_tablet_command"
         data:
           message: "{{ command }}{{ value }}"
+          tablet: "{{ tablet_name }}"
 
 
   - id: Control tablets from hue remote - power
