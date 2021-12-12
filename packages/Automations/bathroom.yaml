@@ -32,7 +32,7 @@ automation:
             before: input_datetime.morning
           sequence:
             - service: light.turn_on
-              entity_id: light.bathroom_night_light
+              entity_id: light.bathroom_cabinet_controller
       - delay:
           seconds: 5
           
@@ -48,13 +48,13 @@ automation:
       - service: light.turn_off
         entity_id: 
           - light.bathroom_main
-          - light.bathroom_night_light
+          - light.bathroom_cabinet_controller
 
 switch:
   - platform: broadlink
     mac: !secret office_mac
     switches:
-      - name: Bathroom Night Light
+      - name: Bathroom Cabinet Smart Plug
         command_on: 'shQyABEFEQUHEAcQEQUHEBEGEQYHEBEGBxAHEBEGEQYRBgcQBhAGEBEGBhARBREFBhARBQaiAAAAAAAA'
         command_off: 'shIyABEFEQUGEAYQBhARBQYQBxARBQYQEQYGohEFEQUGEAYQEQUHEBEFEQUHEBEFBxAGEBEFAAAAAAAA'
 

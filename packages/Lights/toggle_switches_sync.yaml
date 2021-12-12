@@ -1,138 +1,137 @@
 automation:
-
   - alias: Living room sync lamp
     max_exceeded: silent
     trigger:
       - platform: state
-        entity_id: 
-          - switch.living_room_lamp_smart_plug
+        entity_id:
+          - switch.living_room_side_lamp_smart_plug
           - light.living_room_lamp_toggle
     condition:
       condition: not
       conditions:
-          - condition: state
-            entity_id: 
-              - switch.living_room_lamp_smart_plug
-              - light.living_room_lamp_toggle
-            state: 'unavailable'
+        - condition: state
+          entity_id:
+            - switch.living_room_side_lamp_smart_plug
+            - light.living_room_lamp_toggle
+          state: "unavailable"
     action:
-      - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
-        entity_id: light.living_room_lamp_group
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
+        entity_id: light.living_room_side_lamp_group
 
   - alias: Stairs switch sync
     max_exceeded: silent
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - light.stairs
           - switch.stairs_module
     condition:
       condition: not
       conditions:
-          - condition: state
-            entity_id: 
-              - light.stairs
-              - switch.stairs_module
-            state: 'unavailable'
+        - condition: state
+          entity_id:
+            - light.stairs
+            - switch.stairs_module
+          state: "unavailable"
     action:
-      - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.stairs_group
 
   - alias: Office switches sync bff light
     max_exceeded: silent
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - light.office_bff_light
           - light.office_bff_light_toggle
     condition:
       condition: not
       conditions:
-          - condition: state
-            entity_id: 
-              - light.office_bff_light
-              - light.office_bff_light_toggle
-            state: 'unavailable'
+        - condition: state
+          entity_id:
+            - light.office_bff_light
+            - light.office_bff_light_toggle
+          state: "unavailable"
     action:
-      - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.office_bff_light_group
 
   - alias: Birds switches sync main
     max_exceeded: silent
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - light.birds_main
           - light.birds_main_toggle
     condition:
       condition: not
       conditions:
-          - condition: state
-            entity_id: 
-              - light.birds_main
-              - light.birds_main_toggle
-            state: 'unavailable'
+        - condition: state
+          entity_id:
+            - light.birds_main
+            - light.birds_main_toggle
+          state: "unavailable"
     action:
-      - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.birds_main_group
 
   - alias: Hallway switches sync main
     max_exceeded: silent
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - light.hallway_main
           - light.hallway_main_toggle
     condition:
       condition: not
       conditions:
-          - condition: state
-            entity_id: 
-              - light.hallway_main
-              - light.hallway_main_toggle
-            state: 'unavailable'
+        - condition: state
+          entity_id:
+            - light.hallway_main
+            - light.hallway_main_toggle
+          state: "unavailable"
     action:
-      - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.hallway_main_group
 
   - alias: Riley switches sync main
     max_exceeded: silent
     trigger:
       - platform: state
-        entity_id: 
-        - light.riley_main
-        - light.riley_main_toggle
+        entity_id:
+          - light.riley_main
+          - light.riley_main_toggle
     condition:
       condition: not
       conditions:
-          - condition: state
-            entity_id: 
-              - light.riley_main
-              - light.riley_main_toggle
-            state: 'unavailable'
+        - condition: state
+          entity_id:
+            - light.riley_main
+            - light.riley_main_toggle
+          state: "unavailable"
     action:
-      - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.riley_main_group
 
   - alias: Riley switches scene
     max_exceeded: silent
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - light.riley_scene_toggle
     condition:
       - condition: state
         entity_id: light.riley_main_combined
-        state: 'on'
+        state: "on"
       - condition: not
         conditions:
-            - condition: state
-              entity_id: 
-                - light.riley_scene_toggle
-              state: 'unavailable'
+          - condition: state
+            entity_id:
+              - light.riley_scene_toggle
+            state: "unavailable"
     action:
       - service: light.turn_on
-        entity_id: 
+        entity_id:
           - light.riley_main_combined
         data:
           brightness: '{{ 255 if ( (state_attr("light.riley_main_combined", "brightness") or state_attr("light.riley_main_combined", "brightness")) < 127) else 1 }}'
@@ -141,67 +140,66 @@ automation:
     max_exceeded: silent
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - light.bedroom_main
           - light.bedroom_main_toggle_left
           - light.bedroom_main_toggle_right
     condition:
       condition: not
       conditions:
-          - condition: state
-            entity_id: 
-              - light.bedroom_main
-              - light.bedroom_main_toggle_left
-              - light.bedroom_main_toggle_right
-            state: 'unavailable'
+        - condition: state
+          entity_id:
+            - light.bedroom_main
+            - light.bedroom_main_toggle_left
+            - light.bedroom_main_toggle_right
+          state: "unavailable"
     action:
-      - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.bedroom_main_group
 
   - alias: Bedroom switches sync entrance
     max_exceeded: silent
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - light.bedroom_entrance
           - light.bedroom_entrance_toggle_left
           - light.bedroom_entrance_toggle_right
     condition:
       condition: not
       conditions:
-          - condition: state
-            entity_id: 
-              - light.bedroom_entrance
-              - light.bedroom_entrance_toggle_left
-              - light.bedroom_entrance_toggle_right
-            state: 'unavailable'
+        - condition: state
+          entity_id:
+            - light.bedroom_entrance
+            - light.bedroom_entrance_toggle_left
+            - light.bedroom_entrance_toggle_right
+          state: "unavailable"
     action:
-      - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.bedroom_entrance_group
 
   - alias: Bedroom switches scene
     max_exceeded: silent
     trigger:
       - platform: state
-        entity_id: 
-        - light.bedroom_scene
-        - light.bedroom_scene_left
-        - light.bedroom_scene_right
+        entity_id:
+          - light.bedroom_scene
+          - light.bedroom_scene_left
+          - light.bedroom_scene_right
     condition:
       condition: not
       conditions:
-          - condition: state
-            entity_id: 
-              - light.bedroom_scene
-              - light.bedroom_scene_left
-              - light.bedroom_scene_right
-            state: 'unavailable'
+        - condition: state
+          entity_id:
+            - light.bedroom_scene
+            - light.bedroom_scene_left
+            - light.bedroom_scene_right
+          state: "unavailable"
     action:
       - service: light.turn_on
         entity_id: light.bedroom_dimmable_lights
         data:
           brightness: "{{ 255 if state_attr('light.bedroom_dimmable_lights', 'brightness')|int < 127 else 1 }}"
-
 
   # - alias: Living room switches scene
   #   trigger:
@@ -222,36 +220,36 @@ automation:
     max_exceeded: silent
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - fan.balcony_fan
           - switch.balcony_fan_toggle
     condition:
       condition: not
       conditions:
-          - condition: state
-            entity_id: 
-              - fan.balcony_fan
-              - switch.balcony_fan_toggle
-            state: 'unavailable'
+        - condition: state
+          entity_id:
+            - fan.balcony_fan
+            - switch.balcony_fan_toggle
+          state: "unavailable"
     action:
-      - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: group.balcony_fan_group
 
   - alias: Balcony string lights sync switch
     max_exceeded: silent
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - light.balcony_string_lights
           - light.balcony_string_lights_toggle
     condition:
       condition: not
       conditions:
-          - condition: state
-            entity_id: 
-              - light.balcony_string_lights
-              - light.balcony_string_lights_toggle
-            state: 'unavailable'
+        - condition: state
+          entity_id:
+            - light.balcony_string_lights
+            - light.balcony_string_lights_toggle
+          state: "unavailable"
     action:
-      - service: 'homeassistant.turn_{{ trigger.to_state.state }}'
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.balcony_string_lights_group

@@ -3,12 +3,12 @@ input_boolean:
   office_script_running:
   birds_script_running:
   riley_script_running:
-  
+
   living_room_color_fix:
   office_main_color_fix:
   birds_main_color_fix:
   riley_main_color_fix:
-  
+
 input_number:
   living_room_light_level:
     min: 0
@@ -27,11 +27,11 @@ input_number:
     max: 18
     step: 1
 
-
 light:
   - platform: template
     lights:
       living_room_main_combined:
+        unique_id: "Living Room Light Main"
         friendly_name: "Living Room Main Dimmable"
         value_template: "{{ is_state('light.living_room_main','on') }}"
         level_template: "{{ (states.input_number.living_room_light_level.state|int * 14.166)|round }}"
@@ -46,11 +46,12 @@ light:
           - service: python_script.ceiling_light_set_level
             data:
               room: living_room
-              new_brightness_level: '{{ brightness }}'
-              
+              new_brightness_level: "{{ brightness }}"
+
   - platform: template
     lights:
       living_room_entrance_combined:
+        unique_id: "Living Room Light Entrance"
         friendly_name: "Living Room Entrance Dimmable"
         value_template: "{{ is_state('light.living_room_entrance','on') }}"
         level_template: "{{ (states.input_number.living_room_light_level.state|int * 14.166)|round }}"
@@ -65,11 +66,12 @@ light:
           - service: python_script.ceiling_light_set_level
             data:
               room: living_room
-              new_brightness_level: '{{ brightness }}'
+              new_brightness_level: "{{ brightness }}"
 
   - platform: template
     lights:
       living_room_hallway_combined:
+        unique_id: "Living Room Light Hallway"
         friendly_name: "Living Room Hallway Dimmable"
         value_template: "{{ is_state('light.living_room_hallway','on') }}"
         level_template: "{{ (states.input_number.living_room_light_level.state|int * 14.166)|round }}"
@@ -84,7 +86,77 @@ light:
           - service: python_script.ceiling_light_set_level
             data:
               room: living_room
-              new_brightness_level: '{{ brightness }}'
+              new_brightness_level: "{{ brightness }}"
+
+  - platform: template
+    lights:
+      hallway_main_combined:
+        friendly_name: "Hallway Main Dimmable"
+        value_template: "{{ is_state('light.hallway_main','on') }}"
+        level_template: "{{ max((expand('group.hallway_lights') | selectattr('state', 'equalto', 'on') | map(attribute='attributes.brightness') | list) or [0]) }} "
+        availability_template: "{{ not is_state('light.hallway_main','unavailable') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: light.hallway_main
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: light.hallway_main
+        set_level:
+          - service: light.turn_on
+            entity_id: light.hallway_main
+          - wait_template: "{{ is_state('light.hallway_dimmable_lights', 'on') }}"
+            timeout:
+              seconds: 2
+          - service: light.turn_on
+            data:
+              entity_id: light.hallway_dimmable_lights
+              brightness: "{{ brightness }}"
+
+  - platform: template
+    lights:
+      living_room_tv_light_combined:
+        unique_id: "Living Room Light TV Light"
+        friendly_name: "Living Room TV Light Dimmable"
+        value_template: "{{ is_state('light.living_room_tv_light','on') }}"
+        level_template: "{{ state_attr('light.living_room_tv_light_dimmer','brightness') }}"
+        availability_template: "{{ not is_state('light.living_room_tv_light','unavailable') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: light.living_room_tv_light
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: light.living_room_tv_light
+        set_level:
+          - service: light.turn_on
+            entity_id: light.living_room_tv_light
+          - wait_template: "{{ is_state('light.living_room_tv_light_dimmer', 'on') }}"
+            timeout:
+              seconds: 2
+          - service: light.turn_on
+            data:
+              entity_id: light.living_room_tv_light_dimmer
+              brightness: "{{ brightness }}"
+
+  - platform: template
+    lights:
+      living_room_tv_light_combined:
+        friendly_name: "Hallway Main Dimmable"
+        value_template: "{{ is_state('light.hallway_main','on') }}"
+        level_template: "{{ state_attr('light.living_room_tv_light_dimmer','brightness') }}"
+        availability_template: "{{ not is_state('light.living_room_tv_light','unavailable') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: light.living_room_tv_light
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: light.living_room_tv_light
+        set_level:
+          - service: light.turn_on
+            data:
+              entity_id:
+                - light.living_room_tv_light
+                - light.living_room_tv_light_dimmer
+              brightness: "{{ brightness }}"
 
   - platform: template
     lights:
@@ -103,12 +175,11 @@ light:
           - service: python_script.ceiling_light_set_level
             data:
               room: office
-              new_brightness_level: '{{ brightness }}'
+              new_brightness_level: "{{ brightness }}"
         set_temperature:
           service: script.ceiling_light_color_change
           data:
             room: office
-
 
   - platform: template
     lights:
@@ -127,7 +198,7 @@ light:
           - service: python_script.ceiling_light_set_level
             data:
               room: birds
-              new_brightness_level: '{{ brightness }}'
+              new_brightness_level: "{{ brightness }}"
 
   - platform: template
     lights:
@@ -146,7 +217,7 @@ light:
           - service: python_script.ceiling_light_set_level
             data:
               room: riley
-              new_brightness_level: '{{ brightness }}'
+              new_brightness_level: "{{ brightness }}"
 
   - platform: template
     lights:
@@ -165,7 +236,7 @@ light:
           - service: light.turn_on
             data:
               entity_id: light.bedroom_entrance_hue
-              brightness: '{{ brightness }}'
+              brightness: "{{ brightness }}"
 
   - platform: template
     lights:
@@ -184,8 +255,7 @@ light:
           - service: light.turn_on
             data:
               entity_id: light.bedroom_main_hue
-              brightness: '{{ brightness }}'
-
+              brightness: "{{ brightness }}"
 
   - platform: template
     lights:
@@ -204,34 +274,35 @@ light:
           - service: light.turn_on
             data:
               entity_id: light.kitchen_island_1
-              brightness: '{{ brightness }}'
+              brightness: "{{ brightness }}"
           - service: light.turn_on
             data:
               entity_id: light.kitchen_island_2
-              brightness: '{{ brightness }}'
+              brightness: "{{ brightness }}"
           - service: light.turn_on
             data:
               entity_id: light.kitchen_island_3
-              brightness: '{{ brightness }}'
+              brightness: "{{ brightness }}"
 
   - platform: template
     lights:
-      living_room_lamp_combined:
-        friendly_name: "Living Room Lamp Dimmable"
-        value_template: "{{ is_state('switch.living_room_lamp_smart_plug','on') }}"
+      living_room_side_lamp_combined:
+        unique_id: "Living Room Light Side Lamp"
+        friendly_name: "Living Room Side Lamp Dimmable"
+        value_template: "{{ is_state('switch.living_room_side_lamp_smart_plug','on') }}"
         level_template: "{{ state_attr('light.living_room_lamp_hue','brightness') }}"
-        availability_template: "{{ not is_state('switch.living_room_lamp_smart_plug','unavailable') }}"
+        availability_template: "{{ not is_state('switch.living_room_side_lamp_smart_plug','unavailable') }}"
         turn_on:
           - service: homeassistant.turn_on
-            entity_id: switch.living_room_lamp_smart_plug
+            entity_id: switch.living_room_side_lamp_smart_plug
         turn_off:
           - service: homeassistant.turn_off
-            entity_id: switch.living_room_lamp_smart_plug
+            entity_id: switch.living_room_side_lamp_smart_plug
         set_level:
           - service: light.turn_on
             data:
               entity_id: light.living_room_lamp_hue
-              brightness: '{{ brightness }}'
+              brightness: "{{ brightness }}"
 
 group:
   living room dimmable lights:
@@ -242,29 +313,29 @@ group:
 
 automation:
   - alias: Living Room Light Color Fix Check
-    description: ''
+    description: ""
     trigger:
       - platform: state
         entity_id: group.living_room_dimmable_lights
-        from: 'on'
-        to: 'off'
-        for: '20'
+        from: "on"
+        to: "off"
+        for: "20"
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.living_room_color_fix
 
   - alias: Living Room Light Color Fix
-    description: ''
+    description: ""
     trigger:
       - platform: state
         entity_id: group.living_room_dimmable_lights
-        from: 'off'
-        to: 'on'
-        for: '5'
+        from: "off"
+        to: "on"
+        for: "5"
     condition:
       condition: state
       entity_id: input_boolean.living_room_color_fix
-      state: 'on'
+      state: "on"
     action:
       - service: script.ceiling_light_color_change2
         data:
@@ -273,28 +344,28 @@ automation:
         entity_id: input_boolean.living_room_color_fix
 
   - alias: Office Light Color Fix Check
-    description: ''
+    description: ""
     trigger:
       - platform: state
         entity_id: light.office_main
-        to: 'off'
-        for: '60'
+        to: "off"
+        for: "60"
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.office_main_color_fix
 
   - alias: Office Light Color Fix
-    description: ''
+    description: ""
     trigger:
       - platform: state
         entity_id: light.office_main
-        from: 'off'
-        to: 'on'
-        for: '1'
+        from: "off"
+        to: "on"
+        for: "1"
     condition:
       condition: state
       entity_id: input_boolean.office_main_color_fix
-      state: 'on'
+      state: "on"
     action:
       - service: script.ceiling_light_color_change3
         data:
@@ -303,28 +374,28 @@ automation:
         entity_id: input_boolean.office_main_color_fix
 
   - alias: Birds Light Color Fix Check
-    description: ''
+    description: ""
     trigger:
       - platform: state
         entity_id: light.birds_main
-        to: 'off'
-        for: '60'
+        to: "off"
+        for: "60"
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.birds_main_color_fix
 
   - alias: Birds Light Color Fix
-    description: ''
+    description: ""
     trigger:
       - platform: state
         entity_id: light.birds_main
-        from: 'off'
-        to: 'on'
-        for: '1'
+        from: "off"
+        to: "on"
+        for: "1"
     condition:
       condition: state
       entity_id: input_boolean.birds_main_color_fix
-      state: 'on'
+      state: "on"
     action:
       - service: script.ceiling_light_color_change3
         data:
@@ -333,28 +404,28 @@ automation:
         entity_id: input_boolean.birds_main_color_fix
 
   - alias: Riley Light Color Fix Check
-    description: ''
+    description: ""
     trigger:
       - platform: state
         entity_id: light.riley_main
-        to: 'off'
-        for: '60'
+        to: "off"
+        for: "60"
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.riley_main_color_fix
 
   - alias: Riley Light Color Fix
-    description: ''
+    description: ""
     trigger:
       - platform: state
         entity_id: light.riley_main
-        from: 'off'
-        to: 'on'
-        for: '1'
+        from: "off"
+        to: "on"
+        for: "1"
     condition:
       condition: state
       entity_id: input_boolean.riley_main_color_fix
-      state: 'on'
+      state: "on"
     action:
       - service: script.ceiling_light_color_change3
         data:
@@ -363,19 +434,19 @@ automation:
         entity_id: input_boolean.riley_main_color_fix
 
   - alias: Ceiling Lights Set Full Brightness When Turning On
-    description: ''
+    description: ""
     trigger:
       - platform: state
-        entity_id: 
-         - light.living_room_entrance
-         - light.living_room_hallway
-         - light.living_room_main
-         - light.office_main
-         - light.birds_main
-         - light.riley_main
-        from: 'off'
-        to: 'on'
+        entity_id:
+          - light.living_room_entrance
+          - light.living_room_hallway
+          - light.living_room_main
+          - light.office_main
+          - light.birds_main
+          - light.riley_main
+        from: "off"
+        to: "on"
     action:
       - service: python_script.ceiling_light_set_level_when_turning_on
         data:
-          entity_id: '{{ trigger.to_state.entity_id }}'
+          entity_id: "{{ trigger.to_state.entity_id }}"

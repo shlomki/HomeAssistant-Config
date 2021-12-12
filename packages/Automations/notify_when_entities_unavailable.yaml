@@ -2,11 +2,10 @@
 ################ DON'T FORGET TO CHANGE THE NOTIFICATION SERVICE IN LINE 50! ################
 #############################################################################################
 
-
-  #######################################################
-  ### Sensor for unavailable entities, also good for UI.
-  ### Updates immediately as soon as entities change.
-  #######################################################
+#######################################################
+### Sensor for unavailable entities, also good for UI.
+### Updates immediately as soon as entities change.
+#######################################################
 
 template:
   - sensor:
@@ -86,8 +85,6 @@ automation:
         entity_id: input_text.unavailable_entities_temp_state
         value: "{{ '' if trigger.from_state.state == 'Online' else trigger.from_state.state }}"
 
-
-
   #######################################################
   ### Group of monitored entities.
   ### Add any entities you want to be notified about.
@@ -145,7 +142,6 @@ group:
       - binary_sensor.front_door_lock
       - switch.front_door_camera_module
       - binary_sensor.bathroom_door
-      - sensor.riley_temperature
       - binary_sensor.toilet_motion
       - binary_sensor.toilet_door
       - switch.subwoofer
@@ -176,23 +172,23 @@ group:
       - light.stairs
       - switch.stairs_module
       - binary_sensor.stairs_motion
-      - sensor.living_room
-      - sensor.office
-      - sensor.birds
-      - sensor.riley
-      - sensor.bedroom
+      - sensor.living_room_temperature
+      - sensor.office_temperature
+      - sensor.birds_temperature
+      - sensor.riley_temperature
+      - sensor.bedroom_temperature
       - binary_sensor.toilet_flush
       - switch.shelly_3em
       - binary_sensor.big_freezer
-      - switch.living_room_lamp_smart_plug
-      - switch.gray_fan_smart_plug
+      - switch.living_room_side_lamp_smart_plug
+      #- switch.gray_fan_smart_plug
       - sensor.outside_temperature
       - switch.il_smart_plug_1
       - switch.il_smart_plug_2
       - cover.kitchen_shutter_switch
       - cover.kitchen_curtain_switch
       - lock.front_door
-      - fan.bedroom_fan
+      #- fan.bedroom_fan
       - fan.living_room_fan
       - media_player.living_room_tv
       - media_player.bedroom_tv
@@ -201,8 +197,4 @@ group:
       - cover.bedroom_curtain_motor
       - cover.bedroom_curtain_switch
       - switch.living_room_bff_light
-
-
-
-
-
+      - light.bathroom_cabinet_controller

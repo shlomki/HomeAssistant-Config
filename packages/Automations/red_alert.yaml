@@ -59,7 +59,7 @@ automation:
             - light.living_room_main_combined
             - light.living_room_entrance
             - light.living_room_hallway
-            - light.living_room_lamp_combined
+            - light.living_room_side_lamp_combined
             - light.living_room_tv_light
             - light.kitchen_island_combined
             - light.kitchen_pantry
