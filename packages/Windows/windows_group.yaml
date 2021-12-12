@@ -6,6 +6,7 @@ group:
       - binary_sensor.kitchen_window
       - binary_sensor.office_window
       - binary_sensor.birds_window
+      - binary_sensor.riley_window
       - binary_sensor.bedroom_window
 
   shutters:
