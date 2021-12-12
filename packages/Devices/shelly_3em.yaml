@@ -12,7 +12,7 @@
 ####### 5. Set the day and months your bill closes. For example: #######
 #######    if your bill closes on months 1,3,5,7,9,11 on the     #######
 #######    third day of each month,                              #######
-#######    set input_number.power_bill_cutoff_month = Odd        #######
+#######    set input_select.power_bill_cutoff_month = Odd        #######
 #######    and set input_number.power_bill_cutoff_day = 3        #######
 ########################################################################
 
