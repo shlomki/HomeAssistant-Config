@@ -10,3 +10,31 @@ sensor:
       - loadpct
       - timeleft
       - numxfers
+
+input_datetime:
+  last_power_outage:
+    name: Last Power Outage
+    has_date: true
+    has_time: true
+
+automation:
+  - alias: Power - Save Last Outage Time
+    trigger:
+      - platform: state
+        entity_id: sensor.ups_transfer_count
+    condition:
+      condition: not
+      conditions:
+        - condition: state
+          entity_id: sensor.ups_transfer_count
+          state: "0"
+        - condition: state
+          entity_id: sensor.ups_transfer_count
+          state: "unavailable"
+    action:
+      service: input_datetime.set_datetime
+      data:
+        entity_id: input_datetime.last_power_outage
+        datetime: '{{ now() }}'
+
+
