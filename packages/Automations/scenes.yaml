@@ -11,4 +11,68 @@ scene:
       switch.house_tablet: off
       media_player.living_room_tv: off
 
+  - name: Evening
+    entities:
+      light.living_room_side_lamp_combined: on
+      light.living_room_bff_light: on
+      light.kitchen_island_combined: on
+      
+      #The rest of the Living Room lights
+      light.living_room_entrance_combined: off
+      light.living_room_hallway_combined: off
+      light.living_room_main_combined: off
+      light.living_room_tv_light_combined: off
+      
+      #The rest of the Kitchen lights
+      light.kitchen_counter: off
+      light.kitchen_pantry: off
 
+      #The rest of the house
+      switch.balcony_lights: off
+      switch.toilet_lights: off
+      switch.bathroom_lights: off
+      light.hallway_main_combined: off
+      switch.office_lights: off
+      light.birds_main_combined: off
+      light.riley_main_combined: off
+      switch.bedroom_lights: off
+
+
+sensor:
+  - platform: template
+    sensors:
+      sleep_scene:
+        friendly_name: "Sleep Scene"
+        unit_of_measurement: 'watt'
+        value_template: "{{ (is_state('group.all_lights', 'off') and 
+                            is_state_attr('cover.bedroom_shutter', 'current_position', 9) and
+                            is_state('lock.front_door', 'locked') and
+                            is_state('switch.black_tablet', 'on') and
+                            is_state('switch.house_tablet', 'off') and
+                            is_state('media_player.living_room_tv', 'off')) | replace(true, 'on') | replace(false, 'off') }}"
+
+  - platform: template
+    sensors:
+      evening_scene:
+        friendly_name: "Evening Scene"
+        unit_of_measurement: 'watt'
+        value_template: "{{ (is_state('light.living_room_side_lamp_combined', 'on') and
+                            is_state('light.living_room_bff_light', 'on') and
+                            is_state('light.kitchen_island_combined', 'on') and
+
+                            is_state('light.living_room_entrance_combined', 'off') and
+                            is_state('light.living_room_hallway_combined', 'off') and
+                            is_state('light.living_room_main_combined', 'off') and
+                            is_state('light.living_room_tv_light_combined', 'off') and
+
+                            is_state('light.kitchen_counter', 'off') and
+                            is_state('light.kitchen_pantry', 'off') and
+
+                            is_state('switch.balcony_lights', 'off') and
+                            is_state('switch.toilet_lights', 'off') and
+                            is_state('switch.bathroom_lights', 'off') and
+                            is_state('light.hallway_main_combined', 'off') and
+                            is_state('switch.office_lights', 'off') and
+                            is_state('light.birds_main_combined', 'off') and
+                            is_state('light.riley_main_combined', 'off') and
+                            is_state('switch.bedroom_lights', 'off')) | replace(true, 'on') | replace(false, 'off') }}"
