@@ -1,44 +1,43 @@
 webostv:
   - name: Living Room TV
-    host: !secret living_room_tv_ip  
+    host: !secret living_room_tv_ip
     turn_on_action:
       service: script.turn_on_lg_tv
       data:
-        remote: remote.living_room
+        mac: !secret living_room_tv_mac
 
   - name: Bedroom TV
     host: !secret bedroom_tv_ip
     turn_on_action:
       service: script.turn_on_lg_tv
       data:
-        remote: remote.bedroom
+        mac: !secret bedroom_tv_mac
 
 automation:
   - alias: Subwoofer - Turn on
     trigger:
       - platform: state
         entity_id: media_player.living_room_tv
-        from: 'off'
-        to: 'on'
+        from: "off"
+        to: "on"
       - platform: state
         entity_id: media_player.amplifier
-        from: 'off'
-        to: 'on'
+        from: "off"
+        to: "on"
     action:
       - service: switch.turn_on
         entity_id: switch.subwoofer
-
 
   - alias: Subwoofer - Turn off
     trigger:
       - platform: state
         entity_id: media_player.living_room_tv
-        from: 'on'
-        to: 'off'
+        from: "on"
+        to: "off"
       - platform: state
         entity_id: media_player.amplifier
-        from: 'on'
-        to: 'off'
+        from: "on"
+        to: "off"
     condition:
       condition: and
       conditions:
@@ -47,19 +46,19 @@ automation:
           conditions:
             - condition: state
               entity_id: media_player.living_room_tv
-              state: 'off'
+              state: "off"
             - condition: state
               entity_id: media_player.living_room_tv
-              state: 'unavailable'
+              state: "unavailable"
         #When amplifier is off
         - condition: or
           conditions:
             - condition: state
               entity_id: media_player.amplifier
-              state: 'off'
+              state: "off"
             - condition: state
               entity_id: media_player.amplifier
-              state: 'unavailable'
+              state: "unavailable"
     action:
       - service: switch.turn_off
         entity_id: switch.subwoofer
@@ -68,20 +67,20 @@ automation:
     trigger:
       - platform: state
         entity_id: media_player.living_room_tv
-        from: 'off'
-        to: 'on'
+        from: "off"
+        to: "on"
         for:
           seconds: 5
       - platform: state
         entity_id: media_player.amplifier
-        from: 'off'
-        to: 'on'
+        from: "off"
+        to: "on"
         for:
           seconds: 5
     condition:
-        - condition: state
-          entity_id: switch.subwoofer
-          state:  'unavailable'
+      - condition: state
+        entity_id: switch.subwoofer
+        state: "unavailable"
     action:
       - service: tts.google_translate_say
         entity_id: media_player.living_room_speaker
@@ -91,39 +90,6 @@ automation:
         data:
           message: "The subwoofer hasn't been turned on, make sure the smart plug is plugged in behind the couch."
 
-  # - alias: Subwoofer unplugged from smart plug
-  #   trigger:
-  #     - platform: state
-  #       entity_id: switch.subwoofer
-  #       from: 'off'
-  #       to: 'on'
-  #       for:
-  #         seconds: 10
-  #   condition:
-  #       - condition: state
-  #         entity_id: sensor.subwoofer_power
-  #         state: '0'
-  #   action:
-  #     - service: tts.google_translate_say
-  #       entity_id: media_player.living_room_speaker
-  #       data:
-  #         message: "The subwoofer hasn't been turned on, make sure it's plugged in behind the couch."
-  #     - service: notify.bffs
-  #       data:
-  #         message: "The subwoofer hasn't been turned on, make sure it's plugged in behind the couch."
-
-  # - alias: Subwoofer unplugged from smart plug
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.subwoofer_vibration
-  #       from: 'off'
-  #       to: 'on'
-  #   action:
-  #     - service: notify.shlomi
-  #       data:
-  #         message: "Nugget is moving the subwoofer plug"
-
-
 group:
   TVs:
     entities:
@@ -132,7 +98,6 @@ group:
       - media_player.amplifier
       - switch.subwoofer
 
-
 media_player:
   - platform: denon
     host: 192.168.20.23
@@ -140,9 +105,7 @@ media_player:
 script:
   turn_on_lg_tv:
     sequence:
-      service: remote.send_command
-      data:
-        command: "b64:JgBWAAABJpITEhMSEzcTEhMSExITERMSEzcTNxMSEzcTNxM3EzcTNxMSExITNxMSExITEhM3EzcTNxM3ExITNxM3EzcTERMSEwAFNwABJkkTAAxiAAEmSROSDQU="
-      target:
-        entity_id: "{{ remote }}"
-
+      service: wake_on_lan.send_magic_packet
+data:
+  broadcast_address: !secret wake_on_lan_broadcast_address
+  mac: "{{ mac }}"
