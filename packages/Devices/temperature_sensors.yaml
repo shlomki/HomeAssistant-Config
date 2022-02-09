@@ -1,4 +1,7 @@
 sensor:
+  - platform: season
+    type: meteorological
+
   - platform: template
     sensors:
       bathroom_temperature:
@@ -91,12 +94,32 @@ input_number:
     max: 32
     step: 0.1
     mode: box
+  room_temperature_max_autumn:
+    min: 15
+    max: 32
+    step: 0.1
+    mode: box
+  room_temperature_min_autumn:
+    min: 15
+    max: 32
+    step: 0.1
+    mode: box
   room_temperature_max_winter:
     min: 15
     max: 32
     step: 0.1
     mode: box
   room_temperature_min_winter:
+    min: 15
+    max: 32
+    step: 0.1
+    mode: box
+  room_temperature_max_spring:
+    min: 15
+    max: 32
+    step: 0.1
+    mode: box
+  room_temperature_min_spring:
     min: 15
     max: 32
     step: 0.1
@@ -117,14 +140,18 @@ automation:
     trigger:
       - platform: state
         entity_id: 
-          - input_number.room_temperature_max_summer
           - input_number.room_temperature_min_summer
-          - input_number.room_temperature_max_winter
+          - input_number.room_temperature_max_summer
+          - input_number.room_temperature_min_autumn
+          - input_number.room_temperature_max_autumn
           - input_number.room_temperature_min_winter
+          - input_number.room_temperature_max_winter
+          - input_number.room_temperature_min_spring
+          - input_number.room_temperature_max_spring
           - sensor.season
 
     variables:
-      season: "{{ states('sensor.season') | replace('autumn', 'summer') | replace('fall', 'winter') }}"
+      season: "{{ states('sensor.season') }}"
 
     action:
       - service: input_number.set_value

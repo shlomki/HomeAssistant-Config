@@ -18,8 +18,6 @@
 #"temp_32": "JgBmAL8/EhITERMSEjYSNhISEzUTNRMREzUTEhISExETNRM1vkASEhISExISNhI2EhISNhI2ExETNRMSEhITERM1FDS/PxMREhITERM1EzYSEhM1EjYTERM1ExISEhMREzUTNQABAgANBQAA"
 
 sensor:
-  - platform: season
-
   - platform: template
     sensors:
       ac_state:
