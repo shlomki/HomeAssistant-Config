@@ -48,16 +48,38 @@ script:
           target: !secret telegram_all_chats
           inline_keyboard: '{{ inline_keyboard }}'
 
-  notify_bffs_with_photo_actions:
+  notify_with_photo_actions:
     sequence:
       - service: telegram_bot.send_message
         data:
           message: '{{ message }}'
           message_tag: 'front_door_photo'
-          target: !secret telegram_all_chats
+          target: '{{ target }}'
           inline_keyboard: >
             Front Door Photo:/send_photo {{ front_door_photo }},
             Living Room Photo:/send_photo {{ living_room_photo }}
+
+  notify_shlomi_when_away_with_photo_actions:
+    sequence:
+      - alias: "Check if Shlomi is not home"
+        condition: state
+        entity_id: person.shlomi
+        state: "not_home"
+      - service: script.notify_with_photo_actions
+        data:
+          message: '{{ message }}'
+          target: !secret telegram_shlomi
+
+  notify_inbal_when_away_with_photo_actions:
+    sequence:
+      - alias: "Check if Inbal is not home"
+        condition: state
+        entity_id: person.inbal
+        state: "not_home"
+      - service: script.notify_with_photo_actions
+        data:
+          message: '{{ message }}'
+          target: !secret telegram_inbal
 
 automation:
   - alias: Telegram callback turn on off

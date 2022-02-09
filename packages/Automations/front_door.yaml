@@ -22,21 +22,6 @@ automation:
   #       data:
   #         value: '{{ trigger.to_state.entity_id }}'
 
-  - alias: Door is opened
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.front_door
-        from: 'off'
-        to: 'on'
-    condition:
-      - condition: state
-        entity_id: group.bffs
-        state: home
-    action:
-      - service: notify.bffs
-        data:
-          message: The front door has been opened
-
   - alias: Door is opened when not home
     trigger:
       - platform: state
@@ -52,42 +37,6 @@ automation:
         data:
           message: The front door has been opened and no one's home!
         
-  - alias: Door is opened with photo from Living Room
-    variables:
-      filename: /config/www/camera_snaps/living_room.jpg
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.front_door
-        from: 'off'
-        to: 'on'
-    action:
-      - service: camera.snapshot
-        data:
-          entity_id: camera.living_room
-          filename: '{{ filename }}'
-      - service: script.notify_bffs_photo
-        data:
-          message: The front door has been opened
-          file: '{{ filename }}'
-
-  - alias: Door is opened with photo from Front Door
-    variables:
-      filename: /config/www/camera_snaps/front_door.jpg
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.front_door
-        from: 'off'
-        to: 'on'
-    action:
-      - service: camera.snapshot
-        data:
-          entity_id: camera.front_door
-          filename: '{{ filename }}'
-      - service: script.notify_bffs_photo
-        data:
-          message: The front door has been opened
-          file: '{{ filename }}'
-
   - alias: Door is opened with photo actions
     variables:
       today_name: >
@@ -109,7 +58,12 @@ automation:
         data:
           entity_id: camera.living_room
           filename: '{{ living_room_photo }}'
-      - service: script.notify_bffs_with_photo_actions
+      - service: script.notify_shlomi_when_away_with_photo_actions
+        data:
+          message: The front door has been opened
+          front_door_photo: '{{ front_door_photo }}'
+          living_room_photo: '{{ living_room_photo }}'
+      - service: script.notify_inbal_when_away_with_photo_actions
         data:
           message: The front door has been opened
           front_door_photo: '{{ front_door_photo }}'
