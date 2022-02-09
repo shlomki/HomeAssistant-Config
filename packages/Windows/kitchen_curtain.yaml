@@ -3,7 +3,7 @@ cover:
     devices:
       kitchen_curtain:
         name: Kitchen Curtain
-        travelling_time_up: 16
+        travelling_time_up: 16.5
         travelling_time_down: 16
         cover_entity_id: cover.kitchen_curtain_motor
         send_stop_at_ends: True
