@@ -5,7 +5,7 @@
 ########################################################################
 ####### Please set the following initial values for the helpers: #######
 ########################################################################
-####### 1. input_text.power_nis_per_kwh = 0.50661                #######
+####### 1. input_text.power_nis_per_kwh = 0.537966               #######
 ####### 2. input_text.power_monthly_additional_cost = 60         #######
 ####### 3. input_text.energy_total_previous_bill = 0             #######
 ####### 4. input_text.energy_total_yesterday = 0                 #######
