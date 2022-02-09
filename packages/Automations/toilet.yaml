@@ -74,7 +74,7 @@ automation:
       - service: switch.turn_on
         entity_id: switch.toilet_vent
       - delay:
-          minutes: 5
+          minutes: 8
       - service: switch.turn_off
         entity_id: switch.toilet_vent
 
