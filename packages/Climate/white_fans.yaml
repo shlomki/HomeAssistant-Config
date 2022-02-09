@@ -1,3 +1,7 @@
+input_boolean:
+  show_fans_in_ui:
+    name: Show Fans in UI
+
 fan:
   - platform: xiaomi_miio_fan
     name: Living Room Fan
