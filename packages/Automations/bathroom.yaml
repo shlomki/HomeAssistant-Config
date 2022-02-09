@@ -3,60 +3,49 @@ automation:
     mode: single
     trigger:
       - platform: state
-        entity_id: binary_sensor.bathroom_motion
-        from: 'off'
-        to: 'on'
-      - platform: state
         entity_id: binary_sensor.bathroom_door
-        from: 'off'
-        to: 'on'
+        from: "off"
+        to: "on"
     action:
       - choose:
-        - conditions:
-          - condition: time
-            after: input_datetime.morning
-            before: input_datetime.night
-          sequence:
-            - service: light.turn_on
-              entity_id: light.bathroom_main
-        - conditions:
-          - condition: time
-            after: input_datetime.night
-            before: input_datetime.late_night
-          sequence:
-            - service: light.turn_on
-              entity_id: light.bathroom_laundry
-        - conditions:
-          - condition: time
-            after: input_datetime.late_night
-            before: input_datetime.morning
-          sequence:
-            - service: light.turn_on
-              entity_id: light.bathroom_cabinet_controller
+          - conditions:
+              - condition: time
+                after: input_datetime.morning
+                before: input_datetime.evening_2
+            sequence:
+              - service: light.turn_on
+                entity_id: light.bathroom_main
+          - conditions:
+              - condition: time
+                after: input_datetime.evening_2
+                before: input_datetime.morning
+            sequence:
+              - service: light.turn_on
+                entity_id: light.bathroom_cabinet
       - delay:
           seconds: 5
-          
+
   - alias: Bathroom light off when no motion
     trigger:
       - platform: state
         entity_id: binary_sensor.bathroom_motion
-        from: 'on'
-        to: 'off'
+        from: "on"
+        to: "off"
         for:
           minutes: 25
     action:
       - service: light.turn_off
-        entity_id: 
+        entity_id:
           - light.bathroom_main
-          - light.bathroom_cabinet_controller
+          - light.bathroom_cabinet
 
 switch:
   - platform: broadlink
     mac: !secret office_mac
     switches:
       - name: Bathroom Cabinet Smart Plug
-        command_on: 'shQyABEFEQUHEAcQEQUHEBEGEQYHEBEGBxAHEBEGEQYRBgcQBhAGEBEGBhARBREFBhARBQaiAAAAAAAA'
-        command_off: 'shIyABEFEQUGEAYQBhARBQYQBxARBQYQEQYGohEFEQUGEAYQEQUHEBEFEQUHEBEFBxAGEBEFAAAAAAAA'
+        command_on: "shQyABEFEQUHEAcQEQUHEBEGEQYHEBEGBxAHEBEGEQYRBgcQBhAGEBEGBhARBREFBhARBQaiAAAAAAAA"
+        command_off: "shIyABEFEQUGEAYQBhARBQYQBxARBQYQEQYGohEFEQUGEAYQEQUHEBEFEQUHEBEFBxAGEBEFAAAAAAAA"
 
 group:
   shower:
