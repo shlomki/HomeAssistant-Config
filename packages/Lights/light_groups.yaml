@@ -61,7 +61,7 @@ group:
     entities:
       - light.bathroom_main
       - light.bathroom_laundry
-      - light.bathroom_cabinet_controller
+      - light.bathroom_cabinet
 
   Bedroom Lights:
     entities:
@@ -94,7 +94,7 @@ light:
           - service: light.turn_on
             data:
               entity_id: "{{ expand('group.living_room_dimmable_lights2') | selectattr('state', 'equalto', 'on') | map(attribute='entity_id') | list }}" #Set brightness for lights that are on only
-              brightness: '{{ brightness }}'
+              brightness: "{{ brightness }}"
 
   - platform: group
     name: Hallway Dimmable Lights
@@ -121,7 +121,7 @@ light:
           - service: light.turn_on
             data:
               entity_id: "{{ expand('group.bedroom_dimmable_lights') | selectattr('state', 'equalto', 'on') | map(attribute='entity_id') | list }}" #Set brightness for lights that are on only
-              brightness: '{{ brightness }}'
+              brightness: "{{ brightness }}"
 
 switch:
   - platform: template
@@ -131,7 +131,7 @@ switch:
         turn_on:
           service: homeassistant.turn_on
           target:
-            entity_id: 
+            entity_id:
               - switch.living_room_lights
               - switch.balcony_lights
               - switch.kitchen_lights
@@ -238,7 +238,6 @@ switch:
           service: homeassistant.turn_off
           target:
             entity_id: group.bedroom_lights
-
 
 script:
   light_test:

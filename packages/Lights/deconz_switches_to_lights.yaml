@@ -1,9 +1,5 @@
 light:
   - platform: switch
-    name: Living Room Lamp Toggle
-    entity_id: switch.living_room_lamp_toggle
-
-  - platform: switch
     name: Living Room Main
     entity_id: switch.living_room_main
 
@@ -84,6 +80,10 @@ light:
     entity_id: switch.bathroom_main
 
   - platform: switch
+    name: Bathroom Cabinet Toggle
+    entity_id: switch.bathroom_cabinet_toggle
+
+  - platform: switch
     name: Bathroom Laundry
     entity_id: switch.bathroom_laundry
 
@@ -94,10 +94,6 @@ light:
   - platform: switch
     name: Riley Main
     entity_id: switch.riley_main
-
-  - platform: switch
-    name: Riley Main Toggle
-    entity_id: switch.riley_main_toggle
 
   - platform: switch
     name: Riley Scene Toggle

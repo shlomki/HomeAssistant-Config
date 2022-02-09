@@ -4,19 +4,21 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - switch.living_room_side_lamp_smart_plug
-          - light.living_room_lamp_toggle
+          - light.living_room_side_lamp_hue
+          - switch.living_room_side_lamp_toggle
     condition:
       condition: not
       conditions:
         - condition: state
           entity_id:
-            - switch.living_room_side_lamp_smart_plug
-            - light.living_room_lamp_toggle
+            - light.living_room_side_lamp_hue
+            - switch.living_room_side_lamp_toggle
           state: "unavailable"
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id: light.living_room_side_lamp_group
+        entity_id:
+          - light.living_room_side_lamp_combined
+          - switch.living_room_side_lamp_toggle
 
   - alias: Stairs switch sync
     max_exceeded: silent
@@ -75,6 +77,25 @@ automation:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.birds_main_group
 
+  - alias: Bathroom cabinet sync
+    max_exceeded: silent
+    trigger:
+      - platform: state
+        entity_id:
+          - light.bathroom_cabinet
+          - light.bathroom_cabinet_toggle
+    condition:
+      condition: not
+      conditions:
+        - condition: state
+          entity_id:
+            - light.bathroom_cabinet
+            - light.bathroom_cabinet_toggle
+          state: "unavailable"
+    action:
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
+        entity_id: light.bathroom_cabinet_group
+
   - alias: Hallway switches sync main
     max_exceeded: silent
     trigger:
@@ -93,25 +114,6 @@ automation:
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.hallway_main_group
-
-  - alias: Riley switches sync main
-    max_exceeded: silent
-    trigger:
-      - platform: state
-        entity_id:
-          - light.riley_main
-          - light.riley_main_toggle
-    condition:
-      condition: not
-      conditions:
-        - condition: state
-          entity_id:
-            - light.riley_main
-            - light.riley_main_toggle
-          state: "unavailable"
-    action:
-      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id: light.riley_main_group
 
   - alias: Riley switches scene
     max_exceeded: silent

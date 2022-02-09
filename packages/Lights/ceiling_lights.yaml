@@ -289,19 +289,21 @@ light:
       living_room_side_lamp_combined:
         unique_id: "Living Room Light Side Lamp"
         friendly_name: "Living Room Side Lamp Dimmable"
-        value_template: "{{ is_state('switch.living_room_side_lamp_smart_plug','on') }}"
-        level_template: "{{ state_attr('light.living_room_lamp_hue','brightness') }}"
-        availability_template: "{{ not is_state('switch.living_room_side_lamp_smart_plug','unavailable') }}"
+        value_template: "{{ is_state('light.living_room_side_lamp_hue','on') }}"
+        level_template: "{{ state_attr('light.living_room_side_lamp_hue','brightness') }}"
+        availability_template: "{{ not (is_state('switch.living_room_side_lamp_smart_plug','unavailable') and is_state('light.living_room_side_lamp_hue','unavailable')) }}" #If smart plug and hue are both unavailable, then unavailable. Otherwise, available.
         turn_on:
           - service: homeassistant.turn_on
-            entity_id: switch.living_room_side_lamp_smart_plug
+            entity_id:
+              - switch.living_room_side_lamp_smart_plug
+              - light.living_room_side_lamp_hue
         turn_off:
-          - service: homeassistant.turn_off
-            entity_id: switch.living_room_side_lamp_smart_plug
+          - service: light.turn_off
+            entity_id: light.living_room_side_lamp_hue
         set_level:
           - service: light.turn_on
             data:
-              entity_id: light.living_room_lamp_hue
+              entity_id: light.living_room_side_lamp_hue
               brightness: "{{ brightness }}"
 
 group:
