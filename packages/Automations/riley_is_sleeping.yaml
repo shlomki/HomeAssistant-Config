@@ -6,3 +6,37 @@ script:
     sequence:
       - service: input_boolean.turn_{{ status }}
         entity_id: input_boolean.riley_is_sleeping
+
+input_datetime:
+  riley_goes_to_sleep:
+    name: Riley Goes to Sleep
+    has_date: false
+    has_time: true
+
+automation:
+  - id: Riley is Sleeping - Start
+    alias: Riley is Sleeping - Start
+    trigger:
+      - platform: state
+        entity_id: 
+          - switch.house_tablet
+          - switch.black_tablet
+        from: "off"
+        to: "on"
+    condition:
+      - alias: "After "
+        condition: time
+        after: input_datetime.riley_goes_to_sleep
+        before: input_datetime.dawn
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.riley_is_sleeping
+
+  - id: Riley is Sleeping - End
+    alias: Riley is Sleeping - End
+    trigger:
+      - platform: time
+        at: input_datetime.dawn
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.riley_is_sleeping
