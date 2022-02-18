@@ -1,0 +1,13 @@
+automation:
+  - id: Shlomi in Meeting
+    alias: Shlomi in Meeting - Turn on Light
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.shlomi_in_meeting
+        to: 
+          - "on"
+          - "off"
+    action:
+      - service: "light.turn_{{ trigger.to_state.state }}"
+        data:  
+          entity_id: light.shlomi_meeting_light
