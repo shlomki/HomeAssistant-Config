@@ -1,0 +1,32 @@
+title: Power
+path: power
+icon: mdi:flash
+visible:
+  - user: 954f920b6d6b4dd795e5ea5ab3f225d5
+  - user: 9ccaeb57363d4902b296eb297da459e3
+  - user: 441ffac368ed4f50911212c0816b227a
+  - user: aa6d3713da1a4e1eac92dd176a3ae708
+badges: []
+cards:
+  - type: custom:button-card
+    template: back-button
+  - type: entities
+    entities:
+      - entity: sensor.power_cost_per_hour
+      - entity: sensor.energy_total_today_cost
+      - entity: sensor.energy_total_next_bill_cost
+      - entity: sensor.power_total
+      - entity: sensor.shelly_3em_channel_a_power
+      - entity: sensor.shelly_3em_channel_b_power
+      - entity: sensor.shelly_3em_channel_c_power
+    title: Power Consumption
+    show_header_toggle: false
+  - type: entities
+    entities:
+      - entity: sensor.ups_status
+      - entity: sensor.ups_battery
+      - entity: sensor.ups_load
+      - entity: sensor.ups_time_left
+      - entity: sensor.ups_time_on_battery
+      - entity: sensor.ups_transfer_count
+    title: UPS

@@ -1,0 +1,112 @@
+icon: mdi:tools
+path: config
+title: Config
+visible:
+  - user: aa6d3713da1a4e1eac92dd176a3ae708
+badges: []
+cards:
+  - entities:
+      - person.shlomi
+      - person.inbal
+    show_header_toggle: false
+    title: BFFs
+    type: entities
+  - entities:
+      - entity: automation.go_to_sleep_all_lights_off_night_light_on
+        name: '- All lights off, Night light on'
+      - entity: automation.go_to_sleep_night_light_timer
+        name: '- Night Light Timer'
+      - entity: input_datetime.go_to_sleep_timer_duration
+        name: Timer (mins)
+      - entity: automation.go_to_sleep_play_sleep_sounds_when_tv_already_off
+        name: '- Play sleep sounds when tv already off'
+      - entity: automation.go_to_sleep_play_sleep_sounds_when_tv_turns_off
+        name: '- Play sleep sounds when tv turns off'
+      - entity: automation.go_to_sleep_pause_sleep_sounds_when_tv_on
+        name: '- Pause sleep sounds when tv on'
+      - entity: automation.go_to_sleep_stop_playing_when_go_to_sleep_off
+        name: '- Stop playing when go to sleep off'
+    show_header_toggle: false
+    title: Go to Sleep
+    type: entities
+  - entities:
+      - entity: input_datetime.dawn
+      - entity: input_datetime.morning
+      - entity: input_datetime.late_morning
+      - entity: input_datetime.noon
+      - entity: input_datetime.evening
+      - entity: input_datetime.evening_2
+      - entity: input_datetime.night
+      - entity: input_datetime.late_night
+      - entity: input_datetime.riley_goes_to_sleep
+    show_header_toggle: false
+    title: Timer Times
+    type: entities
+  - entities:
+      - entity: automation.birds_turn_on_lights_late_morning
+      - entity: automation.open_shutter_noon_birds_office
+      - entity: automation.birds_turn_off_light_noon
+      - entity: automation.birds_dim_lights_evening
+      - entity: automation.birds_turn_off_lights_evening_2
+      - entity: automation.birds_close_shutter_night
+      - entity: automation.office_close_shutter_partly_late_night
+      - entity: automation.living_room_lamp_turn_brightness_down_at_night
+      - entity: automation.bathroom_laundry_turn_brightness_down_at_night
+    show_header_toggle: false
+    title: Timers
+    type: entities
+  - type: entities
+    entities:
+      - entity: remote.living_room
+      - entity: remote.office
+      - entity: remote.birds
+      - entity: remote.riley
+      - entity: remote.bedroom
+    title: Remotes
+    show_header_toggle: false
+  - type: entities
+    entities:
+      - entity: sensor.power_cost_per_hour
+      - entity: sensor.energy_total_today_cost
+      - entity: sensor.energy_total_next_bill_cost
+      - entity: sensor.power_total
+      - entity: sensor.energy_total
+      - entity: sensor.energy_total_today
+      - entity: sensor.energy_total_next_bill
+      - entity: sensor.shelly_3em_channel_a_power
+      - entity: sensor.shelly_3em_channel_b_power
+      - entity: sensor.shelly_3em_channel_c_power
+      - entity: sensor.shelly_3em_channel_a_current
+      - entity: sensor.shelly_3em_channel_b_current
+      - entity: sensor.shelly_3em_channel_c_current
+      - entity: sensor.shelly_3em_channel_a_voltage
+      - entity: sensor.shelly_3em_channel_b_voltage
+      - entity: sensor.shelly_3em_channel_c_voltage
+    title: Power Consumption
+    show_header_toggle: false
+  - type: entities
+    entities:
+      - entity: input_text.power_monthly_additional_cost
+      - entity: input_number.power_bill_cutoff_day
+      - entity: input_select.power_bill_cutoff_month
+      - entity: input_text.power_nis_per_kwh
+      - entity: input_text.energy_total_yesterday
+      - entity: input_text.energy_total_previous_bill
+    title: Power Consumption Cost Calc
+  - type: entities
+    entities:
+      - entity: input_text.tablet_password
+      - entity: input_text.house_tablet_ip
+      - entity: input_text.black_tablet_ip
+      - entity: input_select.house_tablet_volume
+        name: House Tablet Volume
+      - entity: input_select.house_tablet_brightness
+        name: House Tablet Brightness
+      - entity: input_select.black_tablet_volume
+        name: Black Tablet Volume
+      - entity: input_select.black_tablet_brightness
+        name: Black Tablet Brightness
+  - type: entities
+    entities:
+      - entity: input_boolean.show_fans_in_ui
+    title: UI Control

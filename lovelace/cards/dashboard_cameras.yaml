@@ -1,0 +1,60 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: container
+    name: Cameras
+    custom_fields:
+      buttons:
+        card:
+          type: vertical-stack
+          cards:
+            - type: horizontal-stack
+              cards:
+                - type: custom:button-card
+                  template: camera
+                  entity: device_tracker.edgeos_camera_balcony
+                  name: Balcony
+                - type: custom:button-card
+                  template: camera
+                  entity: device_tracker.edgeos_camera_frontdoor
+                  name: Front Door
+                  variables:
+                    stream: camera.front_door
+                - type: custom:button-card
+                  template: camera
+                  entity: device_tracker.edgeos_camera_livingroom
+                  variables:
+                    stream: camera.living_room
+                  name: Living Room
+                - type: custom:button-card
+                  template: camera
+                  entity: device_tracker.edgeos_camera_hallway
+                  variables:
+                    stream: camera.hallway
+                  name: Hallway
+            - type: horizontal-stack
+              cards:
+                - type: custom:button-card
+                  template: camera
+                  entity: device_tracker.edgeos_camera_office
+                  variables:
+                    stream: camera.office
+                  name: Office
+                - type: custom:button-card
+                  template: camera
+                  entity: device_tracker.edgeos_camera_birds
+                  variables:
+                    stream: camera.birds
+                  name: Birds
+                - type: custom:button-card
+                  template: camera
+                  entity: device_tracker.edgeos_camera_riley
+                  variables:
+                    stream: camera.riley
+                  name: Riley
+                - type: custom:button-card
+                  template: camera
+                  entity: device_tracker.edgeos_camera_bedroom
+                  variables:
+                    stream: camera.bedroom
+                  name: Bedroom

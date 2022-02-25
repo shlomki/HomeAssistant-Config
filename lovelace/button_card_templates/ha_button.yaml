@@ -1,0 +1,22 @@
+ha-button:
+  styles:
+    card:
+      - height: 105px
+    name:
+      - padding-bottom: 10px
+  size: 33%
+ha-button-long-name:
+  template: ha-button
+  styles:
+    name:
+      - white-space: normal
+      - padding-bottom: 0px
+ha-button-half:
+  template: ha-button
+  layout: icon_name
+  styles:
+    card:
+      - height: 48px
+    name:
+      - font-size: 0.8em
+      - padding: 0px

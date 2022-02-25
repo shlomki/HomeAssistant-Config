@@ -1,0 +1,20 @@
+tv-button:
+  template: ha-button-long-name
+  icon: mdi:television-classic
+  tap_action:
+    action: toggle
+  hold_action:
+    action: fire-dom-event
+    browser_mod:
+      command: popup
+      hide_header: false
+      title: |
+        [[[ return entity.attributes.friendly_name; ]]]
+      card:
+        type: vertical-stack
+        cards:
+          - type: custom:decluttering-card
+            template: tv_remote
+            variables:
+              - entity_id: |
+                  [[[ return entity.entity_id; ]]]

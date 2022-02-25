@@ -1,0 +1,29 @@
+container:
+  styles:
+    card:
+      - padding: 0
+      - border-style: solid
+      - border-width: 1px
+    name:
+      - padding: 0.3em
+      - box-shadow: none
+      - background: rgb(0,0,0,0.05)
+      - border-radius: 0.4em 0.4em 0 0
+      - padding: 0.8em
+      - width: 100%
+      - font-weight: bold
+    grid:
+      - grid-template-areas: '"i" "n" "buttons"'
+      - grid-template-columns: 1fr
+      - grid-template-rows: 1fr min-content min-content
+    custom_fields:
+      buttons:
+        - padding: 0.3em 0.5em 0.3em 0.5em
+        - border-width: 15px
+        - background: var( --lovelace-background, var(--primary-background-color) )
+    tap_action:
+      action: none
+    double_tap_action:
+      action: none
+    hold_action:
+      action: none

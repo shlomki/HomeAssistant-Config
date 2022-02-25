@@ -1,0 +1,20 @@
+title: Home
+
+decluttering_templates:
+  !include_dir_merge_named /config/lovelace/decluttering_templates/
+
+button_card_templates:
+  !include_dir_merge_named /config/lovelace/button_card_templates/
+
+views:
+  - !include /config/lovelace/views/01_dashboard.yaml
+  - !include /config/lovelace/views/02_front_door.yaml
+  - !include /config/lovelace/views/03_ac.yaml
+  - !include /config/lovelace/views/04_power.yaml
+  - !include /config/lovelace/views/05_googlespeakers.yaml
+  - !include /config/lovelace/views/06_sensors.yaml
+  - !include /config/lovelace/views/07_config.yaml
+  - !include /config/lovelace/views/08_config_ac.yaml
+  - !include /config/lovelace/views/09_servers.yaml
+  - !include /config/lovelace/views/10_dev.yaml
+

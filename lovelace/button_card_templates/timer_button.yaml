@@ -1,0 +1,22 @@
+timer-button:
+  show_icon: false
+  color_type: card
+  variables:
+    var_name: value
+  tap_action:
+    action: call-service
+    service: input_number.set_value
+    service_data:
+      entity_id: |
+        [[[ return entity.entity_id; ]]]
+      value: |
+        [[[ return variables.value; ]]]
+  styles:
+    card:
+      - height: 45px
+  state:
+    - value: |
+        [[[ return variables.value; ]]]
+      color: rgb(253, 216, 53)
+    - operator: default
+      color: var(--card-background-color)

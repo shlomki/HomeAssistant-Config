@@ -1,0 +1,209 @@
+title: Servers
+path: servers
+visible:
+  - user: aa6d3713da1a4e1eac92dd176a3ae708
+icon: mdi:server-network
+badges: []
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title
+        name: Network Devices
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:button-card
+                template: ha-button
+                entity: binary_sensor.edgeos_system_status
+                tap_action:
+                  action: call-service
+                  service: script.ubiquiti_edgerouter_action
+                  service_data:
+                    action: shutdown
+                double_tap_action:
+                  action: call-service
+                  service: script.ubiquiti_edgerouter_action
+                  service_data:
+                    action: restart
+                hold_action:
+                  action: more-info
+                name: Edgerouter
+                icon_height: 50px
+                state:
+                  - value: 'off'
+                    color: red
+                    icon: mdi:router-network
+                    styles:
+                      icon:
+                        - animation: blink 2s ease infinite
+                  - value: 'on'
+                    color: green
+                    icon: mdi:router-network
+                confirmation:
+                  text: '[[[ return "Are you sure? Turn OFF Edgerouter?" ]]]'
+              - type: custom:button-card
+                template: ha-button
+                entity: device_tracker.house_switch_1
+                tap_action:
+                  action: call-service
+                  service: script.ubiquiti_unifi_house_switch_1_action
+                  service_data:
+                    action: shutdown
+                double_tap_action:
+                  action: call-service
+                  service: script.ubiquiti_unifi_house_switch_1_action
+                  service_data:
+                    action: restart
+                hold_action:
+                  action: more-info
+                name: Switch
+                icon_height: 50px
+                state:
+                  - value: not_home
+                    color: red
+                    icon: mdi:lan-disconnect
+                    styles:
+                      icon:
+                        - animation: blink 2s ease infinite
+                  - value: home
+                    color: green
+                    icon: mdi:lan
+                confirmation:
+                  text: '[[[ return "Are you sure? Turn OFF House Switch?" ]]]'
+              - type: custom:button-card
+                template: ha-button-long-name
+                entity: device_tracker.living_room_nanohd
+                tap_action:
+                  action: call-service
+                  service: script.ubiquiti_unifi_nanohd_living_room_action
+                  service_data:
+                    action: shutdown
+                double_tap_action:
+                  action: call-service
+                  service: script.ubiquiti_unifi_nanohd_living_room_action
+                  service_data:
+                    action: restart
+                hold_action:
+                  action: more-info
+                name: Living Room NanoHD
+                icon_height: 50px
+                state:
+                  - value: not_home
+                    color: red
+                    icon: mdi:wifi-off
+                    styles:
+                      icon:
+                        - animation: blink 2s ease infinite
+                  - value: home
+                    color: green
+                    icon: mdi:wifi
+                confirmation:
+                  text: >-
+                    [[[ return "Are you sure? Turn OFF Living Room NanoHD?"
+                    ]]]
+              - type: custom:button-card
+                template: ha-button-long-name
+                entity: device_tracker.bedroom_nanohd
+                tap_action:
+                  action: call-service
+                  service: script.ubiquiti_unifi_nanohd_bedroom_action
+                  service_data:
+                    action: shutdown
+                double_tap_action:
+                  action: call-service
+                  service: script.ubiquiti_unifi_nanohd_bedroom_action
+                  service_data:
+                    action: restart
+                hold_action:
+                  action: more-info
+                name: Bedroom NanoHD
+                icon_height: 50px
+                state:
+                  - value: not_home
+                    color: red
+                    icon: mdi:wifi-off
+                    styles:
+                      icon:
+                        - animation: blink 2s ease infinite
+                  - value: home
+                    color: green
+                    icon: mdi:wifi
+                confirmation:
+                  text: '[[[ return "Are you sure? Turn OFF Bedroom NanoHD?" ]]]'
+          - type: horizontal-stack
+            cards:
+              - type: custom:button-card
+                template: ha-button
+                name: Shutdown All
+                tap_action:
+                  action: call-service
+                  service: script.network_devices_action
+                  service_data:
+                    action: shutdown
+                entity: script.network_devices_action
+                icon: mdi:power
+                confirmation:
+                  text: >-
+                    [[[ return "Are you sure? Shutdown all network devices?"
+                    ]]]
+              - type: custom:button-card
+                template: ha-button
+                name: Restart All
+                tap_action:
+                  action: call-service
+                  service: script.network_devices_action
+                  service_data:
+                    action: restart
+                entity: script.network_devices_action
+                icon: mdi:restart
+                confirmation:
+                  text: >-
+                    [[[ return "Are you sure? Restart all network devices?"
+                    ]]]
+              - type: custom:button-card
+                template: ha-button
+                name: Restart WiFi
+                tap_action:
+                  action: call-service
+                  service: script.network_devices_restart_wifi
+                entity: script.network_devices_restart_wifi
+                icon: mdi:wifi-sync
+                confirmation:
+                  text: '[[[ return "Are you sure? Restart WiFi?" ]]]'
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title
+        name: Computers
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: ha-button
+            icon: mdi:laptop
+            entity: switch.shlomi_pc
+            tap_action:
+              action: toggle
+            hold_action:
+              action: more-info
+            name: Shlomi's PC
+            icon_height: 50px
+            confirmation:
+              text: >-
+                [[[ return "Are you sure? Turn " + (entity.state == "off" ?
+                "ON" : "OFF") + " Shlomi's PC?" ]]]
+          - type: custom:button-card
+            template: ha-button
+            icon: mdi:server-network
+            entity: switch.unraid_server
+            tap_action:
+              action: toggle
+            hold_action:
+              action: more-info
+            name: Unraid Server
+            icon_height: 50px
+            confirmation:
+              text: >-
+                [[[ return "Are you sure? Turn " + (entity.state == "off" ?
+                "ON" : "OFF") + "Unraid Server?" ]]]

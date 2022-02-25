@@ -1,0 +1,33 @@
+back-button:
+  layout: icon_name
+  name: Back
+  tap_action:
+    action: navigate
+    navigation_path: /lovelace-yaml/dashboard
+  icon: mdi:arrow-left-circle
+  styles:
+    name:
+      - font-weight: bold
+      - font-size: 30px
+      - justify-self: start
+      - padding-left: 10px
+    card:
+      - height: 60px
+  size: 30px
+room-temp:
+  template: climate-button
+  icon: mdi:temperature-celsius
+  tap_action:
+    action: more-info
+  state:
+    - value: Hot
+      icon: mdi:fire
+      color: red
+    - value: Ok
+      color: green
+    - value: Cold
+      icon: mdi:snowflake
+      color: turquoise
+  styles:
+    label:
+      - font-size: 12px

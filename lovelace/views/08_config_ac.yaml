@@ -1,0 +1,77 @@
+title: AC Config
+path: ac-config
+icon: mdi:thermometer-lines
+visible:
+  - user: aa6d3713da1a4e1eac92dd176a3ae708
+badges: []
+cards:
+  - entities:
+      - entity: input_text.last_ac_mode
+      - entity: input_text.ac_entity_id
+      - entity: input_boolean.manual_ac
+      - entity: input_boolean.manual_ac_force
+      - entity: binary_sensor.internet_connection
+      - entity: >-
+          automation.manual_ac_choose_ekon_when_internet_and_ac_are_connected
+      - entity: >-
+          automation.manual_ac_choose_manual_ac_when_internet_or_ac_are_disconnected
+      - entity: input_number.ac_damper_quick_to_medium
+      - entity: input_number.ac_damper_quick_to_low
+    show_header_toggle: false
+    title: AC Config
+    type: entities
+  - entities:
+      - entity: input_select.gray_fan_location
+      - entity: input_select.blue_fan_location
+    show_header_toggle: false
+    title: Fan Locations
+    type: entities
+  - entities:
+      - entity: input_boolean.ac_damper_living_room_need_update
+      - entity: input_boolean.ac_damper_office_need_update
+      - entity: input_boolean.ac_damper_birds_need_update
+      - entity: input_boolean.ac_damper_riley_need_update
+      - entity: input_boolean.ac_damper_bedroom_need_update
+      - entity: automation.update_room_temperature_for_dampers
+    show_header_toggle: false
+    title: AC Dampers Update
+    type: entities
+  - entities:
+      - entity: automation.ac_smartauto
+      - entity: switch.ac_smartauto
+        name: Fan / AC
+      - entity: binary_sensor.ac_smartauto_enabled
+      - entity: sensor.ac_smartauto_location
+      - entity: sensor.ac_smartauto
+      - entity: input_number.ac_smartauto_min_living_room
+      - entity: input_number.ac_smartauto_max_living_room
+      - entity: input_number.ac_smartauto_min_office
+      - entity: input_number.ac_smartauto_max_office
+      - entity: input_number.ac_smartauto_min_birds
+      - entity: input_number.ac_smartauto_max_birds
+      - entity: input_number.ac_smartauto_min_riley
+      - entity: input_number.ac_smartauto_max_riley
+      - entity: input_number.ac_smartauto_min_bedroom
+      - entity: input_number.ac_smartauto_max_bedroom
+      - entity: input_boolean.ac_smartauto_min_cycle_passed
+    show_header_toggle: false
+    title: SmartAuto Settings
+    type: entities
+  - type: entities
+    entities:
+      - entity: binary_sensor.rain
+    title: Rain
+  - type: entities
+    entities:
+      - entity: sensor.season
+      - entity: input_number.room_temperature_min_summer
+      - entity: input_number.room_temperature_max_summer
+      - entity: input_number.room_temperature_min_autumn
+      - entity: input_number.room_temperature_max_autumn
+      - entity: input_number.room_temperature_min_winter
+      - entity: input_number.room_temperature_max_winter
+      - entity: input_number.room_temperature_min_spring
+      - entity: input_number.room_temperature_max_spring
+      - entity: input_number.room_temperature_min
+      - entity: input_number.room_temperature_max
+    title: Monitoring

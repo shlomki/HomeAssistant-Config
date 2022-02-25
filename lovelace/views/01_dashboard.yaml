@@ -1,0 +1,1199 @@
+title: Dashboard
+path: dashboard
+visible:
+  - user: 954f920b6d6b4dd795e5ea5ab3f225d5
+  - user: 9ccaeb57363d4902b296eb297da459e3
+  - user: aa6d3713da1a4e1eac92dd176a3ae708
+  - user: 441ffac368ed4f50911212c0816b227a
+panel: false
+icon: mdi:view-dashboard-variant-outline
+badges: []
+cards:
+  - type: vertical-stack
+    cards:
+       
+      - type: vertical-stack
+        cards:
+
+          #Dashboard shortcuts
+          - !include /config/lovelace/cards/dashboard.yaml
+
+
+
+
+      - type: vertical-stack
+        cards:
+          - type: custom:button-card
+            template: title
+            name: Control
+          - type: horizontal-stack
+            cards:
+              - type: custom:button-card
+                template: ha-button
+                name: Lights
+                entity: group.all_lights
+                icon: mdi:lightbulb-outline
+                styles:
+                  card:
+                    - height: 100px
+                tap_action:
+                  action: call-service
+                  service: local_conditional_card.set
+                  service_data:
+                    ids:
+                      - windows: false
+                      - ac: false
+                      - lights: toggle
+                      - shower: false
+                      - scenes: false
+                double_tap_action:
+                  action: toggle
+                  confirmation:
+                    text: >-
+                      [[[ return 'Are you sure? Turn ' + (entity.state ==
+                      'off' ? 'ON' : 'OFF') + ' all Lights in the house?'
+                      ]]]
+              - type: custom:button-card
+                template: ha-button
+                name: Windows
+                entity: group.windows
+                styles:
+                  card:
+                    - height: 100px
+                state:
+                  - value: 'on'
+                    icon: mdi:window-open
+                  - value: 'off'
+                    icon: mdi:window-closed
+                tap_action:
+                  action: call-service
+                  service: local_conditional_card.set
+                  service_data:
+                    ids:
+                      - windows: toggle
+                      - ac: false
+                      - lights: false
+                      - shower: false
+                      - scenes: false
+              - type: custom:button-card
+                template: ha-button
+                name: AC
+                entity: sensor.ac_state
+                icon: mdi:home-thermometer-outline
+                styles:
+                  card:
+                    - height: 100px
+                  custom_fields:
+                    window_open:
+                      - position: absolute
+                      - left: 5%
+                      - top: 5%
+                      - height: 60px
+                      - width: 60px
+                      - visibility: |
+                          [[[
+                              if (states['sensor.all_rooms_temperature_monitor'].state != "Ok") return "visible";
+                              return "visible";
+                          ]]]
+                double_tap_action:
+                  action: call-service
+                  service: script.toggle_dampers
+                  confirmation:
+                    text: >-
+                      [[[ return 'Are you sure? Turn ' +
+                      (states['group.dampers'].state == 'off' ? 'ON' :
+                      'OFF') + ' all ACs in the house?' ]]]
+                tap_action:
+                  action: call-service
+                  service: local_conditional_card.set
+                  service_data:
+                    ids:
+                      - windows: false
+                      - ac: toggle
+                      - lights: false
+                      - shower: false
+                      - scenes: false
+                hold_action:
+                  action: more-info
+                  entity: >
+                    [[[ return
+                    states[states['input_text.ac_entity_id'].state].entity_id
+                    ]]]
+                state:
+                  - value: fan_only_on
+                    color: rgb(253, 216, 53)
+                    icon: mdi:fan
+                  - value: fan_only_off
+                    color: rgb(68, 115, 158)
+                    icon: mdi:fan
+                  - value: dry_on
+                    color: rgb(253, 216, 53)
+                    icon: mdi:water-percent
+                  - value: dry_off
+                    color: rgb(68, 115, 158)
+                    icon: mdi:water-percent
+                  - value: auto_on
+                    color: rgb(253, 216, 53)
+                    icon: mdi:autorenew
+                  - value: auto_off
+                    color: rgb(68, 115, 158)
+                    icon: mdi:autorenew
+                  - operator: regex
+                    value: ^off_.*$
+                    color: rgb(68, 115, 158)
+                    icon: mdi:power-plug-off-outline
+                  - operator: regex
+                    value: ^((?!off).)*_on$
+                    color: rgb(253, 216, 53)
+                  - operator: regex
+                    value: ^((?!off).)*_off$
+                    color: rgb(68, 115, 158)
+                custom_fields:
+                  window_open: >
+                    [[[ let monitor =
+                    states['sensor.all_rooms_temperature_monitor'].state;
+                        let color = monitor.replace('Ok', '').replace('Cold', 'turquoise').replace('Hot', 'red');
+                        let icon = monitor.replace('Ok', '').replace('Cold', 'snowflake').replace('Hot', 'fire');
+                        return '<ha-icon icon="mdi:' + icon + '" style="width: 16px; height:16px; color:' + color + ';"></ha-icon>'; ]]]
+                triggers_update: sensor.all_rooms_temperature_monitor
+              - type: custom:button-card
+                template: ha-button
+                name: Shower
+                icon: mdi:shower
+                entity: group.shower
+                styles:
+                  card:
+                    - height: 100px
+                tap_action:
+                  action: call-service
+                  service: local_conditional_card.set
+                  service_data:
+                    ids:
+                      - windows: false
+                      - ac: false
+                      - lights: false
+                      - shower: toggle
+                      - scenes: false
+                double_tap_action:
+                  action: call-service
+                  service: script.toggle_shower
+                  confirmation:
+                    text: >-
+                      [[[ return 'Are you sure? Turn ' +
+                      (states['group.shower'].state == 'off' ? 'ON' : 'OFF')
+                      + ' Boiler & Heater?' ]]]
+              - type: custom:button-card
+                template: ha-button
+                name: One Tap
+                icon: mdi:gesture-double-tap
+                styles:
+                  card:
+                    - height: 100px
+                tap_action:
+                  action: call-service
+                  service: local_conditional_card.set
+                  service_data:
+                    ids:
+                      - windows: false
+                      - ac: false
+                      - lights: false
+                      - shower: false
+                      - scenes: toggle
+                color: rgb(68, 115, 158)
+                lock:
+                  enabled: true
+      - type: custom:local-conditional-card
+        default: hide
+        id: lights
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: container
+              name: Lights
+              custom_fields:
+                buttons:
+                  card:
+                    type: vertical-stack
+                    cards:
+                      - type: horizontal-stack
+                        cards:
+                          - type: custom:button-card
+                            template: ha-button
+                            tap_action:
+                              action: call-service
+                              service: switch.toggle
+                              service_data:
+                                entity_id: switch.living_room_lights
+                            double_tap_action:
+                              action: call-service
+                              service: homeassistant.turn_on
+                              service_data:
+                                entity_id: group.living_room_lights
+                            hold_action:
+                              action: fire-dom-event
+                              browser_mod:
+                                command: popup
+                                title: Living Room
+                                card:
+                                  type: custom:auto-entities
+                                  card:
+                                    type: entities
+                                  entities:
+                                    - type: custom:slider-entity-row
+                                      entity: light.living_room_dimmable_lights
+                                      full_row: true
+                                      min: 1
+                                      max: 100
+                                      step: 5
+                                  filter:
+                                    include:
+                                      - group: group.living_room_lights
+                            entity: group.living_room_lights
+                            name: Living Room
+                            icon: mdi:sofa
+                            icon_height: 50px
+                          - type: custom:button-card
+                            template: ha-button
+                            tap_action:
+                              action: call-service
+                              service: switch.toggle
+                              service_data:
+                                entity_id: switch.balcony_lights
+                            double_tap_action:
+                              action: call-service
+                              service: homeassistant.turn_on
+                              service_data:
+                                entity_id: group.balcony_lights
+                            hold_action:
+                              action: fire-dom-event
+                              browser_mod:
+                                command: popup
+                                title: Balcony
+                                card:
+                                  type: custom:auto-entities
+                                  card:
+                                    type: entities
+                                  entities:
+                                    - type: custom:slider-entity-row
+                                      entity: light.balcony_string_lights
+                                      full_row: true
+                                      min: 1
+                                      max: 100
+                                      step: 5
+                                  filter:
+                                    include:
+                                      - group: group.balcony_lights
+                            entity: group.balcony_lights
+                            name: Balcony
+                            icon_height: 50px
+                            icon: mdi:string-lights
+                          - type: custom:button-card
+                            template: ha-button
+                            tap_action:
+                              action: call-service
+                              service: switch.toggle
+                              service_data:
+                                entity_id: switch.kitchen_lights
+                            double_tap_action:
+                              action: call-service
+                              service: homeassistant.turn_on
+                              service_data:
+                                entity_id: group.kitchen_lights
+                            hold_action:
+                              action: fire-dom-event
+                              browser_mod:
+                                command: popup
+                                title: Kitchen
+                                card:
+                                  type: custom:auto-entities
+                                  card:
+                                    type: entities
+                                  entities:
+                                    - type: custom:slider-entity-row
+                                      entity: light.kitchen_island_combined
+                                      full_row: true
+                                      min: 1
+                                      max: 100
+                                      step: 5
+                                  filter:
+                                    include:
+                                      - group: group.kitchen_lights
+                            entity: group.kitchen_lights
+                            name: Kitchen
+                            icon_height: 50px
+                            icon: mdi:silverware-fork-knife
+                          - type: custom:button-card
+                            template: ha-button
+                            tap_action:
+                              action: call-service
+                              service: switch.toggle
+                              service_data:
+                                entity_id: switch.toilet_lights
+                            double_tap_action:
+                              action: call-service
+                              service: homeassistant.turn_on
+                              service_data:
+                                entity_id:
+                                  - light.toilet_main
+                            hold_action:
+                              action: fire-dom-event
+                              browser_mod:
+                                command: popup
+                                title: Toilet
+                                card:
+                                  type: custom:auto-entities
+                                  card:
+                                    type: entities
+                                  filter:
+                                    include:
+                                      - group: group.toilet_lights
+                            entity: group.toilet_lights
+                            name: Toilet
+                            icon_height: 50px
+                            icon: mdi:toilet
+                          - type: custom:button-card
+                            template: ha-button
+                            tap_action:
+                              action: call-service
+                              service: switch.toggle
+                              service_data:
+                                entity_id: switch.bathroom_lights
+                            double_tap_action:
+                              action: call-service
+                              service: homeassistant.turn_on
+                              service_data:
+                                entity_id: group.bathroom_lights
+                            hold_action:
+                              action: fire-dom-event
+                              browser_mod:
+                                command: popup
+                                title: Bathroom
+                                card:
+                                  type: custom:auto-entities
+                                  card:
+                                    type: entities
+                                  filter:
+                                    include:
+                                      - group: group.bathroom_lights
+                            entity: group.bathroom_lights
+                            name: Bathroom
+                            icon_height: 50px
+                            icon: mdi:shower
+                      - type: horizontal-stack
+                        cards:
+                          - type: custom:button-card
+                            template: ha-button
+                            tap_action:
+                              action: toggle
+                            double_tap_action:
+                              action: call-service
+                              service: homeassistant.turn_on
+                              service_data:
+                                entity_id: light.hallway_main_combined
+                            hold_action:
+                              action: fire-dom-event
+                              browser_mod:
+                                command: popup
+                                title: Hallway
+                                card:
+                                  type: vertical-stack
+                                  cards:
+                                    - type: custom:auto-entities
+                                      card:
+                                        type: entities
+                                      entities:
+                                        - type: custom:slider-entity-row
+                                          entity: light.hallway_main_combined
+                                          full_row: true
+                                          min: 1
+                                          max: 100
+                                          step: 5
+                                      filter:
+                                        include:
+                                          - group: group.hallway_lights
+                            entity: light.hallway_main
+                            name: Hallway
+                            icon_height: 50px
+                          - type: custom:button-card
+                            template: ha-button
+                            tap_action:
+                              action: call-service
+                              service: switch.toggle
+                              service_data:
+                                entity_id: switch.office_lights
+                            double_tap_action:
+                              action: call-service
+                              service: homeassistant.turn_on
+                              service_data:
+                                entity_id: group.office_lights
+                            hold_action:
+                              action: fire-dom-event
+                              browser_mod:
+                                command: popup
+                                title: Office
+                                card:
+                                  type: vertical-stack
+                                  cards:
+                                    - type: custom:auto-entities
+                                      card:
+                                        type: entities
+                                      entities:
+                                        - type: custom:slider-entity-row
+                                          entity: light.office_main_combined
+                                          full_row: true
+                                          min: 1
+                                          max: 100
+                                          step: 5
+                                      filter:
+                                        include:
+                                          - group: group.office_lights
+                            entity: group.office_lights
+                            name: Office
+                            icon_height: 50px
+                            icon: mdi:desktop-mac
+                          - type: custom:button-card
+                            template: ha-button
+                            tap_action:
+                              action: toggle
+                            double_Tap_action:
+                              action: call-service
+                              service: homeassistant.turn_on
+                              service_data:
+                                entity_id: light.birds_main_combined
+                            hold_action:
+                              action: more-info
+                            entity: light.birds_main_combined
+                            name: Birds
+                            icon_height: 50px
+                            icon: mdi:bird
+                          - type: custom:button-card
+                            template: ha-button
+                            tap_action:
+                              action: toggle
+                            double_tap_action:
+                              action: call-service
+                              service: homeassistant.turn_on
+                              service_data:
+                                entity_id: light.riley_main_combined
+                            hold_action:
+                              action: more-info
+                            entity: light.riley_main_combined
+                            name: Riley
+                            icon_height: 50px
+                            icon: mdi:face-woman-outline
+                            lock:
+                              enabled: >-
+                                [[[ return
+                                states["input_boolean.riley_is_sleeping"].state
+                                == "on" ]]]
+                              duration: 3
+                            triggers_update:
+                              - input_boolean.riley_is_sleeping
+                          - type: custom:button-card
+                            template: ha-button
+                            tap_action:
+                              action: call-service
+                              service: switch.toggle
+                              service_data:
+                                entity_id: switch.bedroom_lights
+                            double_tap_action:
+                              action: call-service
+                              service: homeassistant.turn_on
+                              service_data:
+                                entity_id: group.bedroom_lights
+                            hold_action:
+                              action: fire-dom-event
+                              browser_mod:
+                                command: popup
+                                title: Bedroom
+                                card:
+                                  type: custom:auto-entities
+                                  card:
+                                    type: entities
+                                  entities:
+                                    - type: custom:slider-entity-row
+                                      entity: light.bedroom_dimmable_lights
+                                      full_row: true
+                                      min: 1
+                                      max: 100
+                                      step: 5
+                                  filter:
+                                    include:
+                                      - group: group.bedroom_lights
+                            entity: group.bedroom_lights
+                            name: Bedroom
+                            icon_height: 50px
+                            icon: mdi:bed
+      - type: custom:local-conditional-card
+        default: hide
+        id: windows
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: container
+              name: Windows
+              custom_fields:
+                buttons:
+                  card:
+                    type: vertical-stack
+                    cards:
+                      - type: custom:button-card
+                        template: title
+                        name: Shutters
+                        double_tap_action:
+                          action: call-service
+                          service: script.all_shutters
+                          confirmation:
+                            text: >-
+                              [[[ return 'Are you sure? ' +
+                              (states['group.shutters'].state == 'off' ?
+                              'Open' : 'Close') + ' all Shutters in the
+                              house?' ]]]
+                      - type: horizontal-stack
+                        cards:
+                          - type: vertical-stack
+                            cards:
+                              - type: custom:button-card
+                                template: cover-up
+                                entity: cover.living_room_shutter
+                              - type: custom:button-card
+                                template: cover-stop
+                                entity: cover.living_room_shutter
+                                icon: mdi:sofa
+                                variables:
+                                  window_entity_ids: binary_sensor.balcony_window
+                                triggers_update: binary_sensor.balcony_window
+                              - type: custom:button-card
+                                template: cover-down
+                                entity: cover.living_room_shutter
+                          - type: vertical-stack
+                            cards:
+                              - type: custom:button-card
+                                template: cover-up
+                                entity: cover.kitchen_shutter
+                              - type: custom:button-card
+                                template: cover-stop
+                                entity: cover.kitchen_shutter
+                                icon: mdi:silverware-fork-knife
+                                variables:
+                                  window_entity_ids: binary_sensor.kitchen_window
+                                triggers_update: binary_sensor.kitchen_window
+                              - type: custom:button-card
+                                template: cover-down
+                                entity: cover.kitchen_shutter
+                          - type: vertical-stack
+                            cards:
+                              - type: custom:button-card
+                                template: cover-up
+                                entity: cover.office_shutter
+                              - type: custom:button-card
+                                template: cover-stop
+                                entity: cover.office_shutter
+                                icon: mdi:desktop-mac
+                                variables:
+                                  window_entity_ids: binary_sensor.office_window
+                                triggers_update: binary_sensor.office_window
+                              - type: custom:button-card
+                                template: cover-down
+                                entity: cover.office_shutter
+                          - type: vertical-stack
+                            cards:
+                              - type: custom:button-card
+                                template: cover-up
+                                entity: cover.birds_shutter
+                              - type: custom:button-card
+                                template: cover-stop
+                                entity: cover.birds_shutter
+                                icon: mdi:bird
+                                variables:
+                                  window_entity_ids: binary_sensor.birds_window
+                                triggers_update: binary_sensor.birds_window
+                              - type: custom:button-card
+                                template: cover-down
+                                entity: cover.birds_shutter
+                          - type: vertical-stack
+                            cards:
+                              - type: custom:button-card
+                                template: cover-up
+                                entity: cover.bedroom_shutter
+                              - type: custom:button-card
+                                template: cover-stop
+                                entity: cover.bedroom_shutter
+                                icon: mdi:bed
+                                variables:
+                                  window_entity_ids: binary_sensor.bedroom_window
+                                triggers_update: binary_sensor.bedroom_window
+                              - type: custom:button-card
+                                template: cover-down
+                                entity: cover.bedroom_shutter
+                      - type: custom:button-card
+                        template: title
+                        name: Curtains
+                        show_icon: false
+                        double_tap_action:
+                          action: call-service
+                          service: cover.toggle
+                          service_data:
+                            entity_id: cover.curtains
+                          confirmation:
+                            text: >-
+                              [[[ return 'Are you sure? ' +
+                              (states['cover.curtains'].state == 'off' ?
+                              'Open' : 'Close') + ' all Curtains in the
+                              house?' ]]]
+                      - type: horizontal-stack
+                        cards:
+                          - type: vertical-stack
+                            cards:
+                              - type: custom:button-card
+                                template: cover-up
+                                entity: cover.living_room_curtain
+                              - type: custom:button-card
+                                template: cover-stop
+                                entity: cover.living_room_curtain
+                                icon: mdi:sofa
+                              - type: custom:button-card
+                                template: cover-down
+                                entity: cover.living_room_curtain
+                          - type: vertical-stack
+                            cards:
+                              - type: custom:button-card
+                                template: cover-up
+                                entity: cover.kitchen_curtain
+                              - type: custom:button-card
+                                template: cover-stop
+                                entity: cover.kitchen_curtain
+                                icon: mdi:silverware-fork-knife
+                              - type: custom:button-card
+                                template: cover-down
+                                entity: cover.kitchen_curtain
+                          - type: vertical-stack
+                            cards:
+                              - type: custom:button-card
+                                template: cover-up
+                                entity: cover.office_curtain
+                              - type: custom:button-card
+                                template: cover-stop
+                                entity: cover.office_curtain
+                                icon: mdi:desktop-mac
+                              - type: custom:button-card
+                                template: cover-down
+                                entity: cover.office_curtain
+                          - type: custom:button-card
+                            color_type: blank-card
+                          - type: vertical-stack
+                            cards:
+                              - type: custom:button-card
+                                template: cover-up
+                                entity: cover.bedroom_curtain
+                              - type: custom:button-card
+                                template: cover-stop
+                                entity: cover.bedroom_curtain
+                                icon: mdi:bed
+                              - type: custom:button-card
+                                template: cover-down
+                                entity: cover.bedroom_curtain
+      - type: custom:local-conditional-card
+        default: hide
+        id: ac
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: container
+              name: Air Conditioning
+              custom_fields:
+                buttons:
+                  card:
+                    type: vertical-stack
+                    cards:
+                      - type: horizontal-stack
+                        cards:
+                          - type: custom:button-card
+                            template: climate-button
+                            entity: climate.ac_damper_living_room
+                            name: Living Room
+                            icon: mdi:sofa
+                            triggers_update:
+                              - binary_sensor.balcony_window
+                              - binary_sensor.kitchen_window
+                              - sensor.living_room_temperature_monitor
+                            variables:
+                              window_entity_ids:
+                                - binary_sensor.balcony_window
+                                - binary_sensor.kitchen_window
+                              temperature_monitor_entity_id: sensor.living_room_temperature_monitor
+                          - type: custom:button-card
+                            template: climate-button
+                            entity: climate.ac_damper_office
+                            name: Office
+                            icon: mdi:desktop-mac
+                            variables:
+                              window_entity_ids: binary_sensor.office_window
+                              temperature_monitor_entity_id: sensor.office_temperature_monitor
+                            triggers_update:
+                              - binary_sensor.office_window
+                              - sensor.office_temperature_monitor
+                          - type: custom:button-card
+                            template: climate-button
+                            entity: climate.ac_damper_birds
+                            name: Birds
+                            icon: mdi:bird
+                            variables:
+                              window_entity_ids: binary_sensor.birds_window
+                              temperature_monitor_entity_id: sensor.birds_temperature_monitor
+                            triggers_update:
+                              - binary_sensor.birds_window
+                              - sensor.birds_temperature_monitor
+                          - type: custom:button-card
+                            template: climate-button
+                            entity: climate.ac_damper_riley
+                            name: Riley
+                            icon: mdi:face-woman-outline
+                            variables:
+                              window_entity_ids: binary_sensor.riley_window
+                              temperature_monitor_entity_id: sensor.riley_temperature_monitor
+                            lock:
+                              enabled: >-
+                                [[[ return
+                                states["input_boolean.riley_is_sleeping"].state
+                                == "on" ]]]
+                              duration: 3
+                            triggers_update:
+                              - binary_sensor.riley_window
+                              - sensor.riley_temperature_monitor
+                          - type: custom:button-card
+                            template: climate-button
+                            entity: climate.ac_damper_bedroom
+                            name: Bedroom
+                            icon: mdi:bed
+                            variables:
+                              window_entity_ids: binary_sensor.bedroom_window
+                              temperature_monitor_entity_id: sensor.bedroom_temperature_monitor
+                            triggers_update:
+                              - binary_sensor.bedroom_window
+                              - sensor.bedroom_temperature_monitor
+                      - type: conditional
+                        conditions:
+                          - entity: input_boolean.show_fans_in_ui
+                            state: 'on'
+                        card:
+                          type: vertical-stack
+                          cards:
+                            - type: custom:button-card
+                              template: title
+                              name: Fans
+                              show_icon: false
+                              double_tap_action:
+                                action: call-service
+                                service: cover.toggle
+                                service_data:
+                                  entity_id: cover.curtains
+                                confirmation:
+                                  text: >-
+                                    [[[ return 'Are you sure? ' +
+                                    (states['cover.curtains'].state == 'off'
+                                    ? 'Open' : 'Close') + ' all Curtains in
+                                    the house?' ]]]
+                            - type: horizontal-stack
+                              cards:
+                                - type: vertical-stack
+                                  cards:
+                                    - type: custom:button-card
+                                      template: ha-button-half
+                                      entity: fan.balcony_fan
+                                      name: Balcony
+                                      icon: mdi:fan
+                                      hold_action:
+                                        action: more-info
+                                    - type: custom:button-card
+                                      template: ha-button-half
+                                      entity: fan.living_room_fan
+                                      name: Living Room
+                                      icon: mdi:fan
+                                      hold_action:
+                                        action: fire-dom-event
+                                        browser_mod:
+                                          command: popup
+                                          hide_header: false
+                                          title: Living Room Fan
+                                          card:
+                                            entity: fan.living_room_fan
+                                            name: Living Room Fan
+                                            type: custom:fan-xiaomi
+                                - type: custom:button-card
+                                  template: ha-button
+                                  entity: fan.blue_fan
+                                  icon: mdi:fan
+                                  hold_action:
+                                    action: more-info
+                                - type: custom:button-card
+                                  template: ha-button
+                                  entity: fan.gray_fan
+                                  icon: mdi:fan
+                                  hold_action:
+                                    action: more-info
+                                  lock:
+                                    enabled: >-
+                                      [[[ return
+                                      states["input_boolean.riley_is_sleeping"].state
+                                      == "on" ]]]
+                                    duration: 3
+                                  triggers_update:
+                                    - binary_sensor.riley_window
+                                    - input_boolean.riley_is_sleeping
+                                - type: custom:button-card
+                                  template: ha-button
+                                  entity: fan.bedroom_fan
+                                  name: Bedroom Fan
+                                  icon: mdi:fan
+                                  hold_action:
+                                    action: fire-dom-event
+                                    browser_mod:
+                                      command: popup
+                                      hide_header: false
+                                      title: Bedroom Fan
+                                      card:
+                                        entity: fan.bedroom_fan
+                                        name: Bedroom Fan
+                                        type: custom:fan-xiaomi
+      - type: custom:local-conditional-card
+        default: hide
+        id: shower
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: container
+              name: Shower Heating
+              custom_fields:
+                buttons:
+                  card:
+                    type: horizontal-stack
+                    cards:
+                      - type: custom:button-card
+                        template: ha-button
+                        icon: mdi:water-boiler
+                        name: Boiler
+                        entity: switch.water_boiler
+                        tap_action:
+                          action: toggle
+                        hold_action:
+                          action: more-info
+                      - type: grid
+                        columns: 2
+                        cards:
+                          - type: custom:button-card
+                            template: timer-button
+                            name: 30m
+                            entity: input_number.water_boiler_timer_duration
+                            variables:
+                              value: 30
+                          - type: custom:button-card
+                            template: timer-button
+                            name: 45m
+                            entity: input_number.water_boiler_timer_duration
+                            variables:
+                              value: 45
+                          - type: custom:button-card
+                            template: timer-button
+                            name: 1H
+                            entity: input_number.water_boiler_timer_duration
+                            variables:
+                              value: 60
+                          - type: custom:button-card
+                            template: timer-button
+                            name: 2H
+                            entity: input_number.water_boiler_timer_duration
+                            variables:
+                              value: 120
+                      - type: custom:button-card
+                        template: ha-button
+                        icon: mdi:radiator
+                        name: Heater
+                        entity: switch.bathroom_heater
+                        tap_action:
+                          action: toggle
+                        hold_action:
+                          action: more-info
+                      - type: grid
+                        columns: 2
+                        cards:
+                          - type: custom:button-card
+                            template: timer-button
+                            name: 10m
+                            entity: input_number.bathroom_heater_timer_duration
+                            variables:
+                              value: 10
+                          - type: custom:button-card
+                            template: timer-button
+                            name: 20m
+                            entity: input_number.bathroom_heater_timer_duration
+                            variables:
+                              value: 20
+                          - type: custom:button-card
+                            template: timer-button
+                            name: 30m
+                            entity: input_number.bathroom_heater_timer_duration
+                            variables:
+                              value: 30
+                          - type: custom:button-card
+                            template: timer-button
+                            name: 40m
+                            entity: input_number.bathroom_heater_timer_duration
+                            variables:
+                              value: 40
+      - type: custom:local-conditional-card
+        default: hide
+        id: scenes
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: container
+              name: One Tap Actions
+              custom_fields:
+                buttons:
+                  card:
+                    type: horizontal-stack
+                    cards:
+                      - type: custom:button-card
+                        template: ha-button
+                        entity: sensor.evening_scene
+                        action: call-service
+                        name: Evening
+                        icon: mdi:floor-lamp-outline
+                        tap_action:
+                          action: call-service
+                          service: scene.turn_on
+                          service_data:
+                            entity_id: scene.evening
+                      - type: custom:button-card
+                        template: ha-button
+                        entity: sensor.sleep_scene
+                        name: Sleep
+                        icon: mdi:sleep
+                        tap_action:
+                          action: call-service
+                          service: scene.turn_on
+                          service_data:
+                            entity_id: scene.sleep
+      - type: vertical-stack
+        cards:
+          - type: custom:button-card
+            template: title
+            name: Devices
+          - type: horizontal-stack
+            cards:
+              - type: custom:button-card
+                template: tablet-button
+                entity: switch.house_tablet
+                variables:
+                  tablet_id: house_tablet
+                  tablet_friendly_name: Mr. White
+                triggers_update: input_number.house_tablet_volume
+              - type: custom:button-card
+                template: tablet-button
+                entity: switch.black_tablet
+                variables:
+                  tablet_id: black_tablet
+                  tablet_friendly_name: Mr. Black
+                triggers_update: input_number.black_tablet_volume
+              - type: custom:button-card
+                template: tv-button
+                entity: media_player.balcony_tv
+                name: Balcony
+              - type: custom:button-card
+                template: tv-button
+                entity: media_player.living_room_tv
+                name: Living<br/>Room
+              - type: custom:button-card
+                template: tv-button
+                entity: media_player.bedroom_tv
+                name: Bedroom
+      - type: vertical-stack
+        cards:
+          - type: custom:button-card
+            template: title
+            name: Who's Home?
+          - type: horizontal-stack
+            cards:
+              - type: picture-entity
+                entity: person.shlomi
+                image: /api/image/serve/2a52ac497d0abfa1605389bb3e36f308/512x512
+                show_name: false
+                show_state: false
+                state_filter:
+                  home: brightness(100%) saturate(1)
+                  not_home: brightness(85%) saturate(0)
+              - type: picture-entity
+                entity: person.inbal
+                image: /api/image/serve/16a79db72ef65b582588e768caa4bcaf/512x512
+                show_name: false
+                show_state: false
+                state_filter:
+                  home: brightness(100%) saturate(1)
+                  not_home: brightness(85%) saturate(0)
+              - type: picture-entity
+                entity: input_boolean.riley_is_sleeping
+                show_name: false
+                show_state: false
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+                state_image:
+                  'on': /local/photos/riley_sleeping.jpg
+                  'off': /local/photos/riley_awake.jpg
+                state_filter:
+                  'off': brightness(100%) saturate(1)
+                  'on': brightness(85%) saturate(0)
+              - type: picture-entity
+                entity: input_boolean.guest_mode
+                show_name: false
+                show_state: false
+                image: /local/photos/guests.jpg
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+                state_filter:
+                  'on': brightness(100%) saturate(1)
+                  'off': brightness(85%) saturate(0)
+      - type: vertical-stack
+        cards:
+          - type: custom:button-card
+            template: title
+            name: Power
+          - type: horizontal-stack
+            cards:
+              - type: custom:button-card
+                template: ha-button
+                name: UPS
+                show_label: true
+                icon: mdi:power-standby
+                entity: sensor.ups_status
+                styles:
+                  card:
+                    - width: 95px
+                    - height: 100%
+                  label:
+                    - font-size: 10px
+                state:
+                  - value: ONBATT
+                    color: red
+                    label: >-
+                      [[[ return states['sensor.ups_battery'].state  + '% |
+                      ' + states['sensor.ups_time_left'].state + 'm' ]]]
+                    icon: mdi:alert
+                    styles:
+                      icon:
+                        - animation: blink 2s ease infinite
+                  - value: COMMLOST
+                    color: orange
+                    label: Connection Lost
+                    icon: mdi:alert
+                  - value: ONLINE
+                    color: green
+                    label: >-
+                      [[[ var percent = states['sensor.ups_battery'].state;
+                      return ((percent < 99) ? percent + '%' : '') ]]]
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    command: popup
+                    hide_header: false
+                    title: UPS
+                    card:
+                      type: entities
+                      entities:
+                        - entity: sensor.ups_status
+                        - entity: sensor.ups_battery
+                        - entity: sensor.ups_load
+                        - entity: sensor.ups_time_left
+                        - entity: sensor.ups_time_on_battery
+                        - entity: sensor.ups_transfer_count
+                      title: UPS
+                hold_action:
+                  action: more-info
+              - type: vertical-stack
+                cards:
+                  - type: custom:button-card
+                    layout: icon_name_state2nd
+                    entity: sensor.power_cost_per_hour
+                    icon: mdi:flash-outline
+                    show_state: true
+                    name: Now
+                    state:
+                      - operator: ''
+                        value: 1.5
+                        color: red
+                      - operator: default
+                        color: green
+                    tap_action:
+                      action: fire-dom-event
+                      browser_mod:
+                        command: popup
+                        hide_header: false
+                        title: Power Consumption
+                        card:
+                          type: entities
+                          entities:
+                            - entity: sensor.power_cost_per_hour
+                            - entity: sensor.energy_total_today_cost
+                            - entity: sensor.energy_total_next_bill_cost
+                            - entity: sensor.power_total
+                            - entity: sensor.shelly_3em_channel_a_power
+                            - entity: sensor.shelly_3em_channel_b_power
+                            - entity: sensor.shelly_3em_channel_c_power
+                          show_header_toggle: false
+                    hold_action:
+                      action: more-info
+                  - type: custom:button-card
+                    layout: icon_name_state2nd
+                    entity: sensor.energy_total_next_bill_cost
+                    icon: mdi:calendar-month-outline
+                    show_state: true
+                    name: Next Bill
+                    state:
+                      - operator: ''
+                        value: 600
+                        color: red
+                      - operator: default
+                        value: 1.5
+                        color: green
+                    tap_action:
+                      action: fire-dom-event
+                      browser_mod:
+                        command: popup
+                        hide_header: false
+                        title: Power Consumption
+                        card:
+                          type: entities
+                          entities:
+                            - entity: sensor.power_cost_per_hour
+                            - entity: sensor.energy_total_today_cost
+                            - entity: sensor.energy_total_next_bill_cost
+                            - entity: sensor.power_total
+                            - entity: sensor.shelly_3em_channel_a_power
+                            - entity: sensor.shelly_3em_channel_b_power
+                            - entity: sensor.shelly_3em_channel_c_power
+                          show_header_toggle: false
+                    hold_action:
+                      action: more-info
+              - type: custom:mini-graph-card
+                entities:
+                  - entity: sensor.energy_total_today_cost
+                aggregate_func: max
+                icon: mdi:flash
+                show:
+                  name: false
+                  icon: false
+                  graph: bar
+                  labels: false
+                group_by: date
+                hours_to_show: 96
+                bar_spacing: 10
+                lower_bound: 0

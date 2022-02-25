@@ -1,0 +1,22 @@
+tv_remote:
+  card:
+    type: vertical-stack
+    cards:
+      - type: custom:lg-remote-control
+        entity:
+          - '[[entity_id]]'
+        colors:
+          buttons: var(--card-background-color, white)
+        sources:
+          - icon: mdi:netflix
+            name: Netflix
+          - icon: mdi:youtube
+            name: YouTube
+          - icon: mdi:emby
+            name: Emby
+          - icon: mdi:google
+            name: Google TV
+      - type: custom:webos-keyboard-card
+        target: '[[entity_id]]'
+        label: Enter text here
+        title: TV Keyboard

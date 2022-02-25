@@ -1,0 +1,85 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: container
+    name: Entrance
+    custom_fields:
+      buttons:
+        card:
+          type: horizontal-stack
+          cards:
+            - type: custom:button-card
+              template: ha-button
+              tap_action:
+                action: call-service
+                service: script.front_door_lock_toggle
+              double_tap_action:
+                action: call-service
+                service: lock.open
+                service_data:
+                  entity_id: lock.front_door
+              hold_action:
+                action: navigate
+                navigation_path: /lovelace/front_door
+              entity: sensor.front_door_combined
+              name: Front Door
+              icon_height: 50px
+              state:
+                - value: Open, Unlocked
+                  color: red
+                  icon: mdi:door-open
+                  styles:
+                    icon:
+                      - animation: blink 2s ease infinite
+                - value: Open, Locked
+                  color: red
+                  icon: mdi:door-open
+                  styles:
+                    icon:
+                      - animation: blink 2s ease infinite
+                - value: Closed, Unlocked
+                  color: orange
+                  icon: mdi:door-closed
+                - value: Closed, Locked
+                  color: green
+                  icon: mdi:door-closed-lock
+            - type: custom:button-card
+              template: ha-button
+              tap_action:
+                action: toggle
+              hold_action:
+                action: more-info
+              entity: light.stairs
+              name: Stairs
+              icon_height: 50px
+              icon: mdi:stairs
+            - type: custom:button-card
+              template: ha-button
+              tap_action:
+                action: toggle
+              hold_action:
+                action: more-info
+              entity: switch.intercom
+              name: Intercom
+              icon_height: 50px
+              icon: mdi:deskphone
+            - type: custom:button-card
+              template: ha-button
+              tap_action:
+                action: toggle
+              hold_action:
+                action: more-info
+              entity: switch.upper_gate
+              name: Upper Gate
+              icon_height: 50px
+              icon: mdi:boom-gate
+            - type: custom:button-card
+              template: ha-button
+              tap_action:
+                action: toggle
+              hold_action:
+                action: more-info
+              entity: switch.lower_gate
+              name: Lower Gate
+              icon_height: 50px
+              icon: mdi:gate

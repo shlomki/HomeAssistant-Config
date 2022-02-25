@@ -1,0 +1,15 @@
+title:
+  styles:
+    card:
+      - padding: 0.3em
+      - box-shadow: none
+      - background: rgb(0,0,0,0.05)
+    name:
+      - font-weight: bold
+      - font-size: 1.2em
+title-large:
+  template: title
+  styles:
+    name:
+      - font-weight: bold
+      - font-size: 1.6em

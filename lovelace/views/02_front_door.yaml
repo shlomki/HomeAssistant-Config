@@ -1,0 +1,120 @@
+title: Front Door
+path: front_door
+panel: true
+icon: mdi:door-closed-lock
+visible:
+  - user: 954f920b6d6b4dd795e5ea5ab3f225d5
+  - user: 9ccaeb57363d4902b296eb297da459e3
+  - user: 441ffac368ed4f50911212c0816b227a
+  - user: aa6d3713da1a4e1eac92dd176a3ae708
+badges: []
+cards:
+  - type: vertical-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: gallery-day
+            variables:
+              day: Sunday
+          - type: custom:button-card
+            template: gallery-day
+            variables:
+              day: Monday
+          - type: custom:button-card
+            template: gallery-day
+            variables:
+              day: Tuesday
+          - type: custom:button-card
+            template: gallery-day
+            variables:
+              day: Wednesday
+          - type: custom:button-card
+            template: gallery-day
+            variables:
+              day: Thursday
+          - type: custom:button-card
+            template: gallery-day
+            variables:
+              day: Friday
+          - type: custom:button-card
+            template: gallery-day
+            variables:
+              day: Saturday
+      - type: conditional
+        conditions:
+          - entity: input_text.gallery_display_day
+            state: Sunday
+        card:
+          type: custom:gallery-card
+          entities:
+            - path: media-source://media_source/front_door/Sunday
+          menu_alignment: Responsive
+          file_name_format: '%H.%M.%S'
+          caption_format: '%H:%M:%S'
+      - type: conditional
+        conditions:
+          - entity: input_text.gallery_display_day
+            state: Monday
+        card:
+          type: custom:gallery-card
+          entities:
+            - path: media-source://media_source/front_door/Monday
+          menu_alignment: Responsive
+          file_name_format: '%H.%M.%S'
+          caption_format: '%H:%M:%S'
+      - type: conditional
+        conditions:
+          - entity: input_text.gallery_display_day
+            state: Tuesday
+        card:
+          type: custom:gallery-card
+          entities:
+            - path: media-source://media_source/front_door/Tuesday
+          menu_alignment: Responsive
+          file_name_format: '%H.%M.%S'
+          caption_format: '%H:%M:%S'
+      - type: conditional
+        conditions:
+          - entity: input_text.gallery_display_day
+            state: Wednesday
+        card:
+          type: custom:gallery-card
+          entities:
+            - path: media-source://media_source/front_door/Wednesday
+          menu_alignment: Responsive
+          file_name_format: '%H.%M.%S'
+          caption_format: '%H:%M:%S'
+      - type: conditional
+        conditions:
+          - entity: input_text.gallery_display_day
+            state: Thursday
+        card:
+          type: custom:gallery-card
+          entities:
+            - path: media-source://media_source/front_door/Thursday
+          menu_alignment: Responsive
+          file_name_format: '%H.%M.%S'
+          caption_format: '%H:%M:%S'
+      - type: conditional
+        conditions:
+          - entity: input_text.gallery_display_day
+            state: Friday
+        card:
+          type: custom:gallery-card
+          entities:
+            - path: media-source://media_source/front_door/Friday
+          menu_alignment: Responsive
+          file_name_format: '%H.%M.%S'
+          caption_format: '%H:%M:%S'
+      - type: conditional
+        conditions:
+          - entity: input_text.gallery_display_day
+            state: Saturday
+        card:
+          type: custom:gallery-card
+          entities:
+            - path: media-source://media_source/front_door/Saturday
+          menu_alignment: Responsive
+          file_name_format: '%H.%M.%S'
+          caption_format: '%H:%M:%S'

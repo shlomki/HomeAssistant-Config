@@ -1,0 +1,76 @@
+icon: mdi:motion-sensor
+panel: false
+path: sensors
+title: Sensors
+visible:
+  - user: aa6d3713da1a4e1eac92dd176a3ae708
+badges: []
+cards:
+  - type: custom:button-card
+    template: back-button
+  - type: entities
+    entities:
+      - entity: sensor.unavailable_entities
+    title: New Unavailable Entities
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Motion Sensors
+    filter:
+      include:
+        - domain: binary_sensor
+          entity_id: '*_motion'
+      exclude: []
+    sort:
+      method: state
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Leak Sensors
+    filter:
+      include:
+        - domain: binary_sensor
+          entity_id: '*_leak'
+      exclude: []
+    sort:
+      method: state
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Door Sensors
+    filter:
+      include:
+        - domain: binary_sensor
+          attributes:
+            device_class: opening
+      exclude: []
+    sort:
+      method: state
+  - entities:
+      - entity: binary_sensor.rain
+      - entity: binary_sensor.toilet_flush
+    show_header_toggle: false
+    title: Other Sensors
+    type: entities
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Low Battery Levels
+    filter:
+      include:
+        - domain: sensor
+          entity_id: '*_battery_level'
+          state: <99
+      exclude: []
+    sort:
+      method: state
+  - type: entities
+    entities:
+      - entity: sensor.red_alert_in_my_area
+      - entity: sensor.red_alert
+      - entity: automation.red_alert_close_shutters
+      - entity: automation.red_alert_turn_on_lights_living_room_kitchen
+      - entity: automation.red_alert_turn_on_lights_office
+      - entity: automation.red_alert_turn_on_lights_birds
+      - entity: automation.red_alert_turn_on_lights_bedroom
+    title: Red Alert

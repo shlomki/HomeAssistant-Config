@@ -1,0 +1,23 @@
+gallery-day:
+  template: ha-button
+  entity: input_text.gallery_display_day
+  color_type: card
+  color: white
+  show_icon: false
+  styles:
+    card:
+      - height: 50px
+      - padding: 10px
+  name: |
+    [[[ return variables.day.substring(0, 3); ]]]
+  state:
+    - value: |
+        [[[ return variables.day; ]]]
+      color: rgb(253, 216, 53)
+  tap_action:
+    action: call-service
+    service: input_text.set_value
+    service_data:
+      entity_id: input_text.gallery_display_day
+      value: |
+        [[[ return variables.day; ]]]

@@ -1,0 +1,49 @@
+tablet-button:
+  template: ha-button
+  variables:
+    var_name: tablet_id
+    var_name2: tablet_friendly_name
+  entity: |
+    [[[ return 'switch.' + variables.tablet_id; ]]]
+  icon: mdi:tablet-android
+  name: |
+    [[[ return variables.tablet_friendly_name; ]]]
+  double_tap_action:
+    action: call-service
+    service: script.toggle_tablet_setting
+    service_data:
+      entity_id: |
+        [[[ return 'input_number.' + variables.tablet_id + '_volume'; ]]]
+      default_value: 4
+  hold_action:
+    action: fire-dom-event
+    browser_mod:
+      command: popup
+      hide_header: false
+      title: |
+        [[[ return variables.tablet_friendly_name; ]]]
+      card:
+        type: vertical-stack
+        cards:
+          - type: custom:decluttering-card
+            template: tablet_control
+            variables:
+              - tablet_id: |
+                  [[[ return variables.tablet_id; ]]]
+  styles:
+    custom_fields:
+      volume_muted:
+        - position: absolute
+        - left: '-5%'
+        - top: 5%
+        - height: 60px
+        - width: 60px
+        - visibility: |
+            [[[
+                if (states['input_number.' + variables.tablet_id + '_volume'].state === "0.0") return "visible";
+                return "hidden";
+            ]]]
+  custom_fields:
+    volume_muted: >
+      [[[ return '<ha-icon icon="mdi:volume-off" style="width: 16px;
+      height:16px; color:var(--paper-item-icon-color);"></ha-icon>'; ]]]

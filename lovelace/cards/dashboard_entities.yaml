@@ -1,0 +1,35 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: container
+    name: Unavailable Entities
+    custom_fields:
+      buttons:
+        card:
+          type: vertical-stack
+          cards:
+            - type: conditional
+              conditions:
+                - entity: sensor.unavailable_entities
+                  state_not: Online
+              card:
+                type: custom:auto-entities
+                card:
+                  type: entities
+                filter:
+                  include:
+                    - group: group.monitored_entities
+                      state: unavailable
+            - type: conditional
+              conditions:
+                - entity: sensor.unavailable_entities
+                  state: Online
+              card:
+                type: custom:button-card
+                template: fridge
+                icon: mdi:check-bold
+                color: green
+                name: Everything is ONLINE!
+                tap_action:
+                  action: navigate
+                  navigation_path: /lovelace/sensors

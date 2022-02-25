@@ -1,0 +1,58 @@
+climate-button:
+  variables:
+    var_name: window_entity_ids
+    var_name2: temperature_monitor_entity_id
+  tap_action:
+    action: toggle
+  styles:
+    card:
+      - height: 105px
+    name:
+      - padding-bottom: 10px
+    grid:
+      - position: relative
+    label:
+      - font-size: 10px
+    custom_fields:
+      window_open:
+        - position: absolute
+        - left: 65%
+        - top: 5%
+        - height: 20px
+        - width: 20px
+        - visibility: |
+            [[[
+              if (variables.window_entity_ids != null) {
+                if (Array.isArray(variables.window_entity_ids)) {
+                  for (const entity of variables.window_entity_ids) {
+                    if (states[entity].state == "on") return "visible";
+                  }
+                } else {
+                  if (states[variables.window_entity_ids].state == "on") return "visible";
+                }
+              }
+
+              return "hidden";
+            ]]]
+  size: 33%
+  hold_action:
+    action: navigate
+    navigation_path: /lovelace/ac
+  state:
+    - value: 'off'
+      color: rgb(68, 115, 158)
+    - value: fan_only
+      color: rgb(253, 216, 53)
+  custom_fields:
+    window_open: >
+      [[[ return '<ha-icon icon="mdi:window-open" style="width: 16px;
+      height:16px; color: red;"></ha-icon>'; ]]]
+  show_label: true
+  label: |-
+    [[[ let monitor = ''; 
+        if ('temperature_monitor_entity_id' in variables) {
+          monitor = states[variables.temperature_monitor_entity_id].state;
+          monitor = monitor.replace('Ok', '').replace('Cold', 'turquoise').replace('Hot', 'red');
+        }
+        return '<div>' + entity.attributes.fan_mode + ' ' + entity.attributes.temperature + '°</div><div style="color: ' + monitor + '">' +
+        entity.attributes.current_temperature + '°' + ( user.name === 'Shlomi' ? ' | ' + entity.attributes.current_humidity + '%' : '' )  + '</div>'; ]]]

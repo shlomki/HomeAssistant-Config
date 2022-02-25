@@ -1,0 +1,88 @@
+cover-up:
+  hold_action:
+    action: more-info
+  show_name: false
+  icon: mdi:arrow-up
+  styles:
+    card:
+      - height: 30px
+      - border-radius: 10px 10px 0px 0px
+  state:
+    - value: opening
+      color: rgb(253, 216, 53)
+  tap_action:
+    action: call-service
+    service: cover.open_cover
+    service_data:
+      entity_id: |
+        [[[ return entity.entity_id; ]]]
+cover-stop:
+  variables:
+    var_name: window_entity_ids
+  hold_action:
+    action: more-info
+  icon: mdi:square
+  show_name: false
+  styles:
+    card:
+      - height: 30px
+      - border-radius: 0px
+    custom_fields:
+      window_open:
+        - position: absolute
+        - left: 70%
+        - top: 10%
+        - height: 20px
+        - width: 20px
+        - visibility: |
+            [[[
+              if (variables.window_entity_ids != null) {
+                if (Array.isArray(variables.window_entity_ids)) {
+                  for (const entity of variables.window_entity_ids) {
+                    if (states[entity].state == "on") return "visible";
+                  }
+                } else {
+                  if (states[variables.window_entity_ids].state == "on") return "visible";
+                }
+              }
+
+              return "hidden";
+            ]]]
+  custom_fields:
+    window_open: >
+      [[[ return '<ha-icon icon="mdi:window-open" style="width: 16px;
+      height:16px; color: red;"></ha-icon>'; ]]]
+  state:
+    - value: open
+      color: rgb(253, 216, 53)
+    - value: closed
+      color: rgb(68, 115, 158)
+    - value: closing
+      icon: mdi:stop
+    - value: opening
+      icon: mdi:stop
+  tap_action:
+    action: call-service
+    service: cover.stop_cover
+    service_data:
+      entity_id: |
+        [[[ return entity.entity_id; ]]]
+cover-down:
+  hold_action:
+    action: more-info
+  show_name: false
+  icon: mdi:arrow-down
+  styles:
+    card:
+      - height: 30px
+      - border-radius: 0px 0px 10px 10px
+  state:
+    - value: closing
+      color: rgb(253, 216, 53)
+  tap_action:
+    action: call-service
+    service: cover.close_cover
+    service_data:
+      entity_id: |
+        [[[ return entity.entity_id; ]]]
+

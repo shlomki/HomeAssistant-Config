@@ -1,0 +1,19 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: container
+    name: Internet
+    custom_fields:
+      buttons:
+        card:
+          type: horizontal-stack
+          cards:
+            - type: custom:button-card
+              template: internet
+              name: Fiber Connection
+              entity: binary_sensor.edgeos_internet_interface
+              size: 35px
+            - type: custom:button-card
+              template: internet
+              entity: binary_sensor.google_connection
+              size: 35px

@@ -1,0 +1,12 @@
+internet:
+  template: ha-button
+  state:
+    - value: 'off'
+      icon: mdi:earth-remove
+      color: red
+      styles:
+        icon:
+          - animation: blink 2s ease infinite
+    - value: 'on'
+      icon: mdi:earth
+      color: green

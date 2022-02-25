@@ -1,0 +1,22 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: container
+    name: Fridges
+    custom_fields:
+      buttons:
+        card:
+          type: horizontal-stack
+          cards:
+            - type: custom:button-card
+              template: fridge
+              entity: binary_sensor.fridge
+              size: 35px
+            - type: custom:button-card
+              template: fridge
+              entity: binary_sensor.freezer
+              size: 35px
+            - type: custom:button-card
+              template: fridge
+              entity: binary_sensor.big_freezer
+              size: 35px

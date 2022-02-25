@@ -1,0 +1,69 @@
+tablet_control:
+  card:
+    type: vertical-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: ha-button
+            entity: switch.[[tablet_id]]
+            icon: mdi:tablet-android
+            name: On / Off
+            hold_action:
+              action: more-info
+          - type: custom:button-card
+            name: Reolink
+            template: ha-button
+            entity_picture: /local/photos/reolink.png
+            show_entity_picture: true
+            tap_action:
+              action: call-service
+              service: script.autoremote_tablet_reolink_command
+              service_data:
+                tablet: '[[tablet_id]]'
+          - type: custom:button-card
+            name: Volume
+            template: ha-button
+            entity: input_number.[[tablet_id]]_volume
+            tap_action:
+              action: call-service
+              service: script.toggle_tablet_setting
+              service_data:
+                entity_id: input_number.[[tablet_id]]_volume
+                default_value: 4
+            color: rgb(68, 115, 158)
+            state:
+              - value: 0
+                color: rgb(68, 115, 158)
+                icon: mdi:volume-off
+              - operator: '>'
+                value: 0
+                icon: mdi:volume-high
+                color: rgb(253, 216, 53)
+          - type: custom:button-card
+            name: Brightness
+            template: ha-button
+            entity: input_number.[[tablet_id]]_brightness
+            tap_action:
+              action: call-service
+              service: script.toggle_tablet_setting
+              service_data:
+                entity_id: input_number.[[tablet_id]]_brightness
+                default_value: 9
+            color: rgb(68, 115, 158)
+            state:
+              - value: 0
+                icon: mdi:brightness-5
+                color: rgb(68, 115, 158)
+              - operator: '>'
+                value: 0
+                icon: mdi:brightness-7
+                color: rgb(253, 216, 53)
+      - type: custom:slider-entity-row
+        entity: input_number.[[tablet_id]]_volume
+        icon: mdi:volume-high
+        grow: true
+      - type: custom:slider-entity-row
+        entity: input_number.[[tablet_id]]_brightness
+        icon: mdi:brightness-7
+        grow: true

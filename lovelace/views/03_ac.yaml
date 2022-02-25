@@ -1,0 +1,225 @@
+icon: mdi:temperature-celsius
+path: ac
+title: AC
+visible:
+  - user: 954f920b6d6b4dd795e5ea5ab3f225d5
+  - user: 9ccaeb57363d4902b296eb297da459e3
+  - user: 441ffac368ed4f50911212c0816b227a
+  - user: aa6d3713da1a4e1eac92dd176a3ae708
+badges: []
+cards:
+  - type: custom:button-card
+    template: back-button
+  - type: vertical-stack
+    cards:
+      - type: custom:mini-climate
+        entity: climate.ac_damper_living_room
+        hvac_mode:
+          source:
+            'off':
+              icon: mdi:power
+              name: 'Off'
+            fan_only:
+              icon: mdi:power
+              name: 'On'
+        fan_mode:
+          location: main
+        indicators:
+          humidity:
+            icon: mdi:water
+            unit: '%'
+            round: 1
+            source:
+              entity: sensor.living_room_humidity
+          window:
+            icon:
+              template: |
+                (value) => (value == '' ? '' : 'mdi:window-open')
+              style: |
+                (value) => (value == 'Balcony' ? { color: 'red'} : {})
+            source:
+              entity: binary_sensor.balcony_window
+              mapper: >-
+                state => (state == 'off' ? '': (state == 'on' ? 'Balcony':
+                'Unavailable'))
+          window2:
+            icon:
+              template: |
+                (value) => (value == '' ? '' : 'mdi:window-open')
+              style: |
+                (value) => (value == 'Kitchen' ? { color: 'red'} : {})
+            source:
+              entity: binary_sensor.kitchen_window
+              mapper: >-
+                state => (state == 'off' ? '': (state == 'on' ? 'Kitchen':
+                'Unavailable'))
+      - type: custom:mini-climate
+        entity: climate.ac_damper_office
+        hvac_mode:
+          source:
+            'off':
+              icon: mdi:power
+              name: 'Off'
+            fan_only:
+              icon: mdi:power
+              name: 'On'
+        fan_mode:
+          location: main
+        indicators:
+          humidity:
+            icon: mdi:water
+            unit: '%'
+            round: 1
+            source:
+              entity: sensor.office_humidity
+          window:
+            icon:
+              template: |
+                (value) => (value == '' ? '' : 'mdi:window-open')
+              style: |
+                (value) => (value == 'Window Open' ? { color: 'red'} : {})
+            source:
+              entity: binary_sensor.office_window
+              mapper: >-
+                state => (state == 'off' ? '': (state == 'on' ? 'Window
+                Open': 'Unavailable'))
+      - type: custom:mini-climate
+        entity: climate.ac_damper_birds
+        hvac_mode:
+          source:
+            'off':
+              icon: mdi:power
+              name: 'Off'
+            fan_only:
+              icon: mdi:power
+              name: 'On'
+        fan_mode:
+          location: main
+        indicators:
+          humidity:
+            icon: mdi:water
+            unit: '%'
+            round: 1
+            source:
+              entity: sensor.birds_humidity
+          window:
+            icon:
+              template: |
+                (value) => (value == '' ? '' : 'mdi:window-open')
+              style: |
+                (value) => (value == 'Window Open' ? { color: 'red'} : {})
+            source:
+              entity: binary_sensor.birds_window
+              mapper: >-
+                state => (state == 'off' ? '': (state == 'on' ? 'Window
+                Open': 'Unavailable'))
+      - type: custom:mini-climate
+        entity: climate.ac_damper_riley
+        hvac_mode:
+          source:
+            'off':
+              icon: mdi:power
+              name: 'Off'
+            fan_only:
+              icon: mdi:power
+              name: 'On'
+        fan_mode:
+          location: main
+        indicators:
+          humidity:
+            icon: mdi:water
+            unit: '%'
+            round: 1
+            source:
+              entity: sensor.riley_humidity
+          window:
+            icon:
+              template: |
+                (value) => (value == '' ? '' : 'mdi:window-open')
+              style: |
+                (value) => (value == 'Window Open' ? { color: 'red'} : {})
+            source:
+              entity: binary_sensor.riley_window
+              mapper: >-
+                state => (state == 'off' ? '': (state == 'on' ? 'Window
+                Open': 'Unavailable'))
+      - type: custom:mini-climate
+        entity: climate.ac_damper_bedroom
+        hvac_mode:
+          source:
+            'off':
+              icon: mdi:power
+              name: 'Off'
+            fan_only:
+              icon: mdi:power
+              name: 'On'
+        fan_mode:
+          location: main
+        indicators:
+          humidity:
+            icon: mdi:water
+            unit: '%'
+            round: 1
+            source:
+              entity: sensor.bedroom_humidity
+          window:
+            icon:
+              template: |
+                (value) => (value == '' ? '' : 'mdi:window-open')
+              style: |
+                (value) => (value == 'Window Open' ? { color: 'red'} : {})
+            source:
+              entity: binary_sensor.bedroom_window
+              mapper: >-
+                state => (state == 'off' ? '': (state == 'on' ? 'Window
+                Open': 'Unavailable'))
+  - type: vertical-stack
+    cards:
+      - type: conditional
+        conditions:
+          - entity: input_boolean.manual_ac
+            state: 'off'
+        card:
+          type: thermostat
+          entity: climate.mainac
+      - type: conditional
+        conditions:
+          - entity: input_boolean.manual_ac
+            state: 'on'
+        card:
+          type: thermostat
+          entity: climate.manual_ac
+  - columns: 4
+    entities:
+      - entity: sensor.bedroom_closet_temperature
+        name: Closet
+      - entity: sensor.bedroom_closet_humidity
+      - entity: sensor.bathroom_temperature
+      - entity: sensor.outside_temperature
+        name: Outside
+      - entity: sensor.bedroom_closet_humidity
+      - entity: sensor.outside_temperature
+      - entity: sensor.outside_humidity
+    show_icon: true
+    show_state: true
+    title: Temperatures
+    type: glance
+  - type: glance
+    entities:
+      - entity: sensor.living_room_temperature
+      - entity: sensor.office_temperature
+      - entity: sensor.birds_temperature
+      - entity: sensor.bathroom_temperature
+      - entity: sensor.riley_temperature
+      - entity: sensor.bedroom_temperature
+    title: Rooms
+  - entities:
+      - light.bathroom_heater
+      - input_number.bathroom_heater_timer_duration
+      - timer.bathroom_heater
+      - switch.water_boiler
+      - input_number.water_boiler_timer_duration
+      - timer.water_boiler
+    show_header_toggle: false
+    title: Bathroom Heating
+    type: entities
