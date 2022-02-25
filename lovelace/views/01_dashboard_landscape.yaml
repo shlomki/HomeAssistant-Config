@@ -1,0 +1,46 @@
+title: Dashboard
+path: dashboard
+visible:
+  - user: 954f920b6d6b4dd795e5ea5ab3f225d5
+  - user: 9ccaeb57363d4902b296eb297da459e3
+  - user: aa6d3713da1a4e1eac92dd176a3ae708
+  - user: 441ffac368ed4f50911212c0816b227a
+panel: true
+icon: mdi:view-dashboard-variant-outline
+badges: []
+cards:
+
+  - type: custom:layout-card
+    layout_type: custom:masonry-layout
+    layout:
+      max_cols: 2
+
+    cards:
+
+      #Dashboard shortcuts
+      - !include /config/lovelace/cards/quick_status_landscape.yaml
+
+      #Who's Home
+      - !include /config/lovelace/cards/whos_home.yaml
+      
+      #AC
+      - !include /config/lovelace/cards/control_ac.yaml
+
+
+      #Windows
+      - !include /config/lovelace/cards/control_windows.yaml
+
+      #Lights
+      - !include /config/lovelace/cards/control_lights.yaml
+
+      #Shower
+      - !include /config/lovelace/cards/control_shower.yaml
+
+      #Devices
+      - !include /config/lovelace/cards/devices.yaml
+
+      #Scenes
+      - !include /config/lovelace/cards/control_scenes.yaml
+
+      #Power
+      - !include /config/lovelace/cards/power.yaml

@@ -146,21 +146,21 @@ cards:
     default: hide
     id: entrance
     card:
-      !include /config/lovelace/cards/dashboard_entrance.yaml
+      !include /config/lovelace/cards/quick_status_entrance.yaml
 
   #Internet
   - type: custom:local-conditional-card
     default: hide
     id: internet
     card:
-      !include /config/lovelace/cards/dashboard_internet.yaml
+      !include /config/lovelace/cards/quick_status_internet.yaml
 
   #Cameras
   - type: custom:local-conditional-card
     default: hide
     id: cameras
     card:
-      !include /config/lovelace/cards/dashboard_cameras.yaml
+      !include /config/lovelace/cards/quick_status_cameras.yaml
 
 
   #Fridges
@@ -168,11 +168,11 @@ cards:
     default: hide
     id: fridges
     card:
-      !include /config/lovelace/cards/dashboard_fridges.yaml
+      !include /config/lovelace/cards/quick_status_fridges.yaml
 
   #Entities
   - type: custom:local-conditional-card
     default: hide
     id: entities
     card:
-      !include /config/lovelace/cards/dashboard_entities.yaml
+      !include /config/lovelace/cards/quick_status_entities.yaml

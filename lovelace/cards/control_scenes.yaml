@@ -1,0 +1,32 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: container
+    name: One Tap Actions
+    custom_fields:
+      buttons:
+        card:
+          type: horizontal-stack
+          cards:
+            - type: custom:button-card
+              template: ha-button
+              entity: sensor.evening_scene
+              action: call-service
+              name: Evening
+              icon: mdi:floor-lamp-outline
+              tap_action:
+                action: call-service
+                service: scene.turn_on
+                service_data:
+                  entity_id: scene.evening
+            - type: custom:button-card
+              template: ha-button
+              entity: sensor.sleep_scene
+              name: Sleep
+              icon: mdi:sleep
+              tap_action:
+                action: call-service
+                service: scene.turn_on
+                service_data:
+                  entity_id: scene.sleep
+

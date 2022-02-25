@@ -1,0 +1,178 @@
+type: vertical-stack
+cards:
+#Title
+  - type: custom:button-card
+    template: title-large
+    name: Dashboard
+
+#Container Parent Buttons
+  - type: horizontal-stack
+    cards:
+      #Entrance Button
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: call-service
+          service: local_conditional_card.set
+          service_data:
+            ids:
+              - entrance: toggle
+              - internet: false
+              - cameras: false
+              - fridges: false
+              - entities: false
+        hold_action:
+          action: more-info
+        entity: sensor.front_door_combined
+        name: Entrance
+        icon_height: 50px
+        state:
+          - value: Open, Unlocked
+            color: red
+            icon: mdi:door-open
+            styles:
+              icon:
+                - animation: blink 2s ease infinite
+          - value: Open, Locked
+            color: red
+            icon: mdi:door-open
+            styles:
+              icon:
+                - animation: blink 2s ease infinite
+          - value: Closed, Unlocked
+            color: orange
+            icon: mdi:door-closed
+          - value: Closed, Locked
+            color: green
+            icon: mdi:door-closed-lock
+
+      #Internet Button
+      - type: custom:button-card
+        template: internet
+        name: Internet
+        entity: binary_sensor.internet_connection
+        tap_action:
+          action: call-service
+          service: local_conditional_card.set
+          service_data:
+            ids:
+              - entrance: false
+              - internet: toggle
+              - cameras: false
+              - fridges: false
+              - entities: false
+        hold_action:
+          action: more-info
+
+      #Cameras Button
+      - type: custom:button-card
+        template: camera
+        name: Cameras
+        entity: binary_sensor.cameras_online
+        tap_action:
+          action: call-service
+          service: local_conditional_card.set
+          service_data:
+            ids:
+              - entrance: false
+              - internet: false
+              - cameras: toggle
+              - fridges: false
+              - entities: false
+        hold_action:
+          action: more-info
+
+      #Fridges Button
+      - type: custom:button-card
+        template: ha-button
+        name: Fridges
+        entity: group.fridges
+        state:
+          - value: 'on'
+            icon: mdi:fridge-alert-outline
+            color: red
+            styles:
+              icon:
+                - animation: blink 2s ease infinite
+          - value: 'off'
+            icon: mdi:fridge-outline
+            color: green
+        tap_action:
+          action: call-service
+          service: local_conditional_card.set
+          service_data:
+            ids:
+              - entrance: false
+              - internet: false
+              - cameras: false
+              - fridges: toggle
+              - entities: false
+        hold_action:
+          action: more-info
+
+      #Entities Button
+      - type: custom:state-switch
+        entity: user
+        states:
+          Shlomi:
+            type: custom:button-card
+            template: ha-button
+            name: Entities
+            entity: sensor.unavailable_entities
+            state:
+              - operator: default
+                icon: mdi:home-assistant
+                color: red
+              - value: Online
+                icon: mdi:home-assistant
+                color: green
+            tap_action:
+              action: call-service
+              service: local_conditional_card.set
+              service_data:
+                ids:
+                  - entrance: false
+                  - internet: false
+                  - cameras: false
+                  - fridges: false
+                  - entities: toggle
+            hold_action:
+              action: more-info
+
+#Hidden Cards
+
+  #Entrance
+  - type: custom:local-conditional-card
+    default: hide
+    id: entrance
+    card:
+      !include /config/lovelace/cards/quick_status_entrance.yaml
+
+  #Internet
+  - type: custom:local-conditional-card
+    default: hide
+    id: internet
+    card:
+      !include /config/lovelace/cards/quick_status_internet.yaml
+
+  #Cameras
+  - type: custom:local-conditional-card
+    default: hide
+    id: cameras
+    card:
+      !include /config/lovelace/cards/quick_status_cameras.yaml
+
+
+  #Fridges
+  - type: custom:local-conditional-card
+    default: hide
+    id: fridges
+    card:
+      !include /config/lovelace/cards/quick_status_fridges.yaml
+
+  #Entities
+  - type: custom:local-conditional-card
+    default: hide
+    id: entities
+    card:
+      !include /config/lovelace/cards/quick_status_entities.yaml

@@ -5,6 +5,7 @@ tv_remote:
       - type: custom:lg-remote-control
         entity:
           - '[[entity_id]]'
+        mac: FF:FF:FF:FF:FF:FF
         colors:
           buttons: var(--card-background-color, white)
         sources:

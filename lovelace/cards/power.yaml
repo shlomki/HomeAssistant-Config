@@ -1,0 +1,136 @@
+#Power
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: Power
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: ha-button
+        name: UPS
+        show_label: true
+        icon: mdi:power-standby
+        entity: sensor.ups_status
+        styles:
+          card:
+            - width: 95px
+            - height: 100%
+          label:
+            - font-size: 10px
+        state:
+          - value: ONBATT
+            color: red
+            label: >-
+              [[[ return states['sensor.ups_battery'].state  + '% |
+              ' + states['sensor.ups_time_left'].state + 'm' ]]]
+            icon: mdi:alert
+            styles:
+              icon:
+                - animation: blink 2s ease infinite
+          - value: COMMLOST
+            color: orange
+            label: Connection Lost
+            icon: mdi:alert
+          - value: ONLINE
+            color: green
+            label: >-
+              [[[ var percent = states['sensor.ups_battery'].state;
+              return ((percent < 99) ? percent + '%' : '') ]]]
+        tap_action:
+          action: fire-dom-event
+          browser_mod:
+            command: popup
+            hide_header: false
+            title: UPS
+            card:
+              type: entities
+              entities:
+                - entity: sensor.ups_status
+                - entity: sensor.ups_battery
+                - entity: sensor.ups_load
+                - entity: sensor.ups_time_left
+                - entity: sensor.ups_time_on_battery
+                - entity: sensor.ups_transfer_count
+              title: UPS
+        hold_action:
+          action: more-info
+      - type: vertical-stack
+        cards:
+          - type: custom:button-card
+            layout: icon_name_state2nd
+            entity: sensor.power_cost_per_hour
+            icon: mdi:flash-outline
+            show_state: true
+            name: Now
+            state:
+              - operator: ''
+                value: 1.5
+                color: red
+              - operator: default
+                color: green
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                command: popup
+                hide_header: false
+                title: Power Consumption
+                card:
+                  type: entities
+                  entities:
+                    - entity: sensor.power_cost_per_hour
+                    - entity: sensor.energy_total_today_cost
+                    - entity: sensor.energy_total_next_bill_cost
+                    - entity: sensor.power_total
+                    - entity: sensor.shelly_3em_channel_a_power
+                    - entity: sensor.shelly_3em_channel_b_power
+                    - entity: sensor.shelly_3em_channel_c_power
+                  show_header_toggle: false
+            hold_action:
+              action: more-info
+          - type: custom:button-card
+            layout: icon_name_state2nd
+            entity: sensor.energy_total_next_bill_cost
+            icon: mdi:calendar-month-outline
+            show_state: true
+            name: Next Bill
+            state:
+              - operator: ''
+                value: 600
+                color: red
+              - operator: default
+                value: 1.5
+                color: green
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                command: popup
+                hide_header: false
+                title: Power Consumption
+                card:
+                  type: entities
+                  entities:
+                    - entity: sensor.power_cost_per_hour
+                    - entity: sensor.energy_total_today_cost
+                    - entity: sensor.energy_total_next_bill_cost
+                    - entity: sensor.power_total
+                    - entity: sensor.shelly_3em_channel_a_power
+                    - entity: sensor.shelly_3em_channel_b_power
+                    - entity: sensor.shelly_3em_channel_c_power
+                  show_header_toggle: false
+            hold_action:
+              action: more-info
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.energy_total_today_cost
+        aggregate_func: max
+        icon: mdi:flash
+        show:
+          name: false
+          icon: false
+          graph: bar
+          labels: false
+        group_by: date
+        hours_to_show: 96
+        bar_spacing: 10
+        lower_bound: 0

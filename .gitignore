@@ -10,6 +10,7 @@ tts
 custom_components
 camera_snaps
 shelly
+www/camera_snaps
 
 # files/folders whitelist
 !*.yaml
@@ -21,6 +22,8 @@ shelly
 !python_scripts
 !custom_components
 !custom_components/time_counter.py
+!lovelace
+!lovelace/*
 
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 ip_bans.yaml
@@ -34,6 +37,7 @@ known_devices.yaml
 *.bak
 *.config
 config/BroadlinkSwitches
+python_scripts/shellies_discovery.py
 
 #Empty Files
 automations.yaml

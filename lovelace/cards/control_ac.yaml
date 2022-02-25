@@ -1,0 +1,160 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: container
+    name: Air Conditioning
+    custom_fields:
+      buttons:
+        card:
+          type: vertical-stack
+          cards:
+            - type: horizontal-stack
+              cards:
+                - type: custom:button-card
+                  template: climate-button
+                  entity: climate.ac_damper_living_room
+                  name: Living Room
+                  icon: mdi:sofa
+                  triggers_update:
+                    - binary_sensor.balcony_window
+                    - binary_sensor.kitchen_window
+                    - sensor.living_room_temperature_monitor
+                  variables:
+                    window_entity_ids:
+                      - binary_sensor.balcony_window
+                      - binary_sensor.kitchen_window
+                    temperature_monitor_entity_id: sensor.living_room_temperature_monitor
+                - type: custom:button-card
+                  template: climate-button
+                  entity: climate.ac_damper_office
+                  name: Office
+                  icon: mdi:desktop-mac
+                  variables:
+                    window_entity_ids: binary_sensor.office_window
+                    temperature_monitor_entity_id: sensor.office_temperature_monitor
+                  triggers_update:
+                    - binary_sensor.office_window
+                    - sensor.office_temperature_monitor
+                - type: custom:button-card
+                  template: climate-button
+                  entity: climate.ac_damper_birds
+                  name: Birds
+                  icon: mdi:bird
+                  variables:
+                    window_entity_ids: binary_sensor.birds_window
+                    temperature_monitor_entity_id: sensor.birds_temperature_monitor
+                  triggers_update:
+                    - binary_sensor.birds_window
+                    - sensor.birds_temperature_monitor
+                - type: custom:button-card
+                  template: climate-button
+                  entity: climate.ac_damper_riley
+                  name: Riley
+                  icon: mdi:face-woman-outline
+                  variables:
+                    window_entity_ids: binary_sensor.riley_window
+                    temperature_monitor_entity_id: sensor.riley_temperature_monitor
+                  lock:
+                    enabled: >-
+                      [[[ return
+                      states["input_boolean.riley_is_sleeping"].state
+                      == "on" ]]]
+                    duration: 3
+                  triggers_update:
+                    - binary_sensor.riley_window
+                    - sensor.riley_temperature_monitor
+                - type: custom:button-card
+                  template: climate-button
+                  entity: climate.ac_damper_bedroom
+                  name: Bedroom
+                  icon: mdi:bed
+                  variables:
+                    window_entity_ids: binary_sensor.bedroom_window
+                    temperature_monitor_entity_id: sensor.bedroom_temperature_monitor
+                  triggers_update:
+                    - binary_sensor.bedroom_window
+                    - sensor.bedroom_temperature_monitor
+            - type: conditional
+              conditions:
+                - entity: input_boolean.show_fans_in_ui
+                  state: 'on'
+              card:
+                type: vertical-stack
+                cards:
+                  - type: custom:button-card
+                    template: title
+                    name: Fans
+                    show_icon: false
+                    double_tap_action:
+                      action: call-service
+                      service: cover.toggle
+                      service_data:
+                        entity_id: cover.curtains
+                      confirmation:
+                        text: >-
+                          [[[ return 'Are you sure? ' +
+                          (states['cover.curtains'].state == 'off'
+                          ? 'Open' : 'Close') + ' all Curtains in
+                          the house?' ]]]
+                  - type: horizontal-stack
+                    cards:
+                      - type: vertical-stack
+                        cards:
+                          - type: custom:button-card
+                            template: ha-button-half
+                            entity: fan.balcony_fan
+                            name: Balcony
+                            icon: mdi:fan
+                            hold_action:
+                              action: more-info
+                          - type: custom:button-card
+                            template: ha-button-half
+                            entity: fan.living_room_fan
+                            name: Living Room
+                            icon: mdi:fan
+                            hold_action:
+                              action: fire-dom-event
+                              browser_mod:
+                                command: popup
+                                hide_header: false
+                                title: Living Room Fan
+                                card:
+                                  entity: fan.living_room_fan
+                                  name: Living Room Fan
+                                  type: custom:fan-xiaomi
+                      - type: custom:button-card
+                        template: ha-button
+                        entity: fan.blue_fan
+                        icon: mdi:fan
+                        hold_action:
+                          action: more-info
+                      - type: custom:button-card
+                        template: ha-button
+                        entity: fan.gray_fan
+                        icon: mdi:fan
+                        hold_action:
+                          action: more-info
+                        lock:
+                          enabled: >-
+                            [[[ return
+                            states["input_boolean.riley_is_sleeping"].state
+                            == "on" ]]]
+                          duration: 3
+                        triggers_update:
+                          - binary_sensor.riley_window
+                          - input_boolean.riley_is_sleeping
+                      - type: custom:button-card
+                        template: ha-button
+                        entity: fan.bedroom_fan
+                        name: Bedroom Fan
+                        icon: mdi:fan
+                        hold_action:
+                          action: fire-dom-event
+                          browser_mod:
+                            command: popup
+                            hide_header: false
+                            title: Bedroom Fan
+                            card:
+                              entity: fan.bedroom_fan
+                              name: Bedroom Fan
+                              type: custom:fan-xiaomi
