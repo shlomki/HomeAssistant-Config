@@ -182,7 +182,7 @@ group:
       - switch.living_room_side_lamp_smart_plug
       #- switch.gray_fan_smart_plug
       - sensor.outside_temperature
-      - switch.il_smart_plug_1
+      # - switch.il_smart_plug_1
       - switch.il_smart_plug_2
       - cover.kitchen_shutter_switch
       - cover.kitchen_curtain_switch
