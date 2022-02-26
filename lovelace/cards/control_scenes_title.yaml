@@ -1,0 +1,7 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: Quick Actions
+
+  - !include /config/lovelace/cards/control_scenes.yaml

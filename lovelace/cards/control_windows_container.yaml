@@ -1,0 +1,13 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: container
+    name: Windows
+    custom_fields:
+      buttons:
+        card:
+          type: vertical-stack
+          cards:
+
+            - !include /config/lovelace/cards/control_windows_shutters.yaml
+            - !include /config/lovelace/cards/control_windows_curtains.yaml

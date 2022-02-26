@@ -1,82 +1,74 @@
-type: vertical-stack
+type: horizontal-stack
 cards:
   - type: custom:button-card
-    template: container
-    name: Shower Heating
-    custom_fields:
-      buttons:
-        card:
-          type: horizontal-stack
-          cards:
-            - type: custom:button-card
-              template: ha-button
-              icon: mdi:water-boiler
-              name: Boiler
-              entity: switch.water_boiler
-              tap_action:
-                action: toggle
-              hold_action:
-                action: more-info
-            - type: grid
-              columns: 2
-              cards:
-                - type: custom:button-card
-                  template: timer-button
-                  name: 30m
-                  entity: input_number.water_boiler_timer_duration
-                  variables:
-                    value: 30
-                - type: custom:button-card
-                  template: timer-button
-                  name: 45m
-                  entity: input_number.water_boiler_timer_duration
-                  variables:
-                    value: 45
-                - type: custom:button-card
-                  template: timer-button
-                  name: 1H
-                  entity: input_number.water_boiler_timer_duration
-                  variables:
-                    value: 60
-                - type: custom:button-card
-                  template: timer-button
-                  name: 2H
-                  entity: input_number.water_boiler_timer_duration
-                  variables:
-                    value: 120
-            - type: custom:button-card
-              template: ha-button
-              icon: mdi:radiator
-              name: Heater
-              entity: switch.bathroom_heater
-              tap_action:
-                action: toggle
-              hold_action:
-                action: more-info
-            - type: grid
-              columns: 2
-              cards:
-                - type: custom:button-card
-                  template: timer-button
-                  name: 10m
-                  entity: input_number.bathroom_heater_timer_duration
-                  variables:
-                    value: 10
-                - type: custom:button-card
-                  template: timer-button
-                  name: 20m
-                  entity: input_number.bathroom_heater_timer_duration
-                  variables:
-                    value: 20
-                - type: custom:button-card
-                  template: timer-button
-                  name: 30m
-                  entity: input_number.bathroom_heater_timer_duration
-                  variables:
-                    value: 30
-                - type: custom:button-card
-                  template: timer-button
-                  name: 40m
-                  entity: input_number.bathroom_heater_timer_duration
-                  variables:
-                    value: 40
+    template: ha-button
+    icon: mdi:water-boiler
+    name: Boiler
+    entity: switch.water_boiler
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+  - type: grid
+    columns: 2
+    cards:
+      - type: custom:button-card
+        template: timer-button
+        name: 30m
+        entity: input_number.water_boiler_timer_duration
+        variables:
+          value: 30
+      - type: custom:button-card
+        template: timer-button
+        name: 45m
+        entity: input_number.water_boiler_timer_duration
+        variables:
+          value: 45
+      - type: custom:button-card
+        template: timer-button
+        name: 1H
+        entity: input_number.water_boiler_timer_duration
+        variables:
+          value: 60
+      - type: custom:button-card
+        template: timer-button
+        name: 2H
+        entity: input_number.water_boiler_timer_duration
+        variables:
+          value: 120
+  - type: custom:button-card
+    template: ha-button
+    icon: mdi:radiator
+    name: Heater
+    entity: switch.bathroom_heater
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+  - type: grid
+    columns: 2
+    cards:
+      - type: custom:button-card
+        template: timer-button
+        name: 10m
+        entity: input_number.bathroom_heater_timer_duration
+        variables:
+          value: 10
+      - type: custom:button-card
+        template: timer-button
+        name: 20m
+        entity: input_number.bathroom_heater_timer_duration
+        variables:
+          value: 20
+      - type: custom:button-card
+        template: timer-button
+        name: 30m
+        entity: input_number.bathroom_heater_timer_duration
+        variables:
+          value: 30
+      - type: custom:button-card
+        template: timer-button
+        name: 40m
+        entity: input_number.bathroom_heater_timer_duration
+        variables:
+          value: 40

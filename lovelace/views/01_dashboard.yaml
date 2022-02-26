@@ -13,7 +13,7 @@ cards:
     cards:
 
       #Dashboard shortcuts
-      - !include /config/lovelace/cards/quick_status_landscape.yaml
+      - !include /config/lovelace/cards/quick_status.yaml
 
       #Control shortcuts
       - !include /config/lovelace/cards/control.yaml

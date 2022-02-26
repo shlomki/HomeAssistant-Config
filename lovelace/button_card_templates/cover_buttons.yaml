@@ -16,6 +16,7 @@ cover-up:
     service_data:
       entity_id: |
         [[[ return entity.entity_id; ]]]
+
 cover-stop:
   variables:
     var_name: window_entity_ids
@@ -67,6 +68,7 @@ cover-stop:
     service_data:
       entity_id: |
         [[[ return entity.entity_id; ]]]
+        
 cover-down:
   hold_action:
     action: more-info

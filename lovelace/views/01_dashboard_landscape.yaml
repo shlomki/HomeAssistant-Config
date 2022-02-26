@@ -10,37 +10,43 @@ icon: mdi:view-dashboard-variant-outline
 badges: []
 cards:
 
-  - type: custom:layout-card
-    layout_type: custom:masonry-layout
-    layout:
-      max_cols: 2
+  - type: vertical-stack
+    cards: 
+      - type: custom:layout-card
+        layout_type: grid
 
-    cards:
+        layout_options:
+          grid-template-columns: 1fr 1fr
+          grid-template-rows: auto
+          grid-gap: 0px 10px
 
-      #Dashboard shortcuts
-      - !include /config/lovelace/cards/quick_status_landscape.yaml
+        cards:
 
-      #Who's Home
-      - !include /config/lovelace/cards/whos_home.yaml
-      
-      #AC
-      - !include /config/lovelace/cards/control_ac.yaml
+          #Dashboard shortcuts
+          - !include /config/lovelace/cards/quick_status.yaml
 
+          #AC
+          - !include /config/lovelace/cards/control_ac_title.yaml
 
-      #Windows
-      - !include /config/lovelace/cards/control_windows.yaml
+          #Windows
+          - !include /config/lovelace/cards/control_windows_shutters.yaml
+          - !include /config/lovelace/cards/control_windows_curtains.yaml
 
-      #Lights
-      - !include /config/lovelace/cards/control_lights.yaml
+          #Shower
+          - !include /config/lovelace/cards/control_shower_title.yaml
 
-      #Shower
-      - !include /config/lovelace/cards/control_shower.yaml
+          #Devices
+          - !include /config/lovelace/cards/devices.yaml
 
-      #Devices
-      - !include /config/lovelace/cards/devices.yaml
+          #Scenes
+          - !include /config/lovelace/cards/control_scenes_title.yaml
 
-      #Scenes
-      - !include /config/lovelace/cards/control_scenes.yaml
+          #Power
+          - !include /config/lovelace/cards/power.yaml
 
-      #Power
-      - !include /config/lovelace/cards/power.yaml
+          #Who's Home
+          - !include /config/lovelace/cards/whos_home.yaml
+
+          #Lights
+          - !include /config/lovelace/cards/control_lights_title.yaml
+

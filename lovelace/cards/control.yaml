@@ -176,7 +176,7 @@ cards:
       #Scenes
       - type: custom:button-card
         template: ha-button
-        name: One Tap
+        name: Quick
         icon: mdi:gesture-double-tap
         styles:
           card:
@@ -202,33 +202,33 @@ cards:
     default: hide
     id: lights
     card:
-      !include /config/lovelace/cards/control_lights.yaml
+      !include /config/lovelace/cards/control_lights_container.yaml
 
 #Windows
   - type: custom:local-conditional-card
     default: hide
     id: windows
     card:
-      !include /config/lovelace/cards/control_windows.yaml
+      !include /config/lovelace/cards/control_windows_container.yaml
 
   #AC
   - type: custom:local-conditional-card
     default: hide
     id: ac
     card:
-      !include /config/lovelace/cards/control_ac.yaml
+      !include /config/lovelace/cards/control_ac_container.yaml
 
   #Shower
   - type: custom:local-conditional-card
     default: hide
     id: shower
     card:
-      !include /config/lovelace/cards/control_shower.yaml
+      !include /config/lovelace/cards/control_shower_container.yaml
 
 #Scenes
   - type: custom:local-conditional-card
     default: hide
     id: scenes
     card:
-      !include /config/lovelace/cards/control_scenes.yaml
+      !include /config/lovelace/cards/control_scenes_container.yaml
         

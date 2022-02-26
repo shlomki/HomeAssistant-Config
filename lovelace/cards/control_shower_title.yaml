@@ -1,0 +1,16 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: Shower
+    show_icon: false
+    double_tap_action:
+      action: call-service
+      service: script.toggle_shower
+      confirmation:
+        text: >-
+          [[[ return 'Are you sure? Turn ' +
+          (states['group.shower'].state == 'off' ? 'ON' : 'OFF')
+          + ' Boiler & Heater?' ]]]
+
+  - !include /config/lovelace/cards/control_shower.yaml
