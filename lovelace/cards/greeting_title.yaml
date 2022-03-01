@@ -1,0 +1,8 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: >
+      [[[ return states["sensor.greeting_title"].state; ]]]
+
+  - !include /config/lovelace/cards/greeting.yaml

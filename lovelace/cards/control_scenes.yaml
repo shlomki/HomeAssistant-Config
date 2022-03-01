@@ -11,6 +11,8 @@ cards:
       service: scene.turn_on
       service_data:
         entity_id: scene.evening
+    lock:
+      enabled: true
   - type: custom:button-card
     template: ha-button
     entity: sensor.sleep_scene
@@ -21,3 +23,5 @@ cards:
       service: scene.turn_on
       service_data:
         entity_id: scene.sleep
+    lock:
+      enabled: true

@@ -9,44 +9,51 @@ panel: true
 icon: mdi:view-dashboard-variant-outline
 badges: []
 cards:
-
   - type: vertical-stack
-    cards: 
-      - type: custom:layout-card
-        layout_type: grid
+    cards:
 
-        layout_options:
-          grid-template-columns: 1fr 1fr
-          grid-template-rows: auto
-          grid-gap: 0px 10px
+      #Title
+      - type: custom:button-card
+        template: title-large
+        name: The Green Family
 
+
+        
+      - type: horizontal-stack
         cards:
 
-          #Dashboard shortcuts
-          - !include /config/lovelace/cards/quick_status.yaml
+          - type: vertical-stack
+            cards:
 
-          #AC
-          - !include /config/lovelace/cards/control_ac_title.yaml
+              - type: horizontal-stack
+                cards:
 
-          #Windows
-          - !include /config/lovelace/cards/control_windows_shutters.yaml
-          - !include /config/lovelace/cards/control_windows_curtains.yaml
+                  #Greeting
+                  - !include /config/lovelace/cards/greeting_title.yaml
 
-          #Shower
-          - !include /config/lovelace/cards/control_shower_title.yaml
+                  #Weather
+                  - !include /config/lovelace/cards/weather_title.yaml
 
-          #Devices
-          - !include /config/lovelace/cards/devices.yaml
+              #Dashboard shortcuts
+              - !include /config/lovelace/cards/quick_status_title.yaml
 
-          #Scenes
-          - !include /config/lovelace/cards/control_scenes_title.yaml
+              #Who's Home
+              - !include /config/lovelace/cards/whos_home.yaml
 
-          #Power
-          - !include /config/lovelace/cards/power.yaml
+              
 
-          #Who's Home
-          - !include /config/lovelace/cards/whos_home.yaml
+          - type: vertical-stack
+            cards:
+              
+              #Devices
+              - !include /config/lovelace/cards/devices.yaml
 
-          #Lights
-          - !include /config/lovelace/cards/control_lights_title.yaml
+              #Control shortcuts
+              - !include /config/lovelace/cards/control.yaml
+
+
+
+
+
+
 

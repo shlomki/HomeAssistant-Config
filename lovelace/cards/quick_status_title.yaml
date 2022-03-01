@@ -1,0 +1,7 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: Smart-Home Status
+
+  - !include /config/lovelace/cards/quick_status.yaml

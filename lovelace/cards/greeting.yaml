@@ -1,0 +1,11 @@
+type: markdown
+content: '{{ states(''sensor.greeting_body'') }}'
+style: |
+  ha-card {
+    font-family: helvetica neue, helvetica, Arial;
+    color: 'rgba(255, 255, 255, 0.7)';
+    font-size: 25px;
+    font-weight: 300;
+    letter-spacing: '-0.05vw';
+  }
+  

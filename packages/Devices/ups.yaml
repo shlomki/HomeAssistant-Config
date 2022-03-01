@@ -11,6 +11,12 @@ sensor:
       - timeleft
       - numxfers
 
+  - platform: template
+    sensors:
+      power_outage_today:
+        friendly_name: "Was there a power outage today?"
+        value_template: "{{ state_attr('input_datetime.last_power_outage', 'timestamp') | timestamp_custom('%Y-%m-%d') == now().strftime('%Y-%m-%d') }}"
+
 input_datetime:
   last_power_outage:
     name: Last Power Outage

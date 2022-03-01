@@ -12,6 +12,11 @@ cards:
   - type: vertical-stack
     cards:
 
+      #Title
+      - type: custom:button-card
+        template: title-large
+        name: Dashboard
+
       #Dashboard shortcuts
       - !include /config/lovelace/cards/quick_status.yaml
 

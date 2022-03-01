@@ -2,3 +2,26 @@ switcher_kis:
   phone_id: !secret switcher_phone_id
   device_id: !secret switcher_device_id
   device_password: !secret switcher_device_password
+
+sensor:
+  - platform: sql
+    queries:
+      - name: Water Boiler ON Previous Start Time
+        query: "SELECT * FROM (SELECT state, state_id, last_changed FROM states WHERE entity_id = 'switch.water_boiler' ORDER BY state_id DESC LIMIT 2) two_entity ORDER BY state_id ASC LIMIT 1;"
+        column: "last_changed"
+
+  - platform: history_stats
+    name: Water Boiler ON Duration Today
+    entity_id: switch.water_boiler
+    state: "on"
+    type: time
+    start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+    end: "{{ now() }}"
+
+  - platform: history_stats
+    name: Water Boiler ON Duration Last Time
+    entity_id: switch.water_boiler
+    state: "on"
+    type: time
+    start: "{{ states('sensor.water_boiler_on_previous_start_time') + now().strftime('%z') }}"
+    end: "{{ now() }}"

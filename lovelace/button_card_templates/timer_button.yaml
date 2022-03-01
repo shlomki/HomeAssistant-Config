@@ -13,7 +13,7 @@ timer-button:
         [[[ return variables.value; ]]]
   styles:
     card:
-      - height: 45px
+      - height: 48px
   state:
     - value: |
         [[[ return variables.value; ]]]

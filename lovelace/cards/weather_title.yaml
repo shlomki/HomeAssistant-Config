@@ -1,0 +1,7 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: Weather
+
+  - !include /config/lovelace/cards/weather.yaml

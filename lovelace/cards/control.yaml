@@ -192,8 +192,6 @@ cards:
               - shower: false
               - scenes: toggle
         color: rgb(68, 115, 158)
-        lock:
-          enabled: true
 
 #Hidden Cards
 

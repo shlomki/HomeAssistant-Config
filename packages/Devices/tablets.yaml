@@ -73,9 +73,9 @@ script:
   autoremote_tablet_reolink_command:
     mode: parallel
     sequence:
-      - service: script.tablet_command
+      - service: script.autoremote_tablet_command
         data:
-          ip: "{{ states('input_text.' + tablet + '_ip') }}"
+          tablet: "{{ tablet }}"
           message: "re"
 
   toggle_tablet_setting:

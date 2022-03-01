@@ -1,9 +1,5 @@
 type: vertical-stack
 cards:
-#Title
-  - type: custom:button-card
-    template: title-large
-    name: Dashboard
 
 #Container Parent Buttons
   - type: horizontal-stack
