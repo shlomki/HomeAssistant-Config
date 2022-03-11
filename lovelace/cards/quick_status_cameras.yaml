@@ -14,6 +14,8 @@ cards:
                   template: camera
                   entity: device_tracker.edgeos_camera_balcony
                   name: Balcony
+                  variables:
+                    stream: camera.balcony
                 - type: custom:button-card
                   template: camera
                   entity: device_tracker.edgeos_camera_frontdoor

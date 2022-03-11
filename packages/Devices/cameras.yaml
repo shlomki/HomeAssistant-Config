@@ -29,6 +29,11 @@ camera:
     stream_source: !secret camera_living_room_stream_url
 
   - platform: generic
+    name: Balcony
+    still_image_url: !secret camera_balcony_still_url
+    stream_source: !secret camera_balcony_stream_url
+
+  - platform: generic
     name: Office
     still_image_url: !secret camera_office_still_url
     stream_source: !secret camera_office_stream_url
