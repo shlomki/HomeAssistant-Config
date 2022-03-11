@@ -4,33 +4,26 @@ template:
         icon: mdi:hand-wave
         state: >-
            {% set t = now().hour %}
-           {% if t <= 1 %} Good night {{'\uD83D\uDE34'}}
-           {% elif t <= 3 %} Good night {{'\uD83D\uDE34'}}
-           {% elif t <= 5 %} Good night {{'\uD83D\uDE34'}}
-           {% elif t <= 7 %} Good morning {{'\uD83C\uDF73'}}
-           {% elif t <= 9 %} Good morning {{'\uD83C\uDF73'}}
-           {% elif t <= 11 %} Good morning {{'\uD83C\uDF73'}}
-           {% elif t <= 13 %} Good afternoon {{'\U0001F60A'}}
-           {% elif t <= 15 %} Good afternoon {{'\U0001F60E'}}
-           {% elif t <= 17 %} Good afternoon {{'\U0001F44B\U0001F3FB'}}
-           {% elif t <= 19 %} Good evening {{'\U0001F44B\U0001F3FB'}}
-           {% elif t <= 22 %} Good evening {{'\U0001F60C'}}
-           {% elif t <= 23 %} Good evening {{'\U0001F974'}}
-           {% else %} Good evening {{'\U0001F974'}}
+           {% if t <= 0 %} Good Night
+           {% elif t <= 7 %} Good Night
+           {% elif t <= 13 %} Good Morning
+           {% elif t <= 19 %} Good Afternoon
+           {% elif t <= 21 %} Good Evening
+           {% elif t <= 23 %} Good Night
            {% endif %}
 
   - sensor:
       - name: Greeting Body
         icon: mdi:hand-wave
         state: >
-            {% if states('sensor.unavailable_entities') == "Online" %}<p>{{
-            "\uD83D\uDEA8" }}Some problems have been detected in the smart-home, please let Shlomi know. {% endif %}
-            
-            {% if states('sensor.power_outage_today') == "True" %}<p>{{
-            "\uD83D\uDEA8" }}There was a power outage today at {{ state_attr('input_datetime.last_power_outage', 'timestamp') | timestamp_custom('%I:%M %p') }}. {% endif %}
+            {% if states('sensor.power_outage_today') == "True" %}<p>
+            - There was a power outage today at {{ state_attr('input_datetime.last_power_outage', 'timestamp') | timestamp_custom('%I:%M %p') }}. {% endif %}
             
             {% if states('switch.water_boiler') == 'on' %}
-            <p>{{"\uD83D\uDEA8" }}Water boiler has been running for {{ state_attr('sensor.water_boiler_on_duration_last_time', 'value') }}.</p>
+            <p>- Water boiler has been running for {{ states('sensor.water_boiler_on_duration_last_time') }}.</p>
             {% elif states('switch.water_boiler') == 'off' %}
-            <p>{{"\uD83D\uDEA8" }}Water boiler has finished {{ as_datetime(as_timestamp(now()) - as_timestamp(states['switch.water_boiler'].last_updated)).strftime('%Hh %Mm') | replace('00h ', '') }} ago, after being on for {{ state_attr('sensor.water_boiler_on_duration_last_time', 'value') }}.</p>
+            <p>- Water boiler has finished {{ states('sensor.water_boiler_metrics_time_since_finished') }} ago, after being on for {{ states('sensor.water_boiler_metrics_duration_last_time') }}.</p>
             {% endif %}
+
+            {% set t = now().hour %}
+            {% if t <= 5 or t >= 22 %}<p>- It's rather late and the door is still unlocked.</p>{% endif %} 

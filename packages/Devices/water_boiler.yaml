@@ -3,25 +3,56 @@ switcher_kis:
   device_id: !secret switcher_device_id
   device_password: !secret switcher_device_password
 
-sensor:
-  - platform: sql
-    queries:
-      - name: Water Boiler ON Previous Start Time
-        query: "SELECT * FROM (SELECT state, state_id, last_changed FROM states WHERE entity_id = 'switch.water_boiler' ORDER BY state_id DESC LIMIT 2) two_entity ORDER BY state_id ASC LIMIT 1;"
-        column: "last_changed"
+input_datetime:
+  water_boiler_last_on:
+    has_date: true
+    has_time: true
+  water_boiler_last_off:
+    has_date: true
+    has_time: true
 
+automation:
+  - id: Save Water Boiler On Off Time
+    alias: Save Water Boiler On Off Time
+    trigger:
+      - platform: state
+        entity_id: switch.water_boiler
+        from: "on"
+        to: "off"
+      - platform: state
+        entity_id: switch.water_boiler
+        from: "off"
+        to: "on"
+    action:
+      service: input_datetime.set_datetime
+      data:
+        entity_id: "input_datetime.water_boiler_last_{{ trigger.to_state.state }}"
+        datetime: "{{ now() }}"
+
+sensor:
   - platform: history_stats
-    name: Water Boiler ON Duration Today
+    name: Water Boiler Metrics Duration Today
     entity_id: switch.water_boiler
     state: "on"
     type: time
     start: "{{ now().replace(hour=0, minute=0, second=0) }}"
     end: "{{ now() }}"
 
-  - platform: history_stats
-    name: Water Boiler ON Duration Last Time
-    entity_id: switch.water_boiler
-    state: "on"
-    type: time
-    start: "{{ states('sensor.water_boiler_on_previous_start_time') + now().strftime('%z') }}"
-    end: "{{ now() }}"
+  - platform: template
+    sensors:
+      water_boiler_metrics_duration_last_time:
+        friendly_name: "Water Boiler Metrics Duration Last Time"
+        value_template: >
+          {% if is_state('switch.water_boiler', 'on') %}
+          {{ as_datetime(as_timestamp(now()) - state_attr('input_datetime.water_boiler_last_on', 'timestamp')).strftime('%-Hh %-Mm')  | replace('0h ', '') | replace('0m', '') }}
+          {% else %}
+          {{ as_datetime(state_attr('input_datetime.water_boiler_last_off', 'timestamp') - state_attr('input_datetime.water_boiler_last_on', 'timestamp')).strftime('%-Hh %-Mm')  | replace('0h ', '') | replace('0m', '') }}
+          {% endif %}
+          
+
+  - platform: template
+    sensors:
+      water_boiler_metrics_time_since_finished:
+        friendly_name: "Water Boiler Metrics Time Since Finished"
+        value_template: "{{ as_datetime(as_timestamp(now()) - state_attr('input_datetime.water_boiler_last_off', 'timestamp')).strftime('%-Hh %-Mm')  | replace('0h ', '') | replace('0m', '') }}"
+
