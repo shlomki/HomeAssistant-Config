@@ -20,19 +20,7 @@ cards:
             command: popup
             title: Living Room
             card:
-              type: custom:auto-entities
-              card:
-                type: entities
-              entities:
-                - type: custom:slider-entity-row
-                  entity: light.living_room_dimmable_lights
-                  full_row: true
-                  min: 1
-                  max: 100
-                  step: 5
-              filter:
-                include:
-                  - group: group.living_room_lights
+              !include /config/lovelace/room_cards/living_room/lights.yaml
         entity: group.living_room_lights
         name: Living Room
         icon: mdi:sofa

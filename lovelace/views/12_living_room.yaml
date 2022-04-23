@@ -1,0 +1,26 @@
+title: living-room
+path: living-room
+badges: []
+panel: false
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title-large
+        name: Living Room
+
+      - !include /config/lovelace/room_cards/living_room/camera.yaml
+
+      - !include /config/lovelace/room_cards/living_room/lights.yaml
+
+      - !include /config/lovelace/room_cards/living_room/window.yaml
+
+      - !include /config/lovelace/room_cards/living_room/devices.yaml
+
+
+#Room Name
+#Camera view
+#PTZ
+#Lights
+#Window
+#Device
