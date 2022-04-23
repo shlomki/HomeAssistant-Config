@@ -68,6 +68,7 @@ fan:
         value_template: "{{ states('input_boolean.gray_fan') }}"
         percentage_template: "{{ states('input_select.gray_fan_speed') }}"
         oscillating_template: "{{ 'True' if (states('input_boolean.gray_fan_oscillating') == 'on') else 'False' }}"
+        availability_template: "{{ not is_state('switch.gray_fan_smart_plug', 'unavailable') }} "
         turn_on:
           #Turn on smart plug if it's off
           - service: "{{ 'switch.turn_on' if states('switch.gray_fan_smart_plug') == 'off' else 'python_script.do_nothing' }}"

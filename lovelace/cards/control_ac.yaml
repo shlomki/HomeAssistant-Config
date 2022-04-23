@@ -90,51 +90,54 @@ cards:
                 the house?' ]]]
         - type: horizontal-stack
           cards:
-            - type: vertical-stack
-              cards:
+            - type: custom:button-card
+              template: ha-button
+              entity: fan.balcony_fan
+              name: Balcony
+              icon: mdi:fan
+              hold_action:
+                action: more-info
+            - type: custom:button-card
+              template: ha-button
+              entity: fan.living_room_fan
+              name: Living Room
+              icon: mdi:fan
+              hold_action:
+                action: fire-dom-event
+                browser_mod:
+                  command: popup
+                  hide_header: false
+                  title: Living Room Fan
+                  card:
+                    entity: fan.living_room_fan
+                    name: Living Room Fan
+                    type: custom:fan-xiaomi
+            # - type: custom:button-card
+            #   template: ha-button
+            #   entity: fan.blue_fan
+            #   icon: mdi:fan
+            #   hold_action:
+            #     action: more-info
+            - type: conditional
+              conditions:
+                - entity: fan.gray_fan
+                  state_not: 'unavailable'
+              card:
                 - type: custom:button-card
-                  template: ha-button-half
-                  entity: fan.balcony_fan
-                  name: Balcony
+                  template: ha-button
+                  entity: fan.gray_fan
                   icon: mdi:fan
                   hold_action:
                     action: more-info
-                - type: custom:button-card
-                  template: ha-button-half
-                  entity: fan.living_room_fan
-                  name: Living Room
-                  icon: mdi:fan
-                  hold_action:
-                    action: fire-dom-event
-                    browser_mod:
-                      command: popup
-                      hide_header: false
-                      title: Living Room Fan
-                      card:
-                        entity: fan.living_room_fan
-                        name: Living Room Fan
-                        type: custom:fan-xiaomi
-            - type: custom:button-card
-              template: ha-button
-              entity: fan.blue_fan
-              icon: mdi:fan
-              hold_action:
-                action: more-info
-            - type: custom:button-card
-              template: ha-button
-              entity: fan.gray_fan
-              icon: mdi:fan
-              hold_action:
-                action: more-info
-              lock:
-                enabled: >-
-                  [[[ return
-                  states["input_boolean.riley_is_sleeping"].state
-                  == "on" ]]]
-                duration: 3
-              triggers_update:
-                - binary_sensor.riley_window
-                - input_boolean.riley_is_sleeping
+                  lock:
+                    enabled: >-
+                      [[[ return
+                      states["input_boolean.riley_is_sleeping"].state
+                      == "on" ]]]
+                    duration: 3
+                  triggers_update:
+                    - binary_sensor.riley_window
+                    - input_boolean.riley_is_sleeping
             - type: custom:button-card
               template: ha-button
               entity: fan.bedroom_fan
