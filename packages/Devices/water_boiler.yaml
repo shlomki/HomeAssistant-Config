@@ -44,7 +44,7 @@ sensor:
         friendly_name: "Water Boiler Metrics Duration Last Time"
         value_template: >
           {% if is_state('switch.water_boiler', 'on') %}
-          {{ as_datetime(as_timestamp(now()) - state_attr('input_datetime.water_boiler_last_on', 'timestamp')).strftime('%-Hh %-Mm')  | replace('0h ', '') | replace('0m', '') }}
+          {{ as_datetime(as_timestamp(now()) - state_attr('input_datetime.water_boiler_last_on', 'timestamp')).strftime('%-Hh %-Mm') | replace('0h ', '') | replace('0m', '') }}
           {% else %}
           {{ as_datetime(state_attr('input_datetime.water_boiler_last_off', 'timestamp') - state_attr('input_datetime.water_boiler_last_on', 'timestamp')).strftime('%-Hh %-Mm')  | replace('0h ', '') | replace('0m', '') }}
           {% endif %}

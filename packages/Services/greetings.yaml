@@ -5,11 +5,11 @@ template:
         state: >-
            {% set t = now().hour %}
            {% if t <= 0 %} Good Night
-           {% elif t <= 7 %} Good Night
-           {% elif t <= 13 %} Good Morning
-           {% elif t <= 19 %} Good Afternoon
-           {% elif t <= 21 %} Good Evening
-           {% elif t <= 23 %} Good Night
+           {% elif t <= 6 %} Good Night
+           {% elif t <= 11 %} Good Morning
+           {% elif t <= 17 %} Good Afternoon
+           {% elif t <= 20 %} Good Evening
+           {% elif t <= 22 %} Good Night
            {% endif %}
 
   - sensor:
@@ -20,7 +20,7 @@ template:
             - There was a power outage today at {{ state_attr('input_datetime.last_power_outage', 'timestamp') | timestamp_custom('%I:%M %p') }}. {% endif %}
             
             {% if states('switch.water_boiler') == 'on' %}
-            <p>- Water boiler has been running for {{ states('sensor.water_boiler_on_duration_last_time') }}.</p>
+            <p>- Water boiler has been running for {{ states('sensor.water_boiler_metrics_duration_last_time') }}.</p>
             {% elif states('switch.water_boiler') == 'off' %}
             <p>- Water boiler has finished {{ states('sensor.water_boiler_metrics_time_since_finished') }} ago, after being on for {{ states('sensor.water_boiler_metrics_duration_last_time') }}.</p>
             {% endif %}
