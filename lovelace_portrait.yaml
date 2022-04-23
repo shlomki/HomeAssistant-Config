@@ -18,4 +18,5 @@ views:
   - !include /config/lovelace/views/09_servers.yaml
   - !include /config/lovelace/views/10_dev.yaml
   - !include /config/lovelace/views/12_living_room.yaml
+  - !include /config/lovelace/views/13_balcony.yaml
 
