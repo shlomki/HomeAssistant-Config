@@ -16,6 +16,9 @@ cards:
                   name: Balcony
                   variables:
                     stream: camera.balcony
+                  tap_action:
+                    action: navigate
+                    navigation_path: /lovelace-mobile/balcony
                 - type: custom:button-card
                   template: camera
                   entity: device_tracker.edgeos_camera_frontdoor
@@ -28,6 +31,9 @@ cards:
                   variables:
                     stream: camera.living_room
                   name: Living Room
+                  tap_action:
+                    action: navigate
+                    navigation_path: /lovelace-mobile/living-room
                 - type: custom:button-card
                   template: camera
                   entity: device_tracker.edgeos_camera_hallway

@@ -1,0 +1,21 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: Devices
+
+  - type: horizontal-stack
+    cards: 
+
+      - type: custom:button-card
+        template: ha-button
+        entity: fan.balcony_fan
+        name: Fan
+        icon: mdi:ceiling-fan
+        hold_action:
+          action: more-info
+
+      - type: custom:button-card
+        template: tv-button
+        entity: media_player.balcony_tv
+        name: TV

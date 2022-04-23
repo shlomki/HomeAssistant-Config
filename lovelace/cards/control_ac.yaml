@@ -94,7 +94,7 @@ cards:
               template: ha-button
               entity: fan.balcony_fan
               name: Balcony
-              icon: mdi:fan
+              icon: mdi:ceiling-fan
               hold_action:
                 action: more-info
             - type: custom:button-card

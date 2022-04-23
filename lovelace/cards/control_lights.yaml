@@ -43,19 +43,7 @@ cards:
             command: popup
             title: Balcony
             card:
-              type: custom:auto-entities
-              card:
-                type: entities
-              entities:
-                - type: custom:slider-entity-row
-                  entity: light.balcony_string_lights
-                  full_row: true
-                  min: 1
-                  max: 100
-                  step: 5
-              filter:
-                include:
-                  - group: group.balcony_lights
+              !include /config/lovelace/room_cards/balcony/lights.yaml
         entity: group.balcony_lights
         name: Balcony
         icon_height: 50px

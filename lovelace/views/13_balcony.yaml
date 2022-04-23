@@ -1,0 +1,24 @@
+title: balcony
+path: balcony
+badges: []
+panel: false
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title-large
+        name: Balcony
+
+      - !include /config/lovelace/room_cards/balcony/camera.yaml
+
+      - !include /config/lovelace/room_cards/balcony/lights.yaml
+
+      - !include /config/lovelace/room_cards/balcony/devices.yaml
+
+
+#Room Name
+#Camera view
+#PTZ
+#Lights
+#Window
+#Device
