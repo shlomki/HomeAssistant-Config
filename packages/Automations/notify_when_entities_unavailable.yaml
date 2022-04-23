@@ -176,6 +176,7 @@ group:
       - sensor.birds_temperature
       - sensor.riley_temperature
       - sensor.bedroom_temperature
+      - sensor.bedroom_closet_temperature
       - binary_sensor.toilet_flush
       - switch.shelly_3em
       - binary_sensor.big_freezer
