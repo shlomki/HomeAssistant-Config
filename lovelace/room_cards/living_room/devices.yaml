@@ -1,0 +1,52 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: Devices
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: climate-button
+        entity: climate.ac_damper_living_room
+        name: AC
+        icon: mdi:sofa
+        triggers_update:
+          - binary_sensor.balcony_window
+          - binary_sensor.kitchen_window
+          - sensor.living_room_temperature_monitor
+        variables:
+          window_entity_ids:
+            - binary_sensor.balcony_window
+            - binary_sensor.kitchen_window
+          temperature_monitor_entity_id: sensor.living_room_temperature_monitor
+
+      - type: custom:button-card
+        template: ha-button
+        entity: fan.living_room_fan
+        name: Fan
+        icon: mdi:fan
+        hold_action:
+          action: fire-dom-event
+          browser_mod:
+            command: popup
+            hide_header: false
+            title: Living Room Fan
+            card:
+              entity: fan.living_room_fan
+              name: Living Room Fan
+              type: custom:fan-xiaomi
+
+      - type: custom:button-card
+        template: tablet-button
+        entity: switch.house_tablet
+        variables:
+          tablet_id: house_tablet
+          tablet_friendly_name: Mr. White
+        triggers_update: input_number.house_tablet_volume
+
+      - type: custom:button-card
+        template: tv-button
+        entity: media_player.living_room_tv
+        name: TV
+

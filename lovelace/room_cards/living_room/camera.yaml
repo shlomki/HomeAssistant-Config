@@ -1,0 +1,5 @@
+camera_view: live
+type: picture-glance
+entities: []
+camera_image: camera.living_room
+aspect_ratio: 1.75

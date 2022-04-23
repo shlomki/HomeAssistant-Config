@@ -24,6 +24,7 @@ www/camera_snaps
 !custom_components/time_counter.py
 !lovelace
 !lovelace/*
+!lovelace/*/*
 
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 ip_bans.yaml
