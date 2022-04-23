@@ -42,9 +42,80 @@ browser_mod:
   disable:
     - all
 
+lovelace:
+  mode: storage
+  # Add yaml dashboards
+  dashboards:
+    lovelace-mobile:
+      mode: yaml
+      title: Mobile
+      icon: mdi:cellphone
+      show_in_sidebar: true
+      filename: lovelace_portrait.yaml
+
+    lovelace-tablet:
+      mode: yaml
+      title: Tablet
+      icon: mdi:monitor
+      show_in_sidebar: true
+      filename: lovelace_landscape.yaml
+
+      
+      # resources:
+      #   - url: /hacsfiles/button-card/button-card.js
+      #     type: module
+
+      #   - url: /hacsfiles/mini-climate-card/mini-climate-card-bundle.js?hacstag=2681639751210
+      #     type: module
+
+      #   - url: /hacsfiles/lovelace-slider-entity-row/slider-entity-row.js
+      #     type: module
+
+      #   - url: /hacsfiles/lovelace-fan-xiaomi/fan-xiaomi.js
+      #     type: module
+
+      #   - url: /hacsfiles/mini-media-player/mini-media-player-bundle.js?hacstag=1485208381150
+      #     type: module
+
+      #   - url: /hacsfiles/spotify-card/spotify-card.js?hacstag=173955605240
+      #     type: module
+
+      #   - url: /hacsfiles/lovelace-auto-entities/auto-entities.js?hacstag=167744584191
+      #     type: module
+
+      #   - url: /webrtc/webrtc-camera.js?v2.2.0
+      #     type: module
+
+      #   - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js?hacstag=1512800620110
+      #     type: module
+
+      #   - url: /hacsfiles/gallery-card/gallery-card.js?hacstag=284283867331
+      #     type: module
+
+      #   - url: /hacsfiles/Home-Assistant-Lovelace-Local-Conditional-card/local-conditional-card.js?hacstag=218178802111
+      #     type: module
+
+      #   - url: /hacsfiles/decluttering-card/decluttering-card.js?hacstag=188686483063
+      #     type: module
+
+      #   - url: /hacsfiles/lovelace-state-switch/state-switch.js?hacstag=158756598191
+      #     type: module
+
+      #   - url: /hacsfiles/scheduler-card/scheduler-card.js?hacstag=286270157233
+      #     type: module
+
+      #   - url: /hacsfiles/LG-WebOS-Remote-Control/lg-remote-control.js?hacstag=25700599020738
+      #     type: module
+
+      #   - url: /hacsfiles/lovelace-webos-keyboard-card/webos-keyboard-card.js?hacstag=3709970196489
+      #     type: module
+
+
+
 # logger:
 #   default: warning
 #   logs:
+#     custom_components.webrtc: debug
 #     homeassistant.components.heos: debug
 #     homeassistant.components.denonavr: debug
 #     homeassistant.components.python_script: debug
@@ -55,3 +126,13 @@ browser_mod:
 #     homeassistant.components.shell_command: debug
 
 
+# lovelace:
+#   mode: storage
+#   dashboards:
+#     lovelace-yaml:
+#       mode: yaml
+#       filename: lovelace.yaml
+#       title: "Home"
+#       icon: mdi:view-dashboard
+#       show_in_sidebar: true
+#       require_admin: true
