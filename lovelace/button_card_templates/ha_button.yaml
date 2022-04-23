@@ -5,6 +5,8 @@ ha-button:
     name:
       - padding-bottom: 10px
   size: 33%
+  hold_action:
+    action: more-info
 ha-button-long-name:
   template: ha-button
   styles:
