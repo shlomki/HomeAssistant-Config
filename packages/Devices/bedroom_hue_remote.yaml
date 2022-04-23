@@ -17,38 +17,65 @@ automation:
     action:
       - alias: "choose button"
         choose:
-          ## Button 1 Long Press: Sleep
+          ## Button 1 Release Hold: Sleep
           - conditions: "{{ button_code == 1003 }}"
             sequence:
               - service: scene.turn_on
                 target:
                   entity_id: scene.sleep
 
-          ## Button 2 Short Press/Hold: Start Bedroom Curtain
-          - conditions: "{{ button_code == 2000 }}"
-            sequence:
-              - service: "{{ iif (is_state('cover.bedroom_curtain', 'open'), 'cover.close_cover', 'cover.open_cover') }}"
-                entity_id: cover.bedroom_curtain
-
-          ## Button 2 Stop Long Press: Stop Bedroom Curtain
-          - conditions: "{{ button_code == 2003 }}"
+          ## Button 2 Release Short Press When in Motion: Stop Bedroom Curtain
+          - conditions: "{{ button_code == 2002 and (is_state('cover.bedroom_curtain_with_moving_state', 'opening') or is_state('cover.bedroom_curtain_with_moving_state', 'closing')) }}"
             sequence:
               - service: cover.stop_cover
-                entity_id: cover.bedroom_curtain
+                entity_id: cover.bedroom_curtain_with_moving_state
 
-          ## Button 3 Short Press/Hold: Bedroom Shutter
-          - conditions: "{{ button_code == 3000 }}"
+          ## Button 2 Release Short Press: Close Bedroom Curtain
+          - conditions: "{{ button_code == 2002 }}"
             sequence:
-              - service: "{{ iif (is_state('cover.bedroom_shutter', 'open'), 'cover.close_cover', 'cover.open_cover') }}"
-                entity_id: cover.bedroom_shutter
+              - service: cover.close_cover
+                entity_id: cover.bedroom_curtain_with_moving_state
 
-          ## Button 3 Stop Long Press: Bedroom Shutter
-          - conditions: "{{ button_code == 3003 }}"
+          ## Button 2 Hold: Open Bedroom Curtain
+          - conditions: "{{ button_code == 2001 }}"
+            sequence:
+              - service: cover.open_cover
+                entity_id: cover.bedroom_curtain_with_moving_state
+
+          ## Button 2 Release Hold: Stop Bedroom Curtain
+          # - conditions: "{{ button_code == 2003 }}"
+          #   sequence:
+          #     - service: cover.stop_cover
+          #       entity_id: cover.bedroom_curtain_with_moving_state
+
+
+          ## Button 2 Release Short Press When in Motion: Stop Bedroom Shutter
+          - conditions: "{{ button_code == 3002 and (is_state('cover.bedroom_shutter', 'opening') or is_state('cover.bedroom_shutter', 'closing')) }}"
             sequence:
               - service: cover.stop_cover
                 entity_id: cover.bedroom_shutter
 
-          ## Button 4 Long Press: Black Tablet
+          ## Button 2 Release Short Press: Close Bedroom Shutter
+          - conditions: "{{ button_code == 3002 }}"
+            sequence:
+              - service: cover.close_cover
+                entity_id: cover.bedroom_shutter
+
+          ## Button 2 Hold: Open Bedroom Shutter
+          - conditions: "{{ button_code == 3001 }}"
+            sequence:
+              - service: cover.open_cover
+                entity_id: cover.bedroom_shutter
+
+          ## Button 2 Release Hold: Stop Bedroom Shutter
+          # - conditions: "{{ button_code == 3003 }}"
+          #   sequence:
+          #     - service: cover.stop_cover
+          #       entity_id: cover.bedroom_shutter
+
+
+
+          ## Button 4 Short Press: Black Tablet
           - conditions: "{{ button_code == 4000 }}"
             sequence:
               - service: switch.toggle

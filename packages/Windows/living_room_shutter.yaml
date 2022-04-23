@@ -3,8 +3,8 @@ cover:
     devices:
       living_room_shutter:
         name: Living Room Shutter
-        travelling_time_up: 19
-        travelling_time_down: 18
+        travelling_time_up: 28
+        travelling_time_down: 26.5
         cover_entity_id: cover.living_room_shutter_switch
         send_stop_at_ends: False
 

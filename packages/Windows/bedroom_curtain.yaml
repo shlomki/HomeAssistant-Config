@@ -1,3 +1,13 @@
+cover:
+  - platform: cover_rf_time_based
+    devices:
+      bedroom_curtain_with_moving_state:
+        name: Bedroom Curtain with Moving State
+        travelling_time_up: 13.5
+        travelling_time_down: 13.5
+        cover_entity_id: cover.bedroom_curtain
+        send_stop_at_ends: false
+
 sensor:
   - platform: template
     sensors:
