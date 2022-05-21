@@ -46,7 +46,7 @@ sensor:
           {% if is_state('switch.water_boiler', 'on') %}
           {{ as_datetime(as_timestamp(now()) - state_attr('input_datetime.water_boiler_last_on', 'timestamp')).strftime('%-Hh %-Mm') | replace('0h ', '') | replace('0m', '') }}
           {% else %}
-          {{ as_datetime(state_attr('input_datetime.water_boiler_last_off', 'timestamp') - state_attr('input_datetime.water_boiler_last_on', 'timestamp')).strftime('%-Hh %-Mm')  | replace('0h ', '') | replace('0m', '') }}
+          {{ as_datetime(state_attr('input_datetime.water_boiler_last_off', 'timestamp') - state_attr('input_datetime.water_boiler_last_on', 'timestamp')).strftime('%-Hh %-Mm')  | replace('0h ', '') | replace(' 0m', '') }}
           {% endif %}
           
 
@@ -54,5 +54,11 @@ sensor:
     sensors:
       water_boiler_metrics_time_since_finished:
         friendly_name: "Water Boiler Metrics Time Since Finished"
-        value_template: "{{ as_datetime(as_timestamp(now()) - state_attr('input_datetime.water_boiler_last_off', 'timestamp')).strftime('%-Hh %-Mm')  | replace('0h ', '') | replace('0m', '') }}"
+        value_template: "{{ as_datetime(as_timestamp(now()) - state_attr('input_datetime.water_boiler_last_off', 'timestamp')).strftime('%-dd %-Hh %-Mm') | replace('0h ', '') | replace('0m', '') }}"
 
+# binary_sensor:
+#   - platform: template
+#     sensors:
+#       water_boiler_was_on_today:
+#         friendly_name: "Water Boiler Was On Today"
+#         value_template: "{{ states('sensor.water_boiler_metrics_time_since_finished') | string is match('^\dd') }}"
