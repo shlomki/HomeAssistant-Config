@@ -112,6 +112,7 @@ cards:
                     entity: fan.living_room_fan
                     name: Living Room Fan
                     type: custom:fan-xiaomi
+                    platform: xiaomi_miio_fan
             # - type: custom:button-card
             #   template: ha-button
             #   entity: fan.blue_fan
@@ -153,3 +154,4 @@ cards:
                     entity: fan.bedroom_fan
                     name: Bedroom Fan
                     type: custom:fan-xiaomi
+                    platform: xiaomi_miio_fan

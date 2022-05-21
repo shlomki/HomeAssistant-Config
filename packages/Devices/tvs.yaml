@@ -15,7 +15,7 @@ automation:
     action:
       - service: script.turn_on_lg_tv
         data:
-          mac: !secret living_room_tv_mac
+          mac: !secret bedroom_tv_mac
 
   - alias: "Turn On Balcony TV with WakeOnLan"
     trigger:
