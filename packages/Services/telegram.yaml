@@ -69,6 +69,8 @@ script:
         data:
           message: '{{ message }}'
           target: !secret telegram_shlomi
+          front_door_photo: '{{ front_door_photo }}'
+          living_room_photo: '{{ living_room_photo }}'
 
   notify_inbal_when_away_with_photo_actions:
     sequence:
@@ -80,6 +82,8 @@ script:
         data:
           message: '{{ message }}'
           target: !secret telegram_inbal
+          front_door_photo: '{{ front_door_photo }}'
+          living_room_photo: '{{ living_room_photo }}'
 
 automation:
   - alias: Telegram callback turn on off
@@ -99,6 +103,7 @@ automation:
           callback_query_id: '{{ trigger.event.data.id }}'
 
   - alias: Telegram callback send photo
+    id: Telegram callback send photo
     mode: parallel
     trigger:
       - platform: event
