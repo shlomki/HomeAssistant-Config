@@ -54,4 +54,4 @@ template:
 
   - binary_sensor:
       - name: "Water Boiler Was On Today"
-        state: "{{ not states('sensor.water_boiler_metrics_time_since_finished') | string is match('^\\dd') }}"
+        state: "{{ not states('sensor.water_boiler_metrics_time_since_finished') | string is match('^\\d*d') }}"
