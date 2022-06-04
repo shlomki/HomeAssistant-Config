@@ -28,11 +28,25 @@ cards:
               - type: horizontal-stack
                 cards:
 
-                  #Greeting
-                  - !include /config/lovelace/cards/greeting_title.yaml
+                  - type: custom:button-card
+                    template: title
+                    name: >
+                      [[[ return states["sensor.greeting_title"].state; ]]]
 
-                  #Weather
-                  - !include /config/lovelace/cards/weather_title.yaml
+
+                  - type: custom:button-card
+                    template: title
+                    name: Weather
+
+              - type: horizontal-stack
+                cards:
+
+                  - type: markdown
+                    content: '{{ states(''sensor.greeting_body'') }}'
+
+                  - type: custom:weather-card
+                    entity: weather.home
+                    details: false
 
               #Dashboard shortcuts
               - !include /config/lovelace/cards/quick_status_title.yaml
