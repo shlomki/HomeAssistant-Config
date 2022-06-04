@@ -150,12 +150,15 @@ automation:
   - alias: Save last ac mode
     trigger:
       - platform: state
-        entity_id: climate.mainac
-      - platform: state
-        entity_id: climate.manual_ac
-    condition:
-      condition: template
-      value_template: '{{ trigger.to_state.state == "cool" or trigger.to_state.state == "heat" }}'
+        entity_id: 
+          - climate.mainac
+          - climate.manual_ac
+        from: #This helps the automation not run when attributes change (such as temperature)
+          - heat
+          - cool
+        to: #Make sure we only capture those two states, and not other states
+          - heat
+          - cool
     action:
       - service: input_text.set_value
         entity_id: input_text.last_ac_mode
