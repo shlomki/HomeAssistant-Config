@@ -99,7 +99,7 @@ cards:
                 action: more-info
             - type: custom:button-card
               template: ha-button
-              entity: fan.living_room_fan
+              entity: fan.living_room
               name: Living Room
               icon: mdi:fan
               hold_action:
@@ -109,7 +109,7 @@ cards:
                   hide_header: false
                   title: Living Room Fan
                   card:
-                    entity: fan.living_room_fan
+                    entity: fan.living_room
                     name: Living Room Fan
                     type: custom:fan-xiaomi
                     platform: xiaomi_miio_fan
@@ -124,24 +124,19 @@ cards:
                 - entity: fan.gray_fan
                   state_not: 'unavailable'
               card:
-                - type: custom:button-card
-                  template: ha-button
-                  entity: fan.gray_fan
-                  icon: mdi:fan
-                  hold_action:
-                    action: more-info
-                  lock:
-                    enabled: >-
-                      [[[ return
-                      states["input_boolean.riley_is_sleeping"].state
-                      == "on" ]]]
-                    duration: 3
-                  triggers_update:
-                    - binary_sensor.riley_window
-                    - input_boolean.riley_is_sleeping
+                type: custom:button-card
+                template: ha-button
+                entity: fan.gray_fan
+                icon: mdi:fan
+                lock:
+                  enabled: >-
+                    [[[ return
+                    states["input_boolean.riley_is_sleeping"].state
+                    == "on" ]]]
+                  duration: 3
             - type: custom:button-card
               template: ha-button
-              entity: fan.bedroom_fan
+              entity: fan.bedroom
               name: Bedroom Fan
               icon: mdi:fan
               hold_action:
@@ -151,7 +146,7 @@ cards:
                   hide_header: false
                   title: Bedroom Fan
                   card:
-                    entity: fan.bedroom_fan
+                    entity: fan.bedroom
                     name: Bedroom Fan
                     type: custom:fan-xiaomi
                     platform: xiaomi_miio_fan

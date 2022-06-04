@@ -4,12 +4,12 @@ input_boolean:
 
 fan:
   - platform: xiaomi_miio_fan
-    name: Living Room Fan
+    name: Living Room
     host: !secret xiaomi_living_room_fan_ip
     token: !secret xiaomi_living_room_fan_token
 
   - platform: xiaomi_miio_fan
-    name: Bedroom Fan
+    name: Bedroom
     host: !secret xiaomi_bedroom_fan_ip
     token: !secret xiaomi_bedroom_fan_token
 

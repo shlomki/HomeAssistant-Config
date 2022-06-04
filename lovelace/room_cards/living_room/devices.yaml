@@ -23,7 +23,7 @@ cards:
 
       - type: custom:button-card
         template: ha-button
-        entity: fan.living_room_fan
+        entity: fan.living_room
         name: Fan
         icon: mdi:fan
         hold_action:
@@ -33,7 +33,7 @@ cards:
             hide_header: false
             title: Living Room Fan
             card:
-              entity: fan.living_room_fan
+              entity: fan.living_room
               name: Living Room Fan
               type: custom:fan-xiaomi
 
