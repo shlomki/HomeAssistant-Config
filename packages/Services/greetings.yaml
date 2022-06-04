@@ -3,27 +3,30 @@ template:
       - name: Greeting Title
         icon: mdi:hand-wave
         state: >-
-           {% set t = now().hour %}
-           {% if t <= 0 %} Good Night
-           {% elif t <= 6 %} Good Night
-           {% elif t <= 11 %} Good Morning
-           {% elif t <= 17 %} Good Afternoon
-           {% elif t <= 20 %} Good Evening
-           {% elif t <= 22 %} Good Night
-           {% endif %}
+          {% set t = now().hour %}
+          {% if t >= 0 and t <= 5  %} Good Night
+          {% elif t >= 6 and t <= 11  %} Good Morning
+          {% elif t >= 12 and t <= 17  %} Good Afternoon
+          {% elif t >= 18 and t <= 22  %} Good Evening
+          {% elif t >= 21 %} Good Night
+          {% endif %}
 
   - sensor:
       - name: Greeting Body
         icon: mdi:hand-wave
         state: >
+            {% set new_messages = false %}
+
             {% if states('sensor.power_outage_today') == "True" %}<p>
-            - There was a power outage today at {{ state_attr('input_datetime.last_power_outage', 'timestamp') | timestamp_custom('%I:%M %p') }}. {% endif %}
+            - There was a power outage today at {{ state_attr('input_datetime.last_power_outage', 'timestamp') | timestamp_custom('%I:%M %p') }}. {% set new_messages = true %}{% endif %}
             
             {% if states('switch.water_boiler') == 'on' %}
-            <p>- Water boiler has been running for {{ states('sensor.water_boiler_metrics_duration_last_time') }}.</p>
-            {% elif states('switch.water_boiler') == 'off' %}
-            <p>- Water boiler has finished {{ states('sensor.water_boiler_metrics_time_since_finished') }} ago, after being on for {{ states('sensor.water_boiler_metrics_duration_last_time') }}.</p>
+            <p>- Water boiler has been running for {{ states('sensor.water_boiler_metrics_duration_last_time') }}.</p>{% set new_messages = true %}
+            {% elif states('switch.water_boiler') == 'off' and states('binary_sensor.water_boiler_was_on_today') == 'on' %}
+            <p>- Water boiler has finished {{ states('sensor.water_boiler_metrics_time_since_finished') }} ago, after being on for {{ states('sensor.water_boiler_metrics_duration_last_time') }}.</p>{% set new_messages = true %}
             {% endif %}
 
             {% set t = now().hour %}
-            {% if t <= 5 or t >= 22 %}<p>- It's rather late and the door is still unlocked.</p>{% endif %} 
+            {% if t <= 5 or t >= 22 and is_state('binary_sensor.front_door_lock', 'on') %}<p>- It's rather late and the door is still unlocked.</p>{% set new_messages = true %}{% endif %} 
+
+            {% if new_messages == false %}<p>No new messages.</p>{% endif %}
