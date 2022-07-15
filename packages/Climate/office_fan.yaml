@@ -1,0 +1,110 @@
+
+
+script:
+
+  office_fan_control:
+    alias: Office Fan Control
+    variables:
+      office_fan_rf_code: >
+        {% set rf_codes = {
+            "light": "sg80AAwAAWYjDCMMIwwjDAwjDCMMIyMMIwwMJAwjIwwjDQwkDCMMIw0jDSMjDCQMDCQjDAwjIw4AAAAA",
+            "fan_0": "sgD8ACMLDCINIgwiIwwjCwwiDCIkCyMLDCINIgwjCyMMIiMLJAsjCyMLDCIMJQwAAWUjCyMLJAsjCwwiDCMMIiMLJAsMIgwiJAojDAwiDCINIgwiDCMjCyMLIwskCwwiDCQMAAFmIwsjCyMLJAsMIgwkCiMjCyMLDSIMIiQKIwsNIgwiDSIMIgwjIwsjCyMLIwsNIgwjDQABZSMLJAsjCyMLDCMLIwwiJAsjCwwjDCIjCyMLDCMMIgwjDCIMIiMMIwsjCyMMCyMMJAwAAWYjCyMLIwsjCwwjDCMLIyMLIwwLIwsjIwwiDAsjDCMLIwskCyMiDCMMIgwiDAsjDAAF3AAAAAAAAAAAAAAAAA==",
+            "fan_1": "sgk0AAwAAWYjDSMMIwwjDAwkDCQMJCMNIwwMJAwkIwwjDQwjDCMMJAwjDCMjDCMMIwwMIwwjDCUAAAAA",
+            "fan_2": "sgc0AAwAAWYkDCMMIwwjDAwjDCMNIyMMIwwMIw0jIwwjDAwjDSMMJA0jDCMkDCMMDCMNIyMMDCUAAAAA",
+            "fan_3": "sgD8ACMLDCMMIgwiJAsjCwwiDSIjCyMLDSIMIgwiDCMMIiMMIgwMIiMLIwwMJAwAAWUjCyMLIwsjCw0iDCINIiMMIgsNIgwiJAsjCwwiDCMLIwwiDSIjCyMLDCIjDCMLDCMNAAFlIwsjCyQLIwsMIgwjDCIjCyQLDCINIiMLIwsMIg0iDCIMIwwiIwsjCw0iIwsjCwwkDAABZiIMIwsjCyMLDCINIgwjIgskCwwiDCIkCyMLDCINIgwiDCMMIiMLIwwMIiMLJAoMJA0AAWUjCyMLIwsjDAwiDCINIiMLIwsMIwwiIwsjDAwiDCIMIwwiDCMjCyMLDCIkCyMLDAAF3AAAAAAAAAAAAAAAAA=="
+            }
+        %}{{ rf_codes[action] }}
+
+    sequence:
+      - service: python_script.broadlink_send
+        data:
+          room: "office"
+          packet: "{{ office_fan_rf_code }}"e
+
+input_boolean:
+  office_fan_power:
+  office_fan_light:
+
+input_number:
+  office_fan_speed:
+    name: Office Fan Speed
+    min: 0
+    max: 3
+    step: 1
+
+fan:
+  - platform: template
+    fans:
+      office:
+        friendly_name: "Office Fan"
+        value_template: "{{ states('input_boolean.office_fan_power') }}"
+        percentage_template: "{{ (states('input_number.office_fan_speed') | int * 33.333 ) | round }}"
+        speed_count: 3
+
+        turn_on:
+          #Send ON (speed) command
+          - service: script.office_fan_control
+            data:
+              action: "fan_{{ states('input_number.office_fan_speed') | round }}"
+
+          #Mark fan as on
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.office_fan_power
+
+        set_percentage:
+          #Save new speed
+          - service: input_number.set_value
+            entity_id: input_number.office_fan_speed
+            data:
+              value: "{{ (percentage / 33.333) | round }}"
+
+          #Send speed command
+          - service: script.office_fan_control
+            data:
+              action: "fan_{{ states('input_number.office_fan_speed') | round }}"
+
+          #Mark fan as on
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.office_fan_power
+
+        turn_off:
+          - service: script.office_fan_control
+            data:
+              action: "fan_0"
+          
+          #Mark fan as off
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.office_fan_power
+
+
+
+light:
+  - platform: template
+    lights:
+      office_fan:
+        friendly_name: "Office Fan Light"
+        value_template: "{{ is_state('input_boolean.office_fan_light', 'on') }}"
+        turn_on:
+          - service: script.office_fan_control
+            data:
+              action: "light"
+          
+          #Mark light as on
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.office_fan_light
+
+        turn_off:
+          - service: script.office_fan_control
+            data:
+              action: "light"
+          
+          #Mark light as off
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.office_fan_light
+
+group:
+  office_fan_group:
+    entities:
+      - fan.office_fan
+      - switch.office_fan_toggle
+

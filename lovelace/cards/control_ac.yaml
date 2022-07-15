@@ -113,6 +113,15 @@ cards:
                     name: Living Room Fan
                     type: custom:fan-xiaomi
                     platform: xiaomi_miio_fan
+
+            - type: custom:button-card
+              template: ha-button
+              entity: fan.office
+              name: Office
+              icon: mdi:ceiling-fan
+              hold_action:
+                action: more-info
+                    
             # - type: custom:button-card
             #   template: ha-button
             #   entity: fan.blue_fan
