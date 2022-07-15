@@ -184,7 +184,7 @@ group:
       #- switch.gray_fan_smart_plug
       - sensor.outside_temperature
       # - switch.il_smart_plug_1
-      - switch.il_smart_plug_2
+      # - switch.il_smart_plug_2
       - cover.kitchen_shutter_switch
       - cover.kitchen_curtain_switch
       - lock.front_door
