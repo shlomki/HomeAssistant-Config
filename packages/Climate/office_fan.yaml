@@ -1,5 +1,3 @@
-
-
 script:
 
   office_fan_control:
@@ -19,7 +17,7 @@ script:
       - service: python_script.broadlink_send
         data:
           room: "office"
-          packet: "{{ office_fan_rf_code }}"e
+          packet: "{{ office_fan_rf_code }}"
 
 input_boolean:
   office_fan_power:
