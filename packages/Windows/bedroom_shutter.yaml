@@ -23,9 +23,16 @@ sensor:
 
 automation:
   - alias: Bedroom Shutter Update Position From Physical Switch
+    max_exceeded: silent
     trigger:
       - platform: state
         entity_id: sensor.bedroom_shutter_state
+        not_from:
+          - unknown
+          - unavailable
+        not_to:
+          - unknown
+          - unavailable
     condition:
       - alias: "not already in the same state" #Otherwise causes some weird racing condition between template cover and switch
         condition: template
