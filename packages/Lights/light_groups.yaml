@@ -79,21 +79,21 @@ light:
     lights:
       living_room_dimmable_lights:
         friendly_name: "Living Room Dimmable Lights"
-        value_template: "{{ expand('group.living_room_dimmable_lights2') | selectattr('state', 'equalto', 'on') | map(attribute='entity_id') | list | count > 0 }} " #Are any lights in the group on?
-        level_template: "{{ max((expand('group.living_room_dimmable_lights2') | selectattr('state', 'equalto', 'on') | map(attribute='attributes.brightness') | list) or [0]) }} " #What's the max brighthness in the group?
-        availability_template: "{{ expand('group.living_room_dimmable_lights2') | selectattr('state', 'in', ['on','off']) | list | count > 0 }}" #Are all lights in the group available?
+        value_template: "{{ expand('group.living_room_dimmable_lights') | selectattr('state', 'equalto', 'on') | map(attribute='entity_id') | list | count > 0 }} " #Are any lights in the group on?
+        level_template: "{{ max((expand('group.living_room_dimmable_lights') | selectattr('state', 'equalto', 'on') | map(attribute='attributes.brightness') | list) or [0]) }} " #What's the max brighthness in the group?
+        availability_template: "{{ expand('group.living_room_dimmable_lights') | selectattr('state', 'in', ['on','off']) | list | count > 0 }}" #Are all lights in the group available?
         turn_on:
           - service: light.turn_on
             data:
-              entity_id: "{{ expand('group.living_room_dimmable_lights2') | map(attribute='entity_id') | list }}" #Turn on all lights in the group
+              entity_id: "{{ expand('group.living_room_dimmable_lights') | map(attribute='entity_id') | list }}" #Turn on all lights in the group
         turn_off:
           - service: light.turn_off
             data:
-              entity_id: "{{ expand('group.living_room_dimmable_lights2') | map(attribute='entity_id') | list }}" #Turn off all lights in the group
+              entity_id: "{{ expand('group.living_room_dimmable_lights') | map(attribute='entity_id') | list }}" #Turn off all lights in the group
         set_level:
           - service: light.turn_on
             data:
-              entity_id: "{{ expand('group.living_room_dimmable_lights2') | selectattr('state', 'equalto', 'on') | map(attribute='entity_id') | list }}" #Set brightness for lights that are on only
+              entity_id: "{{ expand('group.living_room_dimmable_lights') | selectattr('state', 'equalto', 'on') | map(attribute='entity_id') | list }}" #Set brightness for lights that are on only
               brightness: "{{ brightness }}"
 
   - platform: group
