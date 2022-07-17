@@ -11,7 +11,7 @@ cards:
             - type: custom:button-card
               template: internet
               name: Fiber Connection
-              entity: binary_sensor.edgeos_internet_interface
+              entity: binary_sensor.edgeos_interface_eth10
               size: 35px
             - type: custom:button-card
               template: internet
