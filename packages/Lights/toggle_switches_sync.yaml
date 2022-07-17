@@ -1,5 +1,5 @@
 automation:
-  - alias: Living room sync lamp
+  - alias: Living room sync side lamp
     max_exceeded: silent
     trigger:
       - platform: state
@@ -96,24 +96,65 @@ automation:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.bathroom_cabinet_group
 
-  - alias: Hallway switches sync main
+  # - alias: Hallway switches sync main
+  #   max_exceeded: silent
+  #   trigger:
+  #     - platform: state
+  #       entity_id:
+  #         - light.hallway_main
+  #         - light.hallway_main_toggle
+  #   condition:
+  #     condition: not
+  #     conditions:
+  #       - condition: state
+  #         entity_id:
+  #           - light.hallway_main
+  #           - light.hallway_main_toggle
+  #         state: "unavailable"
+  #   action:
+  #     - service: "homeassistant.turn_{{ trigger.to_state.state }}"
+  #       entity_id: light.hallway_main_group
+
+  - alias: Hallway sync switches when controllers change
     max_exceeded: silent
+    mode: single
     trigger:
       - platform: state
-        entity_id:
-          - light.hallway_main
-          - light.hallway_main_toggle
-    condition:
-      condition: not
-      conditions:
-        - condition: state
-          entity_id:
-            - light.hallway_main
-            - light.hallway_main_toggle
-          state: "unavailable"
+        entity_id: light.hallway_controllers_group
+        not_from: "unavailable"
+        not_to: "unavailable"
+
+    condition: #This is needed to avoid endless loops
+      - alias: "Hallway main group is not the same state"
+        condition: template
+        value_template: "{{ not is_state('light.hallway_main_group', trigger.to_state.state) }}"
+
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.hallway_main_group
+
+
+  - alias: Hallway sync controllers when switches change
+    max_exceeded: silent
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: 
+          - light.hallway_main
+          - light.hallway_main_toggle
+        not_from: "unavailable"
+        not_to: "unavailable"
+
+    condition: #This is needed to avoid endless loops
+      - alias: "Hallway controller group is not the same state"
+        condition: template
+        value_template: "{{ not is_state('light.hallway_controllers_group', trigger.to_state.state) }}"
+
+    action:
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
+        entity_id: 
+          - light.hallway_controllers_group
+          - light.hallway_main_group
 
   - alias: Riley switches scene
     max_exceeded: silent
