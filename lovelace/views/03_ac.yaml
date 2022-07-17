@@ -189,37 +189,24 @@ cards:
         card:
           type: thermostat
           entity: climate.manual_ac
-  - columns: 4
+  - columns: 5
     entities:
+      - entity: sensor.outside_temperature
+      - entity: sensor.outside_humidity
       - entity: sensor.bedroom_closet_temperature
         name: Closet
       - entity: sensor.bedroom_closet_humidity
-      - entity: sensor.bathroom_temperature
-      - entity: sensor.outside_temperature
-        name: Outside
-      - entity: sensor.bedroom_closet_humidity
-      - entity: sensor.outside_temperature
-      - entity: sensor.outside_humidity
+        name: Closet
     show_icon: true
     show_state: true
-    title: Temperatures
+    title: Other
     type: glance
   - type: glance
     entities:
       - entity: sensor.living_room_temperature
       - entity: sensor.office_temperature
       - entity: sensor.birds_temperature
-      - entity: sensor.bathroom_temperature
       - entity: sensor.riley_temperature
       - entity: sensor.bedroom_temperature
     title: Rooms
-  - entities:
-      - light.bathroom_heater
-      - input_number.bathroom_heater_timer_duration
-      - timer.bathroom_heater
-      - switch.water_boiler
-      - input_number.water_boiler_timer_duration
-      - timer.water_boiler
-    show_header_toggle: false
-    title: Bathroom Heating
-    type: entities
+

@@ -75,3 +75,13 @@ cards:
       - entity: input_number.room_temperature_min
       - entity: input_number.room_temperature_max
     title: Monitoring
+  - entities:
+      - light.bathroom_heater
+      - input_number.bathroom_heater_timer_duration
+      - timer.bathroom_heater
+      - switch.water_boiler
+      - input_number.water_boiler_timer_duration
+      - timer.water_boiler
+    show_header_toggle: false
+    title: Bathroom Heating
+    type: entities
