@@ -64,9 +64,14 @@ cards:
             show_state: true
             name: Now
             state:
-              - operator: ''
-                value: 1.5
+              - operator: template
+                value: >-
+                  [[[ return (entity.state >= 2.2); ]]]
                 color: red
+              - operator: template
+                value: >-
+                  [[[ return (entity.state >= 1.5); ]]]
+                color: orange
               - operator: default
                 color: green
             tap_action:
@@ -95,11 +100,15 @@ cards:
             show_state: true
             name: Next Bill
             state:
-              - operator: ''
-                value: 600
+              - operator: template
+                value: >-
+                  [[[ return (entity.state >= 1000); ]]]
                 color: red
+              - operator: template
+                value: >-
+                  [[[ return (entity.state >= 600); ]]]
+                color: orange
               - operator: default
-                value: 1.5
                 color: green
             tap_action:
               action: fire-dom-event
