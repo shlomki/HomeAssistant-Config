@@ -11,6 +11,8 @@ homeassistant:
     front_door: "/media/front_door"
   packages: !include_dir_named packages
   customize: !include customize.yaml
+  external_url: !secret ha_base_url
+  internal_url: !secret ha_base_url
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
@@ -18,7 +20,6 @@ default_config:
 # Text to speech
 tts:
   - platform: google_translate
-    base_url: !secret ha_base_url
 
 sun:
 
