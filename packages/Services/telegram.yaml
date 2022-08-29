@@ -44,7 +44,7 @@ script:
     sequence:
       - service: telegram_bot.send_message
         data:
-          caption: '{{ message }}'
+          message: '{{ message }}'
           target: !secret telegram_all_chats
           inline_keyboard: '{{ inline_keyboard }}'
 

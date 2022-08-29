@@ -64,13 +64,13 @@ cards:
       exclude: []
     sort:
       method: state
-  - type: entities
-    entities:
-      - entity: sensor.red_alert_in_my_area
-      - entity: sensor.red_alert
-      - entity: automation.red_alert_close_shutters
-      - entity: automation.red_alert_turn_on_lights_living_room_kitchen
-      - entity: automation.red_alert_turn_on_lights_office
-      - entity: automation.red_alert_turn_on_lights_birds
-      - entity: automation.red_alert_turn_on_lights_bedroom
-    title: Red Alert
+  # - type: entities
+  #   entities:
+  #     - entity: sensor.red_alert_in_my_area
+  #     - entity: sensor.red_alert
+  #     - entity: automation.red_alert_close_shutters
+  #     - entity: automation.red_alert_turn_on_lights_living_room_kitchen
+  #     - entity: automation.red_alert_turn_on_lights_office
+  #     - entity: automation.red_alert_turn_on_lights_birds
+  #     - entity: automation.red_alert_turn_on_lights_bedroom
+  #   title: Red Alert

@@ -16,46 +16,41 @@ automation:
     action:
       - service: notify.bffs
         data:
-          message: "{{ trigger.to_state.attributes.friendly_name }} humidity is {{ trigger.to_state.state }}%. Time to open the windows."
+          message: >
+            {{ trigger.to_state.attributes.friendly_name }} humidity is {{ trigger.to_state.state }}%.
+             {% if ((states('sensor.outside_humidity') | int) - 5) <= (states('sensor.office_humidity') | int) %}
+              Time to open the windows.
+            {% else %}
+              Time to turn on the AC.
+            {% endif %}
 
-  - alias: House temp too low
+  - alias: House temp is extreme - notify on telegram
     trigger:
-      - platform: numeric_state
+      - platform: state
         entity_id: 
-          - sensor.living_room_temperature
-          - sensor.office_temperature
-          - sensor.birds_temperature
-          - sensor.riley_temperature
-          - sensor.bedroom_temperature
-        below: 19
+          - sensor.living_room_temperature_monitor
+          - sensor.office_temperature_monitor
+          - sensor.birds_temperature_monitor
+          - sensor.riley_temperature_monitor
+          - sensor.bedroom_temperature_monitor
+        to: 
+          - "Very Hot"
+          - "Very Cold"
     action:
-      - service: script.telegram_message_with_ac_buttons
+      - service: script.turn_on
+        target:
+          entity_id: script.telegram_message_with_ac_buttons
         data:
-          message: "{{ trigger.to_state.attributes.friendly_name }} temperature is too cold ({{ trigger.to_state.state }}). Heating needed."
-          room_friendly_name: '{{ trigger.to_state.attributes.friendly_name }}'
-
-  - alias: House temp too high
-    trigger:
-      - platform: numeric_state
-        entity_id: 
-          - sensor.living_room_temperature
-          - sensor.office_temperature
-          - sensor.birds_temperature
-          - sensor.riley_temperature
-          - sensor.bedroom_temperature
-        above: 29
-    action:
-      - service: script.telegram_message_with_ac_buttons
-        data:
-          message: "{{ trigger.to_state.attributes.friendly_name }} temperature is too hot ({{ trigger.to_state.state }}). Cooling needed."
-          room_friendly_name: '{{ trigger.to_state.attributes.friendly_name }}'
+          variables:
+            message: "{{ trigger.to_state.attributes.friendly_name }} temperature is {{ trigger.to_state.state | lower }} ({{ states(trigger.to_state.entity_id | replace('_monitor', ''))}})."
+            room_friendly_name: '{{ trigger.to_state.attributes.friendly_name }}'
 
 script:
   telegram_message_with_ac_buttons:
     sequence:
       - service: script.notify_bffs_with_actions
         data:
-          message: "{{ message }}"
+          message: '{{ message }}'
           inline_keyboard: >
             {{ room_friendly_name }} AC On:/turn_on climate.ac_damper_{{ room_friendly_name | string | regex_replace(find=' ', replace='_', ignorecase=True)| lower }},
             {{ room_friendly_name }} AC Off:/turn_off climate.ac_damper_{{ room_friendly_name | string | regex_replace(find=' ', replace='_', ignorecase=True)| lower }}
