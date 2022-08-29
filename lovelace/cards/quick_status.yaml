@@ -8,15 +8,15 @@ cards:
       - type: custom:button-card
         template: ha-button
         tap_action:
-          action: call-service
-          service: local_conditional_card.set
-          service_data:
+          action: fire-dom-event
+          local_conditional_card:
+            action: set
             ids:
               - entrance: toggle
-              - internet: false
-              - cameras: false
-              - fridges: false
-              - entities: false
+              - internet: hide
+              - cameras: hide
+              - fridges: hide
+              - entities: hide
         hold_action:
           action: more-info
         entity: sensor.front_door_combined
@@ -48,15 +48,15 @@ cards:
         name: Internet
         entity: binary_sensor.internet_connection
         tap_action:
-          action: call-service
-          service: local_conditional_card.set
-          service_data:
+          action: fire-dom-event
+          local_conditional_card:
+            action: set
             ids:
-              - entrance: false
+              - entrance: hide
               - internet: toggle
-              - cameras: false
-              - fridges: false
-              - entities: false
+              - cameras: hide
+              - fridges: hide
+              - entities: hide
         hold_action:
           action: more-info
 
@@ -66,15 +66,15 @@ cards:
         name: Cameras
         entity: binary_sensor.cameras_online
         tap_action:
-          action: call-service
-          service: local_conditional_card.set
-          service_data:
+          action: fire-dom-event
+          local_conditional_card:
+            action: set
             ids:
-              - entrance: false
-              - internet: false
+              - entrance: hide
+              - internet: hide
               - cameras: toggle
-              - fridges: false
-              - entities: false
+              - fridges: hide
+              - entities: hide
         hold_action:
           action: more-info
 
@@ -94,15 +94,15 @@ cards:
             icon: mdi:fridge-outline
             color: green
         tap_action:
-          action: call-service
-          service: local_conditional_card.set
-          service_data:
+          action: fire-dom-event
+          local_conditional_card:
+            action: set
             ids:
-              - entrance: false
-              - internet: false
-              - cameras: false
+              - entrance: hide
+              - internet: hide
+              - cameras: hide
               - fridges: toggle
-              - entities: false
+              - entities: hide
         hold_action:
           action: more-info
 
@@ -123,14 +123,14 @@ cards:
                 icon: mdi:home-assistant
                 color: green
             tap_action:
-              action: call-service
-              service: local_conditional_card.set
-              service_data:
+              action: fire-dom-event
+              local_conditional_card:
+                action: set
                 ids:
-                  - entrance: false
-                  - internet: false
-                  - cameras: false
-                  - fridges: false
+                  - entrance: hide
+                  - internet: hide
+                  - cameras: hide
+                  - fridges: hide
                   - entities: toggle
             hold_action:
               action: more-info

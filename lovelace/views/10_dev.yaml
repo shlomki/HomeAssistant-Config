@@ -4,14 +4,13 @@ badges: []
 cards:
   - type: custom:scheduler-card
     include:
-      - climate
       - climate.ac_damper_bedroom
       - climate.ac_damper_birds
       - climate.ac_damper_living_room
       - climate.ac_damper_office
       - climate.ac_damper_riley
-      - climate.mainac
-      - climate.manual_ac
+      # - climate.mainac
+      # - climate.manual_ac
       - cover.bedroom_shutter
       - cover.birds_shutter
       - cover.kitchen_curtain
@@ -23,8 +22,4 @@ cards:
       - switch.water_boiler
     exclude: []
     title: true
-  # - type: 'custom:webrtc-camera'
-  #   url: rtsp://admin:Gvina!Mirpeset1@192.168.20.41/h264Preview_01_sub
-  #   webrtc: false
-  #   mse: true
-  #   muted: true
+

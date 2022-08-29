@@ -1,12 +1,11 @@
 type: vertical-stack
 cards:
-
-#Title
+  #Title
   - type: custom:button-card
     template: title
     name: Control
 
-#Parent Buttons
+  #Parent Buttons
 
   #Lights
   - type: horizontal-stack
@@ -20,15 +19,15 @@ cards:
           card:
             - height: 100px
         tap_action:
-          action: call-service
-          service: local_conditional_card.set
-          service_data:
+          action: fire-dom-event
+          local_conditional_card:
+            action: set
             ids:
-              - windows: false
-              - ac: false
+              - windows: hide
+              - ac: hide
               - lights: toggle
-              - shower: false
-              - scenes: false
+              - shower: hide
+              - scenes: hide
         double_tap_action:
           action: toggle
           confirmation:
@@ -36,7 +35,6 @@ cards:
               [[[ return 'Are you sure? Turn ' + (entity.state ==
               'off' ? 'ON' : 'OFF') + ' all Lights in the house?'
               ]]]
-
 
       #Windows
       - type: custom:button-card
@@ -47,20 +45,20 @@ cards:
           card:
             - height: 100px
         state:
-          - value: 'on'
+          - value: "on"
             icon: mdi:window-open
-          - value: 'off'
+          - value: "off"
             icon: mdi:window-closed
         tap_action:
-          action: call-service
-          service: local_conditional_card.set
-          service_data:
+          action: fire-dom-event
+          local_conditional_card:
+            action: set
             ids:
               - windows: toggle
-              - ac: false
-              - lights: false
-              - shower: false
-              - scenes: false
+              - ac: hide
+              - lights: hide
+              - shower: hide
+              - scenes: hide
 
       #AC
       - type: custom:button-card
@@ -92,15 +90,15 @@ cards:
               (states['group.dampers'].state == 'off' ? 'ON' :
               'OFF') + ' all ACs in the house?' ]]]
         tap_action:
-          action: call-service
-          service: local_conditional_card.set
-          service_data:
+          action: fire-dom-event
+          local_conditional_card:
+            action: set
             ids:
-              - windows: false
+              - windows: hide
               - ac: toggle
-              - lights: false
-              - shower: false
-              - scenes: false
+              - lights: hide
+              - shower: hide
+              - scenes: hide
         hold_action:
           action: more-info
           entity: >
@@ -140,8 +138,8 @@ cards:
           window_open: >
             [[[ let monitor =
             states['sensor.all_rooms_temperature_monitor'].state;
-                let color = monitor.replace('Ok', '').replace('Cold', 'turquoise').replace('Hot', 'red');
-                let icon = monitor.replace('Ok', '').replace('Cold', 'snowflake').replace('Hot', 'fire');
+                let color = monitor.replace('Ok', '').replace('Very ', '').replace('Cold', 'turquoise').replace('Hot', 'red');
+                let icon = monitor.replace('Ok', '').replace('Very ', '').replace('Cold', 'snowflake').replace('Hot', 'fire');
                 return '<ha-icon icon="mdi:' + icon + '" style="width: 16px; height:16px; color:' + color + ';"></ha-icon>'; ]]]
         triggers_update: sensor.all_rooms_temperature_monitor
 
@@ -155,15 +153,15 @@ cards:
           card:
             - height: 100px
         tap_action:
-          action: call-service
-          service: local_conditional_card.set
-          service_data:
+          action: fire-dom-event
+          local_conditional_card:
+            action: set
             ids:
-              - windows: false
-              - ac: false
-              - lights: false
+              - windows: hide
+              - ac: hide
+              - lights: hide
               - shower: toggle
-              - scenes: false
+              - scenes: hide
         double_tap_action:
           action: call-service
           service: script.toggle_shower
@@ -182,51 +180,45 @@ cards:
           card:
             - height: 100px
         tap_action:
-          action: call-service
-          service: local_conditional_card.set
-          service_data:
+          action: fire-dom-event
+          local_conditional_card:
+            action: set
             ids:
-              - windows: false
-              - ac: false
-              - lights: false
-              - shower: false
+              - windows: hide
+              - ac: hide
+              - lights: hide
+              - shower: hide
               - scenes: toggle
         color: rgb(68, 115, 158)
 
-#Hidden Cards
+  #Hidden Cards
 
   #Lights
   - type: custom:local-conditional-card
     default: hide
     id: lights
-    card:
-      !include /config/lovelace/cards/control_lights_container.yaml
+    card: !include /config/lovelace/cards/control_lights_container.yaml
 
-#Windows
+  #Windows
   - type: custom:local-conditional-card
     default: hide
     id: windows
-    card:
-      !include /config/lovelace/cards/control_windows_container.yaml
+    card: !include /config/lovelace/cards/control_windows_container.yaml
 
   #AC
   - type: custom:local-conditional-card
     default: hide
     id: ac
-    card:
-      !include /config/lovelace/cards/control_ac_container.yaml
+    card: !include /config/lovelace/cards/control_ac_container.yaml
 
   #Shower
   - type: custom:local-conditional-card
     default: hide
     id: shower
-    card:
-      !include /config/lovelace/cards/control_shower_container.yaml
+    card: !include /config/lovelace/cards/control_shower_container.yaml
 
-#Scenes
+  #Scenes
   - type: custom:local-conditional-card
     default: hide
     id: scenes
-    card:
-      !include /config/lovelace/cards/control_scenes_container.yaml
-        
+    card: !include /config/lovelace/cards/control_scenes_container.yaml

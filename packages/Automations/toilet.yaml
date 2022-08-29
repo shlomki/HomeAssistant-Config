@@ -72,11 +72,11 @@ automation:
         to: 'on'
     action:
       - service: switch.turn_on
-        entity_id: switch.toilet_vent
+        entity_id: switch.bedroom_smart_plug
       - delay:
           minutes: 8
       - service: switch.turn_off
-        entity_id: switch.toilet_vent
+        entity_id: switch.bedroom_smart_plug
 
 switch:
   - platform: broadlink

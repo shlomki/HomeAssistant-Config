@@ -19,8 +19,7 @@ cards:
           browser_mod:
             command: popup
             title: Living Room
-            card:
-              !include /config/lovelace/room_cards/living_room/lights.yaml
+            card: !include /config/lovelace/room_cards/living_room/lights.yaml
         entity: group.living_room_lights
         name: Living Room
         icon: mdi:sofa
@@ -42,8 +41,7 @@ cards:
           browser_mod:
             command: popup
             title: Balcony
-            card:
-              !include /config/lovelace/room_cards/balcony/lights.yaml
+            card: !include /config/lovelace/room_cards/balcony/lights.yaml
         entity: group.balcony_lights
         name: Balcony
         icon_height: 50px
@@ -211,7 +209,7 @@ cards:
         entity: group.office_lights
         name: Office
         icon_height: 50px
-        icon: mdi:desktop-mac
+        icon: mdi:monitor
       - type: custom:button-card
         template: ha-button
         tap_action:
