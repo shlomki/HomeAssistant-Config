@@ -3,7 +3,7 @@ back-button:
   name: Back
   tap_action:
     action: navigate
-    navigation_path: /lovelace-yaml/dashboard
+    navigation_path: dashboard
   icon: mdi:arrow-left-circle
   styles:
     name:
