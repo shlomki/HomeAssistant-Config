@@ -32,4 +32,4 @@ cards:
                 name: Everything is ONLINE!
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace/sensors
+                  navigation_path: sensors

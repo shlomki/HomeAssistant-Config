@@ -20,7 +20,7 @@ cards:
                   entity_id: lock.front_door
               hold_action:
                 action: navigate
-                navigation_path: /lovelace/front_door
+                navigation_path: front_door
               entity: sensor.front_door_combined
               name: Front Door
               icon_height: 50px
