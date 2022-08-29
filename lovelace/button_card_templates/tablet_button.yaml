@@ -5,7 +5,7 @@ tablet-button:
     var_name2: tablet_friendly_name
   entity: |
     [[[ return 'switch.' + variables.tablet_id; ]]]
-  icon: mdi:tablet-android
+  icon: mdi:tablet-cellphone
   name: |
     [[[ return variables.tablet_friendly_name; ]]]
   double_tap_action:
@@ -34,7 +34,7 @@ tablet-button:
     custom_fields:
       volume_muted:
         - position: absolute
-        - left: '-5%'
+        - left: "-5%"
         - top: 5%
         - height: 60px
         - width: 60px

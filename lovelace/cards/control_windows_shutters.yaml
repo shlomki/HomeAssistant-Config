@@ -52,7 +52,7 @@ cards:
           - type: custom:button-card
             template: cover-stop
             entity: cover.office_shutter
-            icon: mdi:desktop-mac
+            icon: mdi:monitor
             variables:
               window_entity_ids: binary_sensor.office_window
             triggers_update: binary_sensor.office_window

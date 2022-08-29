@@ -34,7 +34,7 @@ cards:
                 template: climate-button
                 entity: climate.ac_damper_office
                 name: офис
-                icon: mdi:desktop-mac
+                icon: mdi:monitor
                 variables:
                   window_entity_ids: binary_sensor.office_window
                 triggers_update: binary_sensor.office_window
@@ -88,7 +88,7 @@ cards:
                 icon_height: 50px
                 icon: mdi:home-modern
                 state:
-                  - value: 'on'
+                  - value: "on"
                     icon: mdi:check-bold
               - type: custom:button-card
                 template: ha-button

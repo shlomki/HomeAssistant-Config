@@ -49,7 +49,7 @@ cards:
           - type: custom:button-card
             template: cover-stop
             entity: cover.office_curtain
-            icon: mdi:desktop-mac
+            icon: mdi:monitor
           - type: custom:button-card
             template: cover-down
             entity: cover.office_curtain

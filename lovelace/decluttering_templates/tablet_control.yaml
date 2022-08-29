@@ -7,7 +7,7 @@ tablet_control:
           - type: custom:button-card
             template: ha-button
             entity: switch.[[tablet_id]]
-            icon: mdi:tablet-android
+            icon: mdi:tablet-cellphone
             name: On / Off
             hold_action:
               action: more-info
@@ -20,7 +20,7 @@ tablet_control:
               action: call-service
               service: script.autoremote_tablet_reolink_command
               service_data:
-                tablet: '[[tablet_id]]'
+                tablet: "[[tablet_id]]"
           - type: custom:button-card
             name: Volume
             template: ha-button
@@ -36,7 +36,7 @@ tablet_control:
               - value: 0
                 color: rgb(68, 115, 158)
                 icon: mdi:volume-off
-              - operator: '>'
+              - operator: ">"
                 value: 0
                 icon: mdi:volume-high
                 color: rgb(253, 216, 53)
@@ -55,7 +55,7 @@ tablet_control:
               - value: 0
                 icon: mdi:brightness-5
                 color: rgb(68, 115, 158)
-              - operator: '>'
+              - operator: ">"
                 value: 0
                 icon: mdi:brightness-7
                 color: rgb(253, 216, 53)
