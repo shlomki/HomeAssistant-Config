@@ -12,6 +12,18 @@ group:
       - switch.toilet_lights
       - switch.bathroom_lights
 
+  All Lights Except Birds:
+    entities:
+      - switch.living_room_lights
+      - switch.balcony_lights
+      - switch.kitchen_lights
+      - light.hallway_main
+      - switch.office_lights
+      - light.riley_main_combined
+      - switch.bedroom_lights
+      - switch.toilet_lights
+      - switch.bathroom_lights
+
   Living Room Lights:
     entities:
       - light.living_room_main_combined
@@ -21,7 +33,7 @@ group:
       - light.living_room_side_lamp_combined
       - light.living_room_bff_light
 
-  Living Room Dimmable Lights2:
+  Living Room Dimmable Lights:
     entities:
       - light.living_room_main_combined
       - light.living_room_entrance_combined
@@ -55,7 +67,8 @@ group:
     entities:
       - light.toilet_main
       - light.toilet_night_light
-      - switch.toilet_vent
+      # - switch.toilet_vent
+      - switch.bedroom_smart_plug
 
   Bathroom Lights:
     entities:
@@ -151,6 +164,7 @@ switch:
   - platform: template
     switches:
       living_room_lights:
+        friendly_name: "Living Room Lights"
         value_template: "{{ is_state('group.living_room_lights', 'on') }}"
         turn_on:
           service: light.turn_on
@@ -164,6 +178,7 @@ switch:
   - platform: template
     switches:
       balcony_lights:
+        friendly_name: "Balcony Lights"
         value_template: "{{ is_state('group.balcony_lights', 'on') }}"
         turn_on:
           service: light.turn_on
@@ -177,6 +192,7 @@ switch:
   - platform: template
     switches:
       kitchen_lights:
+        friendly_name: "Kitchen Lights"
         value_template: "{{ is_state('group.kitchen_lights', 'on') }}"
         turn_on:
           service: light.turn_on
@@ -190,6 +206,7 @@ switch:
   - platform: template
     switches:
       office_lights:
+        friendly_name: "Office Lights"
         value_template: "{{ is_state('group.office_lights', 'on') }}"
         turn_on:
           service: light.turn_on
@@ -203,6 +220,7 @@ switch:
   - platform: template
     switches:
       toilet_lights:
+        friendly_name: "Toilet Lights"
         value_template: "{{ is_state('group.toilet_lights', 'on') }}"
         turn_on:
           service: light.turn_on
@@ -216,6 +234,7 @@ switch:
   - platform: template
     switches:
       bathroom_lights:
+        friendly_name: "Bathroom Lights"
         value_template: "{{ is_state('group.bathroom_lights', 'on') }}"
         turn_on:
           service: light.turn_on
@@ -229,6 +248,7 @@ switch:
   - platform: template
     switches:
       bedroom_lights:
+        friendly_name: "Bedroom Lights"
         value_template: "{{ is_state('group.bedroom_lights', 'on') }}"
         turn_on:
           service: light.turn_on

@@ -43,6 +43,8 @@ cards:
         image: /local/photos/guests.jpg
         tap_action:
           action: toggle
+          confirmation:
+            text: Are you sure you want to switch Guest Mode?
         hold_action:
           action: more-info
         state_filter:

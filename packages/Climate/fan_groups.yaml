@@ -1,0 +1,15 @@
+group:
+  All Fans Except Gray Fan:
+    entities:
+      - fan.balcony_fan
+      - fan.living_room
+      - fan.office
+      - fan.bedroom
+
+  All Fans:
+    entities:
+      - fan.balcony_fan
+      - fan.living_room
+      - fan.office
+      - fan.bedroom
+      - fan.gray_fan

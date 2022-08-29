@@ -1,0 +1,94 @@
+
+
+
+#############################################################################################
+################ DON'T FORGET TO CHANGE THE NOTIFICATION SERVICE IN LINE 50! ################
+#############################################################################################
+
+automation:
+  #######################################################
+  ### Alert about entities becoming unavailable or online
+  #######################################################
+
+  - id: Away from Home - Notify
+    alias: Away from Home - Notify
+    variables:
+      front_door_is_unlocked: "{{ is_state('lock.front_door', 'unlocked') }}"
+      other_entities_are_on: "{{ is_state('group.away_from_home_monitored_entities', 'on') }}"
+      list_of_entities_on: "{{ '- ' + expand('group.away_from_home_monitored_entities') | selectattr('state', 'in', ['on', 'fan_only']) | join(' ON\n- ', attribute='attributes.friendly_name') + ' ON\n' or '' }}"
+      both_on: "{{front_door_is_unlocked and other_entities_are_on }}"
+
+    trigger:
+      - platform: state
+        entity_id: group.bffs
+        from: home
+        to: not_home
+        for:
+          minutes: 2
+
+    condition:
+      - alias: "If any entities were left on or unlocked"
+        condition: state
+        entity_id: 
+          - group.away_from_home_monitored_entities
+          - lock.front_door
+        match: any
+        state:
+          - "on"
+          - "unlocked"
+
+    action:
+      #First, send a notification that things were left on, after 5 minutes of leaving the house
+      - if:
+          - alias: "If Guest Mode is off"
+            condition: state
+            entity_id: input_boolean.guest_mode
+            state: 'off'
+        then:
+          - service: notify.shlomi #Notifies me via telegram. Change this to your preferred service (such as: persistent_notification.create).
+            data:
+              message: "Hey, you've left home with:{{'\n'}}{{ '- Front Door UNLOCKED\n' if front_door_is_unlocked}}{{ list_of_entities_on if other_entities_are_on}}{{'\n\n'}}I'll {{ 'lock ' if front_door_is_unlocked }}{{'and ' if both_on}}{{'turn them off ' if other_entities_are_on}}in 5 minutes unless you turn Guest Mode on."
+        else:
+          - service: notify.shlomi #Notifies me via telegram. Change this to your preferred service (such as: persistent_notification.create).
+            data:
+              message: "Hey, you've left home but Guest Mode is on. The house will stay with:{{'\n'}}{{ '- Front Door UNLOCKED' if front_door_is_unlocked}}{{ list_of_entities_on if other_entities_are_on }}{{'\n\n'}}unless you turn Guest Mode off in the next 5 minutes."
+
+      #Wait 5 more minutes for people to change their mind
+      - delay:
+          minutes: 5
+
+      #If Guest Mode is off (or STILL off), turn things off and lock the door 
+      - if:
+          - alias: "If Guest Mode is off"
+            condition: state
+            entity_id: input_boolean.guest_mode
+            state: 'off'
+        then:
+          - service: homeassistant.turn_off
+            entity_id: group.away_from_home_monitored_entities
+
+          - service: lock.lock
+            entity_id: lock.front_door
+
+          - service: notify.shlomi #Notifies me via telegram. Change this to your preferred service (such as: persistent_notification.create).
+            data:
+              message: "Done."
+
+
+  #######################################################
+  ### Group of monitored entities.
+  ### Add any entities you want to be notified about.
+  #######################################################
+
+group:
+  bffs:
+    entities:
+      - person.shlomi
+      - person.inbal
+
+  away_from_home_monitored_entities:
+    entities:
+      - group.all_lights_except_birds
+      - group.dampers
+      - group.tvs
+      - group.all_fans
