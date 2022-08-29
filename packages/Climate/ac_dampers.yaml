@@ -26,7 +26,7 @@ sensor:
 
 climate:
   - platform: smartir
-    name: Living Room
+    name: Living Room AC
     unique_id: ac_damper_living_room
     device_code: 1344
     controller_data: remote.living_room
@@ -34,7 +34,7 @@ climate:
     humidity_sensor: sensor.living_room_humidity
 
   - platform: smartir
-    name: Office
+    name: Office AC
     unique_id: ac_damper_office
     device_code: 1344
     controller_data: remote.office
@@ -42,7 +42,7 @@ climate:
     humidity_sensor: sensor.office_humidity
 
   - platform: smartir
-    name: Birds
+    name: Birds AC
     unique_id: ac_damper_birds
     device_code: 1344
     controller_data: remote.birds
@@ -50,7 +50,7 @@ climate:
     humidity_sensor: sensor.birds_humidity
 
   - platform: smartir
-    name: Riley
+    name: Riley AC
     unique_id: ac_damper_riley
     device_code: 1344
     controller_data: remote.riley
@@ -58,7 +58,7 @@ climate:
     humidity_sensor: sensor.riley_humidity
 
   - platform: smartir
-    name: Bedroom
+    name: Bedroom AC
     unique_id: ac_damper_bedroom
     device_code: 1344
     controller_data: remote.bedroom
@@ -82,17 +82,12 @@ input_number:
     step: 1
 
 script:
-  ac_damper_sync_all:
-    alias: Sync All
-    mode: parallel
-    sequence:
-      - service: python_script.ac_damper_sync_all
 
   toggle_dampers:
     alias: Toggle Dampers
     mode: queued
     sequence:
-      - service: homeassistant.turn_{{ 'on' if states('group.dampers') == 'off' else 'off' }}
+      - service: homeassistant.turn_{{ 'on' if is_state('group.dampers', 'off') else 'off' }}
         entity_id: group.dampers
 
 input_boolean:
@@ -122,6 +117,13 @@ automation:
     action:
       - service: switch.turn_on
         entity_id: switch.ac_smartauto
+      - delay: "00:00:05"
+      - service: climate.set_fan_mode
+        data:
+          fan_mode: auto
+        target:
+          entity_id: climate.mainac
+
 
 #Turn on Living Room Damper when Main AC set to Fan Only (and no other dampers are on)
   - alias: Turn on LR AC when Main AC set to Fan
@@ -198,53 +200,53 @@ automation:
   #         speed: "Low"
 
   #Notify when windows are open
-  - alias: AC on with open window - Living Room
-    trigger:
-      - platform: state
-        entity_id: climate.ac_damper_living_room
-        from: "off"
-        to: "fan_only"
-        for:
-          seconds: 60
-      - platform: state
-        entity_id:
-          - climate.mainac
-          - climate.manual_ac
-        from: "fan_only"
-        to: "cool"
-      - platform: state
-        entity_id:
-          - climate.mainac
-          - climate.manual_ac
-        from: "fan_only"
-        to: "heat"
-    condition:
-      condition: and
-      conditions:
-        #When AC is on heat or cool or unknown (when disconnected from server) (updated to support manual_ac)
-        - condition: template
-          value_template: "{% set ac_entity_id = states('input_text.ac_entity_id') %}{{ is_state(ac_entity_id, 'heat') or is_state(ac_entity_id, 'cool') or is_state(ac_entity_id, 'unknown') or is_state(ac_entity_id, 'unavailable') }}"
+  # - alias: AC on with open window - Living Room
+  #   trigger:
+  #     - platform: state
+  #       entity_id: climate.ac_damper_living_room
+  #       from: "off"
+  #       to: "fan_only"
+  #       for:
+  #         seconds: 60
+  #     - platform: state
+  #       entity_id:
+  #         - climate.mainac
+  #         - climate.manual_ac
+  #       from: "fan_only"
+  #       to: "cool"
+  #     - platform: state
+  #       entity_id:
+  #         - climate.mainac
+  #         - climate.manual_ac
+  #       from: "fan_only"
+  #       to: "heat"
+  #   condition:
+  #     condition: and
+  #     conditions:
+  #       #When AC is on heat or cool or unknown (when disconnected from server) (updated to support manual_ac)
+  #       - condition: template
+  #         value_template: "{% set ac_entity_id = states('input_text.ac_entity_id') %}{{ is_state(ac_entity_id, 'heat') or is_state(ac_entity_id, 'cool') or is_state(ac_entity_id, 'unknown') or is_state(ac_entity_id, 'unavailable') }}"
 
-        - condition: or
-          conditions: #When balcony or bathroom open
-            - condition: state
-              entity_id: binary_sensor.balcony_window
-              state: "on"
-            - condition: state
-              entity_id: binary_sensor.bathroom_door
-              state: "on"
+  #       - condition: or
+  #         conditions: #When balcony or bathroom open
+  #           - condition: state
+  #             entity_id: binary_sensor.balcony_window
+  #             state: "on"
+  #           - condition: state
+  #             entity_id: binary_sensor.bathroom_door
+  #             state: "on"
 
-        - condition: state
-          entity_id: input_boolean.ac_damper_living_room
-          state: "on"
-    action:
-      - service: script.notify_all
-        data:
-          message: >
-            {% set balcony_window = is_state("binary_sensor.balcony_window", "on") -%}
-            {% set bathroom_door = is_state("binary_sensor.bathroom_door", "on") -%}
-            {% set both = (balcony_window and bathroom_door) %}
-            Living Room AC is on. Please close the {{ 'balcony window' if balcony_window }}{{ ' and the ' if both }}{{ 'bathroom door' if bathroom_door }}.
+  #       - condition: state
+  #         entity_id: input_boolean.ac_damper_living_room
+  #         state: "on"
+  #   action:
+  #     - service: script.notify_all
+  #       data:
+  #         message: >
+  #           {% set balcony_window = is_state("binary_sensor.balcony_window", "on") -%}
+  #           {% set bathroom_door = is_state("binary_sensor.bathroom_door", "on") -%}
+  #           {% set both = (balcony_window and bathroom_door) %}
+  #           Living Room AC is on. Please close the {{ 'balcony window' if balcony_window }}{{ ' and the ' if both }}{{ 'bathroom door' if bathroom_door }}.
 
   - id: Update room temperature for dampers
     alias: Update room temperature for dampers

@@ -1,0 +1,103 @@
+timer:
+  ac_damper_living_room:
+    name: Living Room AC Timer
+    duration: '00:30:00'
+    restore: true
+  ac_damper_office:
+    name: Office AC Timer
+    duration: '00:30:00'
+    restore: true
+  ac_damper_birds:
+    name: Birds AC Timer
+    duration: '00:30:00'
+    restore: true
+  ac_damper_riley:
+    name: Riley AC Timer
+    duration: '00:30:00'
+    restore: true
+  ac_damper_bedroom:
+    name: Bedroom AC Timer
+    duration: '00:30:00'
+    restore: true
+
+input_number:
+  ac_damper_living_room:
+    name: Living Room AC Timer (mins)
+    min: 15
+    max: 240
+    step: 15
+
+  ac_damper_office:
+    name: Office AC Timer (mins)
+    min: 15
+    max: 240
+    step: 15
+    
+  ac_damper_birds:
+    name: Birds AC Timer (mins)
+    min: 15
+    max: 240
+    step: 15
+
+  ac_damper_riley:
+    name: Riley AC Timer (mins)
+    min: 15
+    max: 240
+    step: 15
+
+  ac_damper_bedroom:
+    name: Bedroom AC Timer (mins)
+    min: 15
+    max: 240
+    step: 15
+
+script:
+  ac_damper_toggle_timer:
+    sequence:
+      - choose:
+          # if idle
+          - conditions:
+              - alias: "If timer is idle"
+                condition: template
+                value_template: "{{ is_state('timer.' + damper_name, 'idle') }}"
+                
+            sequence:
+              - service: timer.start
+                data:
+                  entity_id: "{{ 'timer.' + damper_name }}"
+                  duration:
+                    minutes: "{{ states('input_number.' + damper_name) }}"
+
+        default:
+          - service: timer.cancel
+            data:
+              entity_id: "{{ 'timer.' + damper_name }}"
+
+automation:
+  - alias: AC Damper toggle on/off when timer finished
+    mode: parallel
+    trigger:
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.ac_damper_living_room
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.ac_damper_office
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.ac_damper_birds
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.ac_damper_riley
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.ac_damper_bedroom
+    action:
+      service: climate.turn_{{ 'on' if is_state(trigger.event.data.entity_id | replace('timer.', 'climate.'), 'off') else 'off' }}
+      data:
+        entity_id: "{{ trigger.event.data.entity_id | replace('timer.', 'climate.') }}"
