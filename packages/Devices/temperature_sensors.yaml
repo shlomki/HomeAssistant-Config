@@ -1,6 +1,4 @@
 sensor:
-  - platform: season
-    type: meteorological
 
   - platform: template
     sensors:
@@ -113,6 +111,14 @@ sensor:
              states('sensor.riley_temperature_monitor') if not is_state('sensor.riley_temperature_monitor', 'Ok') else
              states('sensor.bedroom_temperature_monitor') if not is_state('sensor.bedroom_temperature_monitor', 'Ok') else 'Ok' }}
 
+input_select:
+  season:
+    options:
+      - Summer
+      - Autumn
+      - Winter
+      - Spring
+
 input_number:
   room_temperature_max_summer:
     min: 15
@@ -178,10 +184,10 @@ automation:
           - input_number.room_temperature_max_winter
           - input_number.room_temperature_min_spring
           - input_number.room_temperature_max_spring
-          - sensor.season
+          - input_select.season
 
     variables:
-      season: "{{ states('sensor.season') }}"
+      season: "{{ states('input_select.season') }}"
 
     action:
       - service: input_number.set_value
