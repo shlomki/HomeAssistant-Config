@@ -72,19 +72,19 @@ automation:
         to: 'on'
     action:
       - service: switch.turn_on
-        entity_id: switch.bedroom_smart_plug
+        entity_id: switch.toilet_vent
       - delay:
           minutes: 8
       - service: switch.turn_off
-        entity_id: switch.bedroom_smart_plug
+        entity_id: switch.toilet_vent
 
 switch:
-  - platform: broadlink
-    mac: !secret office_mac
-    switches:
-      - name: Toilet Vent
-        command_on: 'si4yABEFEQUHDwcPEQUHDxEFEQUHDxEFBxAHDxEFEQURBQcQBw8HDxEFBw8RBQcQEQURBQehAAAAAAAA'
-        command_off: 'sm0yABEFEQURBQcPBw8HDxEFBw8HDwcPEgURBQehEgUSBQcPBw8RBQcPEQURBQcPEQUHDwcPAAAAAAAA'
+  # - platform: broadlink
+  #   mac: !secret office_mac
+  #   switches:
+  #     - name: Toilet Vent
+  #       command_on: 'si4yABEFEQUHDwcPEQUHDxEFEQUHDxEFBxAHDxEFEQURBQcQBw8HDxEFBw8RBQcQEQURBQehAAAAAAAA'
+  #       command_off: 'sm0yABEFEQURBQcPBw8HDxEFBw8HDwcPEgURBQehEgUSBQcPBw8RBQcPEQURBQcPEQUHDwcPAAAAAAAA'
 
   - platform: broadlink
     mac: !secret office_mac

@@ -67,8 +67,7 @@ group:
     entities:
       - light.toilet_main
       - light.toilet_night_light
-      # - switch.toilet_vent
-      - switch.bedroom_smart_plug
+      - switch.toilet_vent
 
   Bathroom Lights:
     entities:
