@@ -188,8 +188,8 @@ group:
       - cover.kitchen_shutter_switch
       - cover.kitchen_curtain_switch
       - lock.front_door
-      #- fan.bedroom
-      #- fan.living_room
+      #- fan.bedroom_fan
+      #- fan.living_room_fan
       - media_player.living_room_tv
       - media_player.bedroom_tv
       - media_player.google_tv
