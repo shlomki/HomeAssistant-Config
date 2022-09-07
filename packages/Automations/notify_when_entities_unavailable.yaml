@@ -181,20 +181,27 @@ group:
       - switch.shelly_3em
       - binary_sensor.big_freezer
       - switch.living_room_side_lamp_smart_plug
-      #- switch.gray_fan_smart_plug
       - sensor.outside_temperature
-      # - switch.il_smart_plug_1
-      # - switch.il_smart_plug_2
       - cover.kitchen_shutter_switch
       - cover.kitchen_curtain_switch
       - lock.front_door
-      #- fan.bedroom_fan
-      #- fan.living_room_fan
-      - media_player.living_room_tv
-      - media_player.bedroom_tv
-      - media_player.google_tv
-      - media_player.bedroom_google_tv
       - cover.bedroom_curtain_motor
       - cover.bedroom_curtain_switch
       - switch.living_room_bff_light
       - light.bathroom_cabinet
+
+      #Fans
+      - switch.gray_fan_smart_plug
+      - fan.bedroom_fan
+      - fan.living_room_fan
+
+      #Smart Plugs
+      # - switch.il_smart_plug_1
+      # - switch.il_smart_plug_2
+
+      #TVs & Media Players
+      - media_player.living_room_tv
+      - media_player.bedroom_tv
+      - media_player.balcony_tv
+      # - media_player.google_tv
+      # - media_player.bedroom_google_tv
