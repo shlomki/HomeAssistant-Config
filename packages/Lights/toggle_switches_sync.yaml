@@ -20,6 +20,21 @@ automation:
           - light.living_room_side_lamp_combined
           - switch.living_room_side_lamp_toggle
 
+  - alias: Living room tv light sync dimmer
+    max_exceeded: silent
+    trigger:
+      - platform: state
+        entity_id:
+          - switch.living_room_tv_light
+          - light.living_room_tv_light_dimmer
+        not_from: "unavailable"
+        not_to: "unavailable"
+
+    action:
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
+        entity_id:
+          - light.living_room_tv_light_group
+
   - alias: Stairs switch sync
     max_exceeded: silent
     trigger:

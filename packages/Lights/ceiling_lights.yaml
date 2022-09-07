@@ -133,50 +133,49 @@ light:
               entity_id: light.hallway_controllers_group
               brightness: "{{ brightness }}"
 
+  # - platform: template
+  #   lights:
+  #     living_room_tv_light_combined:
+  #       unique_id: "Living Room Light TV Light"
+  #       friendly_name: "Living Room TV Light Dimmable"
+  #       value_template: "{{ is_state('light.living_room_tv_light','on') }}"
+  #       level_template: "{{ state_attr('light.living_room_tv_light_dimmer','brightness') }}"
+  #       availability_template: "{{ not is_state('light.living_room_tv_light','unavailable') }}"
+  #       turn_on:
+  #         - service: homeassistant.turn_on
+  #           entity_id: light.living_room_tv_light
+  #       turn_off:
+  #         - service: homeassistant.turn_off
+  #           entity_id: light.living_room_tv_light
+  #       set_level:
+  #         - service: light.turn_on
+  #           entity_id: light.living_room_tv_light
+  #         - wait_template: "{{ is_state('light.living_room_tv_light_dimmer', 'on') }}"
+  #           timeout:
+  #             seconds: 2
+  #         - service: light.turn_on
+  #           data:
+  #             entity_id: light.living_room_tv_light_dimmer
+  #             brightness: "{{ brightness }}"
+
   - platform: template
     lights:
       living_room_tv_light_combined:
         unique_id: "Living Room Light TV Light"
         friendly_name: "Living Room TV Light Dimmable"
-        value_template: "{{ is_state('light.living_room_tv_light','on') }}"
+        value_template: "{{ is_state('light.living_room_tv_light_dimmer','on') }}"
         level_template: "{{ state_attr('light.living_room_tv_light_dimmer','brightness') }}"
-        availability_template: "{{ not is_state('light.living_room_tv_light','unavailable') }}"
+        availability_template: "{{ not is_state('light.living_room_tv_light_dimmer','unavailable') }}"
         turn_on:
-          - service: homeassistant.turn_on
-            entity_id: light.living_room_tv_light
-        turn_off:
-          - service: homeassistant.turn_off
-            entity_id: light.living_room_tv_light
-        set_level:
           - service: light.turn_on
-            entity_id: light.living_room_tv_light
-          - wait_template: "{{ is_state('light.living_room_tv_light_dimmer', 'on') }}"
-            timeout:
-              seconds: 2
+            entity_id: light.living_room_tv_light_dimmer
+        turn_off:
+          - service: light.turn_off
+            entity_id: light.living_room_tv_light_dimmer
+        set_level:
           - service: light.turn_on
             data:
               entity_id: light.living_room_tv_light_dimmer
-              brightness: "{{ brightness }}"
-
-  - platform: template
-    lights:
-      living_room_tv_light_combined:
-        friendly_name: "Hallway Main Dimmable"
-        value_template: "{{ is_state('light.hallway_main','on') }}"
-        level_template: "{{ state_attr('light.living_room_tv_light_dimmer','brightness') }}"
-        availability_template: "{{ not is_state('light.living_room_tv_light','unavailable') }}"
-        turn_on:
-          - service: homeassistant.turn_on
-            entity_id: light.living_room_tv_light
-        turn_off:
-          - service: homeassistant.turn_off
-            entity_id: light.living_room_tv_light
-        set_level:
-          - service: light.turn_on
-            data:
-              entity_id:
-                - light.living_room_tv_light
-                - light.living_room_tv_light_dimmer
               brightness: "{{ brightness }}"
 
   - platform: template
@@ -326,9 +325,16 @@ light:
             data:
               entity_id: light.living_room_side_lamp_hue
               brightness: "{{ brightness }}"
-
+              
 group:
   living room dimmable lights:
+    entities:
+      - light.living_room_main_combined
+      - light.living_room_entrance_combined
+      - light.living_room_hallway_combined
+      - light.living_room_tv_light_combined
+
+  living room color changing lights:
     entities:
       - light.living_room_main_combined
       - light.living_room_entrance_combined
@@ -339,7 +345,7 @@ automation:
     description: ""
     trigger:
       - platform: state
-        entity_id: group.living_room_dimmable_lights
+        entity_id: group.living_room_color_changing_lights
         from: "on"
         to: "off"
         for: "20"
@@ -351,7 +357,7 @@ automation:
     description: ""
     trigger:
       - platform: state
-        entity_id: group.living_room_dimmable_lights
+        entity_id: group.living_room_color_changing_lights
         from: "off"
         to: "on"
         for: "5"

@@ -22,7 +22,7 @@ cards:
         template: ha-button
         entity: light.living_room_main_combined
         name: Main
-        icon: mdi:sofa
+        icon: mdi:sofa-outline
         icon_height: 50px
 
       - type: custom:button-card
@@ -43,7 +43,7 @@ cards:
     cards:
       - type: custom:button-card
         template: ha-button
-        entity: light.living_room_tv_light
+        entity: light.living_room_tv_light_combined
         name: TV Light
         icon: mdi:television-classic
         icon_height: 50px
