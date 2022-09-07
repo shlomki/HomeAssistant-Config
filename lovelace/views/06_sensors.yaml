@@ -58,10 +58,13 @@ cards:
       title: Low Battery Levels
     filter:
       include:
+        - entity_id: binary_sensor.front_door_battery
+          state: 'on'
         - domain: sensor
           entity_id: '*_battery_level'
           state: <99
-      exclude: []
+      exclude:
+        - entity_id: sensor.inbal_s10plus_battery_level
     sort:
       method: state
   # - type: entities

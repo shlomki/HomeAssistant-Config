@@ -146,8 +146,6 @@ automation:
           deviceID:
             - house_tablet
 
-
-
   # - alias: Door is opened with photo from last motion
   #   trigger:
   #     - platform: state
@@ -223,15 +221,20 @@ automation:
             {% set sensor_names = [ 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday','Saturday','Sunday'] %}
             {{ sensor_names[now().weekday()] }}
 
+  - alias: Front door lock battery is critical
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.front_door_lock_battery
+        from: "off"
+        to: "on"
+    action:
+      - service: notify.shlomi
+        data:
+          message: "Front Door Lock is low on battery! Charge it soon!"
+
 shell_command:
   removesnapshots: 'find /media/front_door/{{ day }}/ -exec rm {} \;'  
 
-sensor:
-  - platform: template
-    sensors:
-      front_door_combined:
-        friendly_name: "Front Door"
-        value_template: "{{ states('binary_sensor.front_door') | replace('off', 'Closed') | replace('on', 'Open') | capitalize }}, {{ states('lock.front_door') if is_state('binary_sensor.front_door_lock', 'unavailable') else states('binary_sensor.front_door_lock') | replace('off', 'Locked') | replace('on', 'Unlocked') | capitalize }}"
 
 script:
   front_door_lock_toggle:
@@ -261,3 +264,15 @@ group:
     entities:
       - automation.front_door_left_open
       - automation.front_door_left_open_reminder
+
+template:
+  - sensor:
+      - name: "Front Door Combined"
+        state: "{{ states('binary_sensor.front_door') | replace('off', 'Closed') | replace('on', 'Open') | capitalize }}, {{ states('lock.front_door') if is_state('binary_sensor.front_door_lock', 'unavailable') else states('binary_sensor.front_door_lock') | replace('off', 'Locked') | replace('on', 'Unlocked') | capitalize }}"
+
+
+  - binary_sensor:
+    # Keep track how many days have past since a date
+    - name: "Front Door Battery"
+      device_class: battery
+      state: "{{ state_attr('lock.front_door', 'battery_critical') }}"
