@@ -149,6 +149,7 @@ automation:
 
   - id: Control tablets from hue remote - power
     alias: Control tablets from hue remote - power
+    mode: queued
     trigger:
       - platform: event
         event_type: deconz_event
@@ -167,6 +168,7 @@ automation:
 
   - id: Control tablets from hue remote - volume
     alias: Control tablets from hue remote - volume
+    mode: queued
     trigger:
       - platform: event
         event_type:

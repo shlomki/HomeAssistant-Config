@@ -1,18 +1,17 @@
 ## Button 1: Sleep
-## Button 2: Bedroom Curtain
-## Button 3: Bedroom Shutter
+## Button 2: Fan
+## Button 3: Shutter
 ## Button 4: Black Tablet
 
-
 automation:
-  - id: Bedroom Hue Remote Actions
-    alias: Bedroom Hue Remote Actions
+  - id: Bedroom Hue Remote Inbal Actions
+    alias: Bedroom Hue Remote Inbal Actions
     mode: restart
     trigger:
       - platform: event
         event_type: deconz_event
         event_data:
-          device_id: !secret bedroom_hue_remote_device_id
+          device_id: !secret bedroom_hue_remote_inbal_device_id
     variables:
       button_code: "{{ trigger.event.data.event }}"
     action:
@@ -26,23 +25,26 @@ automation:
                   entity_id: scene.sleep
 
 
-          ## Button 2 Release Short Press When in Motion: Stop Bedroom Curtain
-          - conditions: "{{ button_code == 2002 and (is_state('cover.bedroom_curtain_with_moving_state', 'opening') or is_state('cover.bedroom_curtain_with_moving_state', 'closing')) }}"
+          ## Button 2 Release Short Press While Fan is Off: Turn On Fan
+          - conditions: "{{ button_code == 2002 and is_state('fan.bedroom_fan', 'off') }}"
             sequence:
-              - service: cover.stop_cover
-                entity_id: cover.bedroom_curtain_with_moving_state
+              - service: fan.turn_on
+                entity_id: fan.bedroom_fan
 
-          ## Button 2 Release Short Press: Close Bedroom Curtain
-          - conditions: "{{ button_code == 2002 }}"
+          ## Button 2 Release Short Press While Fan is On: Cycle Fan Speed
+          - conditions: "{{ button_code == 2002 and is_state('fan.bedroom_fan', 'on') }}"
             sequence:
-              - service: cover.close_cover
-                entity_id: cover.bedroom_curtain_with_moving_state
+              - service: fan.set_preset_mode
+                data:
+                  entity_id: fan.bedroom_fan
+                  preset_mode: "Level {{ ((state_attr('fan.bedroom_fan', 'preset_mode') | replace('Level ', '') | int) + 1) | replace('5','1')}}" #Select the next speed
 
-          ## Button 2 Hold: Open Bedroom Curtain
+
+          ## Button 2 Hold: Turn Off Fan
           - conditions: "{{ button_code == 2001 }}"
             sequence:
-              - service: cover.open_cover
-                entity_id: cover.bedroom_curtain_with_moving_state
+              - service: fan.turn_off
+                entity_id: fan.bedroom_fan
 
 
           ## Button 3 Release Short Press When in Motion: Stop Bedroom Shutter
