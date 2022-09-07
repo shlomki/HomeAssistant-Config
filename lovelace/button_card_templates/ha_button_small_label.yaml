@@ -1,0 +1,11 @@
+ha-button-small-label:
+  styles:
+    card:
+      - height: 105px
+    name:
+      - padding-bottom: 10px
+    label:
+      - font-size: 15px
+  size: 33%
+  hold_action:
+    action: more-info
