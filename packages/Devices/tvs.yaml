@@ -35,7 +35,9 @@ automation:
       - platform: state
         entity_id: media_player.amplifier
         from: "off"
-        to: "on"
+        not_to: 
+          - unavailable
+          - unknown
     action:
       - service: switch.turn_on
         entity_id: switch.subwoofer
@@ -48,7 +50,9 @@ automation:
         to: "off"
       - platform: state
         entity_id: media_player.amplifier
-        from: "on"
+        not_from: 
+          - unavailable
+          - unknown
         to: "off"
     condition:
       condition: and
@@ -107,6 +111,7 @@ group:
     entities:
       - media_player.living_room_tv
       - media_player.bedroom_tv
+      - media_player.balcony_tv
       - media_player.amplifier
       - switch.subwoofer
 
