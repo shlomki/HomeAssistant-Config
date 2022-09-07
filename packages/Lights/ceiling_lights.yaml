@@ -327,13 +327,6 @@ light:
               brightness: "{{ brightness }}"
               
 group:
-  living room dimmable lights:
-    entities:
-      - light.living_room_main_combined
-      - light.living_room_entrance_combined
-      - light.living_room_hallway_combined
-      - light.living_room_tv_light_combined
-
   living room color changing lights:
     entities:
       - light.living_room_main_combined
