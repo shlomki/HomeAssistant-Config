@@ -1,0 +1,13 @@
+script:  
+  blink_light:
+    alias: Blink Light
+    mode: parallel
+    sequence:
+      - repeat:
+          count: 10
+          sequence:
+            - service: light.toggle
+              data:
+                entity_id: '{{ light_entity_id }}'
+            - delay:
+                seconds: '{{ delay_seconds | default(1) }}'
