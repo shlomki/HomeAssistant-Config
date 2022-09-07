@@ -37,23 +37,23 @@ cards:
     title: AC Dampers Update
     type: entities
   - entities:
-      - entity: automation.ac_smartauto
-      - entity: switch.ac_smartauto
-        name: Fan / AC
-      - entity: binary_sensor.ac_smartauto_enabled
-      - entity: sensor.ac_smartauto_location
-      - entity: sensor.ac_smartauto
-      - entity: input_number.ac_smartauto_min_living_room
-      - entity: input_number.ac_smartauto_max_living_room
-      - entity: input_number.ac_smartauto_min_office
-      - entity: input_number.ac_smartauto_max_office
-      - entity: input_number.ac_smartauto_min_birds
-      - entity: input_number.ac_smartauto_max_birds
-      - entity: input_number.ac_smartauto_min_riley
-      - entity: input_number.ac_smartauto_max_riley
-      - entity: input_number.ac_smartauto_min_bedroom
-      - entity: input_number.ac_smartauto_max_bedroom
-      - entity: input_boolean.ac_smartauto_min_cycle_passed
+    - entity: input_select.ac_smartauto_location
+    - entity: automation.ac_smartauto
+    - entity: switch.ac_smartauto
+      name: Fan / AC
+    - entity: binary_sensor.ac_smartauto_enabled
+    - entity: sensor.ac_smartauto
+    - entity: input_number.ac_smartauto_min_living_room
+    - entity: input_number.ac_smartauto_max_living_room
+    - entity: input_number.ac_smartauto_min_office
+    - entity: input_number.ac_smartauto_max_office
+    - entity: input_number.ac_smartauto_min_birds
+    - entity: input_number.ac_smartauto_max_birds
+    - entity: input_number.ac_smartauto_min_riley
+    - entity: input_number.ac_smartauto_max_riley
+    - entity: input_number.ac_smartauto_min_bedroom
+    - entity: input_number.ac_smartauto_max_bedroom
+    - entity: input_boolean.ac_smartauto_min_cycle_passed
     show_header_toggle: false
     title: SmartAuto Settings
     type: entities
@@ -63,7 +63,7 @@ cards:
     title: Rain
   - type: entities
     entities:
-      - entity: sensor.season
+      - entity: input_select.season
       - entity: input_number.room_temperature_min_summer
       - entity: input_number.room_temperature_max_summer
       - entity: input_number.room_temperature_min_autumn
