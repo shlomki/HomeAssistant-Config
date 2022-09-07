@@ -22,7 +22,7 @@ cards:
           - type: custom:button-card
             template: cover-stop
             entity: cover.living_room_shutter
-            icon: mdi:sofa
+            icon: mdi:sofa-outline
             variables:
               window_entity_ids: binary_sensor.balcony_window
             triggers_update: binary_sensor.balcony_window

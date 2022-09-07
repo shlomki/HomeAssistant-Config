@@ -10,7 +10,7 @@ cards:
         template: climate-button
         entity: climate.ac_damper_living_room
         name: AC
-        icon: mdi:sofa
+        icon: mdi:sofa-outline
         triggers_update:
           - binary_sensor.balcony_window
           - binary_sensor.kitchen_window
@@ -20,10 +20,11 @@ cards:
             - binary_sensor.balcony_window
             - binary_sensor.kitchen_window
           temperature_monitor_entity_id: sensor.living_room_temperature_monitor
+          damper_name: ac_damper_living_room
 
       - type: custom:button-card
         template: ha-button
-        entity: fan.living_room
+        entity: fan.living_room_fan
         name: Fan
         icon: mdi:fan
         hold_action:
@@ -33,7 +34,7 @@ cards:
             hide_header: false
             title: Living Room Fan
             card:
-              entity: fan.living_room
+              entity: fan.living_room_fan
               name: Living Room Fan
               type: custom:fan-xiaomi
 
@@ -49,4 +50,3 @@ cards:
         template: tv-button
         entity: media_player.living_room_tv
         name: TV
-

@@ -6,7 +6,7 @@ cards:
         template: climate-button
         entity: climate.ac_damper_living_room
         name: Living Room
-        icon: mdi:sofa
+        icon: mdi:sofa-outline
         triggers_update:
           - binary_sensor.balcony_window
           - binary_sensor.kitchen_window
@@ -114,7 +114,7 @@ cards:
                 action: more-info
             - type: custom:button-card
               template: ha-button
-              entity: fan.living_room
+              entity: fan.living_room_fan
               name: Living Room
               icon: mdi:fan
               hold_action:
@@ -124,10 +124,25 @@ cards:
                   hide_header: false
                   title: Living Room Fan
                   card:
-                    entity: fan.living_room
-                    name: Living Room Fan
-                    type: custom:fan-xiaomi
-                    # platform: xiaomi_miio_fan
+                    type: vertical-stack
+                    cards:
+                      - entity: fan.living_room_fan
+                        name: Living Room Fan
+                        type: custom:fan-xiaomi
+                        # platform: xiaomi_miio_fan
+                      - type: custom:button-card
+                        entity: script.reset_fan
+                        name: Reset Angle
+                        icon: mdi:angle-obtuse
+                        layout: icon_name
+                        styles:
+                          card:
+                            - height: 60px
+                        tap_action:
+                          action: call-service
+                          service: script.reset_fan
+                          service_data:
+                            entity_id: fan.living_room_fan
 
             - type: custom:button-card
               template: ha-button
@@ -160,7 +175,7 @@ cards:
                   duration: 3
             - type: custom:button-card
               template: ha-button
-              entity: fan.bedroom
+              entity: fan.bedroom_fan
               name: Bedroom Fan
               icon: mdi:fan
               hold_action:
@@ -170,6 +185,22 @@ cards:
                   hide_header: false
                   title: Bedroom Fan
                   card:
-                    entity: fan.bedroom
-                    type: custom:fan-xiaomi
-                    # platform: xiaomi_miio_fan
+                    type: vertical-stack
+                    cards:
+                      - entity: fan.bedroom_fan
+                        name: Bedroom Fan
+                        type: custom:fan-xiaomi
+                        # platform: xiaomi_miio_fan
+                      - type: custom:button-card
+                        entity: script.reset_fan
+                        name: Reset Angle
+                        icon: mdi:angle-obtuse
+                        layout: icon_name
+                        styles:
+                          card:
+                            - height: 60px
+                        tap_action:
+                          action: call-service
+                          service: script.reset_fan
+                          service_data:
+                            entity_id: fan.bedroom_Fan

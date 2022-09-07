@@ -22,7 +22,7 @@ cards:
             card: !include /config/lovelace/room_cards/living_room/lights.yaml
         entity: group.living_room_lights
         name: Living Room
-        icon: mdi:sofa
+        icon: mdi:sofa-outline
         icon_height: 50px
       - type: custom:button-card
         template: ha-button

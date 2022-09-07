@@ -21,7 +21,7 @@ cards:
                 template: climate-button
                 entity: climate.ac_damper_living_room
                 name: Гостиная
-                icon: mdi:sofa
+                icon: mdi:sofa-outline
                 triggers_update:
                   - binary_sensor.balcony_window
                   - binary_sensor.kitchen_window
