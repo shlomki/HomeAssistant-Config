@@ -255,3 +255,9 @@ script:
               entity_id: light.living_room_bff_light
             - delay:
                 seconds: 0.5
+
+group:
+  front_door_left_open_automations:
+    entities:
+      - automation.front_door_left_open
+      - automation.front_door_left_open_reminder

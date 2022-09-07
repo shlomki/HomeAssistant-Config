@@ -1,0 +1,175 @@
+title: Stealth Mode
+path: stealth_mode
+panel: false
+icon: mdi:eye-off
+badges: []
+cards:
+
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title
+        name: Cameras
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Living Room Camera
+            label: Power
+            show_label: true
+            entity: switch.camera_livingroom
+            icon: mdi:cctv
+
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Front Door
+            label: Photos & Notifications
+            show_label: true
+            entity: automation.door_is_opened_with_photo_actions
+            icon: mdi:door-open
+
+
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title
+        name: Away from Home
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Away from Home
+            label: Auto Off
+            show_label: true
+            entity: automation.away_from_home_notify
+            icon: mdi:home-alert-outline
+
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Guest Mode
+            label: Auto Off
+            show_label: true
+            entity: automation.guest_mode_turn_off_when_returning_home
+            icon: mdi:account-outline
+
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title
+        name: BFFs are Home Notifications
+
+      - type: horizontal-stack
+        cards:
+
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Shlomi is Home
+            label: Notification
+            show_label: true
+            entity: automation.shlomi_came_home
+            icon: mdi:account-outline
+
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Inbal is Home
+            label: Notification
+            show_label: true
+            entity: automation.inbal_came_home
+            icon: mdi:account-outline
+
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title
+        name: Lights Auto On
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Closet Light
+            label: Auto On
+            show_label: true
+            entity: automation.away_from_home_notify
+            icon: mdi:hanger
+
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Toilet Light
+            label: Auto On
+            show_label: true
+            entity: automation.toilet_light_on_motion
+            icon: mdi:toilet
+
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Toilet Light
+            label: Auto On
+            show_label: true
+            entity: automation.stairs_light_auto_on
+            icon: mdi:stairs
+
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title
+        name: Reminders
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Front Door
+            label: Reminder
+            show_label: true
+            entity: group.front_door_left_open_automations
+            icon: mdi:door-open
+
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Fridge
+            label: Reminder
+            show_label: true
+            entity: group.fridge_left_open_automations
+            icon: mdi:fridge-outline
+
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Freezer
+            label: Reminder
+            show_label: true
+            entity: group.freezer_left_open_automations
+            icon: mdi:fridge-outline
+
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Big Freezer
+            label: Reminder
+            show_label: true
+            entity: group.big_freezer_left_open_automations
+            icon: mdi:fridge-outline
+
+
+
+  # - type: entities
+  #   entities:
+  #     - switch.camera_livingroom
+  #     - automation.away_from_home_notify
+  #     - automation.guest_mode_turn_off_when_returning_home
+  #     - automation.door_is_opened_with_photo_actions
+  #     - automation.shlomi_came_home
+  #     - automation.inbal_came_home
+  #     - automation.bedroom_closet_light_on_motion
+  #     - automation.toilet_light_on_motion
+  #     - automation.stairs_light_auto_on
+  #     - automation.front_door_left_open
+  #     - automation.front_door_left_open_reminder
+  #     - automation.freezer_left_open
+  #     - automation.freezer_left_open_reminder
+  #     - automation.fridge_left_open
+  #     - automation.fridge_left_open_reminder
+  #     - automation.big_freezer_left_open
+  #     - automation.big_freezer_left_open_reminder_10
+  #     - automation.big_freezer_left_open_reminder_20

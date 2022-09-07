@@ -5,6 +5,23 @@ group:
       - binary_sensor.freezer
       - binary_sensor.big_freezer
 
+  fridge_left_open_automations:
+    entities:
+      - automation.fridge_left_open
+      - automation.fridge_left_open_reminder
+
+  freezer_left_open_automations:
+    entities:
+      - automation.freezer_left_open
+      - automation.freezer_left_open_reminder
+
+  big_freezer_left_open_automations:
+    entities:
+      - automation.big_freezer_left_open
+      - automation.big_freezer_left_open_reminder_10
+      - automation.big_freezer_left_open_reminder_20
+
+
 automation:
 
   - alias: Fridge Left Open
@@ -128,3 +145,5 @@ automation:
       - service: script.notify_all
         data:
           message: The big freezer is still open (20 minute reminder).
+
+          
