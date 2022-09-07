@@ -1,2 +1,24 @@
 input_boolean:
   guest_mode:
+
+automation:
+  - id: Guest Mode - turn off when returning home
+    alias: Guest Mode - turn off when returning home
+    trigger:
+      - platform: state
+        entity_id: group.bffs
+        from: "not_home"
+        to: "home"
+    condition:
+      - alias: "Guest Mode has been on for more than 20 minutes"
+        condition: state
+        entity_id: input_boolean.guest_mode
+        state: "on"
+        for:
+          minutes: 30
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.guest_mode
+      - service: notify.bffs
+        data:
+          message: "Welcome back home! Guest Mode has been turned off."
