@@ -23,33 +23,33 @@ timer:
 input_number:
   ac_damper_living_room:
     name: Living Room AC Timer (mins)
-    min: 15
-    max: 240
-    step: 15
+    min: 1
+    max: 720
+    step: 1
 
   ac_damper_office:
     name: Office AC Timer (mins)
-    min: 15
-    max: 240
-    step: 15
+    min: 1
+    max: 720
+    step: 1
     
   ac_damper_birds:
     name: Birds AC Timer (mins)
-    min: 15
-    max: 240
-    step: 15
+    min: 1
+    max: 720
+    step: 1
 
   ac_damper_riley:
     name: Riley AC Timer (mins)
-    min: 15
-    max: 240
-    step: 15
+    min: 1
+    max: 720
+    step: 1
 
   ac_damper_bedroom:
     name: Bedroom AC Timer (mins)
-    min: 15
-    max: 240
-    step: 15
+    min: 1
+    max: 720
+    step: 1
 
 script:
   ac_damper_toggle_timer:
@@ -74,7 +74,7 @@ script:
               entity_id: "{{ 'timer.' + damper_name }}"
 
 automation:
-  - alias: AC Damper toggle on/off when timer finished
+  - alias: AC Damper toggle damper when timer finished
     mode: parallel
     trigger:
       - platform: event
@@ -101,3 +101,52 @@ automation:
       service: climate.turn_{{ 'on' if is_state(trigger.event.data.entity_id | replace('timer.', 'climate.'), 'off') else 'off' }}
       data:
         entity_id: "{{ trigger.event.data.entity_id | replace('timer.', 'climate.') }}"
+
+  - alias: AC Damper cancel timer when damper state changes
+    mode: parallel
+    max_exceeded: silent
+    trigger:
+      - platform: state
+        entity_id: 
+          - climate.ac_damper_living_room
+          - climate.ac_damper_office
+          - climate.ac_damper_birds
+          - climate.ac_damper_riley
+          - climate.ac_damper_bedroom
+
+        from: 
+          - "off"
+          - "fan_only"
+        to: 
+          - "off"
+          - "fan_only"
+        
+    condition:
+      - alias: "Damper's timer is running"
+        condition: template
+        value_template: "{{ is_state(trigger.to_state.entity_id | replace('climate.', 'timer.'), 'active') }}"
+
+    action:
+      - service: timer.cancel
+        data:
+          entity_id: "{{ trigger.to_state.entity_id | replace('climate.', 'timer.') }}"
+
+  - alias: AC Damper refresh timer when another duration is selected
+    trigger:
+      - platform: state
+        entity_id: 
+          - input_number.ac_damper_living_room
+          - input_number.ac_damper_office
+          - input_number.ac_damper_birds
+          - input_number.ac_damper_riley
+          - input_number.ac_damper_bedroom    
+    condition:
+      - alias: "Damper's timer is running"
+        condition: template
+        value_template: "{{ is_state(trigger.to_state.entity_id | replace('input_number.', 'timer.'), 'active') }}"
+    action:
+      - service: timer.start
+        data:
+          entity_id: "{{ trigger.to_state.entity_id | replace('input_number.', 'timer.') }}"
+          duration:
+            minutes: "{{ trigger.to_state.state }}"

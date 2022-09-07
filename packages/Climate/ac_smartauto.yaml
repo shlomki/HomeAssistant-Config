@@ -1,3 +1,13 @@
+input_select:
+  ac_smartauto_location:
+    options:
+      - "off"
+      - living_room
+      - office
+      - birds
+      - riley
+      - bedroom
+
 input_number:
   ac_smartauto_min_living_room:
     name: Living Room Min Temp
@@ -85,35 +95,19 @@ sensor:
       ac_smartauto:
         friendly_name: "AC SmartAuto Sensor"
         unit_of_measurement: "°C"
-        value_template: >
-          {% if state_attr("fan.ac_damper_living_room", "speed") == "SmartAuto" and is_state("fan.ac_damper_living_room", "on") %}
-            {{ states("sensor.living_room_temperature") }}
-          {% elif state_attr("fan.ac_damper_office", "speed") == "SmartAuto" and is_state("fan.ac_damper_office", "on" ) %}
-            {{ states("sensor.office_temperature") }}
-          {% elif state_attr("fan.ac_damper_birds", "speed") == "SmartAuto" and is_state("fan.ac_damper_birds", "on") %}
-            {{ states("sensor.birds_temperature") }}
-          {% elif state_attr("fan.ac_damper_riley", "speed") == "SmartAuto" and is_state("fan.ac_damper_riley", "on") %}
-            {{ states("sensor.riley_temperature") }}
-          {% elif state_attr("fan.ac_damper_bedroom", "speed") == "SmartAuto" and is_state("fan.ac_damper_bedroom", "on") %}
-            {{ states("sensor.bedroom_temperature") }}
-          {% endif %}
+        value_template: "{{ states('sensor.' + states('input_select.ac_smartauto_location') + '_temperature') }}"
 
-      ac_smartauto_location:
-        friendly_name: "AC SmartAuto Location"
-        value_template: >
-          {% if state_attr("fan.ac_damper_living_room", "speed") == "SmartAuto" and is_state("fan.ac_damper_living_room", "on") %}
-            living_room
-          {% elif state_attr("fan.ac_damper_office", "speed") == "SmartAuto" and is_state("fan.ac_damper_office", "on" ) %}
-            office
-          {% elif state_attr("fan.ac_damper_birds", "speed") == "SmartAuto" and is_state("fan.ac_damper_birds", "on") %}
-            birds
-          {% elif state_attr("fan.ac_damper_riley", "speed") == "SmartAuto" and is_state("fan.ac_damper_riley", "on") %}
-            riley
-          {% elif state_attr("fan.ac_damper_bedroom", "speed") == "SmartAuto" and is_state("fan.ac_damper_bedroom", "on") %}
-            bedroom
-          {% else %}
-            off
-          {% endif %}
+# {% if state_attr("fan.ac_damper_living_room", "speed") == "SmartAuto" and is_state("fan.ac_damper_living_room", "on") %}
+#   {{ states("sensor.living_room_temperature") }}
+# {% elif state_attr("fan.ac_damper_office", "speed") == "SmartAuto" and is_state("fan.ac_damper_office", "on" ) %}
+#   {{ states("sensor.office_temperature") }}
+# {% elif state_attr("fan.ac_damper_birds", "speed") == "SmartAuto" and is_state("fan.ac_damper_birds", "on") %}
+#   {{ states("sensor.birds_temperature") }}
+# {% elif state_attr("fan.ac_damper_riley", "speed") == "SmartAuto" and is_state("fan.ac_damper_riley", "on") %}
+#   {{ states("sensor.riley_temperature") }}
+# {% elif state_attr("fan.ac_damper_bedroom", "speed") == "SmartAuto" and is_state("fan.ac_damper_bedroom", "on") %}
+#   {{ states("sensor.bedroom_temperature") }}
+# {% endif %}
 
 binary_sensor:
   - platform: template
@@ -124,9 +118,32 @@ binary_sensor:
           seconds: 10
         delay_off:
           seconds: 10
-        value_template: "{{ not is_state('sensor.ac_smartauto_location', 'off') }}"
+        value_template: "{{ not is_state('input_select.ac_smartauto_location', 'off') }}"
 
 automation:
+  - alias: AC SmartAuto Change location to Off when SmartAuto Damper is turned off
+    trigger:
+      - platform: state
+        entity_id: 
+          - climate.ac_damper_living_room
+          - climate.ac_damper_office
+          - climate.ac_damper_birds
+          - climate.ac_damper_riley
+          - climate.ac_damper_bedroom
+        from: "fan_only"
+        to: "off"
+
+    condition:
+      - alias: "The damper is selected as SmartAuto"
+        condition: template
+        value_template: "{{ states('input_select.ac_smartauto_location') == trigger.to_state.entity_id | replace('climate.ac_damper_','') }}"
+
+    action:
+      - service: input_select.select_option
+        data:  
+          entity_id: input_select.ac_smartauto_location
+          option: "off"
+
   - alias: AC SmartAuto Min Cycle Time Passed
     trigger:
       - platform: state
@@ -150,7 +167,7 @@ automation:
 
       #When min cycle time passed
       - platform: state
-        entity_id: switch.ac_smartauto_min_cycle_passed
+        entity_id: input_boolean.ac_smartauto_min_cycle_passed
         to: "on"
 
       #When SmartAuto is turned on
@@ -195,7 +212,7 @@ automation:
           #When Temp is too damn high
           - conditions:
               - condition: template
-                value_template: "{{ states('sensor.' + states('sensor.ac_smartauto_location') + '_temperature') > states('input_number.ac_smartauto_max_' + states('sensor.ac_smartauto_location')) }}"
+                value_template: "{{ states('sensor.' + states('input_select.ac_smartauto_location') + '_temperature') > states('input_number.ac_smartauto_max_' + states('input_select.ac_smartauto_location')) }}"
 
             sequence:
               - service: switch.{{ "turn_on" if states('input_text.last_ac_mode') == "cool" else "turn_off" }}
@@ -206,10 +223,18 @@ automation:
           #When Temp is too low
           - conditions:
               - condition: template
-                value_template: "{{ states('sensor.' + states('sensor.ac_smartauto_location') + '_temperature') < states('input_number.ac_smartauto_min_' + states('sensor.ac_smartauto_location')) }}"
+                value_template: "{{ states('sensor.' + states('input_select.ac_smartauto_location') + '_temperature') < states('input_number.ac_smartauto_min_' + states('input_select.ac_smartauto_location')) }}"
 
             sequence:
               - service: switch.{{ "turn_off" if states('input_text.last_ac_mode') == "cool" else "turn_on" }}
                 entity_id: switch.ac_smartauto
               - service: input_boolean.turn_off
                 entity_id: input_boolean.ac_smartauto_min_cycle_passed
+
+script:
+  toggle_ac_smartauto:
+    sequence:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.ac_smartauto_location
+          option: "{{ 'off' if is_state('input_select.ac_smartauto_location', location) else location }}"

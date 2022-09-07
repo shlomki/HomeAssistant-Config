@@ -124,34 +124,58 @@ climate-button:
                   mapper: "(state, entity) => (entity.attributes.fan_mode == 'Auto' ? 'on': 'off')"
                 toggle_action: >
                   [[[ return "(state) => this.call_service('climate', 'set_fan_mode',  { 'entity_id': '" + entity.entity_id +"', 'fan_mode': 'Auto'})" ]]]
+              smartauto:
+                location: bottom
+                icon: mdi:sun-snowflake-variant
+                state:
+                  entity: input_select.ac_smartauto_location
+                  mapper: >
+                    [[[ return "(state) => (state == '" + variables.damper_name.replace('ac_damper_','') + "' ? 'on': 'off')" ]]]
+                toggle_action: >
+                  [[[ return "(state) => this.call_service('script', 'turn_on',  { 'entity_id': 'script.toggle_ac_smartauto', 'variables': { 'location': '" + variables.damper_name.replace('ac_damper_', '') + "'} })" ]]]
 
-          - type: custom:button-card
-            entity: >
-              [[[ return "timer." + variables.damper_name; ]]]
-            layout: icon_name_state2nd
-            show_name: true
-            show_icon: true
-            show_state: true
-            name: "Timer"
-            styles:
-              card:
-                - height: 60px
-            tap_action:
-              action: call-service
-              service: script.ac_damper_toggle_timer
-              service_data:
-                damper_name: |
-                  [[[ return variables.damper_name; ]]]
-            state:
-              - value: "active"
-                color: rgb(253, 216, 53)
-                icon: mdi:timer-play-outline
+
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:button-card
+                entity: >
+                  [[[ return "timer." + variables.damper_name; ]]]
+                layout: icon_name_state2nd
+                show_name: true
+                show_icon: true
+                show_state: true
+                name: "Timer"
                 styles:
-                  icon:
-                    - animation: blink 2s ease infinite
-              - value: "idle"
-                color: rgb(68, 115, 158)
-                icon: mdi:timer-stop-outline
+                  card:
+                    - height: 68px
+                tap_action:
+                  action: call-service
+                  service: script.ac_damper_toggle_timer
+                  service_data:
+                    damper_name: |
+                      [[[ return variables.damper_name; ]]]
+                state:
+                  - value: "active"
+                    color: rgb(253, 216, 53)
+                    icon: mdi:timer-play-outline
+                    styles:
+                      icon:
+                        - animation: blink 2s ease infinite
+                  - value: "idle"
+                    color: rgb(68, 115, 158)
+                    icon: mdi:timer-stop-outline
+
+              - type: custom:numberbox-card
+                entity: >
+                  [[[ return "input_number." + variables.damper_name;  ]]]
+                unit: time
+                speed: 50
+                border: true
+                name: false
+                style: >
+                  .body{display:block!important}
+                  .body::after{text-align:center;font-size:10px;content:"Custom Time (HH:MM)";display:block!important}
 
           - type: horizontal-stack
             square: false
