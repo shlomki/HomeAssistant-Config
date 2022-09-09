@@ -212,7 +212,7 @@ automation:
           #When Temp is too damn high
           - conditions:
               - condition: template
-                value_template: "{{ states('sensor.' + states('input_select.ac_smartauto_location') + '_temperature') > states('input_number.ac_smartauto_max_' + states('input_select.ac_smartauto_location')) }}"
+                value_template: "{{ states('sensor.' + states('input_select.ac_smartauto_location') + '_temperature') >= states('input_number.ac_smartauto_max_' + states('input_select.ac_smartauto_location')) }}"
 
             sequence:
               - service: switch.{{ "turn_on" if states('input_text.last_ac_mode') == "cool" else "turn_off" }}
@@ -223,7 +223,7 @@ automation:
           #When Temp is too low
           - conditions:
               - condition: template
-                value_template: "{{ states('sensor.' + states('input_select.ac_smartauto_location') + '_temperature') < states('input_number.ac_smartauto_min_' + states('input_select.ac_smartauto_location')) }}"
+                value_template: "{{ states('sensor.' + states('input_select.ac_smartauto_location') + '_temperature') <= states('input_number.ac_smartauto_min_' + states('input_select.ac_smartauto_location')) }}"
 
             sequence:
               - service: switch.{{ "turn_off" if states('input_text.last_ac_mode') == "cool" else "turn_on" }}
