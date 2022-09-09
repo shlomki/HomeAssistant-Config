@@ -1,4 +1,5 @@
 climate-button:
+  template: ha-button
   variables:
     var_name: window_entity_ids
     var_name2: temperature_monitor_entity_id

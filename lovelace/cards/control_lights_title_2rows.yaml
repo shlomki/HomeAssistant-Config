@@ -1,0 +1,19 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: Lights
+    entity: group.all_lights
+    show_icon: false
+    double_tap_action:
+      action: toggle
+      confirmation:
+        text: >-
+          [[[ return 'Are you sure? Turn ' + (entity.state ==
+          'off' ? 'ON' : 'OFF') + ' all Lights in the house?'
+          ]]]
+
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/cards/control_lights_row1.yaml
+      - !include /config/lovelace/cards/control_lights_row2.yaml

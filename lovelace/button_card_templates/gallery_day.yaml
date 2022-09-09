@@ -8,6 +8,7 @@ gallery-day:
     card:
       - height: 50px
       - padding: 10px
+      - border-radius: 5%
   name: |
     [[[ return variables.day.substring(0, 3); ]]]
   state:

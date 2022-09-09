@@ -1,0 +1,138 @@
+type: horizontal-stack
+cards:
+  - type: custom:button-card
+    template: ha-button
+    tap_action:
+      action: call-service
+      service: switch.toggle
+      service_data:
+        entity_id: switch.living_room_lights
+    double_tap_action:
+      action: call-service
+      service: homeassistant.turn_on
+      service_data:
+        entity_id: group.living_room_lights
+    hold_action:
+      action: fire-dom-event
+      browser_mod:
+        command: popup
+        title: Living Room
+        card: !include /config/lovelace/room_cards/living_room/lights.yaml
+    entity: group.living_room_lights
+    name: Living Room
+    icon: mdi:sofa-outline
+    icon_height: 50px
+  - type: custom:button-card
+    template: ha-button
+    tap_action:
+      action: call-service
+      service: switch.toggle
+      service_data:
+        entity_id: switch.balcony_lights
+    double_tap_action:
+      action: call-service
+      service: homeassistant.turn_on
+      service_data:
+        entity_id: group.balcony_lights
+    hold_action:
+      action: fire-dom-event
+      browser_mod:
+        command: popup
+        title: Balcony
+        card: !include /config/lovelace/room_cards/balcony/lights.yaml
+    entity: group.balcony_lights
+    name: Balcony
+    icon_height: 50px
+    icon: mdi:string-lights
+  - type: custom:button-card
+    template: ha-button
+    tap_action:
+      action: call-service
+      service: switch.toggle
+      service_data:
+        entity_id: switch.kitchen_lights
+    double_tap_action:
+      action: call-service
+      service: homeassistant.turn_on
+      service_data:
+        entity_id: group.kitchen_lights
+    hold_action:
+      action: fire-dom-event
+      browser_mod:
+        command: popup
+        title: Kitchen
+        card:
+          type: custom:auto-entities
+          card:
+            type: entities
+          entities:
+            - type: custom:slider-entity-row
+              entity: light.kitchen_island_combined
+              full_row: true
+              min: 1
+              max: 100
+              step: 5
+          filter:
+            include:
+              - group: group.kitchen_lights
+    entity: group.kitchen_lights
+    name: Kitchen
+    icon_height: 50px
+    icon: mdi:silverware-fork-knife
+  - type: custom:button-card
+    template: ha-button
+    tap_action:
+      action: call-service
+      service: switch.toggle
+      service_data:
+        entity_id: switch.toilet_lights
+    double_tap_action:
+      action: call-service
+      service: homeassistant.turn_on
+      service_data:
+        entity_id:
+          - light.toilet_main
+    hold_action:
+      action: fire-dom-event
+      browser_mod:
+        command: popup
+        title: Toilet
+        card:
+          type: custom:auto-entities
+          card:
+            type: entities
+          filter:
+            include:
+              - group: group.toilet_lights
+    entity: group.toilet_lights
+    name: Toilet
+    icon_height: 50px
+    icon: mdi:toilet
+  - type: custom:button-card
+    template: ha-button
+    tap_action:
+      action: call-service
+      service: switch.toggle
+      service_data:
+        entity_id: switch.bathroom_lights
+    double_tap_action:
+      action: call-service
+      service: homeassistant.turn_on
+      service_data:
+        entity_id: group.bathroom_lights
+    hold_action:
+      action: fire-dom-event
+      browser_mod:
+        command: popup
+        title: Bathroom
+        card:
+          type: custom:auto-entities
+          card:
+            type: entities
+          filter:
+            include:
+              - group: group.bathroom_lights
+    entity: group.bathroom_lights
+    name: Bathroom
+    icon_height: 50px
+    icon: mdi:shower

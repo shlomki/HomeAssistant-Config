@@ -58,13 +58,14 @@ cards:
 
           - type: vertical-stack
             cards:
-              
-              #Devices
-              - !include /config/lovelace/cards/devices.yaml
 
-              #Control shortcuts
-              - !include /config/lovelace/cards/control.yaml
+              - !include /config/lovelace/cards/control_ac_title.yaml
 
+              - !include /config/lovelace/cards/control_lights_title_2rows.yaml
+
+              - !include /config/lovelace/cards/control_windows_shutters.yaml
+
+              # - !include /config/lovelace/cards/control_windows_curtains.yaml
 
 
 

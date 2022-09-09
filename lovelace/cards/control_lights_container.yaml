@@ -6,4 +6,11 @@ cards:
     custom_fields:
       buttons:
         card:
-          !include /config/lovelace/cards/control_lights.yaml
+          type: vertical-stack
+          cards:
+            - type: horizontal-stack
+              cards:
+                - !include /config/lovelace/cards/control_lights_row1.yaml
+            - type: horizontal-stack
+              cards:
+                - !include /config/lovelace/cards/control_lights_row2.yaml

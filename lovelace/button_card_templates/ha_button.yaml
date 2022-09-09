@@ -2,6 +2,7 @@ ha-button:
   styles:
     card:
       - height: 105px
+      - border-radius: 15px
     name:
       - padding-bottom: 10px
   size: 33%

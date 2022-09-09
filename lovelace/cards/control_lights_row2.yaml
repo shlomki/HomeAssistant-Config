@@ -1,0 +1,145 @@
+type: horizontal-stack
+cards:
+  - type: custom:button-card
+    template: ha-button
+    tap_action:
+      action: toggle
+    double_tap_action:
+      action: call-service
+      service: homeassistant.turn_on
+      service_data:
+        entity_id: light.hallway_main_combined
+    hold_action:
+      action: fire-dom-event
+      browser_mod:
+        command: popup
+        title: Hallway
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:auto-entities
+              card:
+                type: entities
+              entities:
+                - type: custom:slider-entity-row
+                  entity: light.hallway_main_combined
+                  full_row: true
+                  min: 1
+                  max: 100
+                  step: 5
+              filter:
+                include:
+                  - group: group.hallway_lights
+    entity: light.hallway_main
+    name: Hallway
+    icon_height: 50px
+  - type: custom:button-card
+    template: ha-button
+    tap_action:
+      action: call-service
+      service: switch.toggle
+      service_data:
+        entity_id: switch.office_lights
+    double_tap_action:
+      action: call-service
+      service: homeassistant.turn_on
+      service_data:
+        entity_id: group.office_lights
+    hold_action:
+      action: fire-dom-event
+      browser_mod:
+        command: popup
+        title: Office
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:auto-entities
+              card:
+                type: entities
+              entities:
+                - type: custom:slider-entity-row
+                  entity: light.office_main_combined
+                  full_row: true
+                  min: 1
+                  max: 100
+                  step: 5
+              filter:
+                include:
+                  - group: group.office_lights
+    entity: group.office_lights
+    name: Office
+    icon_height: 50px
+    icon: mdi:monitor
+  - type: custom:button-card
+    template: ha-button
+    tap_action:
+      action: toggle
+    double_Tap_action:
+      action: call-service
+      service: homeassistant.turn_on
+      service_data:
+        entity_id: light.birds_main_combined
+    hold_action:
+      action: more-info
+    entity: light.birds_main_combined
+    name: Birds
+    icon_height: 50px
+    icon: mdi:bird
+  - type: custom:button-card
+    template: ha-button
+    tap_action:
+      action: toggle
+    double_tap_action:
+      action: call-service
+      service: homeassistant.turn_on
+      service_data:
+        entity_id: light.riley_main_combined
+    hold_action:
+      action: more-info
+    entity: light.riley_main_combined
+    name: Riley
+    icon_height: 50px
+    icon: mdi:face-woman-outline
+    lock:
+      enabled: >-
+        [[[ return
+        states["input_boolean.riley_is_sleeping"].state
+        == "on" ]]]
+      duration: 3
+    triggers_update:
+      - input_boolean.riley_is_sleeping
+  - type: custom:button-card
+    template: ha-button
+    tap_action:
+      action: call-service
+      service: switch.toggle
+      service_data:
+        entity_id: switch.bedroom_lights
+    double_tap_action:
+      action: call-service
+      service: homeassistant.turn_on
+      service_data:
+        entity_id: group.bedroom_lights
+    hold_action:
+      action: fire-dom-event
+      browser_mod:
+        command: popup
+        title: Bedroom
+        card:
+          type: custom:auto-entities
+          card:
+            type: entities
+          entities:
+            - type: custom:slider-entity-row
+              entity: light.bedroom_dimmable_lights
+              full_row: true
+              min: 1
+              max: 100
+              step: 5
+          filter:
+            include:
+              - group: group.bedroom_lights
+    entity: group.bedroom_lights
+    name: Bedroom
+    icon_height: 50px
+    icon: mdi:bed

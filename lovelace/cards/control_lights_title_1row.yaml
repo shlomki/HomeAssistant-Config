@@ -13,4 +13,7 @@ cards:
           'off' ? 'ON' : 'OFF') + ' all Lights in the house?'
           ]]]
 
-  - !include /config/lovelace/cards/control_lights.yaml
+  - type: horizontal-stack
+    cards:
+      - !include /config/lovelace/cards/control_lights_row1.yaml
+      - !include /config/lovelace/cards/control_lights_row2.yaml
