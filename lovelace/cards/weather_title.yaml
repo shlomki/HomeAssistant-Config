@@ -2,6 +2,6 @@ type: vertical-stack
 cards:
   - type: custom:button-card
     template: title
-    name: Weather
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.weather ]]]"
 
   - !include /config/lovelace/cards/weather.yaml

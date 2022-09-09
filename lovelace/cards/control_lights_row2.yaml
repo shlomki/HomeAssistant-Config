@@ -31,7 +31,7 @@ cards:
                 include:
                   - group: group.hallway_lights
     entity: light.hallway_main
-    name: Hallway
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.hallway ]]]"
     icon_height: 50px
   - type: custom:button-card
     template: ha-button
@@ -67,7 +67,7 @@ cards:
                 include:
                   - group: group.office_lights
     entity: group.office_lights
-    name: Office
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.office ]]]"
     icon_height: 50px
     icon: mdi:monitor
   - type: custom:button-card
@@ -82,7 +82,7 @@ cards:
     hold_action:
       action: more-info
     entity: light.birds_main_combined
-    name: Birds
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.birds ]]]"
     icon_height: 50px
     icon: mdi:bird
   - type: custom:button-card
@@ -97,7 +97,7 @@ cards:
     hold_action:
       action: more-info
     entity: light.riley_main_combined
-    name: Riley
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.riley ]]]"
     icon_height: 50px
     icon: mdi:face-woman-outline
     lock:
@@ -140,6 +140,6 @@ cards:
             include:
               - group: group.bedroom_lights
     entity: group.bedroom_lights
-    name: Bedroom
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bedroom ]]]"
     icon_height: 50px
     icon: mdi:bed

@@ -110,3 +110,14 @@ cards:
     entities:
       - entity: input_boolean.show_fans_in_ui
     title: UI Control
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Localization
+    filter:
+      include:
+        - domain: input_select
+          entity_id: 'input_select.local_lang*'
+      exclude: []
+    sort:
+      method: state

@@ -5,7 +5,7 @@ cards:
       - type: custom:button-card
         template: climate-button
         entity: climate.ac_damper_living_room
-        name: Living Room
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.living_room ]]]"
         icon: mdi:sofa-outline
         triggers_update:
           - binary_sensor.balcony_window
@@ -22,7 +22,7 @@ cards:
       - type: custom:button-card
         template: climate-button
         entity: climate.ac_damper_office
-        name: Office
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.office ]]]"
         icon: mdi:monitor
         variables:
           window_entity_ids: binary_sensor.office_window
@@ -36,7 +36,7 @@ cards:
       - type: custom:button-card
         template: climate-button
         entity: climate.ac_damper_birds
-        name: Birds
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.birds ]]]"
         icon: mdi:bird
         variables:
           window_entity_ids: binary_sensor.birds_window
@@ -50,7 +50,7 @@ cards:
       - type: custom:button-card
         template: climate-button
         entity: climate.ac_damper_riley
-        name: Riley
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.riley ]]]"
         icon: mdi:face-woman-outline
         variables:
           window_entity_ids: binary_sensor.riley_window
@@ -70,7 +70,7 @@ cards:
       - type: custom:button-card
         template: climate-button
         entity: climate.ac_damper_bedroom
-        name: Bedroom
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bedroom ]]]"
         icon: mdi:bed
         variables:
           window_entity_ids: binary_sensor.bedroom_window
@@ -90,7 +90,7 @@ cards:
       cards:
         - type: custom:button-card
           template: title
-          name: Fans
+          name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.fans ]]]"
           show_icon: false
           double_tap_action:
             action: call-service
@@ -108,14 +108,14 @@ cards:
             - type: custom:button-card
               template: ha-button
               entity: fan.balcony_fan
-              name: Balcony
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.balcony ]]]"
               icon: mdi:ceiling-fan
               hold_action:
                 action: more-info
             - type: custom:button-card
               template: ha-button
               entity: fan.living_room_fan
-              name: Living Room
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.living_room ]]]"
               icon: mdi:fan
               hold_action:
                 action: fire-dom-event
@@ -147,7 +147,7 @@ cards:
             - type: custom:button-card
               template: ha-button
               entity: fan.office
-              name: Office
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.office ]]]"
               icon: mdi:ceiling-fan
               hold_action:
                 action: more-info
@@ -167,6 +167,7 @@ cards:
                 template: ha-button
                 entity: fan.gray_fan
                 icon: mdi:fan
+                name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.riley ]]]"
                 lock:
                   enabled: >-
                     [[[ return
@@ -176,7 +177,7 @@ cards:
             - type: custom:button-card
               template: ha-button
               entity: fan.bedroom_fan
-              name: Bedroom Fan
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bedroom ]]]"
               icon: mdi:fan
               hold_action:
                 action: fire-dom-event

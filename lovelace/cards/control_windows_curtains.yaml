@@ -2,7 +2,7 @@ type: vertical-stack
 cards:
   - type: custom:button-card
     template: title
-    name: Curtains
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.curtains ]]]"
     show_icon: false
     double_tap_action:
       action: call-service

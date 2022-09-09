@@ -1,5 +1,5 @@
 tv-button:
-  template: ha-button-long-name
+  template: ha-button
   icon: mdi:television-classic
   tap_action:
     action: toggle

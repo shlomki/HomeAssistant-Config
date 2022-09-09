@@ -3,12 +3,12 @@ type: vertical-stack
 cards:
   - type: custom:button-card
     template: title
-    name: Power
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.power ]]]"
   - type: horizontal-stack
     cards:
       - type: custom:button-card
         template: ha-button
-        name: UPS
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.ups ]]]"
         show_label: true
         icon: mdi:power-standby
         entity: sensor.ups_status
@@ -62,7 +62,7 @@ cards:
             entity: sensor.power_cost_per_hour
             icon: mdi:flash-outline
             show_state: true
-            name: Now
+            name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.now ]]]"
             state:
               - operator: template
                 value: >-
@@ -98,7 +98,7 @@ cards:
             entity: sensor.energy_total_next_bill_cost
             icon: mdi:calendar-month-outline
             show_state: true
-            name: Next Bill
+            name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.next_bill ]]]"
             state:
               - operator: template
                 value: >-

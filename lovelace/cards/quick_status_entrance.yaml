@@ -2,7 +2,7 @@ type: vertical-stack
 cards:
   - type: custom:button-card
     template: container
-    name: Entrance
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.entrance ]]]"
     custom_fields:
       buttons:
         card:
@@ -22,7 +22,7 @@ cards:
                 action: navigate
                 navigation_path: front_door
               entity: sensor.front_door_combined
-              name: Front Door
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.front_door ]]]"
               icon_height: 50px
               state:
                 - value: Open, Unlocked
@@ -50,7 +50,7 @@ cards:
               hold_action:
                 action: more-info
               entity: light.stairs
-              name: Stairs
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.stairs ]]]"
               icon_height: 50px
               icon: mdi:stairs
             - type: custom:button-card
@@ -60,7 +60,7 @@ cards:
               hold_action:
                 action: more-info
               entity: switch.intercom
-              name: Intercom
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.intercom ]]]"
               icon_height: 50px
               icon: mdi:deskphone
             - type: custom:button-card
@@ -70,7 +70,7 @@ cards:
               hold_action:
                 action: more-info
               entity: switch.upper_gate
-              name: Upper Gate
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.upper_gate ]]]"
               icon_height: 50px
               icon: mdi:boom-gate
             - type: custom:button-card
@@ -80,6 +80,6 @@ cards:
               hold_action:
                 action: more-info
               entity: switch.lower_gate
-              name: Lower Gate
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lower_gate ]]]"
               icon_height: 50px
               icon: mdi:gate

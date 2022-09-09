@@ -12,11 +12,14 @@ cards:
               template: fridge
               entity: binary_sensor.fridge
               size: 35px
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.fridge ]]]"
             - type: custom:button-card
               template: fridge
               entity: binary_sensor.freezer
               size: 35px
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.freezer ]]]"
             - type: custom:button-card
               template: fridge
               entity: binary_sensor.big_freezer
               size: 35px
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.big_freezer ]]]"

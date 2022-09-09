@@ -1,0 +1,135 @@
+template:
+  - sensor:
+      - name: "Localization English"
+        state: "English"
+        attributes:
+          living_room: "Living Room"
+          office: "Office"
+          birds: "Birds"
+          riley: "Riley"
+          bedroom: "Bedroom"
+          balcony: "Balcony"
+          kitchen: "Kitchen"
+          toilet: "Toilet"
+          bathroom: "Bathroom"
+          hallway: "hallway"
+          entrance: "Entrance"
+          internet: "Internet"
+          cameras: "Cameras"
+          fridges: "Fridges"
+          entities: "Entities"
+          weather: "Weather"
+          air_conditioning: "Air Conditioning"
+          ac: "AC"
+          fans: "Fans"
+          lights: "Lights"
+          shutters: "Shutters"
+          curtains: "Curtains"
+          windows: "Windows"
+          smart_home_status: "Smart-Home Status"
+          whos_home: "Who's Home?"
+          the_green_family: "The Green Family"
+          devices: "Devices"
+          control: "Control"
+          shower: "Shower"
+          quick: "Quick"
+          mr_white: "Mr. White"
+          mr_black: "Mr. Black"
+          power: "Power"
+          now: "Now"
+          next_bill: "Next Bill"
+          ups: "UPS"
+          front_door: "Front Door"
+          stairs: "Stairs"
+          intercom: "Intercom"
+          upper_gate: "Upper Gate"
+          lower_gate: "Lower Gate"
+          fridge: "Fridge"
+          freezer: "Freezer"
+          big_freezer: "Big Freezer"
+          main: "Main"
+          tv_light: "TV Light"
+          side_lamp: "Side Lamp"
+          kitchen_island: "Kitchen Island"
+          kitchen_pantry: "Kitchen Pantry"
+          kitchen_counter: "Kitchen Counter"
+          string_lights: "String Lights"
+          fan_light: "Fan Light"
+
+  - sensor:
+      - name: "Localization Hebrew"
+        state: "Hebrew"
+        attributes:
+          living_room: "סלון"
+          office: "משרד"
+          birds: "תוכים"
+          riley: "ריילי"
+          bedroom: "הורים"
+          balcony: "מרפסת"
+          kitchen: "מטבח"
+          toilet: "שירותים"
+          bathroom: "מקלחת"
+          hallway: "מסדרון"
+          entrance: "כניסה"
+          internet: "אינטרנט"
+          cameras: "מצלמות"
+          fridges: "מקררים"
+          entities: "ישויות"
+          weather: "מזג-אוויר שבועי"
+          air_conditioning: "מיזוג אוויר"
+          ac: "מיזוג"
+          fans: "מאווררים"
+          lights: "תאורה"
+          shutters: "תריסים"
+          curtains: "וילונות"
+          windows: "חלונות"
+          smart_home_status: "מצב בית-חכם"
+          whos_home: "?מי בבית"
+          the_green_family: "משפחת גרין"
+          devices: "מכשירים"
+          control: "שליטה"
+          shower: "מקלחת"
+          quick: "מהיר"
+          mr_white: "מר לבן"
+          mr_black: "מר שחור"
+          power: "חשמל"
+          now: "עכשיו"
+          next_bill: "חשבון הבא"
+          ups: "אל-פסק"
+          front_door: "דלת כניסה"
+          stairs: "מדרגות"
+          intercom: "אינטרקום"
+          upper_gate: "שער עליון"
+          lower_gate: "שער תחתון"
+          fridge: "מקרר"
+          freezer: "מקפיא"
+          big_freezer: "מקפיא גדול"
+          main: "ראשי"
+          tv_light: "אור טלויזיה"
+          side_lamp: "מנורת צד"
+          kitchen_island: "אי מטבח"
+          kitchen_pantry: "מזווה מטבח"
+          kitchen_counter: "דלפק מטבח"
+          string_lights: "תאורת שרשרת"
+          fan_light: "תאורת מאוורר"
+
+input_select:
+  local_lang_house_tablet:
+    options:
+      - english
+      - hebrew
+
+  local_lang_black_tablet:
+    options:
+      - english
+      - hebrew
+
+  local_lang_language_shlomi:
+    options:
+      - english
+      - hebrew
+
+  local_lang_language_inbal:
+    options:
+      - english
+      - hebrew

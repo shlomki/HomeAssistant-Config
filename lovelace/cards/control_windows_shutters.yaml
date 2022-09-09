@@ -2,7 +2,7 @@ type: vertical-stack
 cards:
   - type: custom:button-card
     template: title
-    name: Shutters
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.shutters ]]]"
     double_tap_action:
       action: call-service
       service: script.all_shutters

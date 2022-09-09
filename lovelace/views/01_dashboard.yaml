@@ -15,7 +15,7 @@ cards:
       #Title
       - type: custom:button-card
         template: title-large
-        name: Dashboard
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.the_green_family ]]]"
 
       #Dashboard shortcuts
       - !include /config/lovelace/cards/quick_status.yaml

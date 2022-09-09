@@ -3,7 +3,7 @@ cards:
   #Title
   - type: custom:button-card
     template: title
-    name: Control
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.control ]]]"
 
   #Parent Buttons
 
@@ -12,7 +12,7 @@ cards:
     cards:
       - type: custom:button-card
         template: ha-button
-        name: Lights
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lights ]]]"
         entity: group.all_lights
         icon: mdi:lightbulb-outline
         styles:
@@ -39,7 +39,7 @@ cards:
       #Windows
       - type: custom:button-card
         template: ha-button
-        name: Windows
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.windows ]]]"
         entity: group.windows
         styles:
           card:
@@ -63,7 +63,7 @@ cards:
       #AC
       - type: custom:button-card
         template: ha-button
-        name: AC
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.ac ]]]"
         entity: sensor.ac_state
         icon: mdi:home-thermometer-outline
         styles:
@@ -146,7 +146,7 @@ cards:
       #Shower
       - type: custom:button-card
         template: ha-button
-        name: Shower
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.shower ]]]"
         icon: mdi:shower
         entity: group.shower
         styles:
@@ -174,7 +174,7 @@ cards:
       #Scenes
       - type: custom:button-card
         template: ha-button
-        name: Quick
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.quick ]]]"
         icon: mdi:gesture-double-tap
         styles:
           card:

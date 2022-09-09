@@ -2,7 +2,7 @@ type: vertical-stack
 cards:
   - type: custom:button-card
     template: title
-    name: Lights
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lights ]]]"
 
   - type: conditional
     conditions:
@@ -21,21 +21,21 @@ cards:
       - type: custom:button-card
         template: ha-button
         entity: light.living_room_main_combined
-        name: Main
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.main ]]]"
         icon: mdi:sofa-outline
         icon_height: 50px
 
       - type: custom:button-card
         template: ha-button
         entity: light.living_room_entrance_combined
-        name: Entrance
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.entrance ]]]"
         icon: mdi:door
         icon_height: 50px
 
       - type: custom:button-card
         template: ha-button
         entity: light.living_room_hallway_combined
-        name: Hallway
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.hallway ]]]"
         icon: mdi:hexagon-multiple-outline
         icon_height: 50px
 
@@ -44,14 +44,14 @@ cards:
       - type: custom:button-card
         template: ha-button
         entity: light.living_room_tv_light_combined
-        name: TV Light
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.tv_light ]]]"
         icon: mdi:television-classic
         icon_height: 50px
 
       - type: custom:button-card
         template: ha-button
         entity: light.living_room_side_lamp_combined
-        name: Side Lamp
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.side_lamp ]]]"
         icon: mdi:floor-lamp-torchiere-variant
         icon_height: 50px
 
@@ -67,20 +67,20 @@ cards:
       - type: custom:button-card
         template: ha-button
         entity: light.kitchen_island_combined
-        name: Kitchen Island
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.kitchen_island ]]]"
         icon: mdi:cube-outline
         icon_height: 50px
 
       - type: custom:button-card
         template: ha-button
         entity: light.kitchen_pantry
-        name: Kitchen Pantry
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.kitchen_pantry ]]]"
         icon: mdi:fridge-outline
         icon_height: 50px
 
       - type: custom:button-card
         template: ha-button
         entity: light.kitchen_counter
-        name: Kitchen Counter
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.kitchen_counter ]]]"
         icon: mdi:countertop-outline
         icon_height: 50px

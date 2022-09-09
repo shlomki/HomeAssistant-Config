@@ -15,10 +15,8 @@ cards:
       #Title
       - type: custom:button-card
         template: title-large
-        name: The Green Family
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.the_green_family ]]]"
 
-
-        
       - type: horizontal-stack
         cards:
 
@@ -36,7 +34,7 @@ cards:
 
                   - type: custom:button-card
                     template: title
-                    name: Weather
+                    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.weather ]]]"
 
               - type: horizontal-stack
                 cards:

@@ -20,7 +20,7 @@ cards:
         hold_action:
           action: more-info
         entity: sensor.front_door_combined
-        name: Entrance
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.entrance ]]]"
         icon_height: 50px
         state:
           - value: Open, Unlocked
@@ -45,7 +45,7 @@ cards:
       #Internet Button
       - type: custom:button-card
         template: internet
-        name: Internet
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.internet ]]]"
         entity: binary_sensor.internet_connection
         tap_action:
           action: fire-dom-event
@@ -63,7 +63,7 @@ cards:
       #Cameras Button
       - type: custom:button-card
         template: camera
-        name: Cameras
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.cameras ]]]"
         entity: binary_sensor.cameras_online
         tap_action:
           action: fire-dom-event
@@ -81,7 +81,7 @@ cards:
       #Fridges Button
       - type: custom:button-card
         template: ha-button
-        name: Fridges
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.fridges ]]]"
         entity: group.fridges
         state:
           - value: 'on'
@@ -113,7 +113,7 @@ cards:
           Shlomi:
             type: custom:button-card
             template: ha-button
-            name: Entities
+            name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.entities ]]]"
             entity: sensor.unavailable_entities
             state:
               - operator: default

@@ -3,12 +3,13 @@ type: vertical-stack
 cards:
   - type: custom:button-card
     template: title
-    name: Devices
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.devices ]]]"
   - type: horizontal-stack
     cards:
       - type: custom:button-card
         template: tablet-button
         entity: switch.house_tablet
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.mr_white ]]]"
         variables:
           tablet_id: house_tablet
           tablet_friendly_name: Mr. White
@@ -16,6 +17,7 @@ cards:
       - type: custom:button-card
         template: tablet-button
         entity: switch.black_tablet
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.mr_black ]]]"
         variables:
           tablet_id: black_tablet
           tablet_friendly_name: Mr. Black
@@ -23,12 +25,12 @@ cards:
       - type: custom:button-card
         template: tv-button
         entity: media_player.balcony_tv
-        name: Balcony
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.balcony ]]]"
       - type: custom:button-card
         template: tv-button
         entity: media_player.living_room_tv
-        name: Living<br/>Room
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.living_room ]]]"
       - type: custom:button-card
         template: tv-button
         entity: media_player.bedroom_tv
-        name: Bedroom
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bedroom ]]]"

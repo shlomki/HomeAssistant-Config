@@ -2,6 +2,6 @@ type: vertical-stack
 cards:
   - type: custom:button-card
     template: title
-    name: Smart-Home Status
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.smart_home_status ]]]"
 
   - !include /config/lovelace/cards/quick_status.yaml

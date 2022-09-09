@@ -19,7 +19,7 @@ cards:
         title: Living Room
         card: !include /config/lovelace/room_cards/living_room/lights.yaml
     entity: group.living_room_lights
-    name: Living Room
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.living_room ]]]"
     icon: mdi:sofa-outline
     icon_height: 50px
   - type: custom:button-card
@@ -41,7 +41,7 @@ cards:
         title: Balcony
         card: !include /config/lovelace/room_cards/balcony/lights.yaml
     entity: group.balcony_lights
-    name: Balcony
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.balcony ]]]"
     icon_height: 50px
     icon: mdi:string-lights
   - type: custom:button-card
@@ -76,7 +76,7 @@ cards:
             include:
               - group: group.kitchen_lights
     entity: group.kitchen_lights
-    name: Kitchen
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.kitchen ]]]"
     icon_height: 50px
     icon: mdi:silverware-fork-knife
   - type: custom:button-card
@@ -105,7 +105,7 @@ cards:
             include:
               - group: group.toilet_lights
     entity: group.toilet_lights
-    name: Toilet
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.toilet ]]]"
     icon_height: 50px
     icon: mdi:toilet
   - type: custom:button-card
@@ -133,6 +133,6 @@ cards:
             include:
               - group: group.bathroom_lights
     entity: group.bathroom_lights
-    name: Bathroom
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bathroom ]]]"
     icon_height: 50px
     icon: mdi:shower

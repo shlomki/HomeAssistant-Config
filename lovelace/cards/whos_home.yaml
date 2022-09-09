@@ -3,7 +3,7 @@ type: vertical-stack
 cards:
   - type: custom:button-card
     template: title
-    name: Who's Home?
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.whos_home ]]]"
   - type: horizontal-stack
     cards:
       - type: picture-entity
