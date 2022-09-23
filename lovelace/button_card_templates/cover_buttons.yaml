@@ -7,6 +7,7 @@ cover-up:
     card:
       - height: 30px
       - border-radius: 10px 10px 0px 0px
+      - padding: 2%
   state:
     - value: opening
       color: rgb(253, 216, 53)
@@ -28,6 +29,7 @@ cover-stop:
     card:
       - height: 30px
       - border-radius: 0px
+      - padding: 2%
     custom_fields:
       window_open:
         - position: absolute
@@ -78,6 +80,7 @@ cover-down:
     card:
       - height: 30px
       - border-radius: 0px 0px 10px 10px
+      - padding: 2%
   state:
     - value: closing
       color: rgb(253, 216, 53)
