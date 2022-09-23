@@ -1,0 +1,27 @@
+camera-status:
+  template: ha-button
+  icon: mdi:cctv
+  variables:
+    var_name: stream
+  state:
+    - value: 'off'
+      color: red
+      styles:
+        icon:
+          - animation: blink 2s ease infinite
+    - value: not_home
+      color: red
+      styles:
+        icon:
+          - animation: blink 2s ease infinite
+    - value: unavailable
+      color: red
+      styles:
+        icon:
+          - animation: blink 2s ease infinite
+    - value: 'on'
+      color: green
+    - value: home
+      color: green
+    - value: idle
+      color: green

@@ -1,0 +1,14 @@
+camera-view:
+  template: camera-status
+  tap_action:
+    action: fire-dom-event
+    browser_mod:
+      command: popup
+      hide_header: false
+      title: Live View
+      card:
+        camera_view: live
+        type: picture-glance
+        entities: []
+        camera_image: |
+          [[[ return variables.stream; ]]]
