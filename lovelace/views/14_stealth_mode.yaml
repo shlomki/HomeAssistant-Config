@@ -92,7 +92,7 @@ cards:
             name: Closet Light
             label: Auto On
             show_label: true
-            entity: automation.away_from_home_notify
+            entity: group.closet_light_automations
             icon: mdi:hanger
 
           - type: custom:button-card
@@ -100,15 +100,15 @@ cards:
             name: Toilet Light
             label: Auto On
             show_label: true
-            entity: automation.toilet_light_on_motion
+            entity: group.toilet_light_automations
             icon: mdi:toilet
 
           - type: custom:button-card
             template: ha-button-small-label
-            name: Toilet Light
+            name: Stairs Light
             label: Auto On
             show_label: true
-            entity: automation.stairs_light_auto_on
+            entity: group.stairs_light_automations
             icon: mdi:stairs
 
   - type: vertical-stack

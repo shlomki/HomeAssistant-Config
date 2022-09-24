@@ -1,3 +1,10 @@
+group:
+  stairs_light_automations:
+    entities:
+      - automation.stairs_light_auto_on
+      - automation.stairs_light_auto_off
+      - automation.stairs_light_off_when_front_door_is_open_for_5_mins
+
 automation:
   - alias: Stairs light auto on
     mode: single

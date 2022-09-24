@@ -1,3 +1,10 @@
+group:
+  toilet_light_automations:
+    entities:
+      - automation.toilet_light_on_motion
+      - automation.toilet_light_off_when_no_motion_when_door_closed
+      - automation.toilet_light_off_when_no_motion_when_door_is_open
+
 automation:
   - alias: Toilet light on motion
     mode: single

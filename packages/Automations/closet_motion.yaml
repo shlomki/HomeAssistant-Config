@@ -1,3 +1,9 @@
+group:
+  closet_light_automations:
+    entities:
+      - automation.bedroom_closet_light_on_motion
+      - automation.bedroom_closet_light_off_when_no_motion
+
 automation:
   - alias: Bedroom closet light on motion
 
