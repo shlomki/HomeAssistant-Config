@@ -58,7 +58,7 @@ cards:
       title: Low Battery Levels
     filter:
       include:
-        - entity_id: binary_sensor.front_door_battery
+        - entity_id: binary_sensor.front_door_lock_battery
           state: 'on'
         - domain: sensor
           entity_id: '*_battery_level'
