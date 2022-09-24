@@ -8,12 +8,14 @@ ha-button:
   size: 33%
   hold_action:
     action: more-info
+
 ha-button-long-name:
   template: ha-button
   styles:
     name:
       - white-space: normal
       - padding-bottom: 0px
+      
 ha-button-half:
   template: ha-button
   layout: icon_name

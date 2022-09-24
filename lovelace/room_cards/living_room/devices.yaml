@@ -40,7 +40,7 @@ cards:
 
       - type: custom:button-card
         template: tablet-button
-        entity: switch.house_tablet
+        entity: switch.house_tablet_screen
         variables:
           tablet_id: house_tablet
           tablet_friendly_name: Mr. White

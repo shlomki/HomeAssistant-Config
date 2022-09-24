@@ -7,8 +7,8 @@ scene:
         state: open
         current_position: 9
       lock.front_door: "locked"
-      switch.black_tablet: on
-      switch.house_tablet: off
+      switch.black_tablet_screen: on
+      switch.house_tablet_screen: off
       media_player.living_room_tv: off
 
   - name: Evening
@@ -47,8 +47,8 @@ sensor:
         value_template: "{{ (is_state('group.all_lights', 'off') and 
                             is_state_attr('cover.bedroom_shutter', 'current_position', 9) and
                             is_state('lock.front_door', 'locked') and
-                            is_state('switch.black_tablet', 'on') and
-                            is_state('switch.house_tablet', 'off') and
+                            is_state('switch.black_tablet_screen', 'on') and
+                            is_state('switch.house_tablet_screen', 'off') and
                             is_state('media_player.living_room_tv', 'off')) | replace(true, 'on') | replace(false, 'off') }}"
 
   - platform: template

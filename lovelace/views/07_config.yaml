@@ -95,19 +95,6 @@ cards:
     title: Power Consumption Cost Calc
   - type: entities
     entities:
-      - entity: input_text.tablet_password
-      - entity: input_text.house_tablet_ip
-      - entity: input_text.black_tablet_ip
-      - entity: input_select.house_tablet_volume
-        name: House Tablet Volume
-      - entity: input_select.house_tablet_brightness
-        name: House Tablet Brightness
-      - entity: input_select.black_tablet_volume
-        name: Black Tablet Volume
-      - entity: input_select.black_tablet_brightness
-        name: Black Tablet Brightness
-  - type: entities
-    entities:
       - entity: input_boolean.show_fans_in_ui
     title: UI Control
   - type: custom:auto-entities

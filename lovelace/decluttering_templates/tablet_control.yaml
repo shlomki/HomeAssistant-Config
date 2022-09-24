@@ -4,13 +4,16 @@ tablet_control:
     cards:
       - type: horizontal-stack
         cards:
+          #On/Off Button
           - type: custom:button-card
             template: ha-button
-            entity: switch.[[tablet_id]]
+            entity: switch.[[tablet_id]]_screen
             icon: mdi:tablet-cellphone
             name: On / Off
             hold_action:
               action: more-info
+
+          #Reolink Button
           - type: custom:button-card
             name: Reolink
             template: ha-button
@@ -18,20 +21,36 @@ tablet_control:
             show_entity_picture: true
             tap_action:
               action: call-service
-              service: script.autoremote_tablet_reolink_command
+              service: rest_command.[[tablet_id]]_run_reolink
+
+          #Home Assistant Button
+          - type: custom:button-card
+            name: Home Assistant
+            template: ha-button
+            entity_picture: /local/photos/homeassistant.png
+            show_entity_picture: true
+            tap_action:
+              action: call-service
+              service: "button.press"
               service_data:
-                tablet: "[[tablet_id]]"
+                entity_id: button.[[tablet_id]]_bring_to_foreground
+
+      - type: horizontal-stack
+        cards:
+          #Volume Toggle Button
           - type: custom:button-card
             name: Volume
             template: ha-button
             entity: input_number.[[tablet_id]]_volume
             tap_action:
               action: call-service
-              service: script.toggle_tablet_setting
+              service: script.toggle_tablet_volume
               service_data:
                 entity_id: input_number.[[tablet_id]]_volume
                 default_value: 4
-            color: rgb(68, 115, 158)
+            hold_action:
+              action: more-info
+            icon: mdi:volume-high
             state:
               - value: 0
                 color: rgb(68, 115, 158)
@@ -40,30 +59,32 @@ tablet_control:
                 value: 0
                 icon: mdi:volume-high
                 color: rgb(253, 216, 53)
+
+          #Display Toggle Button
           - type: custom:button-card
-            name: Brightness
+            name: Display
             template: ha-button
-            entity: input_number.[[tablet_id]]_brightness
-            tap_action:
-              action: call-service
-              service: script.toggle_tablet_setting
-              service_data:
-                entity_id: input_number.[[tablet_id]]_brightness
-                default_value: 9
-            color: rgb(68, 115, 158)
+            entity: switch.[[tablet_id]]_screensaver
+            hold_action:
+              action: more-info
+              entity: number.[[tablet_id]]_screen_brightness
             state:
-              - value: 0
+              - value: "on"
                 icon: mdi:brightness-5
                 color: rgb(68, 115, 158)
-              - operator: ">"
-                value: 0
+              - value: "off"
                 icon: mdi:brightness-7
                 color: rgb(253, 216, 53)
-      - type: custom:slider-entity-row
-        entity: input_number.[[tablet_id]]_volume
-        icon: mdi:volume-high
-        grow: true
-      - type: custom:slider-entity-row
-        entity: input_number.[[tablet_id]]_brightness
-        icon: mdi:brightness-7
-        grow: true
+
+      #Volume Slider
+      # - type: custom:slider-entity-row
+      #   entity: input_number.[[tablet_id]]_volume
+      #   icon: mdi:volume-high
+      #   grow: true
+
+      #Brightness Slider
+      # - type: custom:slider-entity-row
+      #   name: Brightness
+      #   entity: number.[[tablet_id]]_screen_brightness
+      #   icon: mdi:brightness-7
+      #   grow: true

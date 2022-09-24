@@ -4,17 +4,19 @@ tablet-button:
     var_name: tablet_id
     var_name2: tablet_friendly_name
   entity: |
-    [[[ return 'switch.' + variables.tablet_id; ]]]
+    [[[ return 'switch.' + variables.tablet_id + '_screen'; ]]]
   icon: mdi:tablet-cellphone
   name: |
     [[[ return variables.tablet_friendly_name; ]]]
   double_tap_action:
     action: call-service
-    service: script.toggle_tablet_setting
+    service: script.toggle_tablet_volume
     service_data:
       entity_id: |
         [[[ return 'input_number.' + variables.tablet_id + '_volume'; ]]]
-      default_value: 4
+      default_value: 5
+  tap_action:
+    action: toggle
   hold_action:
     action: fire-dom-event
     browser_mod:

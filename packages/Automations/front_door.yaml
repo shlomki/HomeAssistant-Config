@@ -1,10 +1,10 @@
 input_text:
   gallery_display_day:
 
-rest_command:
-  autoremote_house_tablet_doorbell_command: 
-    method: GET
-    url: !secret autoremote_house_tablet_doorbell_command
+# rest_command:
+#   autoremote_house_tablet_doorbell_command: 
+#     method: GET
+#     url: !secret autoremote_house_tablet_doorbell_command
 
 
 automation:
@@ -103,48 +103,48 @@ automation:
       - delay:
           seconds: 10
 
-  - alias: Doorbell display video on house tablet
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.doorbell
-        from: 'off'
-        to: 'on'
-    action:
-      #Launch HA on tablet using AutoRemote
-      - service: rest_command.autoremote_house_tablet_doorbell_command
+  # - alias: Doorbell display video on house tablet
+  #   trigger:
+  #     - platform: state
+  #       entity_id: binary_sensor.doorbell
+  #       from: 'off'
+  #       to: 'on'
+  #   action:
+  #     #Launch HA on tablet using AutoRemote
+  #     - service: rest_command.autoremote_house_tablet_doorbell_command
 
-      #Show the front door camera on tablet
-      - service: browser_mod.popup
-        data:
-          title: Front Door
-          deviceID:
-            - house_tablet
-          large: true
-          card:
-            type: custom:webrtc-camera
-            entity: camera.front_door
+  #     #Show the front door camera on tablet
+  #     - service: browser_mod.popup
+  #       data:
+  #         title: Front Door
+  #         deviceID:
+  #           - house_tablet
+  #         large: true
+  #         card:
+  #           type: custom:webrtc-camera
+  #           entity: camera.front_door
       
-      #Wait for the door to open for 1 minute
-      - wait_template: "{{ is_state('binary_sensor.front_door', 'on') }}"
-        timeout:
-          minutes: 1
-        continue_on_timeout: true
+  #     #Wait for the door to open for 1 minute
+  #     - wait_template: "{{ is_state('binary_sensor.front_door', 'on') }}"
+  #       timeout:
+  #         minutes: 1
+  #       continue_on_timeout: true
 
-      - choose:
-          # If door has been opened, wait for an additional 20 seconds
-          - conditions:
-              - condition: state
-                entity_id: binary_sensor.front_door
-                state: 'on'
-            sequence:
-              - delay:
-                  seconds: 20
+  #     - choose:
+  #         # If door has been opened, wait for an additional 20 seconds
+  #         - conditions:
+  #             - condition: state
+  #               entity_id: binary_sensor.front_door
+  #               state: 'on'
+  #           sequence:
+  #             - delay:
+  #                 seconds: 20
           
-      #Close the popup
-      - service: browser_mod.close_popup
-        data:
-          deviceID:
-            - house_tablet
+  #     #Close the popup
+  #     - service: browser_mod.close_popup
+  #       data:
+  #         deviceID:
+  #           - house_tablet
 
   # - alias: Door is opened with photo from last motion
   #   trigger:
@@ -273,6 +273,6 @@ template:
 
   - binary_sensor:
     # Keep track how many days have past since a date
-    - name: "Front Door Battery"
+    - name: "Front Door Lock Battery"
       device_class: battery
       state: "{{ state_attr('lock.front_door', 'battery_critical') }}"

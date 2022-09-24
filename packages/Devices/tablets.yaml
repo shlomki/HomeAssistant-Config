@@ -1,124 +1,34 @@
-input_text:
-  tablet_password:
-  house_tablet_ip:
-  black_tablet_ip:
-
 input_number:
   house_tablet_volume:
     name: Volume
     min: 0
-    max: 9
-    step: 1
-  house_tablet_brightness:
-    name: Brightness
-    min: 0
-    max: 9
+    max: 10
     step: 1
 
   black_tablet_volume:
     name: Volume
     min: 0
-    max: 9
+    max: 10
     step: 1
-  black_tablet_brightness:
-    name: Brightness
-    min: 0
-    max: 9
-    step: 1
-
-
-input_select:
-  house_tablet_volume:
-    options:
-      - Mute
-      - Low
-      - Medium
-      - High
-
-  house_tablet_brightness:
-    options:
-      - Min
-      - Low
-      - Medium
-      - High
-
-  black_tablet_volume:
-    options:
-      - Mute
-      - Low
-      - Medium
-      - High
-
-  black_tablet_brightness:
-    options:
-      - Min
-      - Low
-      - Medium
-      - High
 
 rest_command:
-  autoremote_tablet_command: 
-    method: GET
-    url: "http://{{ip}}/sendmessage?password={{ states('input_text.tablet_password') }}&message={{message}}"
+  black_tablet_run_reolink:
+    method: POST
+    url: !secret black_tablet_rest_command_reolink_url
+
+  house_tablet_run_reolink:
+    method: POST
+    url: !secret house_tablet_rest_command_reolink_url
 
 script:
-  autoremote_tablet_command:
-    mode: queued
-    sequence: 
-      - service: rest_command.autoremote_tablet_command
-        data:
-          ip: "{{ states('input_text.' + tablet + '_ip') }}"
-          message: "{{ message }}"
-
-  autoremote_tablet_reolink_command:
+  toggle_tablet_volume:
     mode: parallel
-    sequence:
-      - service: script.autoremote_tablet_command
-        data:
-          tablet: "{{ tablet }}"
-          message: "re"
-
-  toggle_tablet_setting:
-    mode: queued
     sequence: 
       - service: input_number.set_value
         target:
           entity_id: "{{ entity_id }}"
         data:
-          value: "{{ default_value if states(entity_id) == '0.0' else 0 }}"
-
-switch:
-  - platform: template
-    switches:
-      house_tablet:
-        friendly_name: House Tablet
-        value_template: "{{ is_state('binary_sensor.house_tablet_interactive', 'on') }}"
-        turn_on:
-          service: script.autoremote_tablet_command
-          data:
-            message: 'sw'
-            tablet: 'house_tablet'
-        turn_off:
-          service: script.autoremote_tablet_command
-          data:
-            message: 'sl'
-            tablet: 'house_tablet'
-
-  - platform: template
-    switches:
-      black_tablet:
-        friendly_name: Black Tablet
-        value_template: "{{ is_state('binary_sensor.black_tablet_interactive', 'on') }}"
-        turn_on:
-          service: script.autoremote_tablet_command
-          data:
-            message: 'sw'
-            tablet: 'black_tablet'
-        turn_off:
-          service: script.autoremote_tablet_command
-          data:
-            message: 'sl'
-            tablet: 'black_tablet'
+          value: "{{ default_value if states(entity_id) == '0' else 0 }}"
 
 automation:
   - alias: Tablets change setting
@@ -126,67 +36,59 @@ automation:
       - platform: state
         entity_id: 
           - input_number.house_tablet_volume
-          - input_number.house_tablet_brightness
           - input_number.black_tablet_volume
-          - input_number.black_tablet_brightness
-
-          - input_select.house_tablet_volume
-          - input_select.house_tablet_brightness
-          - input_select.black_tablet_volume
-          - input_select.black_tablet_brightness
 
     variables:
-      command: "{{ trigger.to_state.entity_id  | replace('input_number.', '') | replace('input_select.', '') | replace('black_tablet_', '') | replace('house_tablet_', '') | replace('olume', '') | replace('rightness', '') }}"
-      value: "{{ states(trigger.to_state.entity_id) | replace('Mute', '0') | replace('Min', '0') | replace('Low', '3')  | replace('Medium', '6') | replace('High', '9') | int }}"
-      tablet_name: "{{ trigger.to_state.entity_id | replace('input_number.', '')  | replace('input_select.', '') | replace('_volume', '') | replace('_brightness', '') }}"
+      value: "{{ trigger.to_state.state | int / 10 }}"
+      tablet_name: "{{ trigger.to_state.entity_id | replace('input_number.', '') | replace('_volume', '')  }}"
 
     action:
-      - service: "script.autoremote_tablet_command"
+      - service: media_player.volume_set
         data:
-          message: "{{ command }}{{ value }}"
-          tablet: "{{ tablet_name }}"
+          entity_id: "media_player.{{ tablet_name }}"
+          volume_level: "{{ value }}"
 
 
-  - id: Control tablets from hue remote - power
-    alias: Control tablets from hue remote - power
-    mode: queued
-    trigger:
-      - platform: event
-        event_type: deconz_event
-        event_data:
-          device_id: !secret philips_hue_remote_1_device_id
-          event: 1000
-      - platform: event
-        event_type: deconz_event
-        event_data:
-          device_id: !secret philips_hue_remote_1_device_id
-          event: 4000
-    action:
-      service: switch.toggle
-      target:
-        entity_id: 'switch.{{ trigger.event.data.event | regex_replace("100\d", "house_tablet") | regex_replace("400\d", "black_tablet") }}'
+  # - id: Control tablets from hue remote - power
+  #   alias: Control tablets from hue remote - power
+  #   mode: queued
+  #   trigger:
+  #     - platform: event
+  #       event_type: deconz_event
+  #       event_data:
+  #         device_id: !secret philips_hue_remote_1_device_id
+  #         event: 1000
+  #     - platform: event
+  #       event_type: deconz_event
+  #       event_data:
+  #         device_id: !secret philips_hue_remote_1_device_id
+  #         event: 4000
+  #   action:
+  #     service: switch.toggle
+  #     target:
+  #       entity_id: 'switch.{{ trigger.event.data.event | regex_replace("100\d", "house_tablet") | regex_replace("400\d", "black_tablet") }}'
 
-  - id: Control tablets from hue remote - volume
-    alias: Control tablets from hue remote - volume
-    mode: queued
-    trigger:
-      - platform: event
-        event_type:
-          - deconz_event
-        event_data:
-          device_id: !secret philips_hue_remote_1_device_id
-          event: 2000
-      - platform: event
-        event_type:
-          - deconz_event
-        event_data:
-          device_id: !secret philips_hue_remote_1_device_id
-          event: 3000
-    action:
-      - service: input_number.set_value
-        target:
-          entity_id: 
-            - input_number.house_tablet_volume
-            - input_number.black_tablet_volume
-        data:
-          value: "{{ trigger.event.data.event | replace('2000', '4') | replace('3000', '0') }}"
+  # - id: Control tablets from hue remote - volume
+  #   alias: Control tablets from hue remote - volume
+  #   mode: queued
+  #   trigger:
+  #     - platform: event
+  #       event_type:
+  #         - deconz_event
+  #       event_data:
+  #         device_id: !secret philips_hue_remote_1_device_id
+  #         event: 2000
+  #     - platform: event
+  #       event_type:
+  #         - deconz_event
+  #       event_data:
+  #         device_id: !secret philips_hue_remote_1_device_id
+  #         event: 3000
+  #   action:
+  #     - service: input_number.set_value
+  #       target:
+  #         entity_id: 
+  #           - input_number.house_tablet_volume
+  #           - input_number.black_tablet_volume
+  #       data:
+  #         value: "{{ trigger.event.data.event | replace('2000', '4') | replace('3000', '0') }}"

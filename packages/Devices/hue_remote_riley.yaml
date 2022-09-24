@@ -1,0 +1,53 @@
+## Button 1: Sleep
+## Button 2: Bedroom Curtain
+## Button 3: Bedroom Shutter
+## Button 4: Black Tablet
+
+
+automation:
+  - id: Hue Remote Riley Actions
+    alias: Hue Remote Riley Actions
+    mode: restart
+    trigger:
+      - platform: event
+        event_type: deconz_event
+        event_data:
+          device_id: !secret hue_remote_riley_device_id
+    variables:
+      button_code: "{{ trigger.event.data.event }}"
+    action:
+      - alias: "choose button"
+        choose:
+          ## Button 1 Short Click: White Tablet
+          - conditions: "{{ button_code == 1000 }}"
+            sequence:
+              - service: switch.toggle
+                entity_id: switch.house_tablet_screen
+
+          ## Button Short Click: Volume On
+          - conditions: "{{ button_code == 2000 }}"
+            sequence:
+              - service: input_number.set_value
+                target:
+                  entity_id: 
+                    - input_number.house_tablet_volume
+                    - input_number.black_tablet_volume
+                data:
+                  value: 5
+
+          ## Button Short Click: Volume Off
+          - conditions: "{{ button_code == 3000 }}"
+            sequence:
+              - service: input_number.set_value
+                target:
+                  entity_id: 
+                    - input_number.house_tablet_volume
+                    - input_number.black_tablet_volume
+                data:
+                  value: 0
+
+          ## Button 4 Short Click: Black Tablet
+          - conditions: "{{ button_code == 4000 }}"
+            sequence:
+              - service: switch.toggle
+                entity_id: switch.black_tablet_screen

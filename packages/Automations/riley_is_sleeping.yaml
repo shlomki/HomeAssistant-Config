@@ -19,8 +19,8 @@ automation:
     trigger:
       - platform: state
         entity_id: 
-          - switch.house_tablet
-          - switch.black_tablet
+          - switch.house_tablet_screen
+          - switch.black_tablet_screen
         from: "off"
         to: "on"
     condition:

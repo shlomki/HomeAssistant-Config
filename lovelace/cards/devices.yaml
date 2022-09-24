@@ -8,28 +8,32 @@ cards:
     cards:
       - type: custom:button-card
         template: tablet-button
-        entity: switch.house_tablet
+        entity: switch.house_tablet_screen
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.mr_white ]]]"
         variables:
           tablet_id: house_tablet
           tablet_friendly_name: Mr. White
         triggers_update: input_number.house_tablet_volume
+
       - type: custom:button-card
         template: tablet-button
-        entity: switch.black_tablet
+        entity: switch.black_tablet_screen
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.mr_black ]]]"
         variables:
           tablet_id: black_tablet
           tablet_friendly_name: Mr. Black
         triggers_update: input_number.black_tablet_volume
+
       - type: custom:button-card
         template: tv-button
         entity: media_player.balcony_tv
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.balcony ]]]"
+
       - type: custom:button-card
         template: tv-button
         entity: media_player.living_room_tv
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.living_room ]]]"
+
       - type: custom:button-card
         template: tv-button
         entity: media_player.bedroom_tv
