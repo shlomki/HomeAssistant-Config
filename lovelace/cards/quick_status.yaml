@@ -62,7 +62,7 @@ cards:
 
       #Cameras Button
       - type: custom:button-card
-        template: camera
+        template: camera-status
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.cameras ]]]"
         entity: binary_sensor.cameras_online
         tap_action:

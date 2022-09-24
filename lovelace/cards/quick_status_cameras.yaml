@@ -11,7 +11,7 @@ cards:
             - type: horizontal-stack
               cards:
                 - type: custom:button-card
-                  template: camera
+                  template: camera-view
                   entity: device_tracker.edgeos_camera_balcony
                   name: Balcony
                   variables:
@@ -20,13 +20,13 @@ cards:
                     action: navigate
                     navigation_path: /lovelace-mobile/balcony
                 - type: custom:button-card
-                  template: camera
+                  template: camera-view
                   entity: device_tracker.edgeos_camera_frontdoor
                   name: Front Door
                   variables:
                     stream: camera.front_door
                 - type: custom:button-card
-                  template: camera
+                  template: camera-view
                   entity: device_tracker.edgeos_camera_livingroom
                   variables:
                     stream: camera.living_room
@@ -35,7 +35,7 @@ cards:
                     action: navigate
                     navigation_path: /lovelace-mobile/living-room
                 - type: custom:button-card
-                  template: camera
+                  template: camera-view
                   entity: device_tracker.edgeos_camera_hallway
                   variables:
                     stream: camera.hallway
@@ -43,25 +43,25 @@ cards:
             - type: horizontal-stack
               cards:
                 - type: custom:button-card
-                  template: camera
+                  template: camera-view
                   entity: device_tracker.edgeos_camera_office
                   variables:
                     stream: camera.office
                   name: Office
                 - type: custom:button-card
-                  template: camera
+                  template: camera-view
                   entity: device_tracker.edgeos_camera_birds
                   variables:
                     stream: camera.birds
                   name: Birds
                 - type: custom:button-card
-                  template: camera
+                  template: camera-view
                   entity: device_tracker.edgeos_camera_riley
                   variables:
                     stream: camera.riley
                   name: Riley
                 - type: custom:button-card
-                  template: camera
+                  template: camera-view
                   entity: device_tracker.edgeos_camera_bedroom
                   variables:
                     stream: camera.bedroom
