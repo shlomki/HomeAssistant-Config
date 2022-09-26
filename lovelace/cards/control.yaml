@@ -19,15 +19,8 @@ cards:
           card:
             - height: 100px
         tap_action:
-          action: fire-dom-event
-          local_conditional_card:
-            action: set
-            ids:
-              - windows: hide
-              - ac: hide
-              - lights: toggle
-              - shower: hide
-              - scenes: hide
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#lights') ? '.' : '#lights'; ]]]"
         double_tap_action:
           action: toggle
           confirmation:
@@ -50,15 +43,8 @@ cards:
           - value: "off"
             icon: mdi:window-closed
         tap_action:
-          action: fire-dom-event
-          local_conditional_card:
-            action: set
-            ids:
-              - windows: toggle
-              - ac: hide
-              - lights: hide
-              - shower: hide
-              - scenes: hide
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#windows') ? '.' : '#windows'; ]]]"
 
       #AC
       - type: custom:button-card
@@ -90,15 +76,8 @@ cards:
               (states['group.dampers'].state == 'off' ? 'ON' :
               'OFF') + ' all ACs in the house?' ]]]
         tap_action:
-          action: fire-dom-event
-          local_conditional_card:
-            action: set
-            ids:
-              - windows: hide
-              - ac: toggle
-              - lights: hide
-              - shower: hide
-              - scenes: hide
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#ac') ? '.' : '#ac'; ]]]"
         hold_action:
           action: more-info
           entity: >
@@ -153,15 +132,8 @@ cards:
           card:
             - height: 100px
         tap_action:
-          action: fire-dom-event
-          local_conditional_card:
-            action: set
-            ids:
-              - windows: hide
-              - ac: hide
-              - lights: hide
-              - shower: toggle
-              - scenes: hide
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#shower') ? '.' : '#shower'; ]]]"
         double_tap_action:
           action: call-service
           service: script.toggle_shower
@@ -180,45 +152,47 @@ cards:
           card:
             - height: 100px
         tap_action:
-          action: fire-dom-event
-          local_conditional_card:
-            action: set
-            ids:
-              - windows: hide
-              - ac: hide
-              - lights: hide
-              - shower: hide
-              - scenes: toggle
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#scenes') ? '.' : '#scenes'; ]]]"
         color: rgb(68, 115, 158)
 
   #Hidden Cards
+  - type: custom:state-switch
+    entity: hash
+    default: none
+    states:
+      lights: !include /config/lovelace/cards/control_lights_container.yaml
+      windows: !include /config/lovelace/cards/control_windows_container.yaml
+      ac: !include /config/lovelace/cards/control_ac_container.yaml
+      shower: !include /config/lovelace/cards/control_shower_container.yaml
+      scenes: !include /config/lovelace/cards/control_scenes_container.yaml
+  
+  # #Lights
+  # - type: custom:local-conditional-card
+  #   default: hide
+  #   id: lights
+  #   card: 
 
-  #Lights
-  - type: custom:local-conditional-card
-    default: hide
-    id: lights
-    card: !include /config/lovelace/cards/control_lights_container.yaml
+  # #Windows
+  # - type: custom:local-conditional-card
+  #   default: hide
+  #   id: windows
+  #   card: !include /config/lovelace/cards/control_windows_container.yaml
 
-  #Windows
-  - type: custom:local-conditional-card
-    default: hide
-    id: windows
-    card: !include /config/lovelace/cards/control_windows_container.yaml
+  # #AC
+  # - type: custom:local-conditional-card
+  #   default: hide
+  #   id: ac
+  #   card: !include /config/lovelace/cards/control_ac_container.yaml
 
-  #AC
-  - type: custom:local-conditional-card
-    default: hide
-    id: ac
-    card: !include /config/lovelace/cards/control_ac_container.yaml
+  # #Shower
+  # - type: custom:local-conditional-card
+  #   default: hide
+  #   id: shower
+  #   card: !include /config/lovelace/cards/control_shower_container.yaml
 
-  #Shower
-  - type: custom:local-conditional-card
-    default: hide
-    id: shower
-    card: !include /config/lovelace/cards/control_shower_container.yaml
-
-  #Scenes
-  - type: custom:local-conditional-card
-    default: hide
-    id: scenes
-    card: !include /config/lovelace/cards/control_scenes_container.yaml
+  # #Scenes
+  # - type: custom:local-conditional-card
+  #   default: hide
+  #   id: scenes
+  #   card: !include /config/lovelace/cards/control_scenes_container.yaml

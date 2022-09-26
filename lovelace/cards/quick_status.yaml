@@ -8,15 +8,8 @@ cards:
       - type: custom:button-card
         template: ha-button
         tap_action:
-          action: fire-dom-event
-          local_conditional_card:
-            action: set
-            ids:
-              - entrance: toggle
-              - internet: hide
-              - cameras: hide
-              - fridges: hide
-              - entities: hide
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#entrance') ? '.' : '#entrance'; ]]]"
         hold_action:
           action: more-info
         entity: sensor.front_door_combined
@@ -48,15 +41,8 @@ cards:
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.internet ]]]"
         entity: binary_sensor.internet_connection
         tap_action:
-          action: fire-dom-event
-          local_conditional_card:
-            action: set
-            ids:
-              - entrance: hide
-              - internet: toggle
-              - cameras: hide
-              - fridges: hide
-              - entities: hide
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#internet') ? '.' : '#internet'; ]]]"
         hold_action:
           action: more-info
 
@@ -66,15 +52,8 @@ cards:
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.cameras ]]]"
         entity: binary_sensor.cameras_online
         tap_action:
-          action: fire-dom-event
-          local_conditional_card:
-            action: set
-            ids:
-              - entrance: hide
-              - internet: hide
-              - cameras: toggle
-              - fridges: hide
-              - entities: hide
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#cameras') ? '.' : '#cameras'; ]]]"
         hold_action:
           action: more-info
 
@@ -94,15 +73,8 @@ cards:
             icon: mdi:fridge-outline
             color: green
         tap_action:
-          action: fire-dom-event
-          local_conditional_card:
-            action: set
-            ids:
-              - entrance: hide
-              - internet: hide
-              - cameras: hide
-              - fridges: toggle
-              - entities: hide
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#fridges') ? '.' : '#fridges'; ]]]"
         hold_action:
           action: more-info
 
@@ -123,52 +95,56 @@ cards:
                 icon: mdi:home-assistant
                 color: green
             tap_action:
-              action: fire-dom-event
-              local_conditional_card:
-                action: set
-                ids:
-                  - entrance: hide
-                  - internet: hide
-                  - cameras: hide
-                  - fridges: hide
-                  - entities: toggle
+              action: navigate
+              navigation_path: "[[[ return (window.location.hash == '#entities') ? '.' : '#entities'; ]]]"
             hold_action:
               action: more-info
 
 #Hidden Cards
 
-  #Entrance
-  - type: custom:local-conditional-card
-    default: hide
-    id: entrance
-    card:
-      !include /config/lovelace/cards/quick_status_entrance.yaml
-
-  #Internet
-  - type: custom:local-conditional-card
-    default: hide
-    id: internet
-    card:
-      !include /config/lovelace/cards/quick_status_internet.yaml
-
-  #Cameras
-  - type: custom:local-conditional-card
-    default: hide
-    id: cameras
-    card:
-      !include /config/lovelace/cards/quick_status_cameras.yaml
+  - type: custom:state-switch
+    entity: hash
+    default: none
+    states:
+      entrance: !include /config/lovelace/cards/quick_status_entrance.yaml
+      internet: !include /config/lovelace/cards/quick_status_internet.yaml
+      cameras: !include /config/lovelace/cards/quick_status_cameras.yaml
+      fridges: !include /config/lovelace/cards/quick_status_fridges.yaml
+      entities: !include /config/lovelace/cards/quick_status_entities.yaml
 
 
-  #Fridges
-  - type: custom:local-conditional-card
-    default: hide
-    id: fridges
-    card:
-      !include /config/lovelace/cards/quick_status_fridges.yaml
+  # #Entrance
+  # - type: custom:local-conditional-card
+  #   default: hide
+  #   id: entrance
+  #   card:
+  #     !include /config/lovelace/cards/quick_status_entrance.yaml
 
-  #Entities
-  - type: custom:local-conditional-card
-    default: hide
-    id: entities
-    card:
-      !include /config/lovelace/cards/quick_status_entities.yaml
+  # #Internet
+  # - type: custom:local-conditional-card
+  #   default: hide
+  #   id: internet
+  #   card:
+  #     !include /config/lovelace/cards/quick_status_internet.yaml
+
+  # #Cameras
+  # - type: custom:local-conditional-card
+  #   default: hide
+  #   id: cameras
+  #   card:
+  #     !include /config/lovelace/cards/quick_status_cameras.yaml
+
+
+  # #Fridges
+  # - type: custom:local-conditional-card
+  #   default: hide
+  #   id: fridges
+  #   card:
+  #     !include /config/lovelace/cards/quick_status_fridges.yaml
+
+  # #Entities
+  # - type: custom:local-conditional-card
+  #   default: hide
+  #   id: entities
+  #   card:
+  #     !include /config/lovelace/cards/quick_status_entities.yaml
