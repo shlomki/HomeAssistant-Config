@@ -48,6 +48,18 @@ automation:
           entity_id: "media_player.{{ tablet_name }}"
           volume_level: "{{ value }}"
 
+  - alias: Tablets refresh when another language is selected
+    trigger:
+      - platform: state
+        entity_id: 
+          - input_select.local_lang_house_tablet
+          - input_select.local_lang_black_tablet
+    action:
+      - service: button.press
+        data:
+          entity_id: "button.{{ trigger.to_state.entity_id | replace('input_select.local_lang_', '') }}_load_start_url"
+
+
 
   # - id: Control tablets from hue remote - power
   #   alias: Control tablets from hue remote - power

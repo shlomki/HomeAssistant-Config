@@ -10,7 +10,7 @@ automation:
         from: "not_home"
         to: "home"
     condition:
-      - alias: "Guest Mode has been on for more than 20 minutes"
+      - alias: "Guest Mode has been on for more than 30 minutes"
         condition: state
         entity_id: input_boolean.guest_mode
         state: "on"
@@ -22,3 +22,25 @@ automation:
       - service: notify.bffs
         data:
           message: "Welcome back home! Guest Mode has been turned off."
+
+  - id: Guest Mode - Select Hebrew for House Tablet
+    alias: Guest Mode - Select Hebrew for House Tablet
+    trigger:
+      - platform: state
+        entity_id: input_boolean.guest_mode
+        from: 'off'
+        to: 'on'
+
+    condition:
+      - condition: not
+        conditions:    
+          - alias: "House Tablet is (not) in Hebrew mode"
+            condition: state
+            entity_id: input_select.local_lang_house_tablet
+            state: "hebrew"
+        
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.local_lang_house_tablet
+          option: hebrew
