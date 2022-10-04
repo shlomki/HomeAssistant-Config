@@ -134,8 +134,105 @@ climate-button:
                     [[[ return "(state) => (state == '" + variables.damper_name.replace('ac_damper_','') + "' ? 'on': 'off')" ]]]
                 toggle_action: >
                   [[[ return "(state) => this.call_service('script', 'turn_on',  { 'entity_id': 'script.toggle_ac_smartauto', 'variables': { 'location': '" + variables.damper_name.replace('ac_damper_', '') + "'} })" ]]]
+            indicators:
+              window0:
+                icon:
+                  template: |
+                    (value) => (value == '' ? '' : 'mdi:window-open')
+                  style: |
+                    (value) => (value != '' ? { color: 'red' } : {})
+                source:
+                  entity: |
+                    [[[
+                      if (variables.window_entity_ids != null) {
+                        if (Array.isArray(variables.window_entity_ids)) {
+                          return variables.window_entity_ids[0];
+                        } else {
+                          return variables.window_entity_ids;
+                        }
+                      }
+                    ]]]
 
+                  values:
+                    'on': |
+                      [[[
+                        if (variables.window_entity_ids != null) {
+                          if (Array.isArray(variables.window_entity_ids)) {
+                            return states[variables.window_entity_ids[0]].attributes.friendly_name.replace(" Window", "");
+                          } else {
+                            return 'Window Open'
+                          }
+                        }
+                      ]]]
+                    'off': ''
+                    'unavailable': 'Unavailable'
+                  mapper: value => this.source.values[value]
+                  
+              window1:
+                icon:
+                  template: |
+                    (value) => (value == '' ? '' : 'mdi:window-open')
+                  style: |
+                    (value) => (value != '' ? { color: 'red' } : {})
+                source:
+                  entity: |
+                    [[[
+                      if (variables.window_entity_ids != null) {
+                        if (Array.isArray(variables.window_entity_ids)) {
+                          return variables.window_entity_ids[1];
+                        } else {
+                          return variables.window_entity_ids;
+                        }
+                      }
+                    ]]]
 
+                  values:
+                    'on': |
+                      [[[
+                        if (variables.window_entity_ids != null) {
+                          if (Array.isArray(variables.window_entity_ids)) {
+                            return states[variables.window_entity_ids[1]].attributes.friendly_name.replace(" Window", "");
+                          } else {
+                            return ''
+                          }
+                        }
+                      ]]]
+                    'off': ''
+                    'unavailable': 'Unavailable'
+                  mapper: value => this.source.values[value]
+
+              # window2:
+              #   icon:
+              #     template: |
+              #       (value) => (value == '' ? '' : 'mdi:window-open')
+              #     style: |
+              #       (value) => (value != '' ? { color: 'red' } : {})
+              #   source:
+              #     entity: |
+              #       [[[
+              #         if (variables.window_entity_ids != null) {
+              #           if (Array.isArray(variables.window_entity_ids)) {
+              #             return variables.window_entity_ids[2];
+              #           } else {
+              #             return variables.window_entity_ids;
+              #           }
+              #         }
+              #       ]]]
+
+              #     values:
+              #       'on': |
+              #         [[[
+              #           if (variables.window_entity_ids != null) {
+              #             if (Array.isArray(variables.window_entity_ids)) {
+              #               return states[variables.window_entity_ids[2]].attributes.friendly_name.replace(" Window", "");
+              #             } else {
+              #               return ''
+              #             }
+              #           }
+              #         ]]]
+              #       'off': ''
+              #       'unavailable': 'Unavailable'
+              #     mapper: value => this.source.values[value]
 
           - type: horizontal-stack
             cards:
@@ -171,7 +268,7 @@ climate-button:
                 entity: >
                   [[[ return "input_number." + variables.damper_name;  ]]]
                 unit: time
-                speed: 50
+                speed: 100
                 border: true
                 name: false
                 style: >
