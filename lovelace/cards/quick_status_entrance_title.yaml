@@ -1,0 +1,7 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.entrance ]]]"
+    
+  - !include /config/lovelace/cards/quick_status_entrance.yaml

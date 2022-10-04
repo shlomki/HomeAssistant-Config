@@ -1,6 +1,6 @@
 type: custom:weather-card
-entity: weather.home
-# current: true
+entity: weather.home_open_weather_map
+current: true
 details: false
 # forecast: true
 # hourly_forecast: true

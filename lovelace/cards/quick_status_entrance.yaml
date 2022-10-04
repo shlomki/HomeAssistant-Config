@@ -1,85 +1,77 @@
-type: vertical-stack
+type: horizontal-stack
 cards:
   - type: custom:button-card
-    template: container
-    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.entrance ]]]"
-    custom_fields:
-      buttons:
-        card:
-          type: horizontal-stack
-          cards:
-            - type: custom:button-card
-              template: ha-button
-              tap_action:
-                action: call-service
-                service: script.front_door_lock_toggle
-              double_tap_action:
-                action: call-service
-                service: lock.open
-                service_data:
-                  entity_id: lock.front_door
-              hold_action:
-                action: navigate
-                navigation_path: front_door
-              entity: sensor.front_door_combined
-              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.front_door ]]]"
-              icon_height: 50px
-              state:
-                - value: Open, Unlocked
-                  color: red
-                  icon: mdi:door-open
-                  styles:
-                    icon:
-                      - animation: blink 2s ease infinite
-                - value: Open, Locked
-                  color: red
-                  icon: mdi:door-open
-                  styles:
-                    icon:
-                      - animation: blink 2s ease infinite
-                - value: Closed, Unlocked
-                  color: orange
-                  icon: mdi:door-closed
-                - value: Closed, Locked
-                  color: green
-                  icon: mdi:door-closed-lock
-            - type: custom:button-card
-              template: ha-button
-              tap_action:
-                action: toggle
-              hold_action:
-                action: more-info
-              entity: light.stairs
-              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.stairs ]]]"
-              icon_height: 50px
-              icon: mdi:stairs
-            - type: custom:button-card
-              template: ha-button
-              tap_action:
-                action: toggle
-              hold_action:
-                action: more-info
-              entity: switch.intercom
-              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.intercom ]]]"
-              icon_height: 50px
-              icon: mdi:deskphone
-            - type: custom:button-card
-              template: ha-button
-              tap_action:
-                action: toggle
-              hold_action:
-                action: more-info
-              entity: switch.upper_gate
-              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.upper_gate ]]]"
-              icon_height: 50px
-              icon: mdi:boom-gate
-            - type: custom:button-card
-              template: ha-button
-              tap_action:
-                action: toggle
-              hold_action:
-                action: more-info
-              entity: switch.lower_gate
-              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lower_gate ]]]"
-              icon_height: 50px
-              icon: mdi:gate
+    template: ha-button
+    tap_action:
+      action: call-service
+      service: script.front_door_lock_toggle
+    double_tap_action:
+      action: call-service
+      service: lock.open
+      service_data:
+        entity_id: lock.front_door
+    hold_action:
+      action: navigate
+      navigation_path: front_door
+    entity: sensor.front_door_combined
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.front_door ]]]"
+    icon_height: 50px
+    state:
+      - value: Open, Unlocked
+        color: red
+        icon: mdi:door-open
+        styles:
+          icon:
+            - animation: blink 2s ease infinite
+      - value: Open, Locked
+        color: red
+        icon: mdi:door-open
+        styles:
+          icon:
+            - animation: blink 2s ease infinite
+      - value: Closed, Unlocked
+        color: orange
+        icon: mdi:door-closed
+      - value: Closed, Locked
+        color: green
+        icon: mdi:door-closed-lock
+  - type: custom:button-card
+    template: ha-button
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+    entity: light.stairs
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.stairs ]]]"
+    icon_height: 50px
+    icon: mdi:stairs
+  - type: custom:button-card
+    template: ha-button
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+    entity: switch.intercom
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.intercom ]]]"
+    icon_height: 50px
+    icon: mdi:deskphone
+  - type: custom:button-card
+    template: ha-button
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+    entity: switch.upper_gate
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.upper_gate ]]]"
+    icon_height: 50px
+    icon: mdi:boom-gate
+  - type: custom:button-card
+    template: ha-button
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+    entity: switch.lower_gate
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lower_gate ]]]"
+    icon_height: 50px
+    icon: mdi:gate

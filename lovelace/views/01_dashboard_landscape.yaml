@@ -15,7 +15,12 @@ cards:
       #Title
       - type: custom:button-card
         template: title-large
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.the_green_family ]]]"
+        name: >
+          [[[ 
+            let lang = states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state;
+            let greeting = states['sensor.localization_' + lang].attributes[ states["sensor.time_of_day"].state.toLowerCase() + '_greeting'];
+            let family = states['sensor.localization_' + lang].attributes.the_green_family;
+            return greeting + " " + family;]]]
 
       - type: horizontal-stack
         cards:
@@ -23,49 +28,45 @@ cards:
           - type: vertical-stack
             cards:
 
-              - type: horizontal-stack
-                cards:
-
-                  - type: custom:button-card
-                    template: title
-                    name: >
-                      [[[ return states["sensor.greeting_title"].state; ]]]
-
-
-                  - type: custom:button-card
-                    template: title
-                    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.weather ]]]"
+              # - type: custom:button-card
+              #   template: title
+              #   name: >
+              #     [[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes[ states["sensor.time_of_day"].state.toLowerCase() + '_greeting'] ]]]
 
               - type: horizontal-stack
                 cards:
 
-                  - type: markdown
-                    content: '{{ states(''sensor.greeting_body'') }}'
+                  #Who's Home
+                  - !include /config/lovelace/cards/whos_home_title_2_rows.yaml
 
-                  - type: custom:weather-card
-                    entity: weather.home
-                    details: false
+                  - type: vertical-stack
+                    cards:
 
-              #Dashboard shortcuts
-              - !include /config/lovelace/cards/quick_status_title.yaml
+                      - type: custom:button-card
+                        template: title
+                        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.weather ]]]"
 
-              #Who's Home
-              - !include /config/lovelace/cards/whos_home.yaml
+                      - type: custom:weather-card
+                        entity: weather.outside_weather
+                        details: false
 
-              
-
-          - type: vertical-stack
-            cards:
-
-              - !include /config/lovelace/cards/control_ac_title.yaml
-
-              - !include /config/lovelace/cards/control_lights_title_2rows.yaml
 
               - !include /config/lovelace/cards/control_windows_shutters.yaml
 
-              # - !include /config/lovelace/cards/control_windows_curtains.yaml
+              - !include /config/lovelace/cards/control_windows_curtains.yaml
 
+              # - type: 'custom:digital-clock'
+              #   secondLineFormat: "cccc, yyyy LLL dd, hh:mm:ss a"
+              #   firstLineFormat: ""
 
+          - type: vertical-stack
+            cards:
+  
+              - !include /config/lovelace/cards/quick_status_entrance_title.yaml
+
+              - !include /config/lovelace/cards/control_lights_title_2rows.yaml
+
+              - !include /config/lovelace/cards/control_ac_title.yaml
 
 
 

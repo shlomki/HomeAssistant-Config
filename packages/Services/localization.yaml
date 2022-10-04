@@ -55,6 +55,11 @@ template:
           kitchen_counter: "Kitchen Counter"
           string_lights: "String Lights"
           fan_light: "Fan Light"
+          night_greeting: "Good Night"
+          morning_greeting: "Good Morning"
+          noon_greeting: "Good Afternoon"
+          afternoon_greeting: "Good Afternoon"
+          evening_greeting: "Good Evening"
 
   - sensor:
       - name: "Localization Hebrew"
@@ -112,6 +117,11 @@ template:
           kitchen_counter: "דלפק מטבח"
           string_lights: "תאורת שרשרת"
           fan_light: "תאורת מאוורר"
+          night_greeting: "לילה טוב"
+          morning_greeting: "בוקר טוב"
+          noon_greeting: "צהריים טובים"
+          afternoon_greeting: "אחר-צהריים טובים"
+          evening_greeting: "ערב טוב"
 
 input_select:
   local_lang_house_tablet:

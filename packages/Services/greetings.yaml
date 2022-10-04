@@ -1,14 +1,15 @@
 template:
   - sensor:
-      - name: Greeting Title
+      - name: Time of Day
         icon: mdi:hand-wave
         state: >-
           {% set t = now().hour %}
-          {% if t >= 0 and t <= 5  %} Good Night
-          {% elif t >= 6 and t <= 11  %} Good Morning
-          {% elif t >= 12 and t <= 17  %} Good Afternoon
-          {% elif t >= 18 and t <= 22  %} Good Evening
-          {% elif t >= 21 %} Good Night
+          {% if t >= 0 and t <= 5  %} Night
+          {% elif t >= 6 and t <= 11  %} Morning
+          {% elif t >= 12 and t <= 14  %} Noon
+          {% elif t >= 14 and t <= 17  %} Afternoon
+          {% elif t >= 18 and t <= 22  %} Evening
+          {% elif t >= 21 %} Night
           {% endif %}
 
   - sensor:

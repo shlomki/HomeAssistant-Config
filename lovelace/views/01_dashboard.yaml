@@ -27,7 +27,7 @@ cards:
       - !include /config/lovelace/cards/devices.yaml
 
       #Who's Home
-      - !include /config/lovelace/cards/whos_home.yaml
+      - !include /config/lovelace/cards/whos_home_title_1_row.yaml
 
       #Power
       - !include /config/lovelace/cards/power.yaml
