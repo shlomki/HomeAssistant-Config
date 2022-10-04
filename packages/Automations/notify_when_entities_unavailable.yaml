@@ -187,7 +187,7 @@ group:
       - lock.front_door
       - cover.bedroom_curtain_motor
       - cover.bedroom_curtain_switch
-      - switch.living_room_bff_light
+      #- switch.living_room_bff_light
       - light.bathroom_cabinet
 
       #Fans

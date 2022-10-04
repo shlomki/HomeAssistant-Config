@@ -3,22 +3,24 @@ group:
     entities:
       - camera.front_door
       - camera.living_room
-      - camera.hallway
+      # - camera.hallway
       - camera.office
       - camera.birds
       - camera.riley
       - camera.bedroom
 
+  cameras_device_trackers:
+    entities:
+      - device_tracker.edgeos_camera_balcony
+      - device_tracker.edgeos_camera_frontdoor
+      - device_tracker.edgeos_camera_livingroom
+      # - device_tracker.edgeos_camera_hallway
+      - device_tracker.edgeos_camera_office
+      - device_tracker.edgeos_camera_birds
+      - device_tracker.edgeos_camera_riley
+      - device_tracker.edgeos_camera_bedroom
+      
 template:
-  binary_sensor:
-    name: Cameras Online
-    state: >
-          {{ is_state('device_tracker.edgeos_camera_balcony', 'home')
-            and is_state('device_tracker.edgeos_camera_frontdoor', 'home')
-            and is_state('device_tracker.edgeos_camera_livingroom', 'home')
-            and is_state('device_tracker.edgeos_camera_hallway', 'home')
-            and is_state('device_tracker.edgeos_camera_office', 'home')
-            and is_state('device_tracker.edgeos_camera_birds', 'home')
-            and is_state('device_tracker.edgeos_camera_riley', 'home')
-            and is_state('device_tracker.edgeos_camera_bedroom', 'home') }}
-
+  - binary_sensor:
+    - name: Cameras Online
+      state: "{{ expand('group.cameras_device_trackers') | selectattr('state', 'in', ['unavailable', 'unknown', 'not_home' ]) | list | length == 0 }}"
