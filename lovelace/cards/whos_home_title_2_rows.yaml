@@ -1,0 +1,8 @@
+ #Who's home?
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.whos_home ]]]"
+    
+  - !include /config/lovelace/cards/whos_home_2_rows.yaml

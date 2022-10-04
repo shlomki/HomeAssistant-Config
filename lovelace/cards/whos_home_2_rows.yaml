@@ -1,0 +1,110 @@
+#Who's home?
+type: vertical-stack
+cards:
+  - type: horizontal-stack
+    cards:
+      # - type: custom:button-card
+      #   entity: person.shlomi
+      #   show_entity_picture: true
+      #   show_name: false
+      #   entity_picture: '/api/image/serve/2a52ac497d0abfa1605389bb3e36f308/512x512'
+      #   #aspect_ratio: "1/1"
+      #   styles:
+      #     card:
+      #       - padding: 0
+      #       - height: 158px
+      #     entity_picture:
+      #       - width: "100%"
+
+      - type: picture-entity
+        entity: person.shlomi
+        image: /api/image/serve/2a52ac497d0abfa1605389bb3e36f308/512x512
+        show_name: false
+        show_state: false
+        # aspect_ratio: 1.53/1
+        state_filter:
+          home: brightness(100%) saturate(1)
+          not_home: brightness(85%) saturate(0)
+
+      - type: picture-entity
+        entity: person.inbal
+        image: /api/image/serve/16a79db72ef65b582588e768caa4bcaf/512x512
+        show_name: false
+        show_state: false
+        # aspect_ratio: 1.53/1
+        state_filter:
+          home: brightness(100%) saturate(1)
+          not_home: brightness(85%) saturate(0)
+
+      # - type: custom:button-card
+      #   entity: person.inbal
+      #   show_entity_picture: true
+      #   show_name: false
+      #   entity_picture: '/api/image/serve/16a79db72ef65b582588e768caa4bcaf/512x512'
+      #   #aspect_ratio: "1/1"
+      #   styles:
+      #     card:
+      #       - padding: 0
+      #       - height: 158px
+      #     entity_picture:
+      #       - width: "100%"
+
+  - type: horizontal-stack
+    cards:
+      - type: picture-entity
+        entity: input_boolean.riley_is_sleeping
+        show_name: false
+        show_state: false
+        # aspect_ratio: 1.53/1
+        tap_action:
+          action: toggle
+        hold_action:
+          action: more-info
+        state_image:
+          'on': /local/photos/riley_sleeping.jpg
+          'off': /local/photos/riley_awake.jpg
+        state_filter:
+          'off': brightness(100%) saturate(1)
+          'on': brightness(85%) saturate(0)
+
+      - type: picture-entity
+        entity: input_boolean.guest_mode
+        show_name: false
+        show_state: false
+        image: /local/photos/guests.jpg
+        # aspect_ratio: 1.53/1
+        tap_action:
+          action: toggle
+          confirmation:
+            text: Are you sure you want to switch Guest Mode?
+        hold_action:
+          action: more-info
+        state_filter:
+          'on': brightness(100%) saturate(1)
+          'off': brightness(85%) saturate(0)
+
+      # - type: custom:button-card
+      #   entity: person.inbal
+      #   show_entity_picture: true
+      #   show_name: false
+      #   entity_picture: '/api/image/serve/16a79db72ef65b582588e768caa4bcaf/512x512'
+      #   #aspect_ratio: "1/1"
+      #   styles:
+      #     card:
+      #       - padding: 0
+      #       - height: 158px
+      #     entity_picture:
+      #       - width: "100%"
+
+      # - type: custom:button-card
+      #   entity: person.inbal
+      #   show_entity_picture: true
+      #   show_name: false
+      #   entity_picture: '/api/image/serve/16a79db72ef65b582588e768caa4bcaf/512x512'
+      #   #aspect_ratio: "1/1"
+      #   styles:
+      #     card:
+      #       - padding: 0
+      #       - height: 158px
+      #     entity_picture:
+      #       - width: "100%"
