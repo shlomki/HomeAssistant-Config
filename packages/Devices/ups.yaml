@@ -15,13 +15,28 @@ sensor:
     sensors:
       power_outage_today:
         friendly_name: "Was there a power outage today?"
-        value_template: "{{ state_attr('input_datetime.last_power_outage', 'timestamp') | timestamp_custom('%Y-%m-%d') == now().strftime('%Y-%m-%d') }}"
+        value_template: "{{ (states('input_number.power_outages_today_count') | int) > 0 }}"
 
 input_datetime:
   last_power_outage:
     name: Last Power Outage
     has_date: true
     has_time: true
+
+input_number:
+  power_outages_today_count:
+    name: Power Outages Today
+    min: 0
+    max: 100
+    step: 1
+    mode: box
+
+  power_outages_monthly_count:
+    name: Power Outages Monthly
+    min: 0
+    max: 100
+    step: 1
+    mode: box
 
 automation:
   - alias: Power - Save Last Outage Time
@@ -38,9 +53,38 @@ automation:
           entity_id: sensor.ups_transfer_count
           state: "unavailable"
     action:
-      service: input_datetime.set_datetime
+      - service: input_datetime.set_datetime
+        data:
+          entity_id: input_datetime.last_power_outage
+          datetime: '{{ now() }}'
+      - service: input_number.increment+
+        target:
+          entity_id: 
+            - input_number.power_outages_today_count
+            - input_number.power_outages_monthly_count
+
+  - alias: Power - Reset outages counter
+    trigger:
+      - platform: time
+        at: "00:00:00"
+    action:
+      service: input_number.set_value
       data:
-        entity_id: input_datetime.last_power_outage
-        datetime: '{{ now() }}'
+        entity: input_number.power_outages_today_count
+        value: 0
 
-
+  - alias: Power - Reset monthly counter & notify
+    trigger:
+      - platform: time
+        at: "00:00:01"
+    condition:
+      condition: template
+      value_template: "{{ now().day == 1 }}"
+    action:
+      - service: notify.shlomi
+        data:
+          message: "Monthly power outages report: {{ states('input_number.power_outages_monthly_count') | int }} outages"
+      - service: input_number.set_value
+        data:
+          entity: input_number.power_outages_monthly_count
+          value: 0
