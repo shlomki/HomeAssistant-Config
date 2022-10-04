@@ -92,17 +92,12 @@ cards:
           template: title
           name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.fans ]]]"
           show_icon: false
+          entity: group.all_fans
           double_tap_action:
-            action: call-service
-            service: cover.toggle
-            service_data:
-              entity_id: cover.curtains
+            action: toggle
             confirmation:
               text: >-
-                [[[ return 'Are you sure? ' +
-                (states['cover.curtains'].state == 'off'
-                ? 'Open' : 'Close') + ' all Curtains in
-                the house?' ]]]
+                [[[ return 'Are you sure? Turn ' + (states['group.all_fans'].state == 'off' ? 'ON' : 'OFF') + ' all Fans in the house?']]]
         - type: horizontal-stack
           cards:
             - type: custom:button-card
