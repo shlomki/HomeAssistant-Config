@@ -57,7 +57,7 @@ automation:
         data:
           entity_id: input_datetime.last_power_outage
           datetime: '{{ now() }}'
-      - service: input_number.increment+
+      - service: input_number.increment
         target:
           entity_id: 
             - input_number.power_outages_today_count
