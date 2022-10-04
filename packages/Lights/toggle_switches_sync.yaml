@@ -6,14 +6,9 @@ automation:
         entity_id:
           - light.living_room_side_lamp_hue
           - switch.living_room_side_lamp_toggle
-    condition:
-      condition: not
-      conditions:
-        - condition: state
-          entity_id:
-            - light.living_room_side_lamp_hue
-            - switch.living_room_side_lamp_toggle
-          state: "unavailable"
+        not_to:
+          - unavailable
+          - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id:
@@ -42,14 +37,9 @@ automation:
         entity_id:
           - light.stairs
           - switch.stairs_module
-    condition:
-      condition: not
-      conditions:
-        - condition: state
-          entity_id:
-            - light.stairs
-            - switch.stairs_module
-          state: "unavailable"
+        not_to:
+          - unavailable
+          - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.stairs_group
@@ -61,14 +51,9 @@ automation:
         entity_id:
           - light.office_bff_light
           - light.office_bff_light_toggle
-    condition:
-      condition: not
-      conditions:
-        - condition: state
-          entity_id:
-            - light.office_bff_light
-            - light.office_bff_light_toggle
-          state: "unavailable"
+        not_to:
+          - unavailable
+          - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.office_bff_light_group
@@ -80,14 +65,9 @@ automation:
         entity_id:
           - light.birds_main
           - light.birds_main_toggle
-    condition:
-      condition: not
-      conditions:
-        - condition: state
-          entity_id:
-            - light.birds_main
-            - light.birds_main_toggle
-          state: "unavailable"
+        not_to:
+          - unavailable
+          - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.birds_main_group
@@ -99,14 +79,9 @@ automation:
         entity_id:
           - light.bathroom_cabinet
           - light.bathroom_cabinet_toggle
-    condition:
-      condition: not
-      conditions:
-        - condition: state
-          entity_id:
-            - light.bathroom_cabinet
-            - light.bathroom_cabinet_toggle
-          state: "unavailable"
+        not_to:
+          - unavailable
+          - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.bathroom_cabinet_group
@@ -177,16 +152,9 @@ automation:
       - platform: state
         entity_id:
           - light.riley_scene_toggle
-    condition:
-      - condition: state
-        entity_id: light.riley_main_combined
-        state: "on"
-      - condition: not
-        conditions:
-          - condition: state
-            entity_id:
-              - light.riley_scene_toggle
-            state: "unavailable"
+        not_to:
+          - unavailable
+          - unknown
     action:
       - service: light.turn_on
         entity_id:
@@ -202,15 +170,9 @@ automation:
           - light.bedroom_main
           - light.bedroom_main_toggle_left
           - light.bedroom_main_toggle_right
-    condition:
-      condition: not
-      conditions:
-        - condition: state
-          entity_id:
-            - light.bedroom_main
-            - light.bedroom_main_toggle_left
-            - light.bedroom_main_toggle_right
-          state: "unavailable"
+        not_to:
+          - unavailable
+          - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.bedroom_main_group
@@ -223,15 +185,9 @@ automation:
           - light.bedroom_entrance
           - light.bedroom_entrance_toggle_left
           - light.bedroom_entrance_toggle_right
-    condition:
-      condition: not
-      conditions:
-        - condition: state
-          entity_id:
-            - light.bedroom_entrance
-            - light.bedroom_entrance_toggle_left
-            - light.bedroom_entrance_toggle_right
-          state: "unavailable"
+        not_to:
+          - unavailable
+          - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.bedroom_entrance_group
@@ -244,15 +200,9 @@ automation:
           - light.bedroom_scene
           - light.bedroom_scene_left
           - light.bedroom_scene_right
-    condition:
-      condition: not
-      conditions:
-        - condition: state
-          entity_id:
-            - light.bedroom_scene
-            - light.bedroom_scene_left
-            - light.bedroom_scene_right
-          state: "unavailable"
+        not_to:
+          - unavailable
+          - unknown
     action:
       - service: light.turn_on
         entity_id: light.bedroom_dimmable_lights
@@ -281,14 +231,9 @@ automation:
         entity_id:
           - fan.balcony_fan
           - switch.balcony_fan_toggle
-    condition:
-      condition: not
-      conditions:
-        - condition: state
-          entity_id:
-            - fan.balcony_fan
-            - switch.balcony_fan_toggle
-          state: "unavailable"
+        not_to:
+          - unavailable
+          - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: group.balcony_fan_group
@@ -300,14 +245,9 @@ automation:
         entity_id:
           - light.balcony_string_lights
           - light.balcony_string_lights_toggle
-    condition:
-      condition: not
-      conditions:
-        - condition: state
-          entity_id:
-            - light.balcony_string_lights
-            - light.balcony_string_lights_toggle
-          state: "unavailable"
+        not_to:
+          - unavailable
+          - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.balcony_string_lights_group
