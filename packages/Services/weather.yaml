@@ -1,0 +1,17 @@
+# template:
+#   - sensor:
+#       - name: "Outside Weather"
+#         state: "{{ states('weather.home_open_weather_map') }}"
+#         attributes:
+#           temperature: "{{ states('sensor.outside_temperature') }}"
+#           temperature_unit: "°C"
+#           humidity: "{{ states('sensor.outside_humidity') }}"
+
+weather:
+  - platform: template
+    name: "Outside Weather"
+    condition_template: "{{ states('weather.home_open_weather_map') }}"
+    temperature_template: "{{ states('sensor.outside_temperature') }}"
+    temperature_unit: "°C"
+    humidity_template: "{{ states('sensor.outside_humidity') }}"
+    forecast_template: "{{ state_attr('weather.home_open_weather_map', 'forecast') }}"
