@@ -12,7 +12,7 @@ template:
           kitchen: "Kitchen"
           toilet: "Toilet"
           bathroom: "Bathroom"
-          hallway: "hallway"
+          hallway: "Hallway"
           entrance: "Entrance"
           internet: "Internet"
           cameras: "Cameras"
