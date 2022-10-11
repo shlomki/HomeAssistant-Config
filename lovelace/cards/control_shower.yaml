@@ -9,6 +9,18 @@ cards:
       action: toggle
     hold_action:
       action: more-info
+    styles:
+      label:
+        - font-size: 10px
+    show_label: true
+    label: >
+      [[[ 
+        if (states['binary_sensor.water_boiler_was_on_today'].state == 'on') {
+          return '<div>On for ' + states["sensor.water_boiler_metrics_duration_last_time"].state + '</div>' +
+          ((states['switch.water_boiler'].state == 'off') ? '<div>' + states["sensor.water_boiler_metrics_time_since_finished"].state + ' ago' : '') + '</div>'; 
+          } ]]]
+      
+
   - type: grid
     columns: 2
     square: false
