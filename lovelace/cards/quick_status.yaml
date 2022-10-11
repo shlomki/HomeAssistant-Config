@@ -112,39 +112,3 @@ cards:
       fridges: !include /config/lovelace/cards/quick_status_fridges.yaml
       entities: !include /config/lovelace/cards/quick_status_entities.yaml
 
-
-  # #Entrance
-  # - type: custom:local-conditional-card
-  #   default: hide
-  #   id: entrance
-  #   card:
-  #     !include /config/lovelace/cards/quick_status_entrance.yaml
-
-  # #Internet
-  # - type: custom:local-conditional-card
-  #   default: hide
-  #   id: internet
-  #   card:
-  #     !include /config/lovelace/cards/quick_status_internet.yaml
-
-  # #Cameras
-  # - type: custom:local-conditional-card
-  #   default: hide
-  #   id: cameras
-  #   card:
-  #     !include /config/lovelace/cards/quick_status_cameras.yaml
-
-
-  # #Fridges
-  # - type: custom:local-conditional-card
-  #   default: hide
-  #   id: fridges
-  #   card:
-  #     !include /config/lovelace/cards/quick_status_fridges.yaml
-
-  # #Entities
-  # - type: custom:local-conditional-card
-  #   default: hide
-  #   id: entities
-  #   card:
-  #     !include /config/lovelace/cards/quick_status_entities.yaml
