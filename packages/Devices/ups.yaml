@@ -1,15 +1,18 @@
-apcupsd:
-  host: !secret apcupsd_ip
+#This was moved to UI
+# apcupsd:
+#   host: !secret apcupsd_ip
 
 sensor:
-  - platform: apcupsd
-    resources:
-      - bcharge
-      - status
-      - tonbatt
-      - loadpct
-      - timeleft
-      - numxfers
+
+  #This was moved to UI
+#   - platform: apcupsd
+#     resources:
+#       - bcharge
+#       - status
+#       - tonbatt
+#       - loadpct
+#       - timeleft
+#       - numxfers
 
   - platform: template
     sensors:
