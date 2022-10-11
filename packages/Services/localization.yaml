@@ -5,7 +5,7 @@ template:
         attributes:
           living_room: "Living Room"
           office: "Office"
-          birds: "Birds"
+          guests: "Guests"
           riley: "Riley"
           bedroom: "Bedroom"
           balcony: "Balcony"
@@ -67,7 +67,7 @@ template:
         attributes:
           living_room: "סלון"
           office: "משרד"
-          birds: "תוכים"
+          guests: "אורחים"
           riley: "ריילי"
           bedroom: "הורים"
           balcony: "מרפסת"

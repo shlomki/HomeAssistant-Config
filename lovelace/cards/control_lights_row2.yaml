@@ -78,13 +78,13 @@ cards:
       action: call-service
       service: homeassistant.turn_on
       service_data:
-        entity_id: light.birds_main_combined
+        entity_id: light.guests_main_combined
     hold_action:
       action: more-info
-    entity: light.birds_main_combined
-    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.birds ]]]"
+    entity: light.guests_main_combined
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.guests ]]]"
     icon_height: 50px
-    icon: mdi:bird
+    icon: mdi:account-multiple
   - type: custom:button-card
     template: ha-button
     tap_action:

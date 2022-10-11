@@ -42,12 +42,12 @@ climate:
     humidity_sensor: sensor.office_humidity
 
   - platform: smartir
-    name: Birds AC
-    unique_id: ac_damper_birds
+    name: Guests AC
+    unique_id: ac_damper_guests
     device_code: 1344
-    controller_data: remote.birds
-    temperature_sensor: sensor.birds_temperature
-    humidity_sensor: sensor.birds_humidity
+    controller_data: remote.guests
+    temperature_sensor: sensor.guests_temperature
+    humidity_sensor: sensor.guests_humidity
 
   - platform: smartir
     name: Riley AC
@@ -82,7 +82,6 @@ input_number:
     step: 1
 
 script:
-
   toggle_dampers:
     alias: Toggle Dampers
     mode: queued
@@ -93,7 +92,7 @@ script:
 input_boolean:
   ac_damper_living_room_need_update:
   ac_damper_office_need_update:
-  ac_damper_birds_need_update:
+  ac_damper_guests_need_update:
   ac_damper_riley_need_update:
   ac_damper_bedroom_need_update:
 
@@ -102,7 +101,7 @@ group:
     entities:
       - climate.ac_damper_living_room
       - climate.ac_damper_office
-      - climate.ac_damper_birds
+      - climate.ac_damper_guests
       - climate.ac_damper_riley
       - climate.ac_damper_bedroom
 
@@ -124,19 +123,18 @@ automation:
         target:
           entity_id: climate.mainac
 
-
-#Turn on Living Room Damper when Main AC set to Fan Only (and no other dampers are on)
+  #Turn on Living Room Damper when Main AC set to Fan Only (and no other dampers are on)
   - alias: Turn on LR AC when Main AC set to Fan
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - climate.mainac
           - climate.manual_ac
 
-        from: 
+        from:
           - heat
           - cool
-        to: 
+        to:
           - fan_only
 
     condition:
@@ -148,11 +146,10 @@ automation:
       - service: climate.turn_on
         entity_id: climate.ac_damper_living_room
 
-
   - alias: Save last ac mode
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - climate.mainac
           - climate.manual_ac
         from: #This helps the automation not run when attributes change (such as temperature)
@@ -174,7 +171,7 @@ automation:
   #       entity_id:
   #         - fan.ac_damper_living_room
   #         - fan.ac_damper_office
-  #         - fan.ac_damper_birds
+  #         - fan.ac_damper_guests
   #         - fan.ac_damper_riley
   #         - fan.ac_damper_bedroom
   #       attribute: "speed"
@@ -257,7 +254,7 @@ automation:
         entity_id:
           - climate.ac_damper_living_room
           - climate.ac_damper_office
-          - climate.ac_damper_birds
+          - climate.ac_damper_guests
           - climate.ac_damper_riley
           - climate.ac_damper_bedroom
         for:
@@ -268,7 +265,7 @@ automation:
         entity_id:
           - input_boolean.ac_damper_living_room_need_update
           - input_boolean.ac_damper_office_need_update
-          - input_boolean.ac_damper_birds_need_update
+          - input_boolean.ac_damper_guests_need_update
           - input_boolean.ac_damper_riley_need_update
           - input_boolean.ac_damper_bedroom_need_update
         to: "off"
@@ -280,7 +277,7 @@ automation:
       #   entity_id:
       #     - sensor.living_room_temperature
       #     - sensor.office_temperature
-      #     - sensor.birds_temperature
+      #     - sensor.guests_temperature
       #     - sensor.riley_temperature
       #     - sensor.bedroom_temperature
 
@@ -311,11 +308,11 @@ automation:
         entity_id:
           - climate.ac_damper_living_room
         from:
-          - 'off'
-          - 'fan_only'
+          - "off"
+          - "fan_only"
         to:
-          - 'off'
-          - 'fan_only'
+          - "off"
+          - "fan_only"
         for:
           seconds: 3
 
@@ -352,11 +349,11 @@ automation:
         entity_id:
           - climate.ac_damper_office
         from:
-          - 'off'
-          - 'fan_only'
+          - "off"
+          - "fan_only"
         to:
-          - 'off'
-          - 'fan_only'
+          - "off"
+          - "fan_only"
         for:
           seconds: 3
 
@@ -385,32 +382,32 @@ automation:
             - delay:
                 seconds: 3
 
-  - id: Repeat damper transmission - birds
+  - id: Repeat damper transmission - guests
     mode: restart
-    alias: Repeat damper transmission - birds
+    alias: Repeat damper transmission - guests
     trigger:
       - platform: state
         entity_id:
-          - climate.ac_damper_birds
+          - climate.ac_damper_guests
         from:
-          - 'off'
-          - 'fan_only'
+          - "off"
+          - "fan_only"
         to:
-          - 'off'
-          - 'fan_only'
+          - "off"
+          - "fan_only"
         for:
           seconds: 3
 
       - platform: state
         entity_id:
-          - climate.ac_damper_birds
+          - climate.ac_damper_guests
         attribute: temperature
         for:
           seconds: 3
 
       - platform: state
         entity_id:
-          - climate.ac_damper_birds
+          - climate.ac_damper_guests
         attribute: fan_mode
         for:
           seconds: 3
@@ -434,11 +431,11 @@ automation:
         entity_id:
           - climate.ac_damper_riley
         from:
-          - 'off'
-          - 'fan_only'
+          - "off"
+          - "fan_only"
         to:
-          - 'off'
-          - 'fan_only'
+          - "off"
+          - "fan_only"
         for:
           seconds: 3
 
@@ -475,11 +472,11 @@ automation:
         entity_id:
           - climate.ac_damper_bedroom
         from:
-          - 'off'
-          - 'fan_only'
+          - "off"
+          - "fan_only"
         to:
-          - 'off'
-          - 'fan_only'
+          - "off"
+          - "fan_only"
         for:
           seconds: 3
 
@@ -507,4 +504,3 @@ automation:
                 entity_id: "{{ trigger.to_state.entity_id }}"
             - delay:
                 seconds: 3
-

@@ -112,8 +112,8 @@ group:
       - light.office_bff_light_toggle
       - light.office_main
       - light.office_main_toggle
-      - light.birds_main
-      - light.birds_main_toggle
+      - light.guests_main
+      - light.guests_main_toggle
       - light.bathroom_heater
       - switch.water_boiler
       - light.bathroom_main
@@ -145,14 +145,14 @@ group:
       - binary_sensor.toilet_door
       - switch.subwoofer
       - cover.living_room_shutter_switch
-      - cover.birds_shutter_switch
+      - cover.guests_shutter_switch
       - cover.bedroom_shutter_switch
       - cover.living_room_curtain
       - cover.living_room_curtain_switch
       - binary_sensor.balcony_window
       - binary_sensor.kitchen_window
       - binary_sensor.office_window
-      - binary_sensor.birds_window
+      - binary_sensor.guests_window
       - binary_sensor.riley_window
       - binary_sensor.bedroom_window
       - cover.office_shutter_switch
@@ -163,7 +163,7 @@ group:
       - binary_sensor.doorbell
       - remote.living_room
       - remote.office
-      - remote.birds
+      - remote.guests
       - remote.riley
       - remote.bedroom
       - binary_sensor.rain
@@ -173,7 +173,7 @@ group:
       - binary_sensor.stairs_motion
       - sensor.living_room_temperature
       - sensor.office_temperature
-      - sensor.birds_temperature
+      - sensor.guests_temperature
       - sensor.riley_temperature
       - sensor.bedroom_temperature
       - sensor.bedroom_closet_temperature

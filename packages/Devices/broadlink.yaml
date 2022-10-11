@@ -6,7 +6,7 @@
 #     timeout: 15
 #     type: rm2
 #     switches: !include_dir_merge_named /config/config/BroadlinkSwitches/LivingRoom
-  
+
 #   #Office
 #   - platform: broadlink
 #     host: !secret office
@@ -14,15 +14,15 @@
 #     timeout: 15
 #     type: rm2_pro_plus
 #   #   switches: !include_dir_merge_named /config/config/BroadlinkSwitches/Office
-    
-#   #Birds
+
+#   #Guests
 #   - platform: broadlink
-#     host: !secret birds
-#     mac: !secret birds_mac
+#     host: !secret guests
+#     mac: !secret guests_mac
 #     timeout: 15
 #     type: rm_mini
 #   #   switches: !include_dir_merge_named /config/config/BroadlinkSwitches/GuestRoom
-    
+
 #   #Bedroom
 #   - platform: broadlink
 #     host: !secret bedroom
@@ -30,7 +30,7 @@
 #     timeout: 15
 #     type: rm2
 #   #   switches: !include_dir_merge_named /config/config/BroadlinkSwitches/Bedroom
-    
+
 #   #Bedroom
 #   - platform: broadlink
 #     host: !secret riley
@@ -61,9 +61,9 @@
 #   broadlink_office:
 #     name: Broadlink Office
 #     initial: !secret office
-#   broadlink_birds:
-#     name: Broadlink Birds
-#     initial: !secret birds
+#   broadlink_guests:
+#     name: Broadlink Guests
+#     initial: !secret guests
 #   broadlink_riley:
 #     name: Broadlink Riley
 #     initial: !secret riley
@@ -86,17 +86,17 @@ automation:
     mode: parallel
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - remote.living_room
           - remote.office
-          - remote.birds
+          - remote.guests
           - remote.riley
           - remote.bedroom
-        from:  'unavailable'
+        from: "unavailable"
     action:
       - service: remote.turn_on
         data:
-          entity_id: '{{ trigger.to_state.entity_id }}'
+          entity_id: "{{ trigger.to_state.entity_id }}"
 
   - alias: Turn on broadlink remotes on home assistant start
     trigger:
@@ -107,24 +107,24 @@ automation:
       conditions:
         - condition: state
           entity_id: remote.living_room
-          state: 'off'
+          state: "off"
         - condition: state
           entity_id: remote.office
-          state: 'off'
+          state: "off"
         - condition: state
-          entity_id: remote.birds
-          state: 'off'
+          entity_id: remote.guests
+          state: "off"
         - condition: state
           entity_id: remote.riley
-          state: 'off'
+          state: "off"
         - condition: state
           entity_id: remote.bedroom
-          state: 'off'
+          state: "off"
     action:
       - service: remote.turn_on
-        entity_id: 
+        entity_id:
           - remote.living_room
           - remote.office
-          - remote.birds
+          - remote.guests
           - remote.riley
           - remote.bedroom

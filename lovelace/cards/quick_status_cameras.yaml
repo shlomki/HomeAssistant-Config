@@ -50,10 +50,10 @@ cards:
                   name: Office
                 - type: custom:button-card
                   template: camera-view
-                  entity: device_tracker.edgeos_camera_birds
+                  entity: device_tracker.edgeos_camera_guests
                   variables:
-                    stream: camera.birds
-                  name: Birds
+                    stream: camera.guests
+                  name: Guests
                 - type: custom:button-card
                   template: camera-view
                   entity: device_tracker.edgeos_camera_riley

@@ -1,10 +1,9 @@
 sensor:
-
   - platform: template
     sensors:
       bathroom_temperature:
         friendly_name: "Bathroom"
-        unit_of_measurement: '°C'
+        unit_of_measurement: "°C"
         value_template: '{{ state_attr("sensor.cat_motion", "temperature") }}'
 
       # outside_temperature:
@@ -15,99 +14,99 @@ sensor:
       living_room_temperature_monitor:
         friendly_name: Living Room Temperature
         value_template: >
-            {% set temp = states('sensor.living_room_temperature') | float %}
-            {% set temp_max = states('input_number.room_temperature_max') | float %}
-            {% set temp_min = states('input_number.room_temperature_min') | float %}
-            {% if temp >= (temp_max + 1.5) %}
-              Very Hot
-            {% elif temp >= temp_max %}
-              Hot
-            {% elif temp <= temp_min %}
-              Cold
-            {% elif temp <= temp_min - 1.5%}
-              Very Cold
-            {% else %}
-              Ok
-            {% endif %}
+          {% set temp = states('sensor.living_room_temperature') | float %}
+          {% set temp_max = states('input_number.room_temperature_max') | float %}
+          {% set temp_min = states('input_number.room_temperature_min') | float %}
+          {% if temp >= (temp_max + 1.5) %}
+            Very Hot
+          {% elif temp >= temp_max %}
+            Hot
+          {% elif temp <= temp_min %}
+            Cold
+          {% elif temp <= temp_min - 1.5%}
+            Very Cold
+          {% else %}
+            Ok
+          {% endif %}
 
       office_temperature_monitor:
         friendly_name: Office Temperature
         value_template: >
-            {% set temp = states('sensor.office_temperature') | float %}
-            {% set temp_max = states('input_number.room_temperature_max') | float %}
-            {% set temp_min = states('input_number.room_temperature_min') | float %}
-            {% if temp >= (temp_max + 1.5) %}
-              Very Hot
-            {% elif temp >= temp_max %}
-              Hot
-            {% elif temp <= temp_min %}
-              Cold
-            {% elif temp <= temp_min - 1.5%}
-              Very Cold
-            {% else %}
-              Ok
-            {% endif %}
+          {% set temp = states('sensor.office_temperature') | float %}
+          {% set temp_max = states('input_number.room_temperature_max') | float %}
+          {% set temp_min = states('input_number.room_temperature_min') | float %}
+          {% if temp >= (temp_max + 1.5) %}
+            Very Hot
+          {% elif temp >= temp_max %}
+            Hot
+          {% elif temp <= temp_min %}
+            Cold
+          {% elif temp <= temp_min - 1.5%}
+            Very Cold
+          {% else %}
+            Ok
+          {% endif %}
 
-      birds_temperature_monitor:
-        friendly_name: Birds Temperature
+      guests_temperature_monitor:
+        friendly_name: Guests Temperature
         value_template: >
-            {% set temp = states('sensor.birds_temperature') | float %}
-            {% set temp_max = states('input_number.room_temperature_max') | float %}
-            {% set temp_min = states('input_number.room_temperature_min') | float %}
-            {% if temp >= (temp_max + 1.5) %}
-              Very Hot
-            {% elif temp >= temp_max %}
-              Hot
-            {% elif temp <= temp_min %}
-              Cold
-            {% elif temp <= temp_min - 1.5%}
-              Very Cold
-            {% else %}
-              Ok
-            {% endif %}
+          {% set temp = states('sensor.guests_temperature') | float %}
+          {% set temp_max = states('input_number.room_temperature_max') | float %}
+          {% set temp_min = states('input_number.room_temperature_min') | float %}
+          {% if temp >= (temp_max + 1.5) %}
+            Very Hot
+          {% elif temp >= temp_max %}
+            Hot
+          {% elif temp <= temp_min %}
+            Cold
+          {% elif temp <= temp_min - 1.5%}
+            Very Cold
+          {% else %}
+            Ok
+          {% endif %}
 
       riley_temperature_monitor:
         friendly_name: Riley Temperature
         value_template: >
-            {% set temp = states('sensor.riley_temperature') | float %}
-            {% set temp_max = states('input_number.room_temperature_max') | float %}
-            {% set temp_min = states('input_number.room_temperature_min') | float %}
-            {% if temp >= (temp_max + 1.5) %}
-              Very Hot
-            {% elif temp >= temp_max %}
-              Hot
-            {% elif temp <= temp_min %}
-              Cold
-            {% elif temp <= temp_min - 1.5%}
-              Very Cold
-            {% else %}
-              Ok
-            {% endif %}
+          {% set temp = states('sensor.riley_temperature') | float %}
+          {% set temp_max = states('input_number.room_temperature_max') | float %}
+          {% set temp_min = states('input_number.room_temperature_min') | float %}
+          {% if temp >= (temp_max + 1.5) %}
+            Very Hot
+          {% elif temp >= temp_max %}
+            Hot
+          {% elif temp <= temp_min %}
+            Cold
+          {% elif temp <= temp_min - 1.5%}
+            Very Cold
+          {% else %}
+            Ok
+          {% endif %}
 
       bedroom_temperature_monitor:
         friendly_name: Bedroom Temperature
         value_template: >
-            {% set temp = states('sensor.bedroom_temperature') | float %}
-            {% set temp_max = states('input_number.room_temperature_max') | float %}
-            {% set temp_min = states('input_number.room_temperature_min') | float %}
-            {% if temp >= (temp_max + 1.5) %}
-              Very Hot
-            {% elif temp >= temp_max %}
-              Hot
-            {% elif temp <= temp_min %}
-              Cold
-            {% elif temp <= temp_min - 1.5%}
-              Very Cold
-            {% else %}
-              Ok
-            {% endif %}
+          {% set temp = states('sensor.bedroom_temperature') | float %}
+          {% set temp_max = states('input_number.room_temperature_max') | float %}
+          {% set temp_min = states('input_number.room_temperature_min') | float %}
+          {% if temp >= (temp_max + 1.5) %}
+            Very Hot
+          {% elif temp >= temp_max %}
+            Hot
+          {% elif temp <= temp_min %}
+            Cold
+          {% elif temp <= temp_min - 1.5%}
+            Very Cold
+          {% else %}
+            Ok
+          {% endif %}
 
       all_rooms_temperature_monitor:
         friendly_name: All Rooms Temperature
         value_template: >
           {{ states('sensor.living_room_temperature_monitor') if not is_state('sensor.living_room_temperature_monitor', 'Ok') else
              states('sensor.office_temperature_monitor') if not is_state('sensor.office_temperature_monitor', 'Ok') else
-             states('sensor.birds_temperature_monitor') if not is_state('sensor.birds_temperature_monitor', 'Ok') else
+             states('sensor.guests_temperature_monitor') if not is_state('sensor.guests_temperature_monitor', 'Ok') else
              states('sensor.riley_temperature_monitor') if not is_state('sensor.riley_temperature_monitor', 'Ok') else
              states('sensor.bedroom_temperature_monitor') if not is_state('sensor.bedroom_temperature_monitor', 'Ok') else 'Ok' }}
 
@@ -175,7 +174,7 @@ automation:
   - alias: Temperature Monitor Update Min Max Temp
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - input_number.room_temperature_min_summer
           - input_number.room_temperature_max_summer
           - input_number.room_temperature_min_autumn

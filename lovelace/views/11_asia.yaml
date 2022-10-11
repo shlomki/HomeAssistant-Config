@@ -41,12 +41,12 @@ cards:
                 show_label: false
               - type: custom:button-card
                 template: climate-button
-                entity: climate.ac_damper_birds
+                entity: climate.ac_damper_guests
                 name: Попугаи
-                icon: mdi:bird
+                icon: mdi:account-multiple
                 variables:
-                  window_entity_ids: binary_sensor.birds_window
-                triggers_update: binary_sensor.birds_window
+                  window_entity_ids: binary_sensor.guests_window
+                triggers_update: binary_sensor.guests_window
                 show_label: false
               - type: custom:button-card
                 template: climate-button

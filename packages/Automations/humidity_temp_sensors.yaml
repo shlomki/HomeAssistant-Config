@@ -2,10 +2,10 @@ automation:
   - alias: House humidity high
     trigger:
       - platform: numeric_state
-        entity_id: 
+        entity_id:
           - sensor.living_room_humidity
           - sensor.office_humidity
-          - sensor.birds_humidity
+          - sensor.guests_humidity
           - sensor.riley_humidity
           - sensor.bedroom_humidity
           - sensor.bedroom_closet_humidity
@@ -27,13 +27,13 @@ automation:
   - alias: House temp is extreme - notify on telegram
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - sensor.living_room_temperature_monitor
           - sensor.office_temperature_monitor
-          - sensor.birds_temperature_monitor
+          - sensor.guests_temperature_monitor
           - sensor.riley_temperature_monitor
           - sensor.bedroom_temperature_monitor
-        to: 
+        to:
           - "Very Hot"
           - "Very Cold"
     action:
@@ -50,7 +50,7 @@ script:
     sequence:
       - service: script.notify_bffs_with_actions
         data:
-          message: '{{ message }}'
+          message: "{{ message }}"
           inline_keyboard: >
             {{ room_friendly_name }} AC On:/turn_on climate.ac_damper_{{ room_friendly_name | string | regex_replace(find=' ', replace='_', ignorecase=True)| lower }},
             {{ room_friendly_name }} AC Off:/turn_off climate.ac_damper_{{ room_friendly_name | string | regex_replace(find=' ', replace='_', ignorecase=True)| lower }}

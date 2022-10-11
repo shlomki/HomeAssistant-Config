@@ -6,13 +6,13 @@ group:
       - switch.kitchen_lights
       - light.hallway_main
       - switch.office_lights
-      - light.birds_main_combined
+      - light.guests_main_combined
       - light.riley_main_combined
       - switch.bedroom_lights
       - switch.toilet_lights
       - switch.bathroom_lights
 
-  All Lights Except Birds:
+  All Lights Except Guests:
     entities:
       - switch.living_room_lights
       - switch.balcony_lights

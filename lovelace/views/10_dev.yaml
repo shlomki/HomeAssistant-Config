@@ -5,14 +5,14 @@ cards:
   - type: custom:scheduler-card
     include:
       - climate.ac_damper_bedroom
-      - climate.ac_damper_birds
+      - climate.ac_damper_guests
       - climate.ac_damper_living_room
       - climate.ac_damper_office
       - climate.ac_damper_riley
       # - climate.mainac
       # - climate.manual_ac
       - cover.bedroom_shutter
-      - cover.birds_shutter
+      - cover.guests_shutter
       - cover.kitchen_curtain
       - cover.kitchen_shutter
       - cover.living_room_curtain
@@ -22,4 +22,3 @@ cards:
       - switch.water_boiler
     exclude: []
     title: true
-

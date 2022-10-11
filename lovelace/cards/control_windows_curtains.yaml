@@ -54,21 +54,20 @@ cards:
             template: cover-down
             entity: cover.office_curtain
 
-
       - type: vertical-stack
         cards:
           - type: custom:button-card
             template: cover-up
-            # entity: cover.birds_curtain
+            # entity: cover.guests_curtain
             tap_action:
               action: none
           - type: custom:button-card
             template: cover-stop
-            # entity: cover.birds_curtain
-            icon: mdi:bird
+            # entity: cover.guests_curtain
+            icon: mdi:account-multiple
             variables:
-              window_entity_ids: binary_sensor.birds_window
-            triggers_update: binary_sensor.birds_window
+              window_entity_ids: binary_sensor.guests_window
+            triggers_update: binary_sensor.guests_window
             tap_action:
               action: none
             hold_action:
@@ -78,10 +77,9 @@ cards:
                 - color: lightgray
           - type: custom:button-card
             template: cover-down
-            # entity: cover.birds_curtain
+            # entity: cover.guests_curtain
             tap_action:
               action: none
-
 
       - type: vertical-stack
         cards:

@@ -19,7 +19,7 @@ cards:
     filter:
       include:
         - domain: binary_sensor
-          entity_id: '*_motion'
+          entity_id: "*_motion"
       exclude: []
     sort:
       method: state
@@ -30,7 +30,7 @@ cards:
     filter:
       include:
         - domain: binary_sensor
-          entity_id: '*_leak'
+          entity_id: "*_leak"
       exclude: []
     sort:
       method: state
@@ -59,9 +59,9 @@ cards:
     filter:
       include:
         - entity_id: binary_sensor.front_door_lock_battery
-          state: 'on'
+          state: "on"
         - domain: sensor
-          entity_id: '*_battery_level'
+          entity_id: "*_battery_level"
           state: <99
       exclude:
         - entity_id: sensor.inbal_s10plus_battery_level
@@ -74,6 +74,6 @@ cards:
   #     - entity: automation.red_alert_close_shutters
   #     - entity: automation.red_alert_turn_on_lights_living_room_kitchen
   #     - entity: automation.red_alert_turn_on_lights_office
-  #     - entity: automation.red_alert_turn_on_lights_birds
+  #     - entity: automation.red_alert_turn_on_lights_guests
   #     - entity: automation.red_alert_turn_on_lights_bedroom
   #   title: Red Alert

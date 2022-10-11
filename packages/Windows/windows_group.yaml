@@ -5,7 +5,7 @@ group:
       - binary_sensor.balcony_window
       - binary_sensor.kitchen_window
       - binary_sensor.office_window
-      - binary_sensor.birds_window
+      - binary_sensor.guests_window
       - binary_sensor.riley_window
       - binary_sensor.bedroom_window
 
@@ -15,7 +15,7 @@ group:
       - cover.living_room_shutter
       - cover.kitchen_shutter
       - cover.office_shutter
-      - cover.birds_shutter
+      - cover.guests_shutter
       - cover.bedroom_shutter
 
 cover:
@@ -25,7 +25,6 @@ cover:
       - cover.living_room_curtain
       - cover.kitchen_curtain
       - cover.office_curtain
-
 
 script:
   all_shutters:
@@ -47,25 +46,24 @@ script:
         entity_id: cover.office_shutter
       - delay: "00:00:01"
       - service: "{{ service_to_call }}"
-        entity_id: cover.birds_shutter
+        entity_id: cover.guests_shutter
       - delay: "00:00:01"
       - service: "{{ service_to_call }}"
         entity_id: cover.bedroom_shutter
       - delay: "00:00:{{ living_room_shutter_delay if living_room_shutter_delay else '01' }}" #Custom delay for living_room_shutter
       - service: "{{ service_to_call }}"
         entity_id: cover.living_room_shutter
-
 # automation:
 #   - alias: Shutter Update Position From Physical Switch
 #     mode: parallel
 #     trigger:
 #       - platform: state
-#         entity_id: 
+#         entity_id:
 #           - sensor.living_room_shutter_state
 #           - sensor.kitchen_shutter_state
 #           - sensor.kitchen_curtain_state
 #           - sensor.office_shutter_state
-#           - sensor.birds_shutter_state
+#           - sensor.guests_shutter_state
 #           - sensor.bedroom_shutter_state
 #     variables:
 #       cover_entity_id: "cover.{{ trigger.to_state.entity_id | replace('sensor.', '') | replace('_state', '') }}"

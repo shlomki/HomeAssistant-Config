@@ -24,14 +24,14 @@ cards:
             location: main
             icon: mdi:power
             state:
-              mapper: 'state => (state == ''fan_only'' ? ''on'': ''off'')'
+              mapper: "state => (state == 'fan_only' ? 'on': 'off')"
             toggle_action: >
               (state) => this.call_service('homeassistant', (state == 'on' ? 'turn_off':
-              'turn_on'),  { 'entity_id': 'climate.ac_damper_living_room' }) 
+              'turn_on'),  { 'entity_id': 'climate.ac_damper_living_room' })
         indicators:
           humidity:
             icon: mdi:water
-            unit: '%'
+            unit: "%"
             round: 1
             source:
               entity: sensor.living_room_humidity
@@ -70,14 +70,14 @@ cards:
             location: main
             icon: mdi:power
             state:
-              mapper: 'state => (state == ''fan_only'' ? ''on'': ''off'')'
+              mapper: "state => (state == 'fan_only' ? 'on': 'off')"
             toggle_action: >
               (state) => this.call_service('homeassistant', (state == 'on' ? 'turn_off':
-              'turn_on'),  { 'entity_id': 'climate.ac_damper_living_room' }) 
+              'turn_on'),  { 'entity_id': 'climate.ac_damper_living_room' })
         indicators:
           humidity:
             icon: mdi:water
-            unit: '%'
+            unit: "%"
             round: 1
             source:
               entity: sensor.office_humidity
@@ -94,7 +94,7 @@ cards:
                 Open': 'Unavailable'))
 
       - type: custom:mini-climate
-        entity: climate.ac_damper_birds
+        entity: climate.ac_damper_guests
         swap_temperatures: true
         hvac_mode:
           hide: true
@@ -105,17 +105,17 @@ cards:
             location: main
             icon: mdi:power
             state:
-              mapper: 'state => (state == ''fan_only'' ? ''on'': ''off'')'
+              mapper: "state => (state == 'fan_only' ? 'on': 'off')"
             toggle_action: >
               (state) => this.call_service('homeassistant', (state == 'on' ? 'turn_off':
-              'turn_on'),  { 'entity_id': 'climate.ac_damper_birds' }) 
+              'turn_on'),  { 'entity_id': 'climate.ac_damper_guests' })
         indicators:
           humidity:
             icon: mdi:water
-            unit: '%'
+            unit: "%"
             round: 1
             source:
-              entity: sensor.birds_humidity
+              entity: sensor.guests_humidity
           window:
             icon:
               template: |
@@ -123,7 +123,7 @@ cards:
               style: |
                 (value) => (value == 'Window Open' ? { color: 'red'} : {})
             source:
-              entity: binary_sensor.birds_window
+              entity: binary_sensor.guests_window
               mapper: >-
                 state => (state == 'off' ? '': (state == 'on' ? 'Window
                 Open': 'Unavailable'))
@@ -140,14 +140,14 @@ cards:
             location: main
             icon: mdi:power
             state:
-              mapper: 'state => (state == ''fan_only'' ? ''on'': ''off'')'
+              mapper: "state => (state == 'fan_only' ? 'on': 'off')"
             toggle_action: >
               (state) => this.call_service('homeassistant', (state == 'on' ? 'turn_off':
-              'turn_on'),  { 'entity_id': 'climate.ac_damper_riley' }) 
+              'turn_on'),  { 'entity_id': 'climate.ac_damper_riley' })
         indicators:
           humidity:
             icon: mdi:water
-            unit: '%'
+            unit: "%"
             round: 1
             source:
               entity: sensor.riley_humidity
@@ -175,14 +175,14 @@ cards:
             location: main
             icon: mdi:power
             state:
-              mapper: 'state => (state == ''fan_only'' ? ''on'': ''off'')'
+              mapper: "state => (state == 'fan_only' ? 'on': 'off')"
             toggle_action: >
               (state) => this.call_service('homeassistant', (state == 'on' ? 'turn_off':
-              'turn_on'),  { 'entity_id': 'climate.ac_damper_bedroom' }) 
+              'turn_on'),  { 'entity_id': 'climate.ac_damper_bedroom' })
         indicators:
           humidity:
             icon: mdi:water
-            unit: '%'
+            unit: "%"
             round: 1
             source:
               entity: sensor.bedroom_humidity
@@ -197,20 +197,20 @@ cards:
               mapper: >-
                 state => (state == 'off' ? '': (state == 'on' ? 'Window
                 Open': 'Unavailable'))
-                
+
   - type: vertical-stack
     cards:
       - type: conditional
         conditions:
           - entity: input_boolean.manual_ac
-            state: 'off'
+            state: "off"
         card:
           type: thermostat
           entity: climate.mainac
       - type: conditional
         conditions:
           - entity: input_boolean.manual_ac
-            state: 'on'
+            state: "on"
         card:
           type: thermostat
           entity: climate.manual_ac
@@ -230,8 +230,7 @@ cards:
     entities:
       - entity: sensor.living_room_temperature
       - entity: sensor.office_temperature
-      - entity: sensor.birds_temperature
+      - entity: sensor.guests_temperature
       - entity: sensor.riley_temperature
       - entity: sensor.bedroom_temperature
     title: Rooms
-

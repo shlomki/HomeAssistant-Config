@@ -241,13 +241,13 @@ cards:
       action: call-service
       service: homeassistant.turn_on
       service_data:
-        entity_id: light.birds_main_combined
+        entity_id: light.guests_main_combined
     hold_action:
       action: more-info
-    entity: light.birds_main_combined
-    name: Birds
+    entity: light.guests_main_combined
+    name: Guests
     icon_height: 50px
-    icon: mdi:bird
+    icon: mdi:account-multiple
   - type: custom:button-card
     template: ha-button
     tap_action:

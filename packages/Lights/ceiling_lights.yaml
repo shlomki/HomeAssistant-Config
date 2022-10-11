@@ -1,12 +1,12 @@
 input_boolean:
   living_room_script_running:
   office_script_running:
-  birds_script_running:
+  guests_script_running:
   riley_script_running:
 
   living_room_color_fix:
   office_main_color_fix:
-  birds_main_color_fix:
+  guests_main_color_fix:
   riley_main_color_fix:
 
 input_number:
@@ -18,7 +18,7 @@ input_number:
     min: 0
     max: 18
     step: 1
-  birds_light_level:
+  guests_light_level:
     min: 0
     max: 18
     step: 1
@@ -112,7 +112,6 @@ light:
   #             entity_id: light.hallway_dimmable_lights
   #             brightness: "{{ brightness }}"
 
-
   - platform: template
     lights:
       hallway_main_combined:
@@ -203,21 +202,21 @@ light:
 
   - platform: template
     lights:
-      birds_main_combined:
-        friendly_name: "Birds Main Dimmable"
-        value_template: "{{ is_state('light.birds_main','on') }}"
-        level_template: "{{ (states.input_number.birds_light_level.state|int * 14.166)|round }}"
-        availability_template: "{{ not is_state('light.birds_main','unavailable') }}"
+      guests_main_combined:
+        friendly_name: "Guests Main Dimmable"
+        value_template: "{{ is_state('light.guests_main','on') }}"
+        level_template: "{{ (states.input_number.guests_light_level.state|int * 14.166)|round }}"
+        availability_template: "{{ not is_state('light.guests_main','unavailable') }}"
         turn_on:
           - service: homeassistant.turn_on
-            entity_id: light.birds_main
+            entity_id: light.guests_main
         turn_off:
           - service: homeassistant.turn_off
-            entity_id: light.birds_main
+            entity_id: light.guests_main
         set_level:
           - service: python_script.ceiling_light_set_level
             data:
-              room: birds
+              room: guests
               new_brightness_level: "{{ brightness }}"
 
   - platform: template
@@ -325,7 +324,7 @@ light:
             data:
               entity_id: light.living_room_side_lamp_hue
               brightness: "{{ brightness }}"
-              
+
 group:
   living room color changing lights:
     entities:
@@ -395,35 +394,35 @@ automation:
       - service: input_boolean.turn_off
         entity_id: input_boolean.office_main_color_fix
 
-  - alias: Birds Light Color Fix Check
+  - alias: Guests Light Color Fix Check
     description: ""
     trigger:
       - platform: state
-        entity_id: light.birds_main
+        entity_id: light.guests_main
         to: "off"
         for: "60"
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.birds_main_color_fix
+        entity_id: input_boolean.guests_main_color_fix
 
-  - alias: Birds Light Color Fix
+  - alias: Guests Light Color Fix
     description: ""
     trigger:
       - platform: state
-        entity_id: light.birds_main
+        entity_id: light.guests_main
         from: "off"
         to: "on"
         for: "1"
     condition:
       condition: state
-      entity_id: input_boolean.birds_main_color_fix
+      entity_id: input_boolean.guests_main_color_fix
       state: "on"
     action:
       - service: script.ceiling_light_color_change3
         data:
-          room: birds
+          room: guests
       - service: input_boolean.turn_off
-        entity_id: input_boolean.birds_main_color_fix
+        entity_id: input_boolean.guests_main_color_fix
 
   - alias: Riley Light Color Fix Check
     description: ""
@@ -464,7 +463,7 @@ automation:
           - light.living_room_hallway
           - light.living_room_main
           - light.office_main
-          - light.birds_main
+          - light.guests_main
           - light.riley_main
         from: "off"
         to: "on"

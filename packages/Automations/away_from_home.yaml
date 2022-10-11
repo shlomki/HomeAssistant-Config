@@ -1,6 +1,3 @@
-
-
-
 #############################################################################################
 ################ DON'T FORGET TO CHANGE THE NOTIFICATION SERVICE IN LINE 50! ################
 #############################################################################################
@@ -29,7 +26,7 @@ automation:
     condition:
       - alias: "If any entities were left on or unlocked"
         condition: state
-        entity_id: 
+        entity_id:
           - group.away_from_home_monitored_entities
           - lock.front_door
         match: any
@@ -43,7 +40,7 @@ automation:
           - alias: "If Guest Mode is off"
             condition: state
             entity_id: input_boolean.guest_mode
-            state: 'off'
+            state: "off"
         then:
           - service: notify.shlomi #Notifies me via telegram. Change this to your preferred service (such as: persistent_notification.create).
             data:
@@ -57,12 +54,12 @@ automation:
       - delay:
           minutes: 5
 
-      #If Guest Mode is off (or STILL off), turn things off and lock the door 
+      #If Guest Mode is off (or STILL off), turn things off and lock the door
       - if:
           - alias: "If Guest Mode is off"
             condition: state
             entity_id: input_boolean.guest_mode
-            state: 'off'
+            state: "off"
         then:
           - service: homeassistant.turn_off
             entity_id: group.away_from_home_monitored_entities
@@ -73,7 +70,6 @@ automation:
           - service: notify.shlomi #Notifies me via telegram. Change this to your preferred service (such as: persistent_notification.create).
             data:
               message: "Done."
-
 
   #######################################################
   ### Group of monitored entities.
@@ -88,7 +84,7 @@ group:
 
   away_from_home_monitored_entities:
     entities:
-      - group.all_lights_except_birds
+      - group.all_lights_except_guests
       - group.dampers
       - group.tvs
       - group.all_fans

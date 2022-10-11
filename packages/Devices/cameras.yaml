@@ -5,7 +5,7 @@ group:
       - camera.living_room
       # - camera.hallway
       - camera.office
-      - camera.birds
+      - camera.guests
       - camera.riley
       - camera.bedroom
 
@@ -16,11 +16,11 @@ group:
       - device_tracker.edgeos_camera_livingroom
       # - device_tracker.edgeos_camera_hallway
       - device_tracker.edgeos_camera_office
-      - device_tracker.edgeos_camera_birds
+      - device_tracker.edgeos_camera_guests
       - device_tracker.edgeos_camera_riley
       - device_tracker.edgeos_camera_bedroom
-      
+
 template:
   - binary_sensor:
-    - name: Cameras Online
-      state: "{{ expand('group.cameras_device_trackers') | selectattr('state', 'in', ['unavailable', 'unknown', 'not_home' ]) | list | length == 0 }}"
+      - name: Cameras Online
+        state: "{{ expand('group.cameras_device_trackers') | selectattr('state', 'in', ['unavailable', 'unknown', 'not_home' ]) | list | length == 0 }}"

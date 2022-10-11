@@ -35,17 +35,17 @@ cards:
 
       - type: custom:button-card
         template: climate-button
-        entity: climate.ac_damper_birds
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.birds ]]]"
-        icon: mdi:bird
+        entity: climate.ac_damper_guests
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.guests ]]]"
+        icon: mdi:account-multiple
         variables:
-          window_entity_ids: binary_sensor.birds_window
-          temperature_monitor_entity_id: sensor.birds_temperature_monitor
-          damper_name: ac_damper_birds
+          window_entity_ids: binary_sensor.guests_window
+          temperature_monitor_entity_id: sensor.guests_temperature_monitor
+          damper_name: ac_damper_guests
         triggers_update:
-          - binary_sensor.birds_window
-          - sensor.birds_temperature_monitor
-          - timer.ac_damper_birds
+          - binary_sensor.guests_window
+          - sensor.guests_temperature_monitor
+          - timer.ac_damper_guests
 
       - type: custom:button-card
         template: climate-button

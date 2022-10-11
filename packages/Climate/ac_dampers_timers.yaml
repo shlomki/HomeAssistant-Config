@@ -1,23 +1,23 @@
 timer:
   ac_damper_living_room:
     name: Living Room AC Timer
-    duration: '00:30:00'
+    duration: "00:30:00"
     restore: true
   ac_damper_office:
     name: Office AC Timer
-    duration: '00:30:00'
+    duration: "00:30:00"
     restore: true
-  ac_damper_birds:
-    name: Birds AC Timer
-    duration: '00:30:00'
+  ac_damper_guests:
+    name: Guests AC Timer
+    duration: "00:30:00"
     restore: true
   ac_damper_riley:
     name: Riley AC Timer
-    duration: '00:30:00'
+    duration: "00:30:00"
     restore: true
   ac_damper_bedroom:
     name: Bedroom AC Timer
-    duration: '00:30:00'
+    duration: "00:30:00"
     restore: true
 
 input_number:
@@ -32,9 +32,9 @@ input_number:
     min: 1
     max: 720
     step: 1
-    
-  ac_damper_birds:
-    name: Birds AC Timer (mins)
+
+  ac_damper_guests:
+    name: Guests AC Timer (mins)
     min: 1
     max: 720
     step: 1
@@ -60,7 +60,7 @@ script:
               - alias: "If timer is idle"
                 condition: template
                 value_template: "{{ is_state('timer.' + damper_name, 'idle') }}"
-                
+
             sequence:
               - service: timer.start
                 data:
@@ -88,7 +88,7 @@ automation:
       - platform: event
         event_type: timer.finished
         event_data:
-          entity_id: timer.ac_damper_birds
+          entity_id: timer.ac_damper_guests
       - platform: event
         event_type: timer.finished
         event_data:
@@ -107,20 +107,20 @@ automation:
     max_exceeded: silent
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - climate.ac_damper_living_room
           - climate.ac_damper_office
-          - climate.ac_damper_birds
+          - climate.ac_damper_guests
           - climate.ac_damper_riley
           - climate.ac_damper_bedroom
 
-        from: 
+        from:
           - "off"
           - "fan_only"
-        to: 
+        to:
           - "off"
           - "fan_only"
-        
+
     condition:
       - alias: "Damper's timer is running"
         condition: template
@@ -134,12 +134,12 @@ automation:
   - alias: AC Damper refresh timer when another duration is selected
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - input_number.ac_damper_living_room
           - input_number.ac_damper_office
-          - input_number.ac_damper_birds
+          - input_number.ac_damper_guests
           - input_number.ac_damper_riley
-          - input_number.ac_damper_bedroom    
+          - input_number.ac_damper_bedroom
     condition:
       - alias: "Damper's timer is running"
         condition: template

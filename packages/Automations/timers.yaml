@@ -1,12 +1,12 @@
 sensor:
   - platform: time_date
     display_options:
-      - 'time'
-      - 'date'
-      - 'date_time'
-      - 'date_time_utc'
-      - 'time_date'
-      - 'time_utc'
+      - "time"
+      - "date"
+      - "date_time"
+      - "date_time_utc"
+      - "time_date"
+      - "time_utc"
 
 input_datetime:
   dawn:
@@ -20,11 +20,11 @@ input_datetime:
   late_morning:
     name: Late Morning
     has_date: false
-    has_time: true 
+    has_time: true
   noon:
     name: Noon
     has_date: false
-    has_time: true 
+    has_time: true
   evening:
     name: Evening
     has_date: false
@@ -43,50 +43,49 @@ input_datetime:
     has_time: true
 
 automation:
-
-  - alias: Birds Turn On Lights Late Morning
+  - alias: Guests Turn On Lights Late Morning
     trigger:
       platform: time
       at: input_datetime.late_morning
     action:
       - service: light.turn_on
-        entity_id: light.birds_main_combined
+        entity_id: light.guests_main_combined
 
-  - alias: Birds Dim Lights Evening
+  - alias: Guests Dim Lights Evening
     trigger:
       platform: time
       at: input_datetime.evening
     action:
       - service: light.turn_on
-        entity_id: light.birds_main_combined
+        entity_id: light.guests_main_combined
       - delay:
           seconds: 20
       - service: light.turn_on
-        entity_id: light.birds_main_combined
+        entity_id: light.guests_main_combined
         data:
           brightness: 1
 
-  - alias: Birds Turn Off Lights Evening 2
+  - alias: Guests Turn Off Lights Evening 2
     trigger:
       platform: time
       at: input_datetime.evening_2
     action:
       - service: light.turn_off
-        entity_id: light.birds_main_combined
+        entity_id: light.guests_main_combined
 
-  - alias: Open Shutter Noon - birds & office
+  - alias: Open Shutter Noon - guests & office
     trigger:
       platform: time
       at: input_datetime.noon
     action:
       - service: cover.set_cover_position
         data:
-          entity_id: 
-            - cover.birds_shutter
+          entity_id:
+            - cover.guests_shutter
             - cover.office_shutter
           position: 100
 
-  - alias: Birds turn off light noon
+  - alias: Guests turn off light noon
     trigger:
       platform: time
       at: input_datetime.noon
@@ -94,32 +93,32 @@ automation:
       - delay:
           seconds: 30
       - service: light.turn_off
-        entity_id: light.birds_main_combined
+        entity_id: light.guests_main_combined
 
-  - alias: Birds Close Shutter Night
+  - alias: Guests Close Shutter Night
     trigger:
       platform: time
       at: input_datetime.night
     action:
       - service: cover.close_cover
-        entity_id: cover.birds_shutter
+        entity_id: cover.guests_shutter
 
-  - alias: Birds Open Shutter Partly Morning
+  - alias: Guests Open Shutter Partly Morning
     trigger:
       platform: time
       at: input_datetime.morning
     action:
       - service: cover.set_cover_position
         data:
-          entity_id: cover.birds_shutter
+          entity_id: cover.guests_shutter
           position: 40
 
   - alias: Living Room Lamp Turn Brightness Down at Night
     trigger:
       - platform: state
         entity_id: light.living_room_lamp_hue
-        from: 'unavailable'
-        to: 'on'
+        from: "unavailable"
+        to: "on"
     condition:
       - condition: time
         after: input_datetime.night
@@ -134,8 +133,8 @@ automation:
     trigger:
       - platform: state
         entity_id: light.laundry_hue
-        from: 'unavailable'
-        to: 'on'
+        from: "unavailable"
+        to: "on"
     condition:
       - condition: time
         after: input_datetime.night

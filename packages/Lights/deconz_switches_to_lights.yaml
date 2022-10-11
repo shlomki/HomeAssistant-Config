@@ -68,12 +68,12 @@ light:
     entity_id: switch.office_bff_light_toggle
 
   - platform: switch
-    name: Birds Main
-    entity_id: switch.birds_main
+    name: Guests Main
+    entity_id: switch.guests_main
 
   - platform: switch
-    name: Birds Main Toggle
-    entity_id: switch.birds_main_toggle
+    name: Guests Main Toggle
+    entity_id: switch.guests_main_toggle
 
   - platform: switch
     name: Bathroom Main

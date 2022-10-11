@@ -58,19 +58,19 @@ automation:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.office_bff_light_group
 
-  - alias: Birds switches sync main
+  - alias: Guests switches sync main
     max_exceeded: silent
     trigger:
       - platform: state
         entity_id:
-          - light.birds_main
-          - light.birds_main_toggle
+          - light.guests_main
+          - light.guests_main_toggle
         not_to:
           - unavailable
           - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id: light.birds_main_group
+        entity_id: light.guests_main_group
 
   - alias: Bathroom cabinet sync
     max_exceeded: silent
@@ -123,13 +123,12 @@ automation:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.hallway_main_group
 
-
   - alias: Hallway sync controllers when switches change
     max_exceeded: silent
     mode: single
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - light.hallway_main
           - light.hallway_main_toggle
         not_from: "unavailable"
@@ -142,7 +141,7 @@ automation:
 
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id: 
+        entity_id:
           - light.hallway_controllers_group
           - light.hallway_main_group
 

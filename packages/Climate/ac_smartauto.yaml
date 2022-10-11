@@ -4,7 +4,7 @@ input_select:
       - "off"
       - living_room
       - office
-      - birds
+      - guests
       - riley
       - bedroom
 
@@ -31,13 +31,13 @@ input_number:
     max: 30
     step: 0.1
 
-  ac_smartauto_min_birds:
-    name: Birds Min Temp
+  ac_smartauto_min_guests:
+    name: Guests Min Temp
     min: 20
     max: 30
     step: 0.1
-  ac_smartauto_max_birds:
-    name: Birds Max Temp
+  ac_smartauto_max_guests:
+    name: Guests Max Temp
     min: 20
     max: 30
     step: 0.1
@@ -101,8 +101,8 @@ sensor:
 #   {{ states("sensor.living_room_temperature") }}
 # {% elif state_attr("fan.ac_damper_office", "speed") == "SmartAuto" and is_state("fan.ac_damper_office", "on" ) %}
 #   {{ states("sensor.office_temperature") }}
-# {% elif state_attr("fan.ac_damper_birds", "speed") == "SmartAuto" and is_state("fan.ac_damper_birds", "on") %}
-#   {{ states("sensor.birds_temperature") }}
+# {% elif state_attr("fan.ac_damper_guests", "speed") == "SmartAuto" and is_state("fan.ac_damper_guests", "on") %}
+#   {{ states("sensor.guests_temperature") }}
 # {% elif state_attr("fan.ac_damper_riley", "speed") == "SmartAuto" and is_state("fan.ac_damper_riley", "on") %}
 #   {{ states("sensor.riley_temperature") }}
 # {% elif state_attr("fan.ac_damper_bedroom", "speed") == "SmartAuto" and is_state("fan.ac_damper_bedroom", "on") %}
@@ -124,10 +124,10 @@ automation:
   - alias: AC SmartAuto Change location to Off when SmartAuto Damper is turned off
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - climate.ac_damper_living_room
           - climate.ac_damper_office
-          - climate.ac_damper_birds
+          - climate.ac_damper_guests
           - climate.ac_damper_riley
           - climate.ac_damper_bedroom
         from: "fan_only"
@@ -140,7 +140,7 @@ automation:
 
     action:
       - service: input_select.select_option
-        data:  
+        data:
           entity_id: input_select.ac_smartauto_location
           option: "off"
 

@@ -13,19 +13,19 @@ cards:
     type: entities
   - entities:
       - entity: automation.go_to_sleep_all_lights_off_night_light_on
-        name: '- All lights off, Night light on'
+        name: "- All lights off, Night light on"
       - entity: automation.go_to_sleep_night_light_timer
-        name: '- Night Light Timer'
+        name: "- Night Light Timer"
       - entity: input_datetime.go_to_sleep_timer_duration
         name: Timer (mins)
       - entity: automation.go_to_sleep_play_sleep_sounds_when_tv_already_off
-        name: '- Play sleep sounds when tv already off'
+        name: "- Play sleep sounds when tv already off"
       - entity: automation.go_to_sleep_play_sleep_sounds_when_tv_turns_off
-        name: '- Play sleep sounds when tv turns off'
+        name: "- Play sleep sounds when tv turns off"
       - entity: automation.go_to_sleep_pause_sleep_sounds_when_tv_on
-        name: '- Pause sleep sounds when tv on'
+        name: "- Pause sleep sounds when tv on"
       - entity: automation.go_to_sleep_stop_playing_when_go_to_sleep_off
-        name: '- Stop playing when go to sleep off'
+        name: "- Stop playing when go to sleep off"
     show_header_toggle: false
     title: Go to Sleep
     type: entities
@@ -43,12 +43,12 @@ cards:
     title: Timer Times
     type: entities
   - entities:
-      - entity: automation.birds_turn_on_lights_late_morning
-      - entity: automation.open_shutter_noon_birds_office
-      - entity: automation.birds_turn_off_light_noon
-      - entity: automation.birds_dim_lights_evening
-      - entity: automation.birds_turn_off_lights_evening_2
-      - entity: automation.birds_close_shutter_night
+      - entity: automation.guests_turn_on_lights_late_morning
+      - entity: automation.open_shutter_noon_guests_office
+      - entity: automation.guests_turn_off_light_noon
+      - entity: automation.guests_dim_lights_evening
+      - entity: automation.guests_turn_off_lights_evening_2
+      - entity: automation.guests_close_shutter_night
       - entity: automation.office_close_shutter_partly_late_night
       - entity: automation.living_room_lamp_turn_brightness_down_at_night
       - entity: automation.bathroom_laundry_turn_brightness_down_at_night
@@ -59,7 +59,7 @@ cards:
     entities:
       - entity: remote.living_room
       - entity: remote.office
-      - entity: remote.birds
+      - entity: remote.guests
       - entity: remote.riley
       - entity: remote.bedroom
     title: Remotes
@@ -104,7 +104,7 @@ cards:
     filter:
       include:
         - domain: input_select
-          entity_id: 'input_select.local_lang*'
+          entity_id: "input_select.local_lang*"
       exclude: []
     sort:
       method: state
