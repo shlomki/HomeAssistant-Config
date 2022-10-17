@@ -112,7 +112,7 @@ cards:
     entity: hash
     default: none
     states:
-      entrance: !include /config/lovelace/cards/quick_status_entrance.yaml
+      entrance: !include /config/lovelace/cards/quick_status_entrance_container.yaml
       internet: !include /config/lovelace/cards/quick_status_internet.yaml
       cameras: !include /config/lovelace/cards/quick_status_cameras.yaml
       appliances: !include /config/lovelace/cards/quick_status_appliances.yaml

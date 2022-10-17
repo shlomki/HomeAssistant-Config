@@ -20,7 +20,7 @@ cards:
             let lang = states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state;
             let greeting = states['sensor.localization_' + lang].attributes[ states["sensor.time_of_day"].state.toLowerCase() + '_greeting'];
             let family = states['sensor.localization_' + lang].attributes.the_green_family;
-            return greeting + " " + family;]]]
+            return greeting + ", " + family;]]]
 
       - type: horizontal-stack
         cards:

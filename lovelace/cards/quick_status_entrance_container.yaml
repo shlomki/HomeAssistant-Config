@@ -6,4 +6,6 @@ cards:
     custom_fields:
       buttons:
         card:
-          - !include /config/lovelace/cards/quick_status_entrance.yaml
+          type: vertical-stack
+          cards:
+            - !include /config/lovelace/cards/quick_status_entrance.yaml

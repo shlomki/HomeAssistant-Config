@@ -25,6 +25,7 @@ cards:
               name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.big_freezer ]]]"
 
             - type: custom:button-card
+              template: ha-button
               entity: input_select.laundry_machine_status
               size: 35px
               styles:
