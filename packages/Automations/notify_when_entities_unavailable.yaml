@@ -205,3 +205,7 @@ group:
       - media_player.balcony_tv
       # - media_player.google_tv
       # - media_player.bedroom_google_tv
+
+      #Laundry Machine
+      - binary_sensor.laundry_machine_door
+      - switch.laundry_machine

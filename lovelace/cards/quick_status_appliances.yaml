@@ -1,0 +1,51 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: container
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.appliances ]]]"
+    custom_fields:
+      buttons:
+        card:
+          type: horizontal-stack
+          cards:
+            - type: custom:button-card
+              template: fridge
+              entity: binary_sensor.fridge
+              size: 35px
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.fridge ]]]"
+            - type: custom:button-card
+              template: fridge
+              entity: binary_sensor.freezer
+              size: 35px
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.freezer ]]]"
+            - type: custom:button-card
+              template: fridge
+              entity: binary_sensor.big_freezer
+              size: 35px
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.big_freezer ]]]"
+
+            - type: custom:button-card
+              entity: input_select.laundry_machine_status
+              size: 35px
+              styles:
+                label:
+                  - font-size: 10px
+              show_label: true
+              name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.laundry_machine ]]]"
+              state:
+                - value: 'Idle'
+                  icon: mdi:washing-machine
+                  color: green
+
+                - value: 'Running'
+                  label: 'Running'
+                  icon: mdi:washing-machine
+                  color: orange
+
+                - value: 'Clean'
+                  label: 'Clean'
+                  icon: mdi:washing-machine-alert
+                  color: red
+                  styles:
+                    icon:
+                      - animation: blink 2s ease infinite

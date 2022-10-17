@@ -57,24 +57,30 @@ cards:
         hold_action:
           action: more-info
 
-      #Fridges Button
+      #Appliances Button
       - type: custom:button-card
         template: ha-button
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.fridges ]]]"
-        entity: group.fridges
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.appliances ]]]"
+        entity: sensor.appliances
         state:
-          - value: 'on'
+          - value: 'Fridge is Open'
             icon: mdi:fridge-alert-outline
             color: red
             styles:
               icon:
                 - animation: blink 2s ease infinite
-          - value: 'off'
-            icon: mdi:fridge-outline
+          - value: 'Laundry is Clean'
+            icon: mdi:washing-machine-alert
+            color: red
+            styles:
+              icon:
+                - animation: blink 2s ease infinite
+          - operator: 'default' 
+            icon: mdi:power-plug-outline
             color: green
         tap_action:
           action: navigate
-          navigation_path: "[[[ return (window.location.hash == '#fridges') ? '.' : '#fridges'; ]]]"
+          navigation_path: "[[[ return (window.location.hash == '#appliances') ? '.' : '#appliances'; ]]]"
         hold_action:
           action: more-info
 
@@ -109,6 +115,6 @@ cards:
       entrance: !include /config/lovelace/cards/quick_status_entrance.yaml
       internet: !include /config/lovelace/cards/quick_status_internet.yaml
       cameras: !include /config/lovelace/cards/quick_status_cameras.yaml
-      fridges: !include /config/lovelace/cards/quick_status_fridges.yaml
+      appliances: !include /config/lovelace/cards/quick_status_appliances.yaml
       entities: !include /config/lovelace/cards/quick_status_entities.yaml
 

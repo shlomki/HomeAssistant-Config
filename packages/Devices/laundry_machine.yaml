@@ -1,0 +1,60 @@
+input_select:
+  laundry_machine_status:
+      name: Laundry Machine Status
+      options:
+        - Idle
+        - Running
+        - Clean
+
+automation:
+  - alias: Laundry Machine - Set Status
+    trigger:
+      #Idle
+      - id: "Idle"
+        platform: state
+        entity_id: binary_sensor.laundry_machine_door
+        from: "off"
+        to: "on"
+      #Running
+      - id: "Running"
+        platform: numeric_state
+        entity_id: sensor.laundry_machine_power
+        above: 10
+      #Clean
+      - id: "Clean"
+        platform: numeric_state
+        entity_id: sensor.laundry_machine_power
+        below: 1
+        for:
+          minutes: 15
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.laundry_machine_status
+          option: "{{ trigger.id }}"
+
+  #Automation that notifies everyone that the laundry is ready every 30 minutes if it hasn't been taken out
+  - id: Laundry Machine Finished Running
+    alias: Laundry Machine Finished Running
+    trigger:
+      - platform: state
+        entity_id: input_select.laundry_machine_status
+        from: "Running"
+        to: "Clean"
+    action:
+      - repeat:
+          while:
+            #Keep bugging until the door has been opened
+            - condition: state
+              entity_id: input_select.laundry_machine_status
+              state: "Clean"
+            # Don't do it too many times
+            - condition: template
+              value_template: "{{ repeat.index <= 10 }}"
+          sequence:
+            - service: notify.bffs
+              data:
+                message: "Laundry Machine has finished {{ 15 + (30 * repeat.index) }} minutes ago, please take it out"
+            - delay:
+                minutes: "{{ 30 * (repeat.index + 1)}}"
+

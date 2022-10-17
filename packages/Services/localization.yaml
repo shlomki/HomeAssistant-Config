@@ -16,7 +16,7 @@ template:
           entrance: "Entrance"
           internet: "Internet"
           cameras: "Cameras"
-          fridges: "Fridges"
+          appliances: "Appliances"
           entities: "Entities"
           weather: "Weather"
           air_conditioning: "Air Conditioning"
@@ -60,6 +60,7 @@ template:
           noon_greeting: "Good Afternoon"
           afternoon_greeting: "Good Afternoon"
           evening_greeting: "Good Evening"
+          laundry_machine: "Laundry Machine"
 
   - sensor:
       - name: "Localization Hebrew"
@@ -78,7 +79,7 @@ template:
           entrance: "כניסה"
           internet: "אינטרנט"
           cameras: "מצלמות"
-          fridges: "מקררים"
+          appliances: "מכשירים"
           entities: "ישויות"
           weather: "מזג-אוויר שבועי"
           air_conditioning: "מיזוג אוויר"
@@ -122,6 +123,7 @@ template:
           noon_greeting: "צהריים טובים"
           afternoon_greeting: "אחר-צהריים טובים"
           evening_greeting: "ערב טוב"
+          laundry_machine: "מכונת כביסה"
 
 input_select:
   local_lang_house_tablet:
