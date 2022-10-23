@@ -69,6 +69,9 @@ cards:
             styles:
               icon:
                 - animation: blink 2s ease infinite
+          - value: 'Laundry is Running'
+            icon: mdi:washing-machine
+            color: orange
           - value: 'Laundry is Clean'
             icon: mdi:washing-machine-alert
             color: red
