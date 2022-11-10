@@ -54,7 +54,19 @@ automation:
           sequence:
             - service: notify.bffs
               data:
-                message: "Laundry Machine has finished {{ 15 + (30 * repeat.index) }} minutes ago, please take it out"
+                message: "The Laundry Machine has finished {{ 15 + (30 * (repeat.index - 1)) }} minutes ago, please take the clean laundry out"
             - delay:
-                minutes: "{{ 30 * (repeat.index + 1)}}"
+                minutes: "{{ 30 * (repeat.index)}}"
 
+  #Automation that turns the power on for the laundry machine (in case of power outage)
+  - id: Laundry Machine - Make Sure Power is On 
+    alias: Laundry Machine - Make Sure Power is On
+    trigger:
+      - platform: state
+        entity_id: switch.laundry_machine
+        to: "off"
+        for:
+          minutes: 5
+    action:
+      service: switch.turn_on
+      entity_id: switch.laundry_machine
