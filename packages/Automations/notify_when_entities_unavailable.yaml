@@ -136,6 +136,7 @@ group:
       - binary_sensor.bedroom_closet_motion
       - binary_sensor.bathroom_closet_leak
       - binary_sensor.bathroom_floor_leak
+      - binary_sensor.bathroom_floor_leak
       - binary_sensor.kitchen_closet_leak
       - binary_sensor.front_door
       - binary_sensor.front_door_lock
