@@ -73,8 +73,10 @@ automation:
     action:
       service: input_number.set_value
       data:
-        entity: input_number.power_outages_today_count
         value: 0
+      target:
+        entity_id: input_number.power_outages_today_count
+
 
   - alias: Power - Reset monthly counter & notify
     trigger:
@@ -89,5 +91,7 @@ automation:
           message: "Monthly power outages report: {{ states('input_number.power_outages_monthly_count') | int }} outages"
       - service: input_number.set_value
         data:
-          entity: input_number.power_outages_monthly_count
           value: 0
+        target:
+          entity_id: input_number.power_outages_today_count
+
