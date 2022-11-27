@@ -34,12 +34,12 @@ cards:
                   tap_action:
                     action: navigate
                     navigation_path: /lovelace-mobile/living-room
-                - type: custom:button-card
-                  template: camera-view
-                  entity: device_tracker.edgeos_camera_hallway
-                  variables:
-                    stream: camera.hallway
-                  name: Hallway
+                # - type: custom:button-card
+                #   template: camera-view
+                #   entity: device_tracker.edgeos_camera_hallway
+                #   variables:
+                #     stream: camera.hallway
+                #   name: Hallway
             - type: horizontal-stack
               cards:
                 - type: custom:button-card
@@ -60,9 +60,9 @@ cards:
                   variables:
                     stream: camera.riley
                   name: Riley
-                - type: custom:button-card
-                  template: camera-view
-                  entity: device_tracker.edgeos_camera_bedroom
-                  variables:
-                    stream: camera.bedroom
-                  name: Bedroom
+                # - type: custom:button-card
+                #   template: camera-view
+                #   entity: device_tracker.edgeos_camera_bedroom
+                #   variables:
+                #     stream: camera.bedroom
+                #   name: Bedroom
