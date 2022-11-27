@@ -7,7 +7,7 @@ group:
       - camera.office
       - camera.guests
       - camera.riley
-      - camera.bedroom
+      # - camera.bedroom
 
   cameras_device_trackers:
     entities:
@@ -18,7 +18,7 @@ group:
       - device_tracker.edgeos_camera_office
       - device_tracker.edgeos_camera_guests
       - device_tracker.edgeos_camera_riley
-      - device_tracker.edgeos_camera_bedroom
+      # - device_tracker.edgeos_camera_bedroom
 
 template:
   - binary_sensor:
