@@ -266,7 +266,7 @@ script:
       - service: lock.unlock
         target:
           entity_id: lock.front_door
-      - service: notify.shlomi
+      - service: notify.bffs
         data:
           message: "🧹🔓 The front door was unlocked to let the housekeeper in"
         
@@ -284,9 +284,10 @@ script:
       - if: 
           #If housekeeper had arrived (the front door opened during this time)
           - condition: template
-            value_template: "{{ wait.remaining > 0 }}"
+            value_template: "{{ wait.remaining > 0 }}" #If there was time remaining in the timeout
         then:
-          - service: notify.shlomi
+          - service: notify.bffs
+          
             data:
               message: "🧹👩 The housekeeper has arrived. I'll lock the door in about 2 hours."
 
@@ -299,7 +300,7 @@ script:
             target:
               entity_id: lock.front_door
 
-          - service: notify.shlomi
+          - service: notify.bffs
             data:
               message: "🧹✨🔒 2 hours have passed and the house is clean, I've locked the front door."
 
@@ -309,7 +310,7 @@ script:
             target:
               entity_id: lock.front_door
 
-          - service: notify.shlomi
+          - service: notify.bffs
             data:
               message: "🧹💩🔒 The housekeeper hasn't arrived. I've locked the front door now."
 
