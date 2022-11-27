@@ -29,6 +29,7 @@ cards:
       - entity: sensor.ups_time_left
       - entity: sensor.ups_time_on_battery
       - entity: sensor.ups_transfer_count
+      - entity: input_datetime.last_power_outage
       - entity: input_number.power_outages_today_count
       - entity: input_number.power_outages_monthly_count
     title: UPS
