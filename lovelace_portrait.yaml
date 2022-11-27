@@ -10,7 +10,7 @@ views:
   - !include /config/lovelace/views/01_dashboard.yaml
   - !include /config/lovelace/views/02_front_door.yaml
   - !include /config/lovelace/views/03_ac.yaml
-  - !include /config/lovelace/views/04_power.yaml
+  # - !include /config/lovelace/views/04_power.yaml
   - !include /config/lovelace/views/05_googlespeakers.yaml
   - !include /config/lovelace/views/06_sensors.yaml
   - !include /config/lovelace/views/07_config.yaml
