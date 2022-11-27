@@ -259,6 +259,60 @@ script:
             - delay:
                 seconds: 0.5
 
+  housekeeper_unlock_and_lock_door:
+    alias: Housekeeper - Unlock and Lock Door
+    sequence:
+      #Unlock the door to let the housekeeper in
+      - service: lock.unlock
+        target:
+          entity_id: lock.front_door
+      - service: notify.shlomi
+        data:
+          message: "🧹🔓 The front door was unlocked to let the housekeeper in"
+        
+
+      #Wait 2 hours for the housekeeper to open the door
+      - wait_for_trigger:
+        - platform: state
+          entity_id: binary_sensor.front_door
+          from: 'off'
+          to: 'on'
+        timeout:
+          hours: "2"
+        continue_on_timeout: true
+
+      - if: 
+          #If housekeeper had arrived (the front door opened during this time)
+          - condition: template
+            value_template: "{{ wait.remaining > 0 }}"
+        then:
+          - service: notify.shlomi
+            data:
+              message: "🧹👩 The housekeeper has arrived. I'll lock the door in about 2 hours."
+
+          #Wait for 2h 10m hours starting now
+          - delay:
+              minutes: "130"
+                
+          #Lock the front door (assuming the housekeeper has finished)
+          - service: lock.lock
+            target:
+              entity_id: lock.front_door
+
+          - service: notify.shlomi
+            data:
+              message: "🧹✨🔒 2 hours have passed and the house is clean, I've locked the front door."
+
+        else:
+          #If housekeeper hadn't arrived, lock the front door now
+          - service: lock.lock
+            target:
+              entity_id: lock.front_door
+
+          - service: notify.shlomi
+            data:
+              message: "🧹💩🔒 The housekeeper hasn't arrived. I've locked the front door now."
+
 group:
   front_door_left_open_automations:
     entities:
