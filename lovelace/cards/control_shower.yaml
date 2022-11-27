@@ -4,11 +4,9 @@ cards:
     template: ha-button
     icon: mdi:water-boiler
     name: Boiler
-    entity: switch.water_boiler
+    entity: switch.water_boiler_with_timer
     tap_action:
       action: toggle
-    hold_action:
-      action: more-info
     styles:
       label:
         - font-size: 10px
