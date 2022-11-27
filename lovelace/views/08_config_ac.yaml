@@ -81,7 +81,6 @@ cards:
       - timer.bathroom_heater
       - switch.water_boiler
       - input_number.water_boiler_timer_duration
-      - timer.water_boiler
     show_header_toggle: false
     title: Bathroom Heating
     type: entities

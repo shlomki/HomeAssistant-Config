@@ -6,16 +6,16 @@ group:
       - timer.bathroom_heater
       - switch.water_boiler
       - input_number.water_boiler_timer_duration
-      - timer.water_boiler
+      # - timer.water_boiler
 
 timer:
   bathroom_heater:
     name: Heater Timer
     duration: '00:25:00'
 
-  water_boiler:
-    name: Water Boiler Timer
-    duration: '00:60:00'
+  # water_boiler:
+  #   name: Water Boiler Timer
+  #   duration: '00:60:00'
 
 input_number:
   bathroom_heater_timer_duration:
@@ -141,53 +141,53 @@ automation:
           message: "The bathroom heater has been turned off."
 
 #Water boiler
-  - alias: Water boiler timer change
-    initial_state: True
-    trigger:
-      platform: state
-      entity_id: input_number.water_boiler_timer_duration
-    condition:
-      condition: state
-      entity_id: timer.water_boiler
-      state: active
-    action:
-      - service: automation.trigger
-        entity_id: automation.water_boiler_off
-      - service: automation.trigger
-        entity_id: automation.water_boiler_on
+  # - alias: Water boiler timer change
+  #   initial_state: True
+  #   trigger:
+  #     platform: state
+  #     entity_id: input_number.water_boiler_timer_duration
+  #   condition:
+  #     condition: state
+  #     entity_id: timer.water_boiler
+  #     state: active
+  #   action:
+  #     - service: automation.trigger
+  #       entity_id: automation.water_boiler_off
+  #     - service: automation.trigger
+  #       entity_id: automation.water_boiler_on
   
-  - alias: Water boiler on
-    initial_state: True
-    trigger:
-      platform: state
-      entity_id: switch.water_boiler
-      to: 'on'
-    action:
-      - service: timer.start
-        entity_id: timer.water_boiler
-        data:
-          duration: '00:{{ states("input_number.water_boiler_timer_duration") | int }}:00'
+  # - alias: Water boiler on
+  #   initial_state: True
+  #   trigger:
+  #     platform: state
+  #     entity_id: switch.water_boiler
+  #     to: 'on'
+  #   action:
+  #     - service: timer.start
+  #       entity_id: timer.water_boiler
+  #       data:
+  #         duration: '00:{{ states("input_number.water_boiler_timer_duration") | int }}:00'
   
-  - alias: Water boiler off
-    initial_state: True
-    trigger:
-      platform: state
-      entity_id: switch.water_boiler
-      to: 'off'
-    action:
-      - service: timer.cancel
-        entity_id: timer.water_boiler
+  # - alias: Water boiler off
+  #   initial_state: True
+  #   trigger:
+  #     platform: state
+  #     entity_id: switch.water_boiler
+  #     to: 'off'
+  #   action:
+  #     - service: timer.cancel
+  #       entity_id: timer.water_boiler
 
-  - alias: Water boiler off when timer finished
-    trigger:
-      platform: event
-      event_type: timer.finished
-      event_data:
-        entity_id: timer.water_boiler
-    action:
-      - service: switch.turn_off
-        entity_id:
-          - switch.water_boiler
-      - service: notify.bffs
-        data:
-          message: 'Water boiler finished after {{states("input_number.water_boiler_timer_duration") | int }} mins! Have a nice shower :)'
+  # - alias: Water boiler off when timer finished
+  #   trigger:
+  #     platform: event
+  #     event_type: timer.finished
+  #     event_data:
+  #       entity_id: timer.water_boiler
+  #   action:
+  #     - service: switch.turn_off
+  #       entity_id:
+  #         - switch.water_boiler
+  #     - service: notify.bffs
+  #       data:
+  #         message: 'Water boiler finished after {{states("input_number.water_boiler_timer_duration") | int }} mins! Have a nice shower :)'
