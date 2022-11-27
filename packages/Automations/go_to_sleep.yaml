@@ -12,216 +12,216 @@ script:
           media_content_id: 'https://storage.googleapis.com/relaxation-sounds/forest_3600.mp3'
           media_content_type: music
 
-  go_to_sleep_off:
-    alias: Turn off go to sleep completely
-    sequence:
-      - service: timer.cancel
-        entity_id: timer.go_to_sleep
-      - service: media_player.turn_off
-        entity_id: media_player.bedroom_speaker
-      - service: homeassistant.turn_off
-        entity_id: input_boolean.go_to_sleep
+#   go_to_sleep_off:
+#     alias: Turn off go to sleep completely
+#     sequence:
+#       - service: timer.cancel
+#         entity_id: timer.go_to_sleep
+#       - service: media_player.turn_off
+#         entity_id: media_player.bedroom_speaker
+#       - service: homeassistant.turn_off
+#         entity_id: input_boolean.go_to_sleep
 
-timer:
-  go_to_sleep:
-    name: Go to Sleep
-    duration: '00:07:30'
+# timer:
+#   go_to_sleep:
+#     name: Go to Sleep
+#     duration: '00:07:30'
 
-input_datetime:
-  go_to_sleep_timer_duration:
-    name: Go to Sleep Timer (mins)
-    has_date: false
-    has_time: true
+# input_datetime:
+#   go_to_sleep_timer_duration:
+#     name: Go to Sleep Timer (mins)
+#     has_date: false
+#     has_time: true
 
-automation:
-  #Night light
-  - alias: Go to Sleep - All lights off, Night light on
-    trigger:
-      platform: state
-      entity_id: input_boolean.go_to_sleep
-      from: 'off'
-      to: 'on'
-    action:
-      - service: light.turn_off
-        entity_id: light.sleep
-      - service: light.turn_on
-        entity_id: light.bedroom_entrance_combined
-      - service: light.turn_on
-        entity_id: light.bedroom_entrance_combined
-        data:
-          brightness: 2
+# automation:
+#   #Night light
+#   - alias: Go to Sleep - All lights off, Night light on
+#     trigger:
+#       platform: state
+#       entity_id: input_boolean.go_to_sleep
+#       from: 'off'
+#       to: 'on'
+#     action:
+#       - service: light.turn_off
+#         entity_id: light.sleep
+#       - service: light.turn_on
+#         entity_id: light.bedroom_entrance_combined
+#       - service: light.turn_on
+#         entity_id: light.bedroom_entrance_combined
+#         data:
+#           brightness: 2
 
-  - alias: Go to Sleep - Dim night light after 10s if unavailable
-    trigger:
-      platform: state
-      entity_id: input_boolean.go_to_sleep
-      from: 'off'
-      to: 'on'
-    condition:
-      condition: state
-      entity_id: light.bedroom_entrance_hue
-      state: unavailable
-    action:
-      - delay: '00:00:10'
-      - service: light.turn_on
-        entity_id: light.bedroom_entrance_combined
-        data:
-          brightness: 2
+#   - alias: Go to Sleep - Dim night light after 10s if unavailable
+#     trigger:
+#       platform: state
+#       entity_id: input_boolean.go_to_sleep
+#       from: 'off'
+#       to: 'on'
+#     condition:
+#       condition: state
+#       entity_id: light.bedroom_entrance_hue
+#       state: unavailable
+#     action:
+#       - delay: '00:00:10'
+#       - service: light.turn_on
+#         entity_id: light.bedroom_entrance_combined
+#         data:
+#           brightness: 2
 
-  - alias: Go to Sleep - Night Light Timer
-    trigger:
-      platform: state
-      entity_id: input_boolean.go_to_sleep
-      from: 'off'
-      to: 'on'
-    action:
-      #Start a timer to turn off night light
-      - service: timer.cancel
-        entity_id: timer.go_to_sleep
-      - service: timer.start
-        entity_id: timer.go_to_sleep
-        data:
-          duration: "00:{{ state_attr('input_datetime.go_to_sleep_timer_duration', 'timestamp') | timestamp_custom('%H:%M', False) }}"
+#   - alias: Go to Sleep - Night Light Timer
+#     trigger:
+#       platform: state
+#       entity_id: input_boolean.go_to_sleep
+#       from: 'off'
+#       to: 'on'
+#     action:
+#       #Start a timer to turn off night light
+#       - service: timer.cancel
+#         entity_id: timer.go_to_sleep
+#       - service: timer.start
+#         entity_id: timer.go_to_sleep
+#         data:
+#           duration: "00:{{ state_attr('input_datetime.go_to_sleep_timer_duration', 'timestamp') | timestamp_custom('%H:%M', False) }}"
 
-  - alias: Go to Sleep - Restart timer when changed
-    trigger:
-      platform: state
-      entity_id: input_datetime.go_to_sleep_timer_duration
-    condition:
-      condition: state
-      entity_id: timer.go_to_sleep
-      state: active
-    action:
-      - service: automation.trigger
-        entity_id: automation.go_to_sleep_night_light_timer
+#   - alias: Go to Sleep - Restart timer when changed
+#     trigger:
+#       platform: state
+#       entity_id: input_datetime.go_to_sleep_timer_duration
+#     condition:
+#       condition: state
+#       entity_id: timer.go_to_sleep
+#       state: active
+#     action:
+#       - service: automation.trigger
+#         entity_id: automation.go_to_sleep_night_light_timer
 
-  - alias: Go to Sleep - Night light timer finished
-    trigger:
-      platform: event
-      event_type: timer.finished
-      event_data:
-        entity_id: timer.go_to_sleep
-    action:
-      - service: light.turn_off
-        entity_id:
-          - light.bedroom_entrance_combined
+#   - alias: Go to Sleep - Night light timer finished
+#     trigger:
+#       platform: event
+#       event_type: timer.finished
+#       event_data:
+#         entity_id: timer.go_to_sleep
+#     action:
+#       - service: light.turn_off
+#         entity_id:
+#           - light.bedroom_entrance_combined
 
-  - alias: Go to Sleep - Play sleep sounds when tv already off
-    trigger:
-      platform: state
-      entity_id: input_boolean.go_to_sleep
-      from: 'off'
-      to: 'on'
-    condition:
-      condition: state
-      entity_id: media_player.bedroom_tv
-      state: 'off'
-    action:
-      - service: script.play_sleep_sounds
+#   - alias: Go to Sleep - Play sleep sounds when tv already off
+#     trigger:
+#       platform: state
+#       entity_id: input_boolean.go_to_sleep
+#       from: 'off'
+#       to: 'on'
+#     condition:
+#       condition: state
+#       entity_id: media_player.bedroom_tv
+#       state: 'off'
+#     action:
+#       - service: script.play_sleep_sounds
 
-  - alias: Go to Sleep - Play sleep sounds when tv turns off
-    trigger:
-      platform: state
-      entity_id: media_player.bedroom_tv
-      to: 'off'
-    condition:
-      condition: state
-      entity_id: input_boolean.go_to_sleep
-      state: 'on'
-    action:
-      - service: script.play_sleep_sounds
+#   - alias: Go to Sleep - Play sleep sounds when tv turns off
+#     trigger:
+#       platform: state
+#       entity_id: media_player.bedroom_tv
+#       to: 'off'
+#     condition:
+#       condition: state
+#       entity_id: input_boolean.go_to_sleep
+#       state: 'on'
+#     action:
+#       - service: script.play_sleep_sounds
 
-  - alias: Go to Sleep - Pause sleep sounds when tv on
-    trigger:
-      platform: state
-      entity_id: media_player.bedroom_tv
-      to: 'on'
-    condition:
-      condition: and
-      conditions:
-        #When go to sleep is on
-        - condition: state
-          entity_id: input_boolean.go_to_sleep
-          state: 'on'
-        #When google is playing
-        - condition: state
-          entity_id: media_player.bedroom_speaker
-          state: 'playing'
-    action:
-      - service: media_player.media_pause
-        entity_id: media_player.bedroom_speaker
+#   - alias: Go to Sleep - Pause sleep sounds when tv on
+#     trigger:
+#       platform: state
+#       entity_id: media_player.bedroom_tv
+#       to: 'on'
+#     condition:
+#       condition: and
+#       conditions:
+#         #When go to sleep is on
+#         - condition: state
+#           entity_id: input_boolean.go_to_sleep
+#           state: 'on'
+#         #When google is playing
+#         - condition: state
+#           entity_id: media_player.bedroom_speaker
+#           state: 'playing'
+#     action:
+#       - service: media_player.media_pause
+#         entity_id: media_player.bedroom_speaker
 
-  - alias: Go to Sleep - Stop playing when go to sleep off
-    trigger:
-      platform: state
-      entity_id: input_boolean.go_to_sleep
-      from: 'on'
-      to: 'off'
-    action:
-      - service: script.go_to_sleep_off
+#   - alias: Go to Sleep - Stop playing when go to sleep off
+#     trigger:
+#       platform: state
+#       entity_id: input_boolean.go_to_sleep
+#       from: 'on'
+#       to: 'off'
+#     action:
+#       - service: script.go_to_sleep_off
 
-  - alias: Go to Sleep - Door is unlocked
-    trigger:
-      platform: state
-      entity_id: input_boolean.go_to_sleep
-      from: 'off'
-      to: 'on'
-      for: '5'
-    condition:
-      condition: state
-      entity_id: binary_sensor.front_door_lock
-      state: 'on'
-    action:
-      - service: camera.snapshot
-        data:
-          entity_id: camera.living_room
-          filename: 'camera_snaps/living_room.jpg'
-      - service: script.notify_bffs_photo
-        data:
-          message: I think you forgot to lock the front door! Is it locked from the upper lock instead?
-          file: 'camera_snaps/living_room.jpg'
+#   - alias: Go to Sleep - Door is unlocked
+#     trigger:
+#       platform: state
+#       entity_id: input_boolean.go_to_sleep
+#       from: 'off'
+#       to: 'on'
+#       for: '5'
+#     condition:
+#       condition: state
+#       entity_id: binary_sensor.front_door_lock
+#       state: 'on'
+#     action:
+#       - service: camera.snapshot
+#         data:
+#           entity_id: camera.living_room
+#           filename: 'camera_snaps/living_room.jpg'
+#       - service: script.notify_bffs_photo
+#         data:
+#           message: I think you forgot to lock the front door! Is it locked from the upper lock instead?
+#           file: 'camera_snaps/living_room.jpg'
 
-  - alias: Go to Sleep - Turn off when all ended
-    trigger:
-      - platform: state
-        entity_id: media_player.bedroom_speaker
-        from: 'playing'
-        to: 'idle'
-      - platform: state
-        entity_id: media_player.bedroom_speaker
-        from: 'playing'
-        to: 'paused'
-      - platform: event
-        event_type: timer.finished
-        event_data:
-          entity_id: timer.go_to_sleep
-    condition:
-      condition: and
-      conditions:
-        #When go to sleep is on
-        - condition: state
-          entity_id: input_boolean.go_to_sleep
-          state: 'on'
-        #When tv isn't on
-        - condition: template
-          value_template: "{{ not is_state('media_player.bedroom_tv', 'on') }}"
-        #When timer ended
-        - condition: state
-          entity_id: timer.go_to_sleep
-          state: 'idle'
-        #When Google speaker isn't playing
-        - condition: template
-          value_template: "{{ not is_state('media_player.bedroom_speaker', 'playing') }}"
-    action:
-      - service: script.go_to_sleep_off
+#   - alias: Go to Sleep - Turn off when all ended
+#     trigger:
+#       - platform: state
+#         entity_id: media_player.bedroom_speaker
+#         from: 'playing'
+#         to: 'idle'
+#       - platform: state
+#         entity_id: media_player.bedroom_speaker
+#         from: 'playing'
+#         to: 'paused'
+#       - platform: event
+#         event_type: timer.finished
+#         event_data:
+#           entity_id: timer.go_to_sleep
+#     condition:
+#       condition: and
+#       conditions:
+#         #When go to sleep is on
+#         - condition: state
+#           entity_id: input_boolean.go_to_sleep
+#           state: 'on'
+#         #When tv isn't on
+#         - condition: template
+#           value_template: "{{ not is_state('media_player.bedroom_tv', 'on') }}"
+#         #When timer ended
+#         - condition: state
+#           entity_id: timer.go_to_sleep
+#           state: 'idle'
+#         #When Google speaker isn't playing
+#         - condition: template
+#           value_template: "{{ not is_state('media_player.bedroom_speaker', 'playing') }}"
+#     action:
+#       - service: script.go_to_sleep_off
 
-group:
-  Go to Sleep:
-    entities:
-      - automation.go_to_sleep_all_lights_off_night_light_on
-      - automation.go_to_sleep_night_light_timer
-      - input_datetime.go_to_sleep_timer_duration
-      - automation.go_to_sleep_play_sleep_sounds_when_tv_already_off
-      - automation.go_to_sleep_play_sleep_sounds_when_tv_turns_off
-      - automation.go_to_sleep_pause_sleep_sounds_when_tv_on
-      - automation.go_to_sleep_stop_playing_when_go_to_sleep_off
+# group:
+#   Go to Sleep:
+#     entities:
+#       - automation.go_to_sleep_all_lights_off_night_light_on
+#       - automation.go_to_sleep_night_light_timer
+#       - input_datetime.go_to_sleep_timer_duration
+#       - automation.go_to_sleep_play_sleep_sounds_when_tv_already_off
+#       - automation.go_to_sleep_play_sleep_sounds_when_tv_turns_off
+#       - automation.go_to_sleep_pause_sleep_sounds_when_tv_on
+#       - automation.go_to_sleep_stop_playing_when_go_to_sleep_off
