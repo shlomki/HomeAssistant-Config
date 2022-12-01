@@ -30,18 +30,18 @@ input_number:
 light:
   - platform: template
     lights:
-      living_room_main_combined:
+      living_room_main:
         unique_id: "Living Room Light Main"
-        friendly_name: "Living Room Main Dimmable"
-        value_template: "{{ is_state('light.living_room_main','on') }}"
+        friendly_name: "Living Room Main"
+        value_template: "{{ is_state('switch.living_room_main','on') }}"
         level_template: "{{ (states.input_number.living_room_light_level.state|int * 14.166)|round }}"
-        availability_template: "{{ not is_state('light.living_room_main','unavailable') }}"
+        availability_template: "{{ not is_state('switch.living_room_main','unavailable') }}"
         turn_on:
           - service: homeassistant.turn_on
-            entity_id: light.living_room_main
+            entity_id: switch.living_room_main
         turn_off:
           - service: homeassistant.turn_off
-            entity_id: light.living_room_main
+            entity_id: switch.living_room_main
         set_level:
           - service: python_script.ceiling_light_set_level
             data:
@@ -50,18 +50,18 @@ light:
 
   - platform: template
     lights:
-      living_room_entrance_combined:
+      living_room_entrance:
         unique_id: "Living Room Light Entrance"
-        friendly_name: "Living Room Entrance Dimmable"
-        value_template: "{{ is_state('light.living_room_entrance','on') }}"
+        friendly_name: "Living Room Entrance"
+        value_template: "{{ is_state('switch.living_room_entrance','on') }}"
         level_template: "{{ (states.input_number.living_room_light_level.state|int * 14.166)|round }}"
-        availability_template: "{{ not is_state('light.living_room_entrance','unavailable') }}"
+        availability_template: "{{ not is_state('switch.living_room_entrance','unavailable') }}"
         turn_on:
           - service: homeassistant.turn_on
-            entity_id: light.living_room_entrance
+            entity_id: switch.living_room_entrance
         turn_off:
           - service: homeassistant.turn_off
-            entity_id: light.living_room_entrance
+            entity_id: switch.living_room_entrance
         set_level:
           - service: python_script.ceiling_light_set_level
             data:
@@ -70,53 +70,29 @@ light:
 
   - platform: template
     lights:
-      living_room_hallway_combined:
+      living_room_hallway:
         unique_id: "Living Room Light Hallway"
-        friendly_name: "Living Room Hallway Dimmable"
-        value_template: "{{ is_state('light.living_room_hallway','on') }}"
+        friendly_name: "Living Room Hallway"
+        value_template: "{{ is_state('switch.living_room_hallway','on') }}"
         level_template: "{{ (states.input_number.living_room_light_level.state|int * 14.166)|round }}"
-        availability_template: "{{ not is_state('light.living_room_hallway','unavailable') }}"
+        availability_template: "{{ not is_state('switch.living_room_hallway','unavailable') }}"
         turn_on:
           - service: homeassistant.turn_on
-            entity_id: light.living_room_hallway
+            entity_id: switch.living_room_hallway
         turn_off:
           - service: homeassistant.turn_off
-            entity_id: light.living_room_hallway
+            entity_id: switch.living_room_hallway
         set_level:
           - service: python_script.ceiling_light_set_level
             data:
               room: living_room
               new_brightness_level: "{{ brightness }}"
 
-  # - platform: template
-  #   lights:
-  #     hallway_main_combined:
-  #       friendly_name: "Hallway Main Dimmable"
-  #       value_template: "{{ is_state('light.hallway_main','on') }}"
-  #       level_template: "{{ max((expand('group.hallway_lights') | selectattr('state', 'equalto', 'on') | map(attribute='attributes.brightness') | list) or [0]) }} "
-  #       availability_template: "{{ not is_state('light.hallway_main','unavailable') }}"
-  #       turn_on:
-  #         - service: homeassistant.turn_on
-  #           entity_id: light.hallway_main
-  #       turn_off:
-  #         - service: homeassistant.turn_off
-  #           entity_id: light.hallway_main
-  #       set_level:
-  #         - service: light.turn_on
-  #           entity_id: light.hallway_main
-  #         - wait_template: "{{ is_state('light.hallway_dimmable_lights', 'on') }}"
-  #           timeout:
-  #             seconds: 2
-  #         - service: light.turn_on
-  #           data:
-  #             entity_id: light.hallway_dimmable_lights
-  #             brightness: "{{ brightness }}"
-
   - platform: template
     lights:
-      hallway_main_combined:
-        unique_id: "Hallway Main Dimmable"
-        friendly_name: "Hallway Main Dimmable"
+      hallway_main:
+        unique_id: "Hallway Light Main"
+        friendly_name: "Hallway Main"
         value_template: "{{ is_state('light.hallway_controllers_group','on') }}"
         level_template: "{{ state_attr('light.hallway_controllers_group','brightness') }}"
         availability_template: "{{ not (is_state('light.hallway_front','unavailable') and is_state('light.hallway_back','unavailable')) }}" #If hallway front & back are both unavailable, then unavailable. Otherwise, available.
@@ -132,64 +108,20 @@ light:
               entity_id: light.hallway_controllers_group
               brightness: "{{ brightness }}"
 
-  # - platform: template
-  #   lights:
-  #     living_room_tv_light_combined:
-  #       unique_id: "Living Room Light TV Light"
-  #       friendly_name: "Living Room TV Light Dimmable"
-  #       value_template: "{{ is_state('light.living_room_tv_light','on') }}"
-  #       level_template: "{{ state_attr('light.living_room_tv_light_dimmer','brightness') }}"
-  #       availability_template: "{{ not is_state('light.living_room_tv_light','unavailable') }}"
-  #       turn_on:
-  #         - service: homeassistant.turn_on
-  #           entity_id: light.living_room_tv_light
-  #       turn_off:
-  #         - service: homeassistant.turn_off
-  #           entity_id: light.living_room_tv_light
-  #       set_level:
-  #         - service: light.turn_on
-  #           entity_id: light.living_room_tv_light
-  #         - wait_template: "{{ is_state('light.living_room_tv_light_dimmer', 'on') }}"
-  #           timeout:
-  #             seconds: 2
-  #         - service: light.turn_on
-  #           data:
-  #             entity_id: light.living_room_tv_light_dimmer
-  #             brightness: "{{ brightness }}"
-
   - platform: template
     lights:
-      living_room_tv_light_combined:
-        unique_id: "Living Room Light TV Light"
-        friendly_name: "Living Room TV Light Dimmable"
-        value_template: "{{ is_state('light.living_room_tv_light_dimmer','on') }}"
-        level_template: "{{ state_attr('light.living_room_tv_light_dimmer','brightness') }}"
-        availability_template: "{{ not is_state('light.living_room_tv_light_dimmer','unavailable') }}"
-        turn_on:
-          - service: light.turn_on
-            entity_id: light.living_room_tv_light_dimmer
-        turn_off:
-          - service: light.turn_off
-            entity_id: light.living_room_tv_light_dimmer
-        set_level:
-          - service: light.turn_on
-            data:
-              entity_id: light.living_room_tv_light_dimmer
-              brightness: "{{ brightness }}"
-
-  - platform: template
-    lights:
-      office_main_combined:
-        friendly_name: "Office Main Dimmable"
-        value_template: "{{ is_state('light.office_main','on') }}"
+      office_main:
+        unique_id: "Office Light Main"
+        friendly_name: "Office Main"
+        value_template: "{{ is_state('switch.office_main','on') }}"
         level_template: "{{ (states.input_number.office_light_level.state|int * 14.166)|round }}"
-        availability_template: "{{ not is_state('light.office_main','unavailable') }}"
+        availability_template: "{{ not is_state('switch.office_main','unavailable') }}"
         turn_on:
           - service: homeassistant.turn_on
-            entity_id: light.office_main
+            entity_id: switch.office_main
         turn_off:
           - service: homeassistant.turn_off
-            entity_id: light.office_main
+            entity_id: switch.office_main
         set_level:
           - service: python_script.ceiling_light_set_level
             data:
@@ -202,17 +134,18 @@ light:
 
   - platform: template
     lights:
-      guests_main_combined:
-        friendly_name: "Guests Main Dimmable"
-        value_template: "{{ is_state('light.guests_main','on') }}"
+      guests_main:
+        unique_id: "Guests Light Main"
+        friendly_name: "Guests Main"
+        value_template: "{{ is_state('switch.guests_main','on') }}"
         level_template: "{{ (states.input_number.guests_light_level.state|int * 14.166)|round }}"
-        availability_template: "{{ not is_state('light.guests_main','unavailable') }}"
+        availability_template: "{{ not is_state('switch.guests_main','unavailable') }}"
         turn_on:
           - service: homeassistant.turn_on
-            entity_id: light.guests_main
+            entity_id: switch.guests_main
         turn_off:
           - service: homeassistant.turn_off
-            entity_id: light.guests_main
+            entity_id: switch.guests_main
         set_level:
           - service: python_script.ceiling_light_set_level
             data:
@@ -221,17 +154,18 @@ light:
 
   - platform: template
     lights:
-      riley_main_combined:
-        friendly_name: "Riley Main Dimmable"
-        value_template: "{{ is_state('light.riley_main','on') }}"
+      riley_main:
+        unique_id: "Riley Light Main"
+        friendly_name: "Riley Main"
+        value_template: "{{ is_state('switch.riley_main','on') }}"
         level_template: "{{ (states.input_number.riley_light_level.state|int * 14.166)|round }}"
-        availability_template: "{{ not is_state('light.riley_main','unavailable') }}"
+        availability_template: "{{ not is_state('switch.riley_main','unavailable') }}"
         turn_on:
           - service: homeassistant.turn_on
-            entity_id: light.riley_main
+            entity_id: switch.riley_main
         turn_off:
           - service: homeassistant.turn_off
-            entity_id: light.riley_main
+            entity_id: switch.riley_main
         set_level:
           - service: python_script.ceiling_light_set_level
             data:
@@ -240,17 +174,18 @@ light:
 
   - platform: template
     lights:
-      bedroom_entrance_combined:
-        friendly_name: "Bedroom Entrance Dimmable"
-        value_template: "{{ is_state('light.bedroom_entrance','on') }}"
+      bedroom_entrance:
+        unique_id: "Bedroom Light Entrance"
+        friendly_name: "Bedroom Entrance"
+        value_template: "{{ is_state('switch.bedroom_entrance','on') }}"
         level_template: "{% set level = state_attr('light.bedroom_entrance_hue','brightness') %}{{ level if level != None else 0 }}"
-        availability_template: "{{ not is_state('light.bedroom_entrance','unavailable') }}"
+        availability_template: "{{ not is_state('switch.bedroom_entrance','unavailable') }}"
         turn_on:
           - service: homeassistant.turn_on
-            entity_id: light.bedroom_entrance
+            entity_id: switch.bedroom_entrance
         turn_off:
           - service: homeassistant.turn_off
-            entity_id: light.bedroom_entrance
+            entity_id: switch.bedroom_entrance
         set_level:
           - service: light.turn_on
             data:
@@ -259,17 +194,18 @@ light:
 
   - platform: template
     lights:
-      bedroom_main_combined:
-        friendly_name: "Bedroom Main Dimmable"
-        value_template: "{{ is_state('light.bedroom_main','on') }}"
+      bedroom_main:
+        unique_id: "Bedroom Light Main"
+        friendly_name: "Bedroom Main"
+        value_template: "{{ is_state('switch.bedroom_main','on') }}"
         level_template: "{% set level = state_attr('light.bedroom_main_hue','brightness') %}{{ level if level != None else 0 }}"
-        availability_template: "{{ not is_state('light.bedroom_main','unavailable') }}"
+        availability_template: "{{ not is_state('switch.bedroom_main','unavailable') }}"
         turn_on:
           - service: homeassistant.turn_on
-            entity_id: light.bedroom_main
+            entity_id: switch.bedroom_main
         turn_off:
           - service: homeassistant.turn_off
-            entity_id: light.bedroom_main
+            entity_id: switch.bedroom_main
         set_level:
           - service: light.turn_on
             data:
@@ -278,17 +214,18 @@ light:
 
   - platform: template
     lights:
-      kitchen_island_combined:
-        friendly_name: "Kitchen Island Dimmable"
-        value_template: "{{ is_state('light.kitchen_island','on') }}"
+      kitchen_island:
+        unique_id: "Kitchen Light Island"
+        friendly_name: "Kitchen Island"
+        value_template: "{{ is_state('switch.kitchen_island','on') }}"
         level_template: "{% set level = state_attr('light.kitchen_island_1','brightness') %}{{ level if level != None else 0 }}"
-        availability_template: "{{ not is_state('light.kitchen_island','unavailable') }}"
+        availability_template: "{{ not is_state('switch.kitchen_island','unavailable') }}"
         turn_on:
           - service: homeassistant.turn_on
-            entity_id: light.kitchen_island
+            entity_id: switch.kitchen_island
         turn_off:
           - service: homeassistant.turn_off
-            entity_id: light.kitchen_island
+            entity_id: switch.kitchen_island
         set_level:
           - service: light.turn_on
             data:
@@ -305,9 +242,9 @@ light:
 
   - platform: template
     lights:
-      living_room_side_lamp_combined:
+      living_room_side_lamp:
         unique_id: "Living Room Light Side Lamp"
-        friendly_name: "Living Room Side Lamp Dimmable"
+        friendly_name: "Living Room Side Lamp"
         value_template: "{{ is_state('light.living_room_side_lamp_hue','on') }}"
         level_template: "{{ state_attr('light.living_room_side_lamp_hue','brightness') }}"
         availability_template: "{{ not (is_state('switch.living_room_side_lamp_smart_plug','unavailable') and is_state('light.living_room_side_lamp_hue','unavailable')) }}" #If smart plug and hue are both unavailable, then unavailable. Otherwise, available.
@@ -328,9 +265,9 @@ light:
 group:
   living room color changing lights:
     entities:
-      - light.living_room_main_combined
-      - light.living_room_entrance_combined
-      - light.living_room_hallway_combined
+      - light.living_room_main
+      - light.living_room_entrance
+      - light.living_room_hallway
 
 automation:
   - alias: Living Room Light Color Fix Check
@@ -368,7 +305,7 @@ automation:
     description: ""
     trigger:
       - platform: state
-        entity_id: light.office_main
+        entity_id: switch.office_main
         to: "off"
         for: "60"
     action:
@@ -379,7 +316,7 @@ automation:
     description: ""
     trigger:
       - platform: state
-        entity_id: light.office_main
+        entity_id: switch.office_main
         from: "off"
         to: "on"
         for: "1"
@@ -398,7 +335,7 @@ automation:
     description: ""
     trigger:
       - platform: state
-        entity_id: light.guests_main
+        entity_id: switch.guests_main
         to: "off"
         for: "60"
     action:
@@ -409,7 +346,7 @@ automation:
     description: ""
     trigger:
       - platform: state
-        entity_id: light.guests_main
+        entity_id: switch.guests_main
         from: "off"
         to: "on"
         for: "1"
@@ -428,7 +365,7 @@ automation:
     description: ""
     trigger:
       - platform: state
-        entity_id: light.riley_main
+        entity_id: switch.riley_main
         to: "off"
         for: "60"
     action:
@@ -439,7 +376,7 @@ automation:
     description: ""
     trigger:
       - platform: state
-        entity_id: light.riley_main
+        entity_id: switch.riley_main
         from: "off"
         to: "on"
         for: "1"
@@ -459,12 +396,12 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - light.living_room_entrance
-          - light.living_room_hallway
-          - light.living_room_main
-          - light.office_main
-          - light.guests_main
-          - light.riley_main
+          - switch.living_room_entrance
+          - switch.living_room_hallway
+          - switch.living_room_main
+          - switch.office_main
+          - switch.guests_main
+          - switch.riley_main
         from: "off"
         to: "on"
     action:
