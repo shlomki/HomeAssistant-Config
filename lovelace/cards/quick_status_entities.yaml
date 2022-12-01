@@ -33,3 +33,22 @@ cards:
                 tap_action:
                   action: navigate
                   navigation_path: sensors
+            - type: custom:auto-entities
+              show_empty: false
+              card:
+                type: entities
+                title: Critical Battery Levels
+              filter:
+                include:
+                  - entity_id: binary_sensor.front_door_lock_battery
+                    state: "on"
+                  - domain: sensor
+                    entity_id: "*_battery_level"
+                    state: <=10
+                exclude:
+                  - entity_id: sensor.inbal_s10plus_battery_level
+                  - entity_id: sensor.inbal_zenfone9_battery_level
+                  - entity_id: sensor.house_tablet_battery_level
+                  - entity_id: sensor.black_tablet_battery_level
+              sort:
+                method: state
