@@ -192,7 +192,7 @@ group:
       - light.bathroom_cabinet
 
       #Fans
-      - switch.gray_fan_smart_plug
+      # - switch.gray_fan_smart_plug
       - fan.bedroom_fan
       - fan.living_room_fan
 
