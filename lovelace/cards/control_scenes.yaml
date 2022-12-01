@@ -25,3 +25,12 @@ cards:
         entity_id: scene.sleep
     lock:
       enabled: true
+  - type: custom:button-card
+    template: ha-button
+    entity: switch.housekeeper_unlock_and_lock_door
+    name: Housekeeper
+    icon: mdi:silverware-clean
+    tap_action:
+      action: toggle
+    lock:
+      enabled: true

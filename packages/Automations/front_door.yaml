@@ -331,3 +331,17 @@ template:
     - name: "Front Door Lock Battery"
       device_class: battery
       state: "{{ state_attr('lock.front_door', 'battery_critical') }}"
+
+switch:
+  - platform: template
+    switches:
+      housekeeper_unlock_and_lock_door:
+        value_template: "{{ is_state('script.housekeeper_unlock_and_lock_door', 'on') }}"
+        turn_on:
+          service: script.turn_on
+          target:
+            entity_id: script.housekeeper_unlock_and_lock_door
+        turn_off:
+          service: script.turn_off
+          target:
+            entity_id: script.housekeeper_unlock_and_lock_door
