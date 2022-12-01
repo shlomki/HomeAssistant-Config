@@ -13,7 +13,9 @@ automation:
   - alias: Spotify cast to CC Audio
     trigger:
       platform: state
-      entity_id: media_player.everywhere
+      entity_id: 
+        - media_player.everywhere
+        - media_player.balcony_and_living_room
       to: 'playing'
     action:
       - service: media_player.select_source

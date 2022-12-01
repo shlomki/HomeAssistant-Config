@@ -24,64 +24,65 @@ cards:
     display_style: grid
     name: BFF Jukebox
     grid_covers_per_row: '4'
-  - type: entities
-    entities:
-      - type: custom:mini-media-player
-        entity: media_player.everywhere
-        group: true
-        source: icon
-        info: short
-        hide:
-          volume: true
-          power: true
-          progress: true
-          info: true
-      - type: custom:mini-media-player
-        entity: media_player.amplifier
-        group: true
-        hide:
-          controls: true
-          soruce: true
-          progress: true
-          info: true
-          source: true
-      - type: custom:mini-media-player
-        entity: media_player.living_room_speaker
-        group: true
-        name: Living Room
-        hide:
-          controls: true
-          power: true
-          progress: true
-          info: true
-      - type: custom:mini-media-player
-        entity: media_player.office_speaker
-        group: true
-        name: Office
-        hide:
-          controls: true
-          power: true
-          progress: true
-          info: true
-      - type: custom:mini-media-player
-        entity: media_player.bathroom_speaker
-        group: true
-        name: Bathroom
-        hide:
-          controls: true
-          power: true
-          progress: true
-          info: true
-      - type: custom:mini-media-player
-        entity: media_player.bedroom_speaker
-        group: true
-        name: Bedroom
-        hide:
-          controls: true
-          power: true
-          progress: true
-          info: true
+  # - type: entities
+  #   entities:
+      # - type: custom:mini-media-player
+      #   entity: media_player.everywhere
+      #   group: true
+      #   source: icon
+      #   info: short
+      #   hide:
+      #     volume: true
+      #     power: true
+      #     progress: true
+      #     info: true
+  - type: custom:mini-media-player
+    entity: media_player.amplifier
+    group: true
+    hide:
+      controls: true
+      soruce: true
+      progress: true
+      info: true
+      source: true
+      # - type: custom:mini-media-player
+      #   entity: media_player.living_room_speaker
+      #   group: true
+      #   name: Living Room
+      #   hide:
+      #     controls: true
+      #     power: true
+      #     progress: true
+      #     info: true
+      # - type: custom:mini-media-player
+      #   entity: media_player.office_speaker
+      #   group: true
+      #   name: Office
+      #   hide:
+      #     controls: true
+      #     power: true
+      #     progress: true
+      #     info: true
+      # - type: custom:mini-media-player
+      #   entity: media_player.bathroom_speaker
+      #   group: true
+      #   name: Bathroom
+      #   hide:
+      #     controls: true
+      #     power: true
+      #     progress: true
+      #     info: true
+      # - type: custom:mini-media-player
+      #   entity: media_player.bedroom_speaker
+      #   group: true
+      #   name: Bedroom
+      #   hide:
+      #     controls: true
+      #     power: true
+      #     progress: true
+      #     info: true
   - type: custom:auto-entities
+    show_empty: false
     card:
       type: entities
     filter:
