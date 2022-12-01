@@ -13,7 +13,9 @@ automation:
   - alias: Bathroom floor water leak notify
     trigger:
       - platform: state
-        entity_id: binary_sensor.bathroom_floor_leak
+        entity_id:
+          - binary_sensor.bathroom_floor_leak
+          - binary_sensor.bathroom_water_leak
         from: 'off'
         to: 'on'
     action:
