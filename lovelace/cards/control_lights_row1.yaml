@@ -67,7 +67,7 @@ cards:
             type: entities
           entities:
             - type: custom:slider-entity-row
-              entity: light.kitchen_island_combined
+              entity: light.kitchen_island
               full_row: true
               min: 1
               max: 100

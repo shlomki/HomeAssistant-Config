@@ -76,7 +76,7 @@ cards:
       - entity: input_number.room_temperature_max
     title: Monitoring
   - entities:
-      - light.bathroom_heater
+      - switch.bathroom_heater
       - input_number.bathroom_heater_timer_duration
       - timer.bathroom_heater
       - switch.water_boiler

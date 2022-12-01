@@ -93,42 +93,42 @@ automation:
 group:
   monitored_entities:
     entities:
-      - light.living_room_entrance
-      - light.living_room_hallway
-      - light.living_room_main
+      - switch.living_room_entrance
+      - switch.living_room_hallway
+      - switch.living_room_main
       - light.living_room_scene
-      - light.living_room_tv_light
+      - switch.living_room_tv_light
       - light.living_room_scene
       - light.balcony_main
       - light.balcony_string_lights
-      - light.balcony_string_lights_toggle
+      - switch.balcony_string_lights_toggle
       - light.kitchen_counter
-      - light.kitchen_island
+      - switch.kitchen_island
       - light.kitchen_pantry
-      - light.hallway_main
-      - light.hallway_main_toggle
+      - switch.hallway_main_toggle_front
+      - switch.hallway_main_toggle_back
       - light.toilet_main
       - light.office_bff_light
       - light.office_bff_light_toggle
-      - light.office_main
+      - switch.office_main
       - light.office_main_toggle
-      - light.guests_main
-      - light.guests_main_toggle
-      - light.bathroom_heater
+      - switch.guests_main
+      - switch.guests_main_toggle
+      - switch.bathroom_heater
       - switch.water_boiler
       - light.bathroom_main
       - light.bathroom_laundry
-      - light.riley_main
-      - light.riley_scene_toggle
+      - switch.riley_main
+      - switch.riley_scene_toggle
       - light.bedroom_closet
-      - light.bedroom_entrance
-      - light.bedroom_entrance_toggle_left
-      - light.bedroom_entrance_toggle_right
-      - light.bedroom_main
-      - light.bedroom_main_toggle_left
-      - light.bedroom_main_toggle_right
-      - light.bedroom_scene
-      - light.bedroom_scene_left
+      - switch.bedroom_entrance
+      - switch.bedroom_entrance_toggle_left
+      - switch.bedroom_entrance_toggle_right
+      - switch.bedroom_main
+      - switch.bedroom_main_toggle_left
+      - switch.bedroom_main_toggle_right
+      - switch.bedroom_scene
+      - switch.bedroom_scene_left
       - light.bedroom_scene_right
       - binary_sensor.fridge
       - binary_sensor.freezer

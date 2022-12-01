@@ -6,8 +6,8 @@ group:
       - switch.kitchen_lights
       - light.hallway_main
       - switch.office_lights
-      - light.guests_main_combined
-      - light.riley_main_combined
+      - light.guests_main
+      - light.riley_main
       - switch.bedroom_lights
       - switch.toilet_lights
       - switch.bathroom_lights
@@ -19,27 +19,27 @@ group:
       - switch.kitchen_lights
       - light.hallway_main
       - switch.office_lights
-      - light.riley_main_combined
+      - light.riley_main
       - switch.bedroom_lights
       - switch.toilet_lights
       - switch.bathroom_lights
 
   Living Room Lights:
     entities:
-      - light.living_room_main_combined
-      - light.living_room_entrance_combined
-      - light.living_room_hallway_combined
-      - light.living_room_tv_light_combined
-      - light.living_room_side_lamp_combined
+      - light.living_room_main
+      - light.living_room_entrance
+      - light.living_room_hallway
+      - light.living_room_tv_light
+      - light.living_room_side_lamp
       - light.living_room_bff_light
 
   Living Room Dimmable Lights:
     entities:
-      - light.living_room_main_combined
-      - light.living_room_entrance_combined
-      - light.living_room_hallway_combined
-      - light.living_room_side_lamp_combined
-      - light.living_room_tv_light_combined
+      - light.living_room_main
+      - light.living_room_entrance
+      - light.living_room_hallway
+      - light.living_room_side_lamp
+      - light.living_room_tv_light
 
   Balcony Lights:
     entities:
@@ -48,7 +48,7 @@ group:
 
   Kitchen Lights:
     entities:
-      - light.kitchen_island_combined
+      - light.kitchen_island
       - light.kitchen_pantry
       - light.kitchen_counter
 
@@ -60,7 +60,7 @@ group:
 
   Office Lights:
     entities:
-      - light.office_main_combined
+      - light.office_main
       - light.office_bff_light
 
   Toilet Lights:
@@ -77,14 +77,14 @@ group:
 
   Bedroom Lights:
     entities:
-      - light.bedroom_main_combined
-      - light.bedroom_entrance_combined
+      - light.bedroom_main
+      - light.bedroom_entrance
       - light.bedroom_closet
 
   Bedroom Dimmable Lights:
     entities:
-      - light.bedroom_main_combined
-      - light.bedroom_entrance_combined
+      - light.bedroom_main
+      - light.bedroom_entrance
 
 light:
   - platform: template
@@ -168,7 +168,7 @@ switch:
         turn_on:
           service: light.turn_on
           target:
-            entity_id: light.living_room_side_lamp_combined
+            entity_id: light.living_room_side_lamp
         turn_off:
           service: homeassistant.turn_off
           target:
@@ -196,7 +196,7 @@ switch:
         turn_on:
           service: light.turn_on
           target:
-            entity_id: light.kitchen_island_combined
+            entity_id: light.kitchen_island
         turn_off:
           service: homeassistant.turn_off
           target:
@@ -210,7 +210,7 @@ switch:
         turn_on:
           service: light.turn_on
           target:
-            entity_id: light.office_main_combined
+            entity_id: light.office_main
         turn_off:
           service: homeassistant.turn_off
           target:
@@ -252,7 +252,7 @@ switch:
         turn_on:
           service: light.turn_on
           target:
-            entity_id: light.bedroom_main_combined
+            entity_id: light.bedroom_main
         turn_off:
           service: homeassistant.turn_off
           target:

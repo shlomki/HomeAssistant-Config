@@ -12,15 +12,15 @@ scene:
 
   - name: Evening
     entities:
-      light.living_room_side_lamp_combined: on
+      light.living_room_side_lamp: on
       light.living_room_bff_light: on
-      light.kitchen_island_combined: on
+      light.kitchen_island: on
 
       #The rest of the Living Room lights
-      light.living_room_entrance_combined: off
-      light.living_room_hallway_combined: off
-      light.living_room_main_combined: off
-      light.living_room_tv_light_combined: off
+      light.living_room_entrance: off
+      light.living_room_hallway: off
+      light.living_room_main: off
+      light.living_room_tv_light: off
 
       #The rest of the Kitchen lights
       light.kitchen_counter: off
@@ -30,10 +30,10 @@ scene:
       switch.balcony_lights: off
       switch.toilet_lights: off
       switch.bathroom_lights: off
-      light.hallway_main_combined: off
+      light.hallway_main: off
       switch.office_lights: off
-      light.guests_main_combined: off
-      light.riley_main_combined: off
+      light.guests_main: off
+      light.riley_main: off
       switch.bedroom_lights: off
 
 sensor:
@@ -54,15 +54,14 @@ sensor:
       evening_scene:
         friendly_name: "Evening Scene"
         unit_of_measurement: "watt"
-        value_template:
-          "{{ (is_state('light.living_room_side_lamp_combined', 'on') and
+        value_template: "{{ (is_state('light.living_room_side_lamp', 'on') and
           is_state('light.living_room_bff_light', 'on') and
-          is_state('light.kitchen_island_combined', 'on') and
+          is_state('light.kitchen_island', 'on') and
 
-          is_state('light.living_room_entrance_combined', 'off') and
-          is_state('light.living_room_hallway_combined', 'off') and
-          is_state('light.living_room_main_combined', 'off') and
-          is_state('light.living_room_tv_light_combined', 'off') and
+          is_state('light.living_room_entrance', 'off') and
+          is_state('light.living_room_hallway', 'off') and
+          is_state('light.living_room_main', 'off') and
+          is_state('light.living_room_tv_light', 'off') and
 
           is_state('light.kitchen_counter', 'off') and
           is_state('light.kitchen_pantry', 'off') and
@@ -70,8 +69,8 @@ sensor:
           is_state('switch.balcony_lights', 'off') and
           is_state('switch.toilet_lights', 'off') and
           is_state('switch.bathroom_lights', 'off') and
-          is_state('light.hallway_main_combined', 'off') and
+          is_state('light.hallway_main', 'off') and
           is_state('switch.office_lights', 'off') and
-          is_state('light.guests_main_combined', 'off') and
-          is_state('light.riley_main_combined', 'off') and
+          is_state('light.guests_main', 'off') and
+          is_state('light.riley_main', 'off') and
           is_state('switch.bedroom_lights', 'off')) | replace(true, 'on') | replace(false, 'off') }}"

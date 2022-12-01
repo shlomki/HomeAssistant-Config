@@ -8,7 +8,7 @@ cards:
       action: call-service
       service: homeassistant.turn_on
       service_data:
-        entity_id: light.hallway_main_combined
+        entity_id: light.hallway_main
     hold_action:
       action: fire-dom-event
       browser_mod:
@@ -22,7 +22,7 @@ cards:
                 type: entities
               entities:
                 - type: custom:slider-entity-row
-                  entity: light.hallway_main_combined
+                  entity: light.hallway_main
                   full_row: true
                   min: 1
                   max: 100
@@ -58,7 +58,7 @@ cards:
                 type: entities
               entities:
                 - type: custom:slider-entity-row
-                  entity: light.office_main_combined
+                  entity: light.office_main
                   full_row: true
                   min: 1
                   max: 100
@@ -78,10 +78,10 @@ cards:
       action: call-service
       service: homeassistant.turn_on
       service_data:
-        entity_id: light.guests_main_combined
+        entity_id: light.guests_main
     hold_action:
       action: more-info
-    entity: light.guests_main_combined
+    entity: light.guests_main
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.guests ]]]"
     icon_height: 50px
     icon: mdi:account-multiple
@@ -93,10 +93,10 @@ cards:
       action: call-service
       service: homeassistant.turn_on
       service_data:
-        entity_id: light.riley_main_combined
+        entity_id: light.riley_main
     hold_action:
       action: more-info
-    entity: light.riley_main_combined
+    entity: light.riley_main
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.riley ]]]"
     icon_height: 50px
     icon: mdi:face-woman-outline

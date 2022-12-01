@@ -12,7 +12,7 @@ automation:
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id:
-          - light.living_room_side_lamp_combined
+          - light.living_room_side_lamp
           - switch.living_room_side_lamp_toggle
 
   - alias: Living room tv light sync dimmer
@@ -20,8 +20,8 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - switch.living_room_tv_light
-          - light.living_room_tv_light_dimmer
+          - switch.living_room_tv_light_toggle
+          - light.living_room_tv_light
         not_from: "unavailable"
         not_to: "unavailable"
 
@@ -50,7 +50,7 @@ automation:
       - platform: state
         entity_id:
           - light.office_bff_light
-          - light.office_bff_light_toggle
+          - switch.office_bff_light_toggle
         not_to:
           - unavailable
           - unknown
@@ -63,8 +63,8 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - light.guests_main
-          - light.guests_main_toggle
+          - switch.guests_main
+          - switch.guests_main_toggle
         not_to:
           - unavailable
           - unknown
@@ -78,32 +78,13 @@ automation:
       - platform: state
         entity_id:
           - light.bathroom_cabinet
-          - light.bathroom_cabinet_toggle
+          - switch.bathroom_cabinet_toggle
         not_to:
           - unavailable
           - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: light.bathroom_cabinet_group
-
-  # - alias: Hallway switches sync main
-  #   max_exceeded: silent
-  #   trigger:
-  #     - platform: state
-  #       entity_id:
-  #         - light.hallway_main
-  #         - light.hallway_main_toggle
-  #   condition:
-  #     condition: not
-  #     conditions:
-  #       - condition: state
-  #         entity_id:
-  #           - light.hallway_main
-  #           - light.hallway_main_toggle
-  #         state: "unavailable"
-  #   action:
-  #     - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-  #       entity_id: light.hallway_main_group
 
   - alias: Hallway sync switches when controllers change
     max_exceeded: silent
@@ -117,11 +98,11 @@ automation:
     condition: #This is needed to avoid endless loops
       - alias: "Hallway main group is not the same state"
         condition: template
-        value_template: "{{ not is_state('light.hallway_main_group', trigger.to_state.state) }}"
+        value_template: "{{ not is_state('light.hallway_main_toggle_group', trigger.to_state.state) }}"
 
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id: light.hallway_main_group
+        entity_id: light.hallway_main_toggle_group
 
   - alias: Hallway sync controllers when switches change
     max_exceeded: silent
@@ -129,8 +110,8 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - light.hallway_main
-          - light.hallway_main_toggle
+          - switch.hallway_main_toggle_front
+          - switch.hallway_main_toggle_back
         not_from: "unavailable"
         not_to: "unavailable"
 
@@ -143,7 +124,7 @@ automation:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id:
           - light.hallway_controllers_group
-          - light.hallway_main_group
+          - light.hallway_main_toggle_group
 
   - alias: Riley switches scene
     max_exceeded: silent
@@ -157,18 +138,18 @@ automation:
     action:
       - service: light.turn_on
         entity_id:
-          - light.riley_main_combined
+          - light.riley_main
         data:
-          brightness: '{{ 255 if ( (state_attr("light.riley_main_combined", "brightness") or state_attr("light.riley_main_combined", "brightness")) < 127) else 1 }}'
+          brightness: "{{ 255 if state_attr('light.riley_main', 'brightness')|int < 127 else 1 }}"
 
   - alias: Bedroom switches sync main
     max_exceeded: silent
     trigger:
       - platform: state
         entity_id:
-          - light.bedroom_main
-          - light.bedroom_main_toggle_left
-          - light.bedroom_main_toggle_right
+          - switch.bedroom_main
+          - switch.bedroom_main_toggle_left
+          - switch.bedroom_main_toggle_right
         not_to:
           - unavailable
           - unknown
@@ -181,9 +162,9 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - light.bedroom_entrance
-          - light.bedroom_entrance_toggle_left
-          - light.bedroom_entrance_toggle_right
+          - switch.bedroom_entrance
+          - switch.bedroom_entrance_toggle_left
+          - switch.bedroom_entrance_toggle_right
         not_to:
           - unavailable
           - unknown
@@ -196,9 +177,9 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - light.bedroom_scene
-          - light.bedroom_scene_left
-          - light.bedroom_scene_right
+          - switch.bedroom_scene
+          - switch.bedroom_scene_left
+          - swtich.bedroom_scene_right
         not_to:
           - unavailable
           - unknown
@@ -243,7 +224,7 @@ automation:
       - platform: state
         entity_id:
           - light.balcony_string_lights
-          - light.balcony_string_lights_toggle
+          - switch.balcony_string_lights_toggle
         not_to:
           - unavailable
           - unknown
