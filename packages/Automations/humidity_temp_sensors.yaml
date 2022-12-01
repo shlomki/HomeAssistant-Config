@@ -18,11 +18,7 @@ automation:
         data:
           message: >
             {{ trigger.to_state.attributes.friendly_name }} humidity is {{ trigger.to_state.state }}%.
-             {% if ((states('sensor.outside_humidity') | int) - 5) <= (states('sensor.office_humidity') | int) %}
-              Time to open the windows.
-            {% else %}
-              Time to turn on the AC.
-            {% endif %}
+            {% if ((states('sensor.outside_humidity') | int) - 5) <= (states('sensor.office_humidity') | int) %}Time to open the windows.{% else %}Time to turn on the AC.{% endif %}
 
   - alias: House temp is extreme - notify on telegram
     trigger:
