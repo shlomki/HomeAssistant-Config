@@ -7,7 +7,6 @@ scene:
         state: open
         current_position: 9
       lock.front_door: "locked"
-      switch.black_tablet_screen: on
       switch.house_tablet_screen: off
       media_player.living_room_tv: off
 
