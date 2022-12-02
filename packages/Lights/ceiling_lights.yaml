@@ -103,10 +103,28 @@ light:
           - service: light.turn_off
             entity_id: light.hallway_controllers_group
         set_level:
-          - service: light.turn_on
-            data:
-              entity_id: light.hallway_controllers_group
-              brightness: "{{ brightness }}"
+          - if:
+            - alias: "Hallway Front is On"
+              condition: state
+              entity_id: light.hallway_front
+              state: "on"
+            then:
+              - service: light.turn_on
+                data:
+                  entity_id: light.hallway_front
+                  brightness: "{{ brightness }}"
+
+          - if:
+            - alias: "Hallway Back is On"
+              condition: state
+              entity_id: light.hallway_back
+              state: "on"
+            then:
+              - service: light.turn_on
+                data:
+                  entity_id: light.hallway_back
+                  brightness: "{{ brightness }}"
+
 
   - platform: template
     lights:
