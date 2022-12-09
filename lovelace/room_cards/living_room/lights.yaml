@@ -63,7 +63,12 @@ cards:
       #   icon_height: 50px
 
       - type: custom:button-card
-        color_type: blank-card
+        template: ha-button
+        entity: switch.christmas_lights
+        name: "Yule Tree"
+        icon: mdi:pine-tree
+        icon_height: 50px
+
 
   - type: horizontal-stack
     cards:
