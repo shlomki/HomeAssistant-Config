@@ -112,9 +112,9 @@ cards:
     template: ha-button
     tap_action:
       action: call-service
-      service: switch.toggle
+      service: light.toggle
       service_data:
-        entity_id: switch.bedroom_lights
+        entity_id: light.bedroom_lights
     double_tap_action:
       action: call-service
       service: homeassistant.turn_on
