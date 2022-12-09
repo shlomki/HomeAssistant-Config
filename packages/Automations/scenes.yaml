@@ -27,14 +27,14 @@ scene:
       light.kitchen_pantry: off
 
       #The rest of the house
-      switch.balcony_lights: off
-      switch.toilet_lights: off
-      switch.bathroom_lights: off
-      light.hallway_main: off
-      switch.office_lights: off
-      light.guests_main: off
-      light.riley_main: off
-      switch.bedroom_lights: off
+      light.balcony_lights: off
+      light.toilet_lights: off
+      light.bathroom_lights: off
+      light.hallway_lights: off
+      light.office_lights: off
+      light.guests_lights: off
+      light.riley_lights: off
+      light.bedroom_lights: off
 
 sensor:
   - platform: template
@@ -66,11 +66,11 @@ sensor:
           is_state('light.kitchen_counter', 'off') and
           is_state('light.kitchen_pantry', 'off') and
 
-          is_state('switch.balcony_lights', 'off') and
-          is_state('switch.toilet_lights', 'off') and
-          is_state('switch.bathroom_lights', 'off') and
-          is_state('light.hallway_main', 'off') and
-          is_state('switch.office_lights', 'off') and
+          is_state('light.balcony_lights', 'off') and
+          is_state('light.toilet_lights', 'off') and
+          is_state('light.bathroom_lights', 'off') and
+          is_state('light.hallway_lights', 'off') and
+          is_state('light.office_lights', 'off') and
           is_state('light.guests_main', 'off') and
           is_state('light.riley_main', 'off') and
-          is_state('switch.bedroom_lights', 'off')) | replace(true, 'on') | replace(false, 'off') }}"
+          is_state('light.bedroom_lights', 'off')) | replace(true, 'on') | replace(false, 'off') }}"

@@ -90,44 +90,6 @@ light:
 
   - platform: template
     lights:
-      hallway_main:
-        unique_id: "Hallway Light Main"
-        friendly_name: "Hallway Main"
-        value_template: "{{ is_state('light.hallway_controllers_group','on') }}"
-        level_template: "{{ state_attr('light.hallway_controllers_group','brightness') }}"
-        availability_template: "{{ not (is_state('light.hallway_front','unavailable') and is_state('light.hallway_back','unavailable')) }}" #If hallway front & back are both unavailable, then unavailable. Otherwise, available.
-        turn_on:
-          - service: homeassistant.turn_on
-            entity_id: light.hallway_controllers_group
-        turn_off:
-          - service: light.turn_off
-            entity_id: light.hallway_controllers_group
-        set_level:
-          - if:
-            - alias: "Hallway Front is On"
-              condition: state
-              entity_id: light.hallway_front
-              state: "on"
-            then:
-              - service: light.turn_on
-                data:
-                  entity_id: light.hallway_front
-                  brightness: "{{ brightness }}"
-
-          - if:
-            - alias: "Hallway Back is On"
-              condition: state
-              entity_id: light.hallway_back
-              state: "on"
-            then:
-              - service: light.turn_on
-                data:
-                  entity_id: light.hallway_back
-                  brightness: "{{ brightness }}"
-
-
-  - platform: template
-    lights:
       office_main:
         unique_id: "Office Light Main"
         friendly_name: "Office Main"

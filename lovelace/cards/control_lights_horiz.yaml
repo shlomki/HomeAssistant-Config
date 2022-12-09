@@ -4,9 +4,9 @@ cards:
     template: ha-button
     tap_action:
       action: call-service
-      service: switch.toggle
+      service: light.toggle
       service_data:
-        entity_id: switch.living_room_lights
+        entity_id: light.living_room_lights
     double_tap_action:
       action: call-service
       service: homeassistant.turn_on
@@ -39,9 +39,9 @@ cards:
     template: ha-button
     tap_action:
       action: call-service
-      service: switch.toggle
+      service: light.toggle
       service_data:
-        entity_id: switch.balcony_lights
+        entity_id: light.balcony_lights
     double_tap_action:
       action: call-service
       service: homeassistant.turn_on
@@ -74,9 +74,9 @@ cards:
     template: ha-button
     tap_action:
       action: call-service
-      service: switch.toggle
+      service: light.toggle
       service_data:
-        entity_id: switch.kitchen_lights
+        entity_id: light.kitchen_lights
     double_tap_action:
       action: call-service
       service: homeassistant.turn_on
@@ -109,9 +109,9 @@ cards:
     template: ha-button
     tap_action:
       action: call-service
-      service: switch.toggle
+      service: light.toggle
       service_data:
-        entity_id: switch.toilet_lights
+        entity_id: light.toilet_lights
     double_tap_action:
       action: call-service
       service: homeassistant.turn_on
@@ -138,9 +138,9 @@ cards:
     template: ha-button
     tap_action:
       action: call-service
-      service: switch.toggle
+      service: light.toggle
       service_data:
-        entity_id: switch.bathroom_lights
+        entity_id: light.bathroom_lights
     double_tap_action:
       action: call-service
       service: homeassistant.turn_on
@@ -171,7 +171,7 @@ cards:
       action: call-service
       service: homeassistant.turn_on
       service_data:
-        entity_id: light.hallway_main
+        entity_id: light.hallway_lights
     hold_action:
       action: fire-dom-event
       browser_mod:
@@ -185,7 +185,7 @@ cards:
                 type: entities
               entities:
                 - type: custom:slider-entity-row
-                  entity: light.hallway_main
+                  entity: light.hallway_lights
                   full_row: true
                   min: 1
                   max: 100
@@ -193,16 +193,16 @@ cards:
               filter:
                 include:
                   - group: group.hallway_lights
-    entity: light.hallway_main
+    entity: light.hallway_lights
     name: Hallway
     icon_height: 50px
   - type: custom:button-card
     template: ha-button
     tap_action:
       action: call-service
-      service: switch.toggle
+      service: light.toggle
       service_data:
-        entity_id: switch.office_lights
+        entity_id: light.office_lights
     double_tap_action:
       action: call-service
       service: homeassistant.turn_on
@@ -275,9 +275,9 @@ cards:
     template: ha-button
     tap_action:
       action: call-service
-      service: switch.toggle
+      service: light.toggle
       service_data:
-        entity_id: switch.bedroom_lights
+        entity_id: light.bedroom_lights
     double_tap_action:
       action: call-service
       service: homeassistant.turn_on

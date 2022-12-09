@@ -91,7 +91,7 @@ group:
 
   away_from_home_monitored_entities:
     entities:
-      - group.all_lights_except_guests
+      - group.all_lights
       - group.dampers
       - group.tvs
       - group.all_fans

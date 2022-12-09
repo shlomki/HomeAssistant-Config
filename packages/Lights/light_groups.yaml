@@ -1,28 +1,28 @@
 group:
   All Lights:
     entities:
-      - switch.living_room_lights
-      - switch.balcony_lights
-      - switch.kitchen_lights
-      - light.hallway_main
-      - switch.office_lights
+      - light.living_room_lights
+      - light.balcony_lights
+      - light.kitchen_lights
+      - light.hallway_lights
+      - light.office_lights
       - light.guests_main
       - light.riley_main
-      - switch.bedroom_lights
-      - switch.toilet_lights
-      - switch.bathroom_lights
+      - light.bedroom_lights
+      - light.toilet_lights
+      - light.bathroom_lights
 
-  All Lights Except Guests:
+  All Lights Except Riley:
     entities:
-      - switch.living_room_lights
-      - switch.balcony_lights
-      - switch.kitchen_lights
-      - light.hallway_main
-      - switch.office_lights
-      - light.riley_main
-      - switch.bedroom_lights
-      - switch.toilet_lights
-      - switch.bathroom_lights
+      - light.living_room_lights
+      - light.balcony_lights
+      - light.kitchen_lights
+      - light.hallway_lights
+      - light.office_lights
+      - light.guests_lights
+      - light.bedroom_lights
+      - light.toilet_lights
+      - light.bathroom_lights
 
   Living Room Lights:
     entities:
@@ -63,6 +63,10 @@ group:
       - light.office_main
       - light.office_bff_light
 
+  Guests Lights:
+    entities:
+      - light.guests_main
+
   Toilet Lights:
     entities:
       - light.toilet_main
@@ -74,6 +78,10 @@ group:
       - light.bathroom_main
       - light.bathroom_laundry
       - light.bathroom_cabinet
+
+  Riley Lights:
+    entities:
+      - light.riley_main
 
   Bedroom Lights:
     entities:
@@ -135,33 +143,23 @@ light:
               entity_id: "{{ expand('group.bedroom_dimmable_lights') | selectattr('state', 'equalto', 'on') | map(attribute='entity_id') | list }}" #Set brightness for lights that are on only
               brightness: "{{ brightness }}"
 
-switch:
   - platform: template
-    switches:
+    lights:
       all_lights:
         value_template: "{{ is_state('group.all_lights', 'on') }}"
         turn_on:
           service: homeassistant.turn_on
           target:
-            entity_id:
-              - switch.living_room_lights
-              - switch.balcony_lights
-              - switch.kitchen_lights
-              - light.hallway_main
-              - switch.office_lights
-              - switch.bedroom_lights
-              - switch.toilet_lights
-              - switch.bathroom_lights
+            entity_id: group.all_lights_except_riley
         turn_off:
           - service: light.turn_off
             target:
               entity_id: light.master
-          - service: homeassistant.turn_off
-            target:
-              entity_id: group.living_room_lights
 
-  - platform: template
-    switches:
+      #Template lights for each area in the house
+      #When turned on - turn on just one light in the room
+      #When turned off - turn off all lights in the room
+
       living_room_lights:
         friendly_name: "Living Room Lights"
         value_template: "{{ is_state('group.living_room_lights', 'on') }}"
@@ -174,8 +172,6 @@ switch:
           target:
             entity_id: group.living_room_lights
 
-  - platform: template
-    switches:
       balcony_lights:
         friendly_name: "Balcony Lights"
         value_template: "{{ is_state('group.balcony_lights', 'on') }}"
@@ -188,8 +184,41 @@ switch:
           target:
             entity_id: group.balcony_lights
 
-  - platform: template
-    switches:
+      hallway_lights:
+        unique_id: "Hallway Lights"
+        friendly_name: "Hallway Lights"
+        value_template: "{{ is_state('light.hallway_controllers_group','on') }}"
+        level_template: "{{ state_attr('light.hallway_controllers_group','brightness') }}"
+        availability_template: "{{ not (is_state('light.hallway_front','unavailable') and is_state('light.hallway_back','unavailable')) }}" #If hallway front & back are both unavailable, then unavailable. Otherwise, available.
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: light.hallway_controllers_group
+        turn_off:
+          - service: light.turn_off
+            entity_id: light.hallway_controllers_group
+        set_level:
+          - if:
+              - alias: "Hallway Front is On"
+                condition: state
+                entity_id: light.hallway_front
+                state: "on"
+            then:
+              - service: light.turn_on
+                data:
+                  entity_id: light.hallway_front
+                  brightness: "{{ brightness }}"
+
+          - if:
+              - alias: "Hallway Back is On"
+                condition: state
+                entity_id: light.hallway_back
+                state: "on"
+            then:
+              - service: light.turn_on
+                data:
+                  entity_id: light.hallway_back
+                  brightness: "{{ brightness }}"
+
       kitchen_lights:
         friendly_name: "Kitchen Lights"
         value_template: "{{ is_state('group.kitchen_lights', 'on') }}"
@@ -202,8 +231,6 @@ switch:
           target:
             entity_id: group.kitchen_lights
 
-  - platform: template
-    switches:
       office_lights:
         friendly_name: "Office Lights"
         value_template: "{{ is_state('group.office_lights', 'on') }}"
@@ -216,8 +243,18 @@ switch:
           target:
             entity_id: group.office_lights
 
-  - platform: template
-    switches:
+      guests_lights:
+        friendly_name: "Guests Lights"
+        value_template: "{{ is_state('group.guests_lights', 'on') }}"
+        turn_on:
+          service: light.turn_on
+          target:
+            entity_id: light.guests_main
+        turn_off:
+          service: homeassistant.turn_off
+          target:
+            entity_id: group.guests_lights
+
       toilet_lights:
         friendly_name: "Toilet Lights"
         value_template: "{{ is_state('group.toilet_lights', 'on') }}"
@@ -230,8 +267,6 @@ switch:
           target:
             entity_id: group.toilet_lights
 
-  - platform: template
-    switches:
       bathroom_lights:
         friendly_name: "Bathroom Lights"
         value_template: "{{ is_state('group.bathroom_lights', 'on') }}"
@@ -244,8 +279,18 @@ switch:
           target:
             entity_id: group.bathroom_lights
 
-  - platform: template
-    switches:
+      riley_lights:
+        friendly_name: "Riley Lights"
+        value_template: "{{ is_state('group.riley_lights', 'on') }}"
+        turn_on:
+          service: light.turn_on
+          target:
+            entity_id: light.riley_main
+        turn_off:
+          service: homeassistant.turn_off
+          target:
+            entity_id: group.riley_lights
+
       bedroom_lights:
         friendly_name: "Bedroom Lights"
         value_template: "{{ is_state('group.bedroom_lights', 'on') }}"

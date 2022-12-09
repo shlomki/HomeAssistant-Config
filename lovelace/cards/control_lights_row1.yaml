@@ -4,9 +4,9 @@ cards:
     template: ha-button
     tap_action:
       action: call-service
-      service: switch.toggle
+      service: light.toggle
       service_data:
-        entity_id: switch.living_room_lights
+        entity_id: light.living_room_lights
     double_tap_action:
       action: call-service
       service: homeassistant.turn_on
@@ -26,9 +26,9 @@ cards:
     template: ha-button
     tap_action:
       action: call-service
-      service: switch.toggle
+      service: light.toggle
       service_data:
-        entity_id: switch.balcony_lights
+        entity_id: light.balcony_lights
     double_tap_action:
       action: call-service
       service: homeassistant.turn_on
@@ -48,9 +48,9 @@ cards:
     template: ha-button
     tap_action:
       action: call-service
-      service: switch.toggle
+      service: light.toggle
       service_data:
-        entity_id: switch.kitchen_lights
+        entity_id: light.kitchen_lights
     double_tap_action:
       action: call-service
       service: homeassistant.turn_on
@@ -83,9 +83,9 @@ cards:
     template: ha-button
     tap_action:
       action: call-service
-      service: switch.toggle
+      service: light.toggle
       service_data:
-        entity_id: switch.toilet_lights
+        entity_id: light.toilet_lights
     double_tap_action:
       action: call-service
       service: homeassistant.turn_on
@@ -112,9 +112,9 @@ cards:
     template: ha-button
     tap_action:
       action: call-service
-      service: switch.toggle
+      service: light.toggle
       service_data:
-        entity_id: switch.bathroom_lights
+        entity_id: light.bathroom_lights
     double_tap_action:
       action: call-service
       service: homeassistant.turn_on
