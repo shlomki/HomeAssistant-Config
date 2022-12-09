@@ -11,7 +11,7 @@ cards:
   - type: custom:button-card
     template: back-button
   - type: custom:spotify-card
-    limit: 10
+    limit: 20
     playlist_type: default
     account: default
     default_device: Amplifier
@@ -21,9 +21,7 @@ cards:
       - Google TV
       - CC Audio
       - Android
-    display_style: grid
     name: BFF Jukebox
-    grid_covers_per_row: '4'
   # - type: entities
   #   entities:
       # - type: custom:mini-media-player

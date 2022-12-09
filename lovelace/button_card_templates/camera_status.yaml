@@ -5,6 +5,7 @@ camera-status:
     var_name: stream
   state:
     - value: 'off'
+      id: 'off'
       color: red
       styles:
         icon:
@@ -20,6 +21,7 @@ camera-status:
         icon:
           - animation: blink 2s ease infinite
     - value: 'on'
+      id: 'on'
       color: green
     - value: home
       color: green

@@ -2,11 +2,13 @@ fridge:
   template: ha-button
   state:
     - value: 'on'
+      id: 'on'
       icon: mdi:fridge-alert-outline
       color: red
       styles:
         icon:
           - animation: blink 2s ease infinite
     - value: 'off'
+      id: 'off'
       icon: mdi:fridge-outline
       color: green

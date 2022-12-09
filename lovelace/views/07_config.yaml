@@ -5,12 +5,6 @@ visible:
   - user: aa6d3713da1a4e1eac92dd176a3ae708
 badges: []
 cards:
-  - entities:
-      - person.shlomi
-      - person.inbal
-    show_header_toggle: false
-    title: BFFs
-    type: entities
     
   - entities:
       - entity: input_datetime.dawn
@@ -26,15 +20,6 @@ cards:
     title: Timer Times
     type: entities
 
-  - type: entities
-    entities:
-      - entity: remote.living_room
-      - entity: remote.office
-      - entity: remote.guests
-      - entity: remote.riley
-      - entity: remote.bedroom
-    title: Remotes
-    show_header_toggle: false
   - type: entities
     entities:
       - entity: sensor.power_cost_per_hour

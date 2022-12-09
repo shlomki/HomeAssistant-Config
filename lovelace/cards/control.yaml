@@ -39,9 +39,11 @@ cards:
             - height: 100px
         state:
           - value: "on"
-            icon: mdi:window-open
+            id: 'on'
+            icon: mdi:window-open-variant
           - value: "off"
-            icon: mdi:window-closed
+            id: 'off'
+            icon: mdi:window-closed-variant
         tap_action:
           action: navigate
           navigation_path: "[[[ return (window.location.hash == '#windows') ? '.' : '#windows'; ]]]"

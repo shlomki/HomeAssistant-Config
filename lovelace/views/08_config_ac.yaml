@@ -84,3 +84,192 @@ cards:
     show_header_toggle: false
     title: Bathroom Heating
     type: entities
+
+  #Dampers
+  - type: vertical-stack
+    cards:
+      - type: custom:mini-climate
+        entity: climate.ac_damper_living_room
+        swap_temperatures: true
+        hvac_mode:
+          hide: true
+        fan_mode:
+          location: main
+        buttons:
+          power:
+            location: main
+            icon: mdi:power
+            state:
+              mapper: "state => (state == 'fan_only' ? 'on': 'off')"
+            toggle_action: >
+              (state) => this.call_service('homeassistant', (state == 'on' ? 'turn_off':
+              'turn_on'),  { 'entity_id': 'climate.ac_damper_living_room' })
+        indicators:
+          humidity:
+            icon: mdi:water
+            unit: "%"
+            round: 1
+            source:
+              entity: sensor.living_room_humidity
+          window:
+            icon:
+              template: |
+                (value) => (value == '' ? '' : 'mdi:window-open-variant')
+              style: |
+                (value) => (value == 'Balcony' ? { color: 'red'} : {})
+            source:
+              entity: binary_sensor.balcony_window
+              mapper: >-
+                state => (state == 'off' ? '': (state == 'on' ? 'Balcony':
+                'Unavailable'))
+          window2:
+            icon:
+              template: |
+                (value) => (value == '' ? '' : 'mdi:window-open-variant')
+              style: |
+                (value) => (value == 'Kitchen' ? { color: 'red'} : {})
+            source:
+              entity: binary_sensor.kitchen_window
+              mapper: >-
+                state => (state == 'off' ? '': (state == 'on' ? 'Kitchen':
+                'Unavailable'))
+
+      - type: custom:mini-climate
+        entity: climate.ac_damper_office
+        swap_temperatures: true
+        hvac_mode:
+          hide: true
+        fan_mode:
+          location: main
+        buttons:
+          power:
+            location: main
+            icon: mdi:power
+            state:
+              mapper: "state => (state == 'fan_only' ? 'on': 'off')"
+            toggle_action: >
+              (state) => this.call_service('homeassistant', (state == 'on' ? 'turn_off':
+              'turn_on'),  { 'entity_id': 'climate.ac_damper_living_room' })
+        indicators:
+          humidity:
+            icon: mdi:water
+            unit: "%"
+            round: 1
+            source:
+              entity: sensor.office_humidity
+          window:
+            icon:
+              template: |
+                (value) => (value == '' ? '' : 'mdi:window-open-variant')
+              style: |
+                (value) => (value == 'Window Open' ? { color: 'red'} : {})
+            source:
+              entity: binary_sensor.office_window
+              mapper: >-
+                state => (state == 'off' ? '': (state == 'on' ? 'Window
+                Open': 'Unavailable'))
+
+      - type: custom:mini-climate
+        entity: climate.ac_damper_guests
+        swap_temperatures: true
+        hvac_mode:
+          hide: true
+        fan_mode:
+          location: main
+        buttons:
+          power:
+            location: main
+            icon: mdi:power
+            state:
+              mapper: "state => (state == 'fan_only' ? 'on': 'off')"
+            toggle_action: >
+              (state) => this.call_service('homeassistant', (state == 'on' ? 'turn_off':
+              'turn_on'),  { 'entity_id': 'climate.ac_damper_guests' })
+        indicators:
+          humidity:
+            icon: mdi:water
+            unit: "%"
+            round: 1
+            source:
+              entity: sensor.guests_humidity
+          window:
+            icon:
+              template: |
+                (value) => (value == '' ? '' : 'mdi:window-open-variant')
+              style: |
+                (value) => (value == 'Window Open' ? { color: 'red'} : {})
+            source:
+              entity: binary_sensor.guests_window
+              mapper: >-
+                state => (state == 'off' ? '': (state == 'on' ? 'Window
+                Open': 'Unavailable'))
+
+      - type: custom:mini-climate
+        entity: climate.ac_damper_riley
+        swap_temperatures: true
+        hvac_mode:
+          hide: true
+        fan_mode:
+          location: main
+        buttons:
+          power:
+            location: main
+            icon: mdi:power
+            state:
+              mapper: "state => (state == 'fan_only' ? 'on': 'off')"
+            toggle_action: >
+              (state) => this.call_service('homeassistant', (state == 'on' ? 'turn_off':
+              'turn_on'),  { 'entity_id': 'climate.ac_damper_riley' })
+        indicators:
+          humidity:
+            icon: mdi:water
+            unit: "%"
+            round: 1
+            source:
+              entity: sensor.riley_humidity
+          window:
+            icon:
+              template: |
+                (value) => (value == '' ? '' : 'mdi:window-open-variant')
+              style: |
+                (value) => (value == 'Window Open' ? { color: 'red'} : {})
+            source:
+              entity: binary_sensor.riley_window
+              mapper: >-
+                state => (state == 'off' ? '': (state == 'on' ? 'Window
+                Open': 'Unavailable'))
+
+      - type: custom:mini-climate
+        entity: climate.ac_damper_bedroom
+        swap_temperatures: true
+        hvac_mode:
+          hide: true
+        fan_mode:
+          location: main
+        buttons:
+          power:
+            location: main
+            icon: mdi:power
+            state:
+              mapper: "state => (state == 'fan_only' ? 'on': 'off')"
+            toggle_action: >
+              (state) => this.call_service('homeassistant', (state == 'on' ? 'turn_off':
+              'turn_on'),  { 'entity_id': 'climate.ac_damper_bedroom' })
+        indicators:
+          humidity:
+            icon: mdi:water
+            unit: "%"
+            round: 1
+            source:
+              entity: sensor.bedroom_humidity
+          window:
+            icon:
+              template: |
+                (value) => (value == '' ? '' : 'mdi:window-open-variant')
+              style: |
+                (value) => (value == 'Window Open' ? { color: 'red'} : {})
+            source:
+              entity: binary_sensor.bedroom_window
+              mapper: >-
+                state => (state == 'off' ? '': (state == 'on' ? 'Window
+                Open': 'Unavailable'))

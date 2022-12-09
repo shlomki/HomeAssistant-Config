@@ -23,6 +23,7 @@ cards:
       - script.housekeeper_unlock_and_lock_door
       - group.bffs
       - switch.riley_heater
+      - switch.christmas_lights
 
     exclude: []
     title: true

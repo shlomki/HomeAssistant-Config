@@ -8,6 +8,15 @@ ha-button:
   size: 33%
   hold_action:
     action: more-info
+  state:
+    - value: 'on'
+      id: 'on'
+      color: rgb(253, 216, 53)
+    - value: 'off'
+      id: 'off'
+      color: rgb(68, 115, 158)
+    - value: 'unavailable'
+      color: lightgray
 
 ha-button-long-name:
   template: ha-button
