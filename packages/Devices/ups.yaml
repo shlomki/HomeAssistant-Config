@@ -93,5 +93,5 @@ automation:
         data:
           value: 0
         target:
-          entity_id: input_number.power_outages_today_count
+          entity_id: input_number.power_outages_monthly_count
 
