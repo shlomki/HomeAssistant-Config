@@ -52,6 +52,13 @@ sensor:
     start: "{{ now().replace(hour=0, minute=0, second=0) }}"
     end: "{{ now() }}"
 
+  - platform: history_stats
+    name: Water Boiler Metrics On Count Past 12hr
+    entity_id: switch.water_boiler
+    state: "on"
+    type: count
+    start: "{{ now().replace(hour=now().hour-12, minute=0, second=0) }}"
+    end: "{{ now() }}"
 
 template:
   - sensor:
@@ -77,10 +84,9 @@ template:
           {{ as_datetime(state_attr('input_datetime.water_boiler_last_off', 'timestamp')) | relative_time | regex_replace(find=' year(s)?', replace='y')  | regex_replace(find=' months(s)?', replace='mo') | regex_replace(find=' day(s)?', replace='d') | regex_replace(find=' hour(s)?', replace='h') | regex_replace(find=' minute(s)?', replace='m')  | regex_replace(find=' second(s)?', replace='s') }}
           {% endif %}
 
-
   - binary_sensor:
     - name: "Water Boiler Was On Today"
-      state: "{{ is_state('sensor.water_boiler_metrics_time_since_finished', '0s') or not states('sensor.water_boiler_metrics_time_since_finished') | string is match('^\\d*d') }}"
+      state: "{{ not is_state('sensor.water_boiler_metrics_on_count_past_12hr', '0') }}"
 
 switch:
   - platform: template
