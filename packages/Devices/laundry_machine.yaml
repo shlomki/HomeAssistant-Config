@@ -26,7 +26,7 @@ automation:
         entity_id: sensor.laundry_machine_power
         below: 1
         for:
-          minutes: 15
+          minutes: 20
     action:
       - service: input_select.select_option
         data:
