@@ -2,82 +2,51 @@ group:
   toilet_light_automations:
     entities:
       - automation.toilet_light_on_motion
-      - automation.toilet_light_off_when_no_motion_when_door_closed
-      - automation.toilet_light_off_when_no_motion_when_door_is_open
+      - automation.toilet_turn_on_vent_if_theres_someone_in_the_toilet_for_a_few_mins
 
 automation:
+
   - alias: Toilet light on motion
     mode: single
     trigger:
-      - platform: state
-        entity_id: binary_sensor.toilet_motion
+
+      - id: 'on'
+        platform: state
+        entity_id: 
+          - binary_sensor.toilet_motion
+          - binary_sensor.toilet_presence
+          - binary_sensor.toilet_door
         from: 'off'
         to: 'on'
-      - platform: state
-        entity_id: binary_sensor.toilet_door
-        from: 'off'
-        to: 'on'
-    action:
-      - choose:
-        - conditions:
-          - condition: time
-            after: input_datetime.late_night
-            before: input_datetime.morning
-          sequence:
-            - service: light.turn_on
-              entity_id: light.toilet_night_light
-        - conditions:
-          - condition: time
-            after: input_datetime.morning
-            before: input_datetime.late_night
-          sequence:
-            - service: light.turn_on
-              entity_id: light.toilet_main
-      - delay:
-          seconds: 5
-          
-  - alias: Toilet light off when no motion when door closed
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.toilet_motion
+
+      - id: 'off'
+        platform: state
+        entity_id: binary_sensor.toilet_presence
         from: 'on'
         to: 'off'
-        for:
-          minutes: 20
-    condition:   
-      - condition: state
-        entity_id: binary_sensor.toilet_door
-        state:  'off'
-    action:
-      - service: light.turn_off
-        entity_id: 
-          - light.toilet_main
-          - light.toilet_night_light
 
-  - alias: Toilet light off when no motion when door is open
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.toilet_motion
-        from: 'on'
-        to: 'off'
-    condition:   
-      - condition: state
-        entity_id: binary_sensor.toilet_door
-        state:  'on'
     action:
-      - service: light.turn_off
-        entity_id: 
-          - light.toilet_main
-          - light.toilet_night_light
+      - service: light.turn_{{ trigger.id }}
+        entity_id: light.toilet_lights
 
-  - alias: Toilet Turn on vent after flushing
+  - alias: Toilet Turn on vent if theres someone in the toilet for a few mins
     mode: restart
     trigger:
       - platform: state
-        entity_id: binary_sensor.toilet_flush
+        entity_id: binary_sensor.toilet_presence
         from: 'off'
         to: 'on'
+        for:
+          minutes: 5
     action:
+      #Wait for them to leave the toilet
+      - wait_for_trigger:
+          - platform: state
+            entity_id: binary_sensor.toilet_presence
+            from: "on"
+            to: "off"
+
+      #Make it smell better
       - service: switch.turn_on
         entity_id: switch.toilet_vent
       - delay:

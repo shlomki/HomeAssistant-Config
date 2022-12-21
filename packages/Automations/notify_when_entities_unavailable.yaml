@@ -142,6 +142,7 @@ group:
       - binary_sensor.front_door_lock
       - switch.front_door_camera_module
       - binary_sensor.bathroom_door
+      - binary_sensor.toilet_presence
       - binary_sensor.toilet_motion
       - binary_sensor.toilet_door
       - switch.subwoofer
@@ -178,7 +179,7 @@ group:
       - sensor.riley_temperature
       - sensor.bedroom_temperature
       - sensor.bedroom_closet_temperature
-      - binary_sensor.toilet_flush
+      - binary_sensor.bathroom_window
       - switch.shelly_3em
       - binary_sensor.big_freezer
       - switch.living_room_side_lamp_smart_plug

@@ -32,6 +32,7 @@ group:
       - light.living_room_tv_light
       - light.living_room_side_lamp
       - light.living_room_bff_light
+      - switch.christmas_lights
 
   Living Room Dimmable Lights:
     entities:
@@ -71,7 +72,6 @@ group:
     entities:
       - light.toilet_main
       - light.toilet_night_light
-      - switch.toilet_vent
 
   Bathroom Lights:
     entities:
@@ -259,9 +259,21 @@ light:
         friendly_name: "Toilet Lights"
         value_template: "{{ is_state('group.toilet_lights', 'on') }}"
         turn_on:
-          service: light.turn_on
-          target:
-            entity_id: light.toilet_main
+          - choose:
+            - conditions:
+              - condition: time
+                after: input_datetime.late_night
+                before: input_datetime.morning
+              sequence:
+                - service: light.turn_on
+                  entity_id: light.toilet_night_light
+            - conditions:
+              - condition: time
+                after: input_datetime.morning
+                before: input_datetime.late_night
+              sequence:
+                - service: light.turn_on
+                  entity_id: light.toilet_main
         turn_off:
           service: homeassistant.turn_off
           target:

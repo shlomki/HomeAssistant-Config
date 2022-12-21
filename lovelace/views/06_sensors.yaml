@@ -20,6 +20,8 @@ cards:
       include:
         - domain: binary_sensor
           entity_id: "*_motion"
+        - domain: binary_sensor
+          entity_id: "*_presence"
       exclude: []
     sort:
       method: state
