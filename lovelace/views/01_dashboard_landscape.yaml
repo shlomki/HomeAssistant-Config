@@ -68,6 +68,8 @@ cards:
 
               - !include /config/lovelace/cards/control_ac_title.yaml
 
+              - !include /config/lovelace/cards/control_fans_title.yaml
+
 
 
 

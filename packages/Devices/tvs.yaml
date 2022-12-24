@@ -115,6 +115,14 @@ group:
       - media_player.amplifier
       - switch.subwoofer
 
+  All Screens:
+    entities:
+      - media_player.living_room_tv
+      - media_player.bedroom_tv
+      - media_player.balcony_tv
+      - switch.house_tablet_screen
+      - switch.black_tablet_screen
+
 media_player:
   - platform: denon
     host: !secret amplifier_wifi

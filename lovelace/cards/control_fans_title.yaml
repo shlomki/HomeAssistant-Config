@@ -1,0 +1,15 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.fans ]]]"
+    show_icon: false
+    double_tap_action:
+      action: toggle
+      confirmation:
+        text: >-
+          [[[ return 'Are you sure? Turn ' + (entity.state ==
+          'off' ? 'ON' : 'OFF') + ' all Fans in the house?'
+          ]]]
+          
+  - !include /config/lovelace/cards/control_fans.yaml

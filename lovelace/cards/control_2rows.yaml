@@ -1,0 +1,254 @@
+type: vertical-stack
+cards:
+  #Title
+  - type: custom:button-card
+    template: title
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.control ]]]"
+
+
+  #Parent Buttons
+
+  #Lights
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: ha-button
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lights ]]]"
+        entity: group.all_lights
+        icon: mdi:lightbulb-outline
+        styles:
+          card:
+            - height: 100px
+        tap_action:
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#lights') ? '.' : '#lights'; ]]]"
+        double_tap_action:
+          action: toggle
+          confirmation:
+            text: >-
+              [[[ return 'Are you sure? Turn ' + (entity.state ==
+              'off' ? 'ON' : 'OFF') + ' all Lights in the house?'
+              ]]]
+
+      #Windows
+      - type: custom:button-card
+        template: ha-button
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.windows ]]]"
+        entity: group.windows
+        styles:
+          card:
+            - height: 100px
+        state:
+          - value: "on"
+            id: 'on'
+            icon: mdi:window-open-variant
+          - value: "off"
+            id: 'off'
+            icon: mdi:window-closed-variant
+        tap_action:
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#windows') ? '.' : '#windows'; ]]]"
+
+      #AC
+      - type: custom:button-card
+        template: ha-button
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.ac ]]]"
+        entity: sensor.ac_state
+        icon: mdi:home-thermometer-outline
+        styles:
+          card:
+            - height: 100px
+          custom_fields:
+            window_open:
+              - position: absolute
+              - left: 5%
+              - top: 5%
+              - height: 60px
+              - width: 60px
+              - visibility: |
+                  [[[
+                      if (states['sensor.all_rooms_temperature_monitor'].state != "Ok") return "visible";
+                      return "visible";
+                  ]]]
+        double_tap_action:
+          action: call-service
+          service: script.toggle_dampers
+          confirmation:
+            text: >-
+              [[[ return 'Are you sure? Turn ' +
+              (states['group.dampers'].state == 'off' ? 'ON' :
+              'OFF') + ' all ACs in the house?' ]]]
+        tap_action:
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#ac') ? '.' : '#ac'; ]]]"
+        hold_action:
+          action: more-info
+          entity: >
+            [[[ return
+            states[states['input_text.ac_entity_id'].state].entity_id
+            ]]]
+        state:
+          - value: fan_only_on
+            color: rgb(253, 216, 53)
+            icon: mdi:fan
+          - value: fan_only_off
+            color: rgb(68, 115, 158)
+            icon: mdi:fan
+          - value: dry_on
+            color: rgb(253, 216, 53)
+            icon: mdi:water-percent
+          - value: dry_off
+            color: rgb(68, 115, 158)
+            icon: mdi:water-percent
+          - value: auto_on
+            color: rgb(253, 216, 53)
+            icon: mdi:autorenew
+          - value: auto_off
+            color: rgb(68, 115, 158)
+            icon: mdi:autorenew
+          - operator: regex
+            value: ^off_.*$
+            color: rgb(68, 115, 158)
+            icon: mdi:power-plug-off-outline
+          - operator: regex
+            value: ^((?!off).)*_on$
+            color: rgb(253, 216, 53)
+          - operator: regex
+            value: ^((?!off).)*_off$
+            color: rgb(68, 115, 158)
+        custom_fields:
+          window_open: >
+            [[[ let monitor =
+            states['sensor.all_rooms_temperature_monitor'].state;
+                let color = monitor.replace('Ok', '').replace('Very ', '').replace('Cold', 'turquoise').replace('Hot', 'red');
+                let icon = monitor.replace('Ok', '').replace('Very ', '').replace('Cold', 'snowflake').replace('Hot', 'fire');
+                return '<ha-icon icon="mdi:' + icon + '" style="width: 16px; height:16px; color:' + color + ';"></ha-icon>'; ]]]
+        triggers_update: sensor.all_rooms_temperature_monitor
+
+
+  - type: horizontal-stack
+    cards:
+
+      #Screens
+      - type: custom:button-card
+        template: ha-button
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.screens ]]]"
+        icon: mdi:monitor-cellphone
+        entity: group.all_screens
+        styles:
+          card:
+            - height: 100px
+        tap_action:
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#screens') ? '.' : '#screens'; ]]]"
+        color: rgb(68, 115, 158)
+        double_tap_action:
+          action: toggle
+          confirmation:
+            text: >-
+              [[[ return 'Are you sure? Turn ' + (entity.state ==
+              'off' ? 'ON' : 'OFF') + ' all Screens in the house?'
+              ]]]
+
+      #Fans
+      - type: conditional
+        conditions:
+          - entity: input_boolean.show_fans_in_ui
+            state: "on"
+        card:
+          type: custom:button-card
+          template: ha-button
+          name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.fans ]]]"
+          icon: mdi:fan
+          entity: group.all_fans
+          styles:
+            card:
+              - height: 100px
+          tap_action:
+            action: navigate
+            navigation_path: "[[[ return (window.location.hash == '#fans') ? '.' : '#fans'; ]]]"
+          color: rgb(68, 115, 158)
+          double_tap_action:
+            action: toggle
+            confirmation:
+              text: >-
+                [[[ return 'Are you sure? Turn ' + (entity.state ==
+                'off' ? 'ON' : 'OFF') + ' all Fans in the house?'
+                ]]]
+
+      #Shower
+      - type: custom:button-card
+        template: ha-button
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.shower ]]]"
+        icon: mdi:shower
+        entity: group.shower
+        styles:
+          card:
+            - height: 100px
+        tap_action:
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#shower') ? '.' : '#shower'; ]]]"
+        double_tap_action:
+          action: call-service
+          service: script.toggle_shower
+          confirmation:
+            text: >-
+              [[[ return 'Are you sure? Turn ' +
+              (states['group.shower'].state == 'off' ? 'ON' : 'OFF')
+              + ' Boiler & Heater?' ]]]
+              
+      #Scenes
+      - type: custom:button-card
+        template: ha-button
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.quick ]]]"
+        icon: mdi:gesture-double-tap
+        styles:
+          card:
+            - height: 100px
+        tap_action:
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#scenes') ? '.' : '#scenes'; ]]]"
+        color: rgb(68, 115, 158)
+
+  #Hidden Cards
+  - type: custom:state-switch
+    entity: hash
+    default: none
+    states:
+      lights: !include /config/lovelace/cards/control_lights_container.yaml
+      windows: !include /config/lovelace/cards/control_windows_container.yaml
+      ac: !include /config/lovelace/cards/control_ac_container.yaml
+      fans: !include /config/lovelace/cards/control_fans_container.yaml
+      shower: !include /config/lovelace/cards/control_shower_container.yaml
+      scenes: !include /config/lovelace/cards/control_scenes_container.yaml
+      screens: !include /config/lovelace/cards/control_screens_container.yaml
+  
+  # #Lights
+  # - type: custom:local-conditional-card
+  #   default: hide
+  #   id: lights
+  #   card: 
+
+  # #Windows
+  # - type: custom:local-conditional-card
+  #   default: hide
+  #   id: windows
+  #   card: !include /config/lovelace/cards/control_windows_container.yaml
+
+  # #AC
+  # - type: custom:local-conditional-card
+  #   default: hide
+  #   id: ac
+  #   card: !include /config/lovelace/cards/control_ac_container.yaml
+
+  # #Shower
+  # - type: custom:local-conditional-card
+  #   default: hide
+  #   id: shower
+  #   card: !include /config/lovelace/cards/control_shower_container.yaml
+
+  # #Scenes
+  # - type: custom:local-conditional-card
+  #   default: hide
+  #   id: scenes
+  #   card: !include /config/lovelace/cards/control_scenes_container.yaml

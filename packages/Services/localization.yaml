@@ -61,6 +61,7 @@ template:
           afternoon_greeting: "Good Afternoon"
           evening_greeting: "Good Evening"
           laundry_machine: "Laundry Machine"
+          screens: "Screens"
 
   - sensor:
       - name: "Localization Hebrew"
@@ -124,6 +125,7 @@ template:
           afternoon_greeting: "אחר-צהריים טובים"
           evening_greeting: "ערב טוב"
           laundry_machine: "מכונת כביסה"
+          screens: "מסכים"
 
 input_select:
   local_lang_house_tablet:

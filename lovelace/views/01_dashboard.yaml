@@ -21,10 +21,7 @@ cards:
       - !include /config/lovelace/cards/quick_status.yaml
 
       #Control shortcuts
-      - !include /config/lovelace/cards/control.yaml
-
-      #Devices
-      - !include /config/lovelace/cards/devices.yaml
+      - !include /config/lovelace/cards/control_2rows.yaml
 
       #Who's Home
       - !include /config/lovelace/cards/whos_home_title_1_row.yaml

@@ -2,28 +2,9 @@ title: dev
 path: dev
 badges: []
 cards:
-  - type: custom:scheduler-card
-    time_step: 5
-    include:
-      - climate.ac_damper_bedroom
-      - climate.ac_damper_guests
-      - climate.ac_damper_living_room
-      - climate.ac_damper_office
-      - climate.ac_damper_riley
-      - cover.bedroom_shutter
-      - cover.guests_shutter
-      - cover.kitchen_curtain
-      - cover.kitchen_shutter
-      - cover.living_room_curtain
-      - cover.living_room_shutter
-      - cover.office_curtain
-      - cover.office_shutter
-      - switch.water_boiler
-      - lock.front_door
-      - script.housekeeper_unlock_and_lock_door
-      - group.bffs
-      - switch.riley_heater
-      - switch.christmas_lights
 
-    exclude: []
-    title: true
+  - type: vertical-stack
+    cards:
+
+      #Control shortcuts
+      - !include /config/lovelace/cards/control_2rows.yaml
