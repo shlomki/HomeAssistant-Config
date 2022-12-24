@@ -57,7 +57,7 @@ sensor:
     entity_id: switch.water_boiler
     state: "on"
     type: count
-    start: "{{ now().replace(hour=now().hour-12, minute=0, second=0) }}"
+    start: "{{ (now() | as_timestamp - 43200) | as_datetime }}"
     end: "{{ now() }}"
 
 template:
