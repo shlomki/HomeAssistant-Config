@@ -64,10 +64,13 @@ cards:
 
       - type: custom:button-card
         template: ha-button
-        entity: switch.christmas_lights
-        name: "Yule Tree"
+        entity: light.yule_trees
+        name: "Yule Trees"
         icon: mdi:pine-tree
         icon_height: 50px
+        hold_action:
+          action: more-info
+          entity: group.yule_trees
 
 
   - type: horizontal-stack

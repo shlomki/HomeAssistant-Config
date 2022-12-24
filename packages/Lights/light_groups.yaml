@@ -32,7 +32,7 @@ group:
       - light.living_room_tv_light
       - light.living_room_side_lamp
       - light.living_room_bff_light
-      - switch.christmas_lights
+      - light.yule_trees
 
   Living Room Dimmable Lights:
     entities:
