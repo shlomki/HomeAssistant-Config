@@ -190,7 +190,8 @@ group:
       - cover.bedroom_curtain_motor
       - cover.bedroom_curtain_switch
       #- switch.living_room_bff_light
-      - light.bathroom_cabinet
+      # - light.bathroom_cabinet
+      - switch.toilet_vent
 
       #Fans
       # - switch.gray_fan_smart_plug
@@ -198,15 +199,13 @@ group:
       - fan.living_room_fan
 
       #Smart Plugs
-      # - switch.il_smart_plug_1
-      # - switch.il_smart_plug_2
+      - switch.white_yule_tree
+      - switch.green_yule_tree
 
       #TVs & Media Players
       - media_player.living_room_tv
       - media_player.bedroom_tv
       - media_player.balcony_tv
-      # - media_player.google_tv
-      # - media_player.bedroom_google_tv
 
       #Laundry Machine
       - binary_sensor.laundry_machine_door
