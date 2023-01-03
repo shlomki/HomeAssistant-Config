@@ -10,21 +10,7 @@ cards:
           cards:
             - type: horizontal-stack
               cards:
-                - type: custom:button-card
-                  template: camera-view
-                  entity: device_tracker.edgeos_camera_balcony
-                  name: Balcony
-                  variables:
-                    stream: camera.balcony
-                  tap_action:
-                    action: navigate
-                    navigation_path: /lovelace-mobile/balcony
-                - type: custom:button-card
-                  template: camera-view
-                  entity: device_tracker.edgeos_camera_frontdoor
-                  name: Front Door
-                  variables:
-                    stream: camera.front_door
+
                 - type: custom:button-card
                   template: camera-view
                   entity: device_tracker.edgeos_camera_livingroom
@@ -34,6 +20,24 @@ cards:
                   tap_action:
                     action: navigate
                     navigation_path: /lovelace-mobile/living-room
+
+                - type: custom:button-card
+                  template: camera-view
+                  entity: device_tracker.edgeos_camera_balcony
+                  name: Balcony
+                  variables:
+                    stream: camera.balcony
+                  tap_action:
+                    action: navigate
+                    navigation_path: /lovelace-mobile/balcony
+                    
+                - type: custom:button-card
+                  template: camera-view
+                  entity: device_tracker.edgeos_camera_frontdoor
+                  name: Front Door
+                  variables:
+                    stream: camera.front_door
+
                 # - type: custom:button-card
                 #   template: camera-view
                 #   entity: device_tracker.edgeos_camera_hallway

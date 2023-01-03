@@ -1,20 +1,14 @@
 input_boolean:
   living_room_script_running:
-  office_script_running:
   guests_script_running:
   riley_script_running:
 
   living_room_color_fix:
-  office_main_color_fix:
   guests_main_color_fix:
   riley_main_color_fix:
 
 input_number:
   living_room_light_level:
-    min: 0
-    max: 18
-    step: 1
-  office_light_level:
     min: 0
     max: 18
     step: 1
@@ -94,7 +88,6 @@ light:
         unique_id: "Office Light Main"
         friendly_name: "Office Main"
         value_template: "{{ is_state('switch.office_main','on') }}"
-        level_template: "{{ (states.input_number.office_light_level.state|int * 14.166)|round }}"
         availability_template: "{{ not is_state('switch.office_main','unavailable') }}"
         turn_on:
           - service: homeassistant.turn_on
@@ -102,15 +95,6 @@ light:
         turn_off:
           - service: homeassistant.turn_off
             entity_id: switch.office_main
-        set_level:
-          - service: python_script.ceiling_light_set_level
-            data:
-              room: office
-              new_brightness_level: "{{ brightness }}"
-        set_temperature:
-          service: script.ceiling_light_color_change
-          data:
-            room: office
 
   - platform: template
     lights:

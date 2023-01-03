@@ -1,12 +1,3 @@
-# template:
-#   - sensor:
-#       - name: "Outside Weather"
-#         state: "{{ states('weather.home_open_weather_map') }}"
-#         attributes:
-#           temperature: "{{ states('sensor.outside_temperature') }}"
-#           temperature_unit: "°C"
-#           humidity: "{{ states('sensor.outside_humidity') }}"
-
 weather:
   - platform: template
     name: "Outside Weather"
@@ -15,3 +6,37 @@ weather:
     temperature_unit: "°C"
     humidity_template: "{{ states('sensor.outside_humidity') }}"
     forecast_template: "{{ state_attr('weather.home_open_weather_map', 'forecast') }}"
+
+
+template:
+  - binary_sensor:
+    - name: "Rain Expected Next 3 days"
+      device_class: moisture
+      state: |
+        "{{ states.weather.outside_weather.attributes.forecast[1].precipitation_probability > 40 and
+            states.weather.outside_weather.attributes.forecast[1].precipitation > 1 and
+
+            states.weather.outside_weather.attributes.forecast[2].precipitation_probability > 40 and
+            states.weather.outside_weather.attributes.forecast[2].precipitation > 1 and
+
+            states.weather.outside_weather.attributes.forecast[3].precipitation_probability > 40 and
+            states.weather.outside_weather.attributes.forecast[3].precipitation > 1 }}"
+
+automation:
+  - id: Rain Expected Next 3 Days
+    alias: Rain Expected Next 3 Days
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.rain_expected_next_3_days
+        from: "off"
+        to: "on"
+      - platform: state
+        entity_id: binary_sensor.rain_expected_next_3_days
+        from: "on"
+        to: "off"
+        for:
+          days: 3
+    action:
+      - service: notify.shlomi
+        data:
+          message: "{{ trigger.to_state.state | replace('on', 'Stormy weather is expected in the next 3 days') | replace('off', 'Clear weather is expected in the next 3 days') }}"

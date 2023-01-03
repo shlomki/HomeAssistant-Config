@@ -1,4 +1,5 @@
 ha-button-small-label:
+  template: ha-button
   styles:
     card:
       - height: 105px

@@ -107,6 +107,8 @@ group:
       - light.kitchen_pantry
       - switch.hallway_main_toggle_front
       - switch.hallway_main_toggle_back
+      - light.hallway_front
+      - light.hallway_back
       - light.toilet_main
       - light.office_bff_light
       - light.office_bff_light_toggle
