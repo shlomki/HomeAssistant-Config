@@ -1,0 +1,37 @@
+title: Riley
+path: riley
+icon: mdi:string-lights
+badges: []
+panel: false
+subview: true
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title-large
+        name: Riley
+
+      - !include /config/lovelace/room_cards/riley/camera.yaml
+
+      - type: horizontal-stack
+        cards:
+
+          - !include /config/lovelace/room_cards/riley/lights.yaml
+
+          - !include /config/lovelace/room_cards/riley/window.yaml
+
+      - type: horizontal-stack
+        cards:
+
+          - !include /config/lovelace/room_cards/riley/sensors.yaml
+
+
+          - !include /config/lovelace/room_cards/riley/devices.yaml
+
+
+#Room Name
+#Camera view
+#PTZ
+#Lights
+#Window
+#Device

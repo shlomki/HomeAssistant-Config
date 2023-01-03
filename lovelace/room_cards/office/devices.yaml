@@ -1,0 +1,45 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: Devices
+
+  - type: horizontal-stack
+    cards: 
+
+      - type: custom:button-card
+        template: climate-button
+        entity: climate.ac_damper_office
+        name: "AC"
+        icon: mdi:monitor
+        variables:
+          window_entity_ids: binary_sensor.office_window
+          temperature_monitor_entity_id: sensor.office_temperature_monitor
+          damper_name: ac_damper_office
+        triggers_update:
+          - binary_sensor.office_window
+          - sensor.office_temperature_monitor
+          - timer.ac_damper_office
+
+      - type: custom:button-card
+        template: ha-button
+        entity: fan.office
+        name: "Fan"
+        icon: mdi:ceiling-fan
+        hold_action:
+          action: more-info
+
+      - type: custom:button-card
+        template: ha-button
+        icon: mdi:laptop
+        entity: switch.shlomi_pc
+        tap_action:
+          action: toggle
+        hold_action:
+          action: more-info
+        name: Shlomi's PC
+        icon_height: 50px
+        confirmation:
+          text: >-
+            [[[ return "Are you sure? Turn " + (entity.state == "off" ?
+            "ON" : "OFF") + " Shlomi's PC?" ]]]

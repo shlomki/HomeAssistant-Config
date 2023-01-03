@@ -1,0 +1,26 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lights ]]]"
+
+  - type: horizontal-stack
+    cards:
+
+      - type: custom:button-card
+        template: ha-button
+        entity: light.bedroom_main
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.main ]]]"
+        icon: mdi:lightbulb-outline
+
+      - type: custom:button-card
+        template: ha-button
+        entity: light.bedroom_entrance
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.entrance ]]]"
+        icon: mdi:door
+
+      - type: custom:button-card
+        template: ha-button
+        entity: light.bedroom_closet
+        name: "Closet"
+        icon: mdi:hanger

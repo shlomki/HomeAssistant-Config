@@ -62,6 +62,15 @@ template:
           evening_greeting: "Good Evening"
           laundry_machine: "Laundry Machine"
           screens: "Screens"
+          rooms: "Rooms"
+          night_light: "Night Light"
+          occupied: "Occupied"
+          vacant: "Vacant"
+          door: "Door"
+          vent: "Vent"
+          laundry: "Laundry"
+          cabinet: "Cabinet"
+
 
   - sensor:
       - name: "Localization Hebrew"
@@ -126,6 +135,14 @@ template:
           evening_greeting: "ערב טוב"
           laundry_machine: "מכונת כביסה"
           screens: "מסכים"
+          rooms: "חדרים"
+          night_light: "תאורת לילה"
+          occupied: "תפוס"
+          vacant: "פנוי"
+          door: "דלת"
+          vent: "ונטה"
+          laundry: "כביסה"
+          cabinet: "ארון מקלחת"
 
 input_select:
   local_lang_house_tablet:

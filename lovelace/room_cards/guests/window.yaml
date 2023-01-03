@@ -1,0 +1,37 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: Shutter
+
+  - type: horizontal-stack
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:button-card
+            template: cover-up
+            entity: cover.guests_shutter
+          - type: custom:button-card
+            template: cover-stop
+            entity: cover.guests_shutter
+            icon: mdi:window-shutter
+            variables:
+              window_entity_ids: binary_sensor.guests_window
+            triggers_update: binary_sensor.guests_window
+          - type: custom:button-card
+            template: cover-down
+            entity: cover.guests_shutter
+
+      # - type: vertical-stack
+      #   cards:
+      #     - type: custom:button-card
+      #       template: cover-up
+      #       entity: cover.guests_curtain
+      #     - type: custom:button-card
+      #       template: cover-stop
+      #       entity: cover.guests_curtain
+      #       icon: mdi:curtains
+      #     - type: custom:button-card
+      #       template: cover-down
+      #       entity: cover.guests_curtain
+

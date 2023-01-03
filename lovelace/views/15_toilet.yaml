@@ -1,0 +1,16 @@
+title: Toilet
+path: toilet
+icon: mdi:string-lights
+badges: []
+panel: false
+subview: true
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title-large
+        name: Toilet
+
+      - !include /config/lovelace/room_cards/toilet/sensors.yaml
+
+      - !include /config/lovelace/room_cards/toilet/lights.yaml

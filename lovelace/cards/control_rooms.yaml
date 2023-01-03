@@ -1,0 +1,117 @@
+type: vertical-stack
+cards:
+
+  - type: horizontal-stack
+    cards:
+
+      #Living room and Kitchen
+
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: navigate
+          navigation_path: living-room
+        # entity: group.living_room_lights
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.living_room ]]]"
+        icon: mdi:sofa-outline
+        icon_height: 50px
+        color: rgb(68, 115, 158)
+
+
+      #Balcony
+
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: navigate
+          navigation_path: balcony
+        # entity: group.balcony_lights
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.balcony ]]]"
+        icon: mdi:string-lights
+        icon_height: 50px
+        color: rgb(68, 115, 158)
+
+      #Toilet 
+
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: navigate
+          navigation_path: toilet
+        # entity: group.balcony_lights
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.toilet ]]]"
+        icon: mdi:toilet
+        icon_height: 50px
+        color: rgb(68, 115, 158)
+
+      #Bathroom
+
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: navigate
+          navigation_path: bathroom
+        color: rgb(68, 115, 158)
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bathroom ]]]"
+        icon_height: 50px
+        icon: mdi:shower
+
+  - type: horizontal-stack
+    cards:
+
+      # Office
+
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: navigate
+          navigation_path: office
+        color: rgb(68, 115, 158)
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.office ]]]"
+        icon_height: 50px
+        icon: mdi:monitor
+
+      #Guests
+
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: navigate
+          navigation_path: guests
+        color: rgb(68, 115, 158)
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.guests ]]]"
+        icon_height: 50px
+        icon: mdi:account-multiple
+
+      #Riley
+
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: navigate
+          navigation_path: riley
+        color: rgb(68, 115, 158)
+        name: Riley
+        icon_height: 50px
+        icon: mdi:face-woman-outline
+        lock:
+          enabled: >-
+            [[[ return
+            states["input_boolean.riley_is_sleeping"].state
+            == "on" ]]]
+          duration: 3
+        triggers_update:
+          - input_boolean.riley_is_sleeping
+
+      #Bedroom
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: navigate
+          navigation_path: bedroom
+        color: rgb(68, 115, 158)
+        name: Bedroom
+        icon_height: 50px
+        icon: mdi:bed
+
+        

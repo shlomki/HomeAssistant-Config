@@ -1,0 +1,20 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lights ]]]"
+
+  - type: horizontal-stack
+    cards:
+
+      - type: custom:button-card
+        template: ha-button
+        entity: light.riley_main
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.main ]]]"
+        icon: mdi:lightbulb-outline
+        lock:
+          enabled: >-
+            [[[ return
+            states["input_boolean.riley_is_sleeping"].state
+            == "on" ]]]
+          duration: 3

@@ -1,0 +1,9 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: container
+    name: Rooms
+    custom_fields:
+      buttons:
+        card:
+          !include /config/lovelace/cards/control_rooms.yaml

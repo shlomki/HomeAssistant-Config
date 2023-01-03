@@ -1,8 +1,9 @@
-title: balcony
+title: Balcony
 path: balcony
 icon: mdi:string-lights
 badges: []
 panel: false
+subview: true
 cards:
   - type: vertical-stack
     cards:

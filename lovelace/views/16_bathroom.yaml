@@ -1,0 +1,18 @@
+title: Bathroom
+path: bathroom
+icon: mdi:string-lights
+badges: []
+panel: false
+subview: true
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title-large
+        name: Bathroom
+
+      - !include /config/lovelace/room_cards/bathroom/sensors.yaml
+
+      - !include /config/lovelace/room_cards/bathroom/lights.yaml
+
+      - !include /config/lovelace/cards/control_shower_title.yaml

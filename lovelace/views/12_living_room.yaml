@@ -1,8 +1,9 @@
-title: living-room
+title: Living Room
 path: living-room
 icon: mdi:sofa-outline
 badges: []
 panel: false
+subview: true
 cards:
   - type: vertical-stack
     cards:

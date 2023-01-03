@@ -1,0 +1,27 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lights ]]]"
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: ha-button
+        entity: light.toilet_main
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.main ]]]"
+        icon: mdi:lightbulb-outline
+
+      - type: custom:button-card
+        template: ha-button
+        entity: light.toilet_night_light
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.night_light ]]]"
+        icon: mdi:lightbulb-night-outline
+
+      - type: custom:button-card
+        template: ha-button
+        entity: switch.toilet_vent
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.vent ]]]"
+        icon: mdi:hvac
+        hold_action:
+          action: more-info

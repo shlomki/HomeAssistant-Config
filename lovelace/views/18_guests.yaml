@@ -1,0 +1,33 @@
+title: Guests
+path: guests
+icon: mdi:string-lights
+badges: []
+panel: false
+subview: true
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title-large
+        name: Guests
+
+      - !include /config/lovelace/room_cards/guests/camera.yaml
+
+      - !include /config/lovelace/room_cards/guests/sensors.yaml
+
+      - type: horizontal-stack
+        cards:
+
+          - !include /config/lovelace/room_cards/guests/lights.yaml
+
+          - !include /config/lovelace/room_cards/guests/window.yaml
+
+          - !include /config/lovelace/room_cards/guests/devices.yaml
+
+
+#Room Name
+#Camera view
+#PTZ
+#Lights
+#Window
+#Device

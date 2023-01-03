@@ -1,0 +1,28 @@
+title: Bedroom
+path: bedroom
+icon: mdi:string-lights
+badges: []
+panel: false
+subview: true
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title-large
+        name: Bedroom
+
+      # - !include /config/lovelace/room_cards/bedroom/camera.yaml
+
+      - !include /config/lovelace/room_cards/bedroom/lights.yaml
+
+      - !include /config/lovelace/room_cards/bedroom/window.yaml
+
+      - !include /config/lovelace/room_cards/bedroom/devices.yaml
+
+
+#Room Name
+#Camera view
+#PTZ
+#Lights
+#Window
+#Device

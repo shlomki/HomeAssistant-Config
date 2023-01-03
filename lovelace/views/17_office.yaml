@@ -1,0 +1,28 @@
+title: Office
+path: office
+icon: mdi:string-lights
+badges: []
+panel: false
+subview: true
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title-large
+        name: Office
+
+      - !include /config/lovelace/room_cards/office/camera.yaml
+
+      - !include /config/lovelace/room_cards/office/lights.yaml
+
+      - !include /config/lovelace/room_cards/office/window.yaml
+
+      - !include /config/lovelace/room_cards/office/devices.yaml
+
+
+#Room Name
+#Camera view
+#PTZ
+#Lights
+#Window
+#Device

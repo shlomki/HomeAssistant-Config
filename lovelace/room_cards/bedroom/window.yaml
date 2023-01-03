@@ -1,0 +1,37 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: Window
+
+  - type: horizontal-stack
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:button-card
+            template: cover-up
+            entity: cover.bedroom_shutter
+          - type: custom:button-card
+            template: cover-stop
+            entity: cover.bedroom_shutter
+            icon: mdi:window-shutter
+            variables:
+              window_entity_ids: binary_sensor.bedroom_window
+            triggers_update: binary_sensor.bedroom_window
+          - type: custom:button-card
+            template: cover-down
+            entity: cover.bedroom_shutter
+
+      - type: vertical-stack
+        cards:
+          - type: custom:button-card
+            template: cover-up
+            entity: cover.bedroom_curtain
+          - type: custom:button-card
+            template: cover-stop
+            entity: cover.bedroom_curtain
+            icon: mdi:curtains
+          - type: custom:button-card
+            template: cover-down
+            entity: cover.bedroom_curtain
+

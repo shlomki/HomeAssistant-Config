@@ -1,0 +1,61 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: Devices
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: climate-button
+        entity: climate.ac_damper_riley
+        name: "AC"
+        icon: mdi:face-woman-outline
+        variables:
+          window_entity_ids: binary_sensor.riley_window
+          temperature_monitor_entity_id: sensor.riley_temperature_monitor
+          damper_name: ac_damper_riley
+        lock:
+          enabled: >-
+            [[[ return
+            states["input_boolean.riley_is_sleeping"].state
+            == "on" ]]]
+          duration: 3
+        triggers_update:
+          - binary_sensor.riley_window
+          - sensor.riley_temperature_monitor
+          - timer.ac_damper_riley
+
+      - type: conditional
+        conditions:
+          - entity: fan.gray_fan
+            state_not: "unavailable"
+        card:
+          type: custom:button-card
+          template: ha-button
+          entity: fan.gray_fan
+          icon: mdi:fan
+          name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.riley ]]]"
+          lock:
+            enabled: >-
+              [[[ return
+              states["input_boolean.riley_is_sleeping"].state
+              == "on" ]]]
+            duration: 3
+
+      - type: conditional
+        conditions:
+          - entity: switch.riley_heater
+            state_not: "unavailable"
+        card:
+          type: custom:button-card
+          template: ha-button
+          entity: switch.riley_heater
+          name: "Heater"
+          icon: mdi:radiator
+          lock:
+            enabled: >-
+              [[[ return
+              states["input_boolean.riley_is_sleeping"].state
+              == "on" ]]]
+            duration: 3

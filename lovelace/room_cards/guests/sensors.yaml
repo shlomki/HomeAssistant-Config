@@ -1,0 +1,13 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.smart_home_status ]]]"
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: fridge
+        entity: binary_sensor.big_freezer
+        size: 35px
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.big_freezer ]]]"

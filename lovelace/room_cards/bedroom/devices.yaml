@@ -8,28 +8,26 @@ cards:
     cards:
       - type: custom:button-card
         template: climate-button
-        entity: climate.ac_damper_living_room
-        name: AC
-        icon: mdi:sofa-outline
-        triggers_update:
-          - binary_sensor.balcony_window
-          - binary_sensor.kitchen_window
-          - sensor.living_room_temperature_monitor
+        entity: climate.ac_damper_bedroom
+        name: "AC"
+        icon: mdi:bed
         variables:
-          window_entity_ids:
-            - binary_sensor.balcony_window
-            - binary_sensor.kitchen_window
-          temperature_monitor_entity_id: sensor.living_room_temperature_monitor
-          damper_name: ac_damper_living_room
+          window_entity_ids: binary_sensor.bedroom_window
+          temperature_monitor_entity_id: sensor.bedroom_temperature_monitor
+          damper_name: ac_damper_bedroom
+        triggers_update:
+          - binary_sensor.bedroom_window
+          - sensor.bedroom_temperature_monitor
+          - timer.ac_damper_bedroom
 
       - type: conditional
         conditions:
-          - entity: fan.living_room_fan
+          - entity: fan.bedroom_fan
             state_not: "unavailable"
         card: 
           type: custom:button-card
           template: ha-button
-          entity: fan.living_room_fan
+          entity: fan.bedroom_fan
           name: Fan
           icon: mdi:fan
           hold_action:
@@ -39,24 +37,24 @@ cards:
               hide_header: false
               title: Living Room Fan
               card:
-                entity: fan.living_room_fan
+                entity: fan.bedroom_fan
                 name: Living Room Fan
                 type: custom:fan-xiaomi
 
       - type: conditional
         conditions:
-          - entity: switch.house_tablet_screen
+          - entity: switch.black_tablet_screen
             state_not: "unavailable"
         card: 
           type: custom:button-card
           template: tablet-button
-          entity: switch.house_tablet_screen
+          entity: switch.black_tablet_screen
           variables:
-            tablet_id: house_tablet
-            tablet_friendly_name: Mr. White
-          triggers_update: input_number.house_tablet_volume
+            tablet_id: black_tablet
+            tablet_friendly_name: Mr. Black
+          triggers_update: input_number.black_tablet_volume
 
       - type: custom:button-card
         template: tv-button
-        entity: media_player.living_room_tv
+        entity: media_player.bedroom_tv
         name: TV

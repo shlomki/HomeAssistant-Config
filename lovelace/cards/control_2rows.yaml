@@ -196,7 +196,20 @@ cards:
               [[[ return 'Are you sure? Turn ' +
               (states['group.shower'].state == 'off' ? 'ON' : 'OFF')
               + ' Boiler & Heater?' ]]]
-              
+
+      #Rooms
+      - type: custom:button-card
+        template: ha-button
+        name: "Rooms"
+        icon: mdi:floor-plan
+        styles:
+          card:
+            - height: 100px
+        tap_action:
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#rooms') ? '.' : '#rooms'; ]]]"
+        color: rgb(68, 115, 158)
+
       #Scenes
       - type: custom:button-card
         template: ha-button
@@ -220,6 +233,7 @@ cards:
       ac: !include /config/lovelace/cards/control_ac_container.yaml
       fans: !include /config/lovelace/cards/control_fans_container.yaml
       shower: !include /config/lovelace/cards/control_shower_container.yaml
+      rooms: !include /config/lovelace/cards/control_rooms_container.yaml
       scenes: !include /config/lovelace/cards/control_scenes_container.yaml
       screens: !include /config/lovelace/cards/control_screens_container.yaml
   

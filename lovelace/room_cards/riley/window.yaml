@@ -1,0 +1,20 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: Window
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: ha-button
+        name: "Window"
+        entity: binary_sensor.riley_window
+        state:
+          - value: "on"
+            id: 'on'
+            icon: mdi:window-open-variant
+          - value: "off"
+            id: 'off'
+            icon: mdi:window-closed-variant
+
