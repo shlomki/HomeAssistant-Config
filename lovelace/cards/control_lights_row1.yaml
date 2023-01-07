@@ -1,5 +1,6 @@
 type: horizontal-stack
 cards:
+  #Living Room
   - type: custom:button-card
     template: ha-button
     tap_action:
@@ -22,6 +23,8 @@ cards:
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.living_room ]]]"
     icon: mdi:sofa-outline
     icon_height: 50px
+
+  #Balcony
   - type: custom:button-card
     template: ha-button
     tap_action:
@@ -44,6 +47,8 @@ cards:
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.balcony ]]]"
     icon_height: 50px
     icon: mdi:string-lights
+
+  #Kitchen
   - type: custom:button-card
     template: ha-button
     tap_action:
@@ -79,6 +84,8 @@ cards:
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.kitchen ]]]"
     icon_height: 50px
     icon: mdi:silverware-fork-knife
+
+  #Toilet
   - type: custom:button-card
     template: ha-button
     tap_action:
@@ -97,17 +104,13 @@ cards:
       browser_mod:
         command: popup
         title: Toilet
-        card:
-          type: custom:auto-entities
-          card:
-            type: entities
-          filter:
-            include:
-              - group: group.toilet_lights
+        card: !include /config/lovelace/room_cards/toilet/lights.yaml
     entity: group.toilet_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.toilet ]]]"
     icon_height: 50px
     icon: mdi:toilet
+
+  #Bathroom
   - type: custom:button-card
     template: ha-button
     tap_action:
@@ -125,13 +128,7 @@ cards:
       browser_mod:
         command: popup
         title: Bathroom
-        card:
-          type: custom:auto-entities
-          card:
-            type: entities
-          filter:
-            include:
-              - group: group.bathroom_lights
+        card: !include /config/lovelace/room_cards/bathroom/lights.yaml
     entity: group.bathroom_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bathroom ]]]"
     icon_height: 50px

@@ -1,5 +1,6 @@
 type: horizontal-stack
 cards:
+  #Hallway
   - type: custom:button-card
     template: ha-button
     tap_action:
@@ -33,6 +34,8 @@ cards:
     entity: light.hallway_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.hallway ]]]"
     icon_height: 50px
+
+  #Office
   - type: custom:button-card
     template: ha-button
     tap_action:
@@ -50,26 +53,13 @@ cards:
       browser_mod:
         command: popup
         title: Office
-        card:
-          type: vertical-stack
-          cards:
-            - type: custom:auto-entities
-              card:
-                type: entities
-              entities:
-                - type: custom:slider-entity-row
-                  entity: light.office_main
-                  full_row: true
-                  min: 1
-                  max: 100
-                  step: 5
-              filter:
-                include:
-                  - group: group.office_lights
+        card: !include /config/lovelace/room_cards/office/lights.yaml
     entity: group.office_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.office ]]]"
     icon_height: 50px
     icon: mdi:monitor
+
+  #Guests
   - type: custom:button-card
     template: ha-button
     tap_action:
@@ -80,11 +70,17 @@ cards:
       service_data:
         entity_id: light.guests_lights
     hold_action:
-      action: more-info
+      action: fire-dom-event
+      browser_mod:
+        command: popup
+        title: Guests
+        card: !include /config/lovelace/room_cards/guests/lights.yaml
     entity: light.guests_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.guests ]]]"
     icon_height: 50px
     icon: mdi:account-multiple
+
+  #Riley
   - type: custom:button-card
     template: ha-button
     tap_action:
@@ -95,7 +91,11 @@ cards:
       service_data:
         entity_id: light.riley_lights
     hold_action:
-      action: more-info
+      action: fire-dom-event
+      browser_mod:
+        command: popup
+        title: Riley
+        card: !include /config/lovelace/room_cards/riley/lights.yaml
     entity: light.riley_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.riley ]]]"
     icon_height: 50px
@@ -108,6 +108,8 @@ cards:
       duration: 3
     triggers_update:
       - input_boolean.riley_is_sleeping
+
+  #Bedroom
   - type: custom:button-card
     template: ha-button
     tap_action:
@@ -125,20 +127,7 @@ cards:
       browser_mod:
         command: popup
         title: Bedroom
-        card:
-          type: custom:auto-entities
-          card:
-            type: entities
-          entities:
-            - type: custom:slider-entity-row
-              entity: light.bedroom_dimmable_lights
-              full_row: true
-              min: 1
-              max: 100
-              step: 5
-          filter:
-            include:
-              - group: group.bedroom_lights
+        card: !include /config/lovelace/room_cards/bedroom/lights.yaml
     entity: group.bedroom_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bedroom ]]]"
     icon_height: 50px
