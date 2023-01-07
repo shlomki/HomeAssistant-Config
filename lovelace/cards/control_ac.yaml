@@ -56,6 +56,7 @@ cards:
           window_entity_ids: binary_sensor.riley_window
           temperature_monitor_entity_id: sensor.riley_temperature_monitor
           damper_name: ac_damper_riley
+          heater_entity_id: switch.riley_heater
         lock:
           enabled: >-
             [[[ return
@@ -66,6 +67,7 @@ cards:
           - binary_sensor.riley_window
           - sensor.riley_temperature_monitor
           - timer.ac_damper_riley
+          - switch.riley_heater
 
       - type: custom:button-card
         template: climate-button

@@ -70,6 +70,16 @@ cards:
                       if (states['sensor.all_rooms_temperature_monitor'].state != "Ok") return "visible";
                       return "visible";
                   ]]]
+            heater_on:
+              - position: absolute
+              - left: 65%
+              - top: 5%
+              - height: 20px
+              - width: 20px
+              - visibility: |
+                  [[[
+                      return (states['group.all_heaters'].state == "on") ? "visible" : "hidden";
+                  ]]]
         double_tap_action:
           action: call-service
           service: script.toggle_dampers
@@ -123,7 +133,11 @@ cards:
                 let color = monitor.replace('Ok', '').replace('Very ', '').replace('Cold', 'turquoise').replace('Hot', 'red');
                 let icon = monitor.replace('Ok', '').replace('Very ', '').replace('Cold', 'snowflake').replace('Hot', 'fire');
                 return '<ha-icon icon="mdi:' + icon + '" style="width: 16px; height:16px; color:' + color + ';"></ha-icon>'; ]]]
-        triggers_update: sensor.all_rooms_temperature_monitor
+          heater_on: >
+            [[[ return '<ha-icon icon="mdi:radiator" style="width: 16px; height:16px; color: red;"></ha-icon>'; ]]]
+        triggers_update: 
+          - sensor.all_rooms_temperature_monitor
+          - group.all_heaters
 
 
   - type: horizontal-stack

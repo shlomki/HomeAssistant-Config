@@ -1,0 +1,4 @@
+group:
+  All Heaters:
+    entities:
+      - switch.riley_heater

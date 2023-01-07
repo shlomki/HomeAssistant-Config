@@ -4,6 +4,7 @@ climate-button:
     var_name: window_entity_ids
     var_name2: temperature_monitor_entity_id
     var_name3: damper_name
+    var_name4: heater_entity_id
   tap_action:
     action: toggle
   styles:
@@ -36,6 +37,19 @@ climate-button:
 
               return "hidden";
             ]]]
+      heater_on:
+        - position: absolute
+        - left: 65%
+        - top: 5%
+        - height: 20px
+        - width: 20px
+        - visibility: |
+            [[[
+              if (variables.heater_entity_id != null) {
+                return (states[variables.heater_entity_id].state == "on") ? "visible" : "hidden";
+              }
+              return "hidden";
+            ]]]
       timer_active:
         - position: absolute
         - left: 5%
@@ -55,6 +69,8 @@ climate-button:
       [[[ return '<ha-icon icon="mdi:window-open-variant" style="width: 16px; height:16px; color: red;"></ha-icon>'; ]]]
     timer_active: >
       [[[ return '<ha-icon icon="mdi:timer-play-outline" style="width: 16px; height:16px; color: rgb(68, 115, 158);"></ha-icon>'; ]]]
+    heater_on: >
+      [[[ return '<ha-icon icon="mdi:radiator" style="width: 16px; height:16px; color: red;"></ha-icon>'; ]]]
 
   show_label: true
   label: |-
@@ -201,39 +217,6 @@ climate-button:
                     "unavailable": "Unavailable"
                   mapper: value => this.source.values[value]
 
-              # window2:
-              #   icon:
-              #     template: |
-              #       (value) => (value == '' ? '' : 'mdi:window-open-variant')
-              #     style: |
-              #       (value) => (value != '' ? { color: 'red' } : {})
-              #   source:
-              #     entity: |
-              #       [[[
-              #         if (variables.window_entity_ids != null) {
-              #           if (Array.isArray(variables.window_entity_ids)) {
-              #             return variables.window_entity_ids[2];
-              #           } else {
-              #             return variables.window_entity_ids;
-              #           }
-              #         }
-              #       ]]]
-
-              #     values:
-              #       'on': |
-              #         [[[
-              #           if (variables.window_entity_ids != null) {
-              #             if (Array.isArray(variables.window_entity_ids)) {
-              #               return states[variables.window_entity_ids[2]].attributes.friendly_name.replace(" Window", "");
-              #             } else {
-              #               return ''
-              #             }
-              #           }
-              #         ]]]
-              #       'off': ''
-              #       'unavailable': 'Unavailable'
-              #     mapper: value => this.source.values[value]
-
           - type: horizontal-stack
             cards:
               - type: custom:button-card
@@ -327,3 +310,22 @@ climate-button:
                   [[[ return "input_number." + variables.damper_name;  ]]]
                 variables:
                   value: 240
+
+          - type: custom:state-switch
+            entity: template
+            template: > 
+              [[[ return (variables.heater_entity_id != null) ? "show" : "hide"; ]]]
+            states:
+              "show":
+                type: vertical-stack
+                cards:
+                  - type: custom:button-card
+                    template: title
+                    name: "Heater"
+
+                  - type: custom:button-card
+                    template: ha-button
+                    entity: >
+                      [[[ return variables.heater_entity_id; ]]]
+                    name: "Heater"
+                    icon: mdi:radiator
