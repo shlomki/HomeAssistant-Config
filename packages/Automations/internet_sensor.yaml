@@ -8,5 +8,5 @@ binary_sensor:
     sensors:
       internet_connection:
         friendly_name: Internet Connection
-        value_template: "{{ states('binary_sensor.google_connection') == 'on' and states('binary_sensor.edgeos_interface_eth10') == 'on'}}"
+        value_template: "{{ states('binary_sensor.google_connection') == 'on' and states('binary_sensor.ubnt_interface_eth10_connected') == 'on'}}"
         device_class: connectivity

@@ -11,14 +11,14 @@ group:
 
   cameras_device_trackers:
     entities:
-      - device_tracker.edgeos_camera_balcony
-      - device_tracker.edgeos_camera_frontdoor
-      - device_tracker.edgeos_camera_livingroom
-      # - device_tracker.edgeos_camera_hallway
-      - device_tracker.edgeos_camera_office
-      - device_tracker.edgeos_camera_guests
-      - device_tracker.edgeos_camera_riley
-      # - device_tracker.edgeos_camera_bedroom
+      - device_tracker.ubnt_device_camera_balcony
+      - device_tracker.ubnt_device_camera_frontdoor
+      - device_tracker.ubnt_device_camera_livingroom
+      # - device_tracker.ubnt_device_camera_hallway
+      - device_tracker.ubnt_device_camera_office
+      - device_tracker.ubnt_device_camera_guests
+      - device_tracker.ubnt_device_camera_riley
+      # - device_tracker.ubnt_device_camera_bedroom
 
 template:
   - binary_sensor:

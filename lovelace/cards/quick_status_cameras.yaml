@@ -10,10 +10,9 @@ cards:
           cards:
             - type: horizontal-stack
               cards:
-
                 - type: custom:button-card
                   template: camera-view
-                  entity: device_tracker.edgeos_camera_livingroom
+                  entity: device_tracker.ubnt_device_camera_livingroom
                   variables:
                     stream: camera.living_room
                   name: Living Room
@@ -23,24 +22,24 @@ cards:
 
                 - type: custom:button-card
                   template: camera-view
-                  entity: device_tracker.edgeos_camera_balcony
+                  entity: device_tracker.ubnt_device_camera_balcony
                   name: Balcony
                   variables:
                     stream: camera.balcony
                   tap_action:
                     action: navigate
                     navigation_path: /lovelace-mobile/balcony
-                    
+
                 - type: custom:button-card
                   template: camera-view
-                  entity: device_tracker.edgeos_camera_frontdoor
+                  entity: device_tracker.ubnt_device_camera_frontdoor
                   name: Front Door
                   variables:
                     stream: camera.front_door
 
                 # - type: custom:button-card
                 #   template: camera-view
-                #   entity: device_tracker.edgeos_camera_hallway
+                #   entity: device_tracker.ubnt_device_camera_hallway
                 #   variables:
                 #     stream: camera.hallway
                 #   name: Hallway
@@ -48,25 +47,25 @@ cards:
               cards:
                 - type: custom:button-card
                   template: camera-view
-                  entity: device_tracker.edgeos_camera_office
+                  entity: device_tracker.ubnt_device_camera_office
                   variables:
                     stream: camera.office
                   name: Office
                 - type: custom:button-card
                   template: camera-view
-                  entity: device_tracker.edgeos_camera_guests
+                  entity: device_tracker.ubnt_device_camera_guests
                   variables:
                     stream: camera.guests
                   name: Guests
                 - type: custom:button-card
                   template: camera-view
-                  entity: device_tracker.edgeos_camera_riley
+                  entity: device_tracker.ubnt_device_camera_riley
                   variables:
                     stream: camera.riley
                   name: Riley
                 # - type: custom:button-card
                 #   template: camera-view
-                #   entity: device_tracker.edgeos_camera_bedroom
+                #   entity: device_tracker.ubnt_device_camera_bedroom
                 #   variables:
                 #     stream: camera.bedroom
                 #   name: Bedroom
