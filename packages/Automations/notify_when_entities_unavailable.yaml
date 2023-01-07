@@ -194,6 +194,7 @@ group:
       #- switch.living_room_bff_light
       # - light.bathroom_cabinet
       - switch.toilet_vent
+      - binary_sensor.dog_cage
 
       #Fans
       # - switch.gray_fan_smart_plug

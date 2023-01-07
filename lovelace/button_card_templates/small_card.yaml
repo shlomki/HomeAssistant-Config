@@ -1,0 +1,16 @@
+small-card:
+  layout: icon_name
+  styles:
+    card:
+      - height: 30px
+      - border-radius: 10px 10px 10px 10px
+      - padding: 2%
+  state:
+    - value: 'on'
+      id: 'on'
+      color: rgb(253, 216, 53)
+    - value: 'off'
+      id: 'off'
+      color: rgb(68, 115, 158)
+    - value: 'unavailable'
+      color: lightgray

@@ -1,0 +1,26 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.other ]]]"
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: small-card
+        entity: binary_sensor.dog_cage
+        name: Cage
+        icon: mdi:dog
+
+      - type: custom:button-card
+        template: small-card
+        entity: binary_sensor.bathroom_window
+        name: Bathroom
+        icon: mdi:shower
+        
+      - type: custom:button-card
+        template: small-card
+        entity: binary_sensor.riley_window
+        name: Riley
+        icon: mdi:face-woman-outline
+        

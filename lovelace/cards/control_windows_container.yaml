@@ -11,3 +11,4 @@ cards:
 
             - !include /config/lovelace/cards/control_windows_shutters.yaml
             - !include /config/lovelace/cards/control_windows_curtains.yaml
+            - !include /config/lovelace/cards/control_windows_other.yaml
