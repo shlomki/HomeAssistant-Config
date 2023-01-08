@@ -7,6 +7,7 @@ internet:
       color: green
       
     - value: 'off'
+      id: 'off'
       icon: mdi:earth-remove
       color: red
       styles:
