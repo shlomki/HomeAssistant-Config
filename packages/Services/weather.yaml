@@ -2,9 +2,9 @@ weather:
   - platform: template
     name: "Outside Weather"
     condition_template: "{{ states('weather.home_open_weather_map') }}"
-    temperature_template: "{{ states('sensor.outside_temperature') }}"
+    temperature_template: "{{ states('sensor.outside_climate_temperature') }}"
     temperature_unit: "°C"
-    humidity_template: "{{ states('sensor.outside_humidity') }}"
+    humidity_template: "{{ states('sensor.outside_climate_humidity') }}"
     forecast_template: "{{ state_attr('weather.home_open_weather_map', 'forecast') }}"
 
 
@@ -12,15 +12,16 @@ template:
   - binary_sensor:
     - name: "Rain Expected Next 3 days"
       device_class: moisture
-      state: |
-        "{{ states.weather.outside_weather.attributes.forecast[1].precipitation_probability > 40 and
-            states.weather.outside_weather.attributes.forecast[1].precipitation > 1 and
+      state: >
+        {% set forecast = state_attr('weather.outside_weather', 'forecast') %}
+        {{ forecast[1].precipitation_probability > 40 and
+            forecast[1].precipitation > 1 and
 
-            states.weather.outside_weather.attributes.forecast[2].precipitation_probability > 40 and
-            states.weather.outside_weather.attributes.forecast[2].precipitation > 1 and
+            forecast[2].precipitation_probability > 40 and
+            forecast[2].precipitation > 1 and
 
-            states.weather.outside_weather.attributes.forecast[3].precipitation_probability > 40 and
-            states.weather.outside_weather.attributes.forecast[3].precipitation > 1 }}"
+            forecast[3].precipitation_probability > 40 and
+            forecast[3].precipitation > 1 }}
 
 automation:
   - id: Rain Expected Next 3 Days
@@ -39,4 +40,4 @@ automation:
     action:
       - service: notify.shlomi
         data:
-          message: "{{ trigger.to_state.state | replace('on', 'Stormy weather is expected in the next 3 days') | replace('off', 'Clear weather is expected in the next 3 days') }}"
+          message: "💦 {{ trigger.to_state.state | replace('on', 'Rainy weather') | replace('off', 'Clear weather') }} is expected for 3 days straight"

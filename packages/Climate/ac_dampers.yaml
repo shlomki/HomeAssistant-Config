@@ -30,40 +30,40 @@ climate:
     unique_id: ac_damper_living_room
     device_code: 1344
     controller_data: remote.living_room
-    temperature_sensor: sensor.living_room_temperature
-    humidity_sensor: sensor.living_room_humidity
+    temperature_sensor: sensor.living_room_climate_temperature
+    humidity_sensor: sensor.living_room_climate_humidity
 
   - platform: smartir
     name: Office AC
     unique_id: ac_damper_office
     device_code: 1344
     controller_data: remote.office
-    temperature_sensor: sensor.office_temperature
-    humidity_sensor: sensor.office_humidity
+    temperature_sensor: sensor.office_climate_temperature
+    humidity_sensor: sensor.office_climate_humidity
 
   - platform: smartir
     name: Guests AC
     unique_id: ac_damper_guests
     device_code: 1344
     controller_data: remote.guests
-    temperature_sensor: sensor.guests_temperature
-    humidity_sensor: sensor.guests_humidity
+    temperature_sensor: sensor.guests_climate_temperature
+    humidity_sensor: sensor.guests_climate_humidity
 
   - platform: smartir
     name: Riley AC
     unique_id: ac_damper_riley
     device_code: 1344
     controller_data: remote.riley
-    temperature_sensor: sensor.riley_temperature
-    humidity_sensor: sensor.riley_humidity
+    temperature_sensor: sensor.riley_climate_temperature
+    humidity_sensor: sensor.riley_climate_humidity
 
   - platform: smartir
     name: Bedroom AC
     unique_id: ac_damper_bedroom
     device_code: 1344
     controller_data: remote.bedroom
-    temperature_sensor: sensor.bedroom_temperature
-    humidity_sensor: sensor.bedroom_humidity
+    temperature_sensor: sensor.bedroom_climate_temperature
+    humidity_sensor: sensor.bedroom_climate_humidity
 
 input_text:
   last_ac_mode:
@@ -293,7 +293,7 @@ automation:
           | replace('sensor.', '')
           | replace('ac_damper_', '')
           | replace('_need_update', '')
-          | replace('_temperature', '')) %}{{ is_state('climate.ac_damper_' + room, 'fan_only') }}
+          | replace('_climate_temperature', '')) %}{{ is_state('climate.ac_damper_' + room, 'fan_only') }}
 
     action:
       - service: python_script.update_ac_room_temp

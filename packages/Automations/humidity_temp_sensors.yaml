@@ -3,12 +3,12 @@ automation:
     trigger:
       - platform: numeric_state
         entity_id:
-          - sensor.living_room_humidity
-          - sensor.office_humidity
-          - sensor.guests_humidity
-          - sensor.riley_humidity
-          - sensor.bedroom_humidity
-          - sensor.bedroom_closet_humidity
+          - sensor.living_room_climate_humidity
+          - sensor.office_climate_humidity
+          - sensor.guests_climate_humidity
+          - sensor.riley_climate_humidity
+          - sensor.bedroom_climate_humidity
+          - sensor.bedroom_closet_climate_humidity
         above: 70
       - platform: numeric_state
         entity_id: sensor.bedroom_closet_humidity
@@ -18,7 +18,7 @@ automation:
         data:
           message: >
             {{ trigger.to_state.attributes.friendly_name }} humidity is {{ trigger.to_state.state }}%.
-            {% if ((states('sensor.outside_humidity') | int) - 5) <= (states('sensor.office_humidity') | int) %}Time to open the windows.{% else %}Time to turn on the AC.{% endif %}
+            {% if ((states('sensor.outside_climate_humidity') | int) - 5) <= (states('sensor.office_humidity') | int) %}Time to open the windows.{% else %}Time to turn on the AC.{% endif %}
 
   - alias: House temp is extreme - notify on telegram
     trigger:

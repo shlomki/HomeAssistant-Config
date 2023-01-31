@@ -38,7 +38,7 @@ climate:
     unique_id: manual_ac
     device_code: 1346
     controller_data: remote.living_room
-    temperature_sensor: sensor.living_room_temperature
+    temperature_sensor: sensor.living_room_climate_temperature
 
 input_text:
   ac_entity_id:

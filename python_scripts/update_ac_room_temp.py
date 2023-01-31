@@ -32,7 +32,7 @@ room = room.replace('input_select.', '')
 room = room.replace('sensor.', '')
 room = room.replace('ac_damper_', '')
 room = room.replace('_need_update', '')
-room = room.replace('_temperature', '')
+room = room.replace('_climate_temperature', '')
 
 if ('temperature' in data) :
   temperature = data['temperature']
@@ -40,7 +40,7 @@ if ('temperature' in data) :
     logger.debug("Setting " + room + " damper temperature to: " + str(temperature))
 else: 
   #Get temperature from sensor
-  temperature_sensor_entity_id = "sensor." + room + "_temperature"
+  temperature_sensor_entity_id = "sensor." + room + "_climate_temperature"
   exact_temperature = hass.states.get(temperature_sensor_entity_id).state
   temperature = round(float(exact_temperature))
   if enableLog:

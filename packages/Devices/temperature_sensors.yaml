@@ -14,7 +14,7 @@ sensor:
       living_room_temperature_monitor:
         friendly_name: Living Room Temperature
         value_template: >
-          {% set temp = states('sensor.living_room_temperature') | float %}
+          {% set temp = states('sensor.living_room_climate_temperature') | float %}
           {% set temp_max = states('input_number.room_temperature_max') | float %}
           {% set temp_min = states('input_number.room_temperature_min') | float %}
           {% if temp >= (temp_max + 1.5) %}
@@ -32,7 +32,7 @@ sensor:
       office_temperature_monitor:
         friendly_name: Office Temperature
         value_template: >
-          {% set temp = states('sensor.office_temperature') | float %}
+          {% set temp = states('sensor.office_climate_temperature') | float %}
           {% set temp_max = states('input_number.room_temperature_max') | float %}
           {% set temp_min = states('input_number.room_temperature_min') | float %}
           {% if temp >= (temp_max + 1.5) %}
@@ -50,7 +50,7 @@ sensor:
       guests_temperature_monitor:
         friendly_name: Guests Temperature
         value_template: >
-          {% set temp = states('sensor.guests_temperature') | float %}
+          {% set temp = states('sensor.guests_climate_temperature') | float %}
           {% set temp_max = states('input_number.room_temperature_max') | float %}
           {% set temp_min = states('input_number.room_temperature_min') | float %}
           {% if temp >= (temp_max + 1.5) %}
@@ -68,7 +68,7 @@ sensor:
       riley_temperature_monitor:
         friendly_name: Riley Temperature
         value_template: >
-          {% set temp = states('sensor.riley_temperature') | float %}
+          {% set temp = states('sensor.riley_climate_temperature') | float %}
           {% set temp_max = states('input_number.room_temperature_max') | float %}
           {% set temp_min = states('input_number.room_temperature_min') | float %}
           {% if temp >= (temp_max + 1.5) %}
@@ -86,7 +86,7 @@ sensor:
       bedroom_temperature_monitor:
         friendly_name: Bedroom Temperature
         value_template: >
-          {% set temp = states('sensor.bedroom_temperature') | float %}
+          {% set temp = states('sensor.bedroom_climate_temperature') | float %}
           {% set temp_max = states('input_number.room_temperature_max') | float %}
           {% set temp_min = states('input_number.room_temperature_min') | float %}
           {% if temp >= (temp_max + 1.5) %}

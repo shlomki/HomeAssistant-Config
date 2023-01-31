@@ -110,7 +110,7 @@ cards:
             unit: "%"
             round: 1
             source:
-              entity: sensor.living_room_humidity
+              entity: sensor.living_room_climate_humidity
           window:
             icon:
               template: |
@@ -156,7 +156,7 @@ cards:
             unit: "%"
             round: 1
             source:
-              entity: sensor.office_humidity
+              entity: sensor.office_climate_humidity
           window:
             icon:
               template: |
@@ -191,7 +191,7 @@ cards:
             unit: "%"
             round: 1
             source:
-              entity: sensor.guests_humidity
+              entity: sensor.guests_climate_humidity
           window:
             icon:
               template: |
@@ -226,7 +226,7 @@ cards:
             unit: "%"
             round: 1
             source:
-              entity: sensor.riley_humidity
+              entity: sensor.riley_climate_humidity
           window:
             icon:
               template: |
@@ -261,7 +261,7 @@ cards:
             unit: "%"
             round: 1
             source:
-              entity: sensor.bedroom_humidity
+              entity: sensor.bedroom_climate_humidity
           window:
             icon:
               template: |

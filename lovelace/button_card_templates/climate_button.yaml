@@ -39,7 +39,7 @@ climate-button:
             ]]]
       heater_on:
         - position: absolute
-        - left: 65%
+        - left: 5%
         - top: 5%
         - height: 20px
         - width: 20px

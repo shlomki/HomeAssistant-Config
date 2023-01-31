@@ -30,9 +30,9 @@ cards:
           entity: climate.manual_ac
   - columns: 5
     entities:
-      - entity: sensor.outside_temperature
-      - entity: sensor.outside_humidity
-      - entity: sensor.bedroom_closet_temperature
+      - entity: sensor.outside_climate_temperature
+      - entity: sensor.outside_climate_climate_humidity
+      - entity: sensor.bedroom_closet_climate_temperature
         name: Closet
       - entity: sensor.bedroom_closet_humidity
         name: Closet
@@ -42,9 +42,9 @@ cards:
     type: glance
   - type: glance
     entities:
-      - entity: sensor.living_room_temperature
-      - entity: sensor.office_temperature
-      - entity: sensor.guests_temperature
-      - entity: sensor.riley_temperature
-      - entity: sensor.bedroom_temperature
+      - entity: sensor.living_room_climate_temperature
+      - entity: sensor.office_climate_temperature
+      - entity: sensor.guests_climate_temperature
+      - entity: sensor.riley_climate_temperature
+      - entity: sensor.bedroom_climate_temperature
     title: Rooms
