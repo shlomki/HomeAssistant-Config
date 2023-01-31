@@ -1,5 +1,0 @@
-binary_sensor.front_door_lock:
-  device_class: lock
-
-cover.living_room_curtain:
-  device_class: curtain
