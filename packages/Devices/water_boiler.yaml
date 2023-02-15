@@ -43,6 +43,23 @@ automation:
         data:
           message: 'Water boiler finished after {{ states("sensor.water_boiler_metrics_duration_last_time") }}! Have a nice shower :)'
 
+  - id: Water Boiler - Update Timer
+    alias: Water Boiler - Update Timer
+    trigger:
+      - platform: state
+        entity_id: input_number.water_boiler_timer_duration
+    condition:
+      - alias: "Water Boiler is On"
+        condition: state
+        entity_id: switch.water_boiler
+        state: "on"
+    action:
+      - service: switcher_kis.turn_on_with_timer
+        target:
+          entity_id: switch.water_boiler
+        data:
+          timer_minutes: "{{ states('input_number.water_boiler_timer_duration') | int }}"
+
 sensor:
   - platform: history_stats
     name: Water Boiler Metrics Duration Today
