@@ -43,6 +43,37 @@ browser_mod:
   disable:
     - all
 
+recorder:
+  include:
+    domains:
+      - switch
+      - light
+      - climate
+      - cover
+      - fan
+      - device_tracker
+      - lock
+    entity_globs:
+      - sensor.ups_*
+      - binary_sensor.*door*
+      - binary_sensor.*window*
+      - binary_sensor.*motion*
+      - binary_sensor.*presence*
+      - sensor.power*
+    entities:
+      - input_select.laundry_machine_status
+      - binary_sensor.fridge
+      - binary_sensor.freezer
+      - binary_sensor.big_freezer
+      - sensor.shelly_3em_channel_a_power
+      - sensor.shelly_3em_channel_b_power
+      - sensor.shelly_3em_channel_c_power
+      - sensor.outside_climate_temperature
+      - sensor.outside_climate_humidity
+
+
+
+
 lovelace:
   mode: storage
   # Add yaml dashboards
