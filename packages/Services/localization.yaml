@@ -71,6 +71,7 @@ template:
           laundry: "Laundry"
           cabinet: "Cabinet"
           other: "Other"
+          curtain_light: "Curtain Light"
 
 
   - sensor:
@@ -145,6 +146,7 @@ template:
           laundry: "כביסה"
           cabinet: "ארון מקלחת"
           other: "אחרים"
+          curtain_light: "אור וילון"
 
 input_select:
   local_lang_house_tablet:

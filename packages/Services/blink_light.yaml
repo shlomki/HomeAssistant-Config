@@ -2,12 +2,44 @@ script:
   blink_light:
     alias: Blink Light
     mode: parallel
+    variables:
+      dimmable: "{{ 'brightness' in state_attr(light_entity_id, 'supported_color_modes')  }}"
     sequence:
-      - repeat:
-          count: 10
-          sequence:
-            - service: light.toggle
-              data:
-                entity_id: '{{ light_entity_id }}'
-            - delay:
-                seconds: '{{ delay_seconds | default(1) }}'
+
+      - service: scene.create
+        data:
+          scene_id: blink_light
+          snapshot_entities: light.living_room_curtain_light
+
+      - service: light.turn_on
+        data:
+          entity_id: "{{ light_entity_id }}"
+          brightness_pct: "100"
+
+      - if:
+            - alias: "Light supports brightness"
+              condition: template
+              value_template: "{{ dimmable }}"
+        then:
+          - repeat:
+              count: 10
+              sequence:  
+                - service: light.turn_on
+                  data:
+                    entity_id: "{{ light_entity_id }}"
+                    brightness_pct: "{{ 100 if (state_attr(light_entity_id, 'brightness') | int(1) ) <= 50 else 1 }}"
+                - delay:
+                    seconds: "{{ delay_seconds | default(1) }}"
+        else: #Light doesn't support brighness
+          - repeat:
+              count: 10
+              sequence:  
+                - service: light.toggle
+                  data:
+                    entity_id: "{{ light_entity_id }}"
+                - delay:
+                    seconds: "{{ delay_seconds | default(1) }}"
+
+      - service: scene.turn_on
+        entity_id: scene.blink_light
+

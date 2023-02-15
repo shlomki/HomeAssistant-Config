@@ -27,6 +27,7 @@ group:
   Living Room Lights:
     entities:
       - light.living_room_main
+      - light.living_room_curtain_light
       - light.living_room_entrance
       - light.living_room_hallway
       - light.living_room_tv_light
@@ -41,6 +42,7 @@ group:
       - light.living_room_hallway
       - light.living_room_side_lamp
       - light.living_room_tv_light
+      - light.living_room_curtain_light
 
   Balcony Lights:
     entities:

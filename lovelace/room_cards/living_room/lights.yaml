@@ -55,6 +55,13 @@ cards:
         icon: mdi:floor-lamp-torchiere-variant
         icon_height: 50px
 
+      - type: custom:button-card
+        template: ha-button
+        entity: light.living_room_curtain_light
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.curtain_light ]]]"
+        icon: mdi:curtains
+        icon_height: 50px
+
       # - type: custom:button-card
       #   template: ha-button
       #   entity: light.living_room_bff_light
@@ -62,15 +69,15 @@ cards:
       #   icon: mdi:alpha-b
       #   icon_height: 50px
 
-      - type: custom:button-card
-        template: ha-button
-        entity: light.yule_trees
-        name: "Yule Trees"
-        icon: mdi:pine-tree
-        icon_height: 50px
-        hold_action:
-          action: more-info
-          entity: group.yule_trees
+      # - type: custom:button-card
+      #   template: ha-button
+      #   entity: light.yule_trees
+      #   name: "Yule Trees"
+      #   icon: mdi:pine-tree
+      #   icon_height: 50px
+      #   hold_action:
+      #     action: more-info
+      #     entity: group.yule_trees
 
 
   - type: horizontal-stack
