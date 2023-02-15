@@ -25,6 +25,9 @@ cards:
       - group.bffs
       - switch.riley_heater
       - light.yule_trees
+      - light.office_bff_light
+      - light.living_room_side_lamp
+      - switch.water_boiler_with_timer
 
     exclude: []
     title: true
