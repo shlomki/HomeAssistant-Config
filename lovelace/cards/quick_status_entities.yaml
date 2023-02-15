@@ -20,6 +20,8 @@ cards:
                   include:
                     - group: group.monitored_entities
                       state: unavailable
+                    - group: group.monitored_entities
+                      state: unknown
             - type: conditional
               conditions:
                 - entity: sensor.unavailable_entities
@@ -40,12 +42,15 @@ cards:
                 title: Critical Battery Levels
               filter:
                 include:
-                  - entity_id: binary_sensor.front_door_lock_battery
-                    state: "on"
                   - domain: sensor
-                    entity_id: "*_battery_level"
+                    entity_id: "*_battery*"
                     state: <=10
                 exclude:
+                  - domain: sensor
+                    entity_id: "*_battery_power"
+                  - domain: sensor
+                    entity_id: "*_battery_temperature"
+                  - entity_id: sensor.ups_time_on_battery
                   - entity_id: sensor.inbal_s10plus_battery_level
                   - entity_id: sensor.inbal_zenfone9_battery_level
                   - entity_id: sensor.house_tablet_battery_level

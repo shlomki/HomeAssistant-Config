@@ -11,7 +11,7 @@ automation:
           - sensor.bedroom_closet_climate_humidity
         above: 70
       - platform: numeric_state
-        entity_id: sensor.bedroom_closet_humidity
+        entity_id: sensor.bedroom_closet_climate_humidity
         above: 67
     action:
       - service: notify.bffs

@@ -15,7 +15,6 @@ automation:
       - platform: state
         entity_id:
           - binary_sensor.bathroom_floor_leak
-          - binary_sensor.bathroom_water_leak
         from: 'off'
         to: 'on'
     action:
@@ -33,3 +32,14 @@ automation:
       - service: script.notify_all
         data:
           message: Water is leaking in the kitchen closet!
+
+  - alias: Air Conditioner water leak notify
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.kitchen_closet_leak
+        from: 'off'
+        to: 'on'
+    action:
+      - service: script.notify_all
+        data:
+          message: Water is leaking in the air conditioner unit!

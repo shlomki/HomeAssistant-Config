@@ -96,24 +96,23 @@ group:
       - switch.living_room_entrance
       - switch.living_room_hallway
       - switch.living_room_main
-      - light.living_room_scene
       - switch.living_room_tv_light
-      - light.living_room_scene
+      - light.living_room_curtain_light
       - light.balcony_main
       - light.balcony_string_lights
       - switch.balcony_string_lights_toggle
       - light.kitchen_counter
       - switch.kitchen_island
       - light.kitchen_pantry
-      - switch.hallway_main_toggle_front
-      - switch.hallway_main_toggle_back
+      - switch.hallway_toggle_front
+      - switch.hallway_toggle_back
       - light.hallway_front
       - light.hallway_back
       - light.toilet_main
       - light.office_bff_light
       - light.office_bff_light_toggle
-      - switch.office_main
-      - light.office_main_toggle
+      - light.office_main
+      - switch.office_main_toggle
       - switch.guests_main
       - switch.guests_main_toggle
       - switch.bathroom_heater
@@ -122,6 +121,7 @@ group:
       - light.bathroom_laundry
       - switch.riley_main
       - switch.riley_scene_toggle
+      - sensor.riley_main_toggle
       - light.bedroom_closet
       - switch.bedroom_entrance
       - switch.bedroom_entrance_toggle_left
@@ -134,14 +134,11 @@ group:
       - light.bedroom_scene_right
       - binary_sensor.fridge
       - binary_sensor.freezer
-      - binary_sensor.cat_motion
       - binary_sensor.bedroom_closet_motion
       - binary_sensor.bathroom_closet_leak
       - binary_sensor.bathroom_floor_leak
-      - binary_sensor.bathroom_floor_leak
       - binary_sensor.kitchen_closet_leak
-      - binary_sensor.front_door
-      - binary_sensor.front_door_lock
+      - binary_sensor.air_conditioner_leak
       - switch.front_door_camera_module
       - binary_sensor.bathroom_door
       - binary_sensor.toilet_presence
@@ -159,8 +156,8 @@ group:
       - binary_sensor.guests_window
       - binary_sensor.riley_window
       - binary_sensor.bedroom_window
-      - cover.office_shutter_switch
-      - cover.office_curtain
+      - cover.office_shutter
+      - cover.office_curtain_motor
       - cover.office_curtain_switch
       - switch.lower_gate
       - switch.upper_gate
@@ -173,37 +170,40 @@ group:
       - binary_sensor.rain
       - switch.intercom
       - light.stairs
-      - switch.stairs_module
+      - switch.stairs_toggle
       - binary_sensor.stairs_motion
-      - sensor.living_room_temperature
-      - sensor.office_temperature
-      - sensor.guests_temperature
-      - sensor.riley_temperature
-      - sensor.bedroom_temperature
-      - sensor.bedroom_closet_temperature
+      - sensor.living_room_climate_temperature
+      - sensor.office_climate_temperature
+      - sensor.guests_climate_temperature
+      - sensor.riley_climate_temperature
+      - sensor.bedroom_climate_temperature
+      - sensor.bedroom_closet_climate_temperature
       - binary_sensor.bathroom_window
       - switch.shelly_3em
       - binary_sensor.big_freezer
-      - switch.living_room_side_lamp_smart_plug
-      - sensor.outside_temperature
+      - sensor.outside_climate_temperature
       - cover.kitchen_shutter_switch
       - cover.kitchen_curtain_switch
+      - cover.kitchen_curtain_motor
       - lock.front_door
       - cover.bedroom_curtain_motor
       - cover.bedroom_curtain_switch
-      #- switch.living_room_bff_light
-      # - light.bathroom_cabinet
       - switch.toilet_vent
       - binary_sensor.dog_cage
+      - sensor.water_boiler_temperature
+      - binary_sensor.hallway_front_smoke
+      - sensor.riley_hue_remote_action
+      - sensor.shlomi_hue_remote_action
+      - sensor.inbal_hue_remote_action
 
       #Fans
       # - switch.gray_fan_smart_plug
-      - fan.bedroom_fan
-      - fan.living_room_fan
+      # - fan.bedroom_fan
+      # - fan.living_room_fan
 
       #Smart Plugs
-      - switch.white_yule_tree
-      - switch.green_yule_tree
+      # - switch.white_yule_tree
+      # - switch.green_yule_tree
 
       #TVs & Media Players
       - media_player.living_room_tv

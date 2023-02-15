@@ -84,20 +84,6 @@ light:
 
   - platform: template
     lights:
-      office_main:
-        unique_id: "Office Light Main"
-        friendly_name: "Office Main"
-        value_template: "{{ is_state('switch.office_main','on') }}"
-        availability_template: "{{ not is_state('switch.office_main','unavailable') }}"
-        turn_on:
-          - service: homeassistant.turn_on
-            entity_id: switch.office_main
-        turn_off:
-          - service: homeassistant.turn_off
-            entity_id: switch.office_main
-
-  - platform: template
-    lights:
       guests_main:
         unique_id: "Guests Light Main"
         friendly_name: "Guests Main"
@@ -204,27 +190,25 @@ light:
               entity_id: light.kitchen_island_3
               brightness: "{{ brightness }}"
 
-  - platform: template
-    lights:
-      living_room_side_lamp:
-        unique_id: "Living Room Light Side Lamp"
-        friendly_name: "Living Room Side Lamp"
-        value_template: "{{ is_state('light.living_room_side_lamp_hue','on') }}"
-        level_template: "{{ state_attr('light.living_room_side_lamp_hue','brightness') }}"
-        availability_template: "{{ not (is_state('switch.living_room_side_lamp_smart_plug','unavailable') and is_state('light.living_room_side_lamp_hue','unavailable')) }}" #If smart plug and hue are both unavailable, then unavailable. Otherwise, available.
-        turn_on:
-          - service: homeassistant.turn_on
-            entity_id:
-              - switch.living_room_side_lamp_smart_plug
-              - light.living_room_side_lamp_hue
-        turn_off:
-          - service: light.turn_off
-            entity_id: light.living_room_side_lamp_hue
-        set_level:
-          - service: light.turn_on
-            data:
-              entity_id: light.living_room_side_lamp_hue
-              brightness: "{{ brightness }}"
+  # - platform: template
+  #   lights:
+  #     living_room_side_lamp:
+  #       unique_id: "Living Room Light Side Lamp"
+  #       friendly_name: "Living Room Side Lamp"
+  #       value_template: "{{ is_state('light.living_room_side_lamp_hue','on') }}"
+  #       level_template: "{{ state_attr('light.living_room_side_lamp_hue','brightness') }}"
+  #       availability_template: "{{ not (is_state('switch.living_room_side_lamp_smart_plug','unavailable') and is_state('light.living_room_side_lamp_hue','unavailable')) }}" #If smart plug and hue are both unavailable, then unavailable. Otherwise, available.
+  #       turn_on:
+  #         - service: homeassistant.turn_on
+  #           entity_id: light.living_room_side_lamp_hue
+  #       turn_off:
+  #         - service: light.turn_off
+  #           entity_id: light.living_room_side_lamp_hue
+  #       set_level:
+  #         - service: light.turn_on
+  #           data:
+  #             entity_id: light.living_room_side_lamp_hue
+  #             brightness: "{{ brightness }}"
 
 group:
   living room color changing lights:
@@ -274,25 +258,6 @@ automation:
         for: "60"
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.office_main_color_fix
-
-  - alias: Office Light Color Fix
-    description: ""
-    trigger:
-      - platform: state
-        entity_id: switch.office_main
-        from: "off"
-        to: "on"
-        for: "1"
-    condition:
-      condition: state
-      entity_id: input_boolean.office_main_color_fix
-      state: "on"
-    action:
-      - service: script.ceiling_light_color_change3
-        data:
-          room: office
-      - service: input_boolean.turn_off
         entity_id: input_boolean.office_main_color_fix
 
   - alias: Guests Light Color Fix Check
@@ -363,7 +328,6 @@ automation:
           - switch.living_room_entrance
           - switch.living_room_hallway
           - switch.living_room_main
-          - switch.office_main
           - switch.guests_main
           - switch.riley_main
         from: "off"

@@ -22,8 +22,8 @@ automation:
         for: 
           seconds: 1.5
     action:
-      - service: light.turn_on
-        entity_id: light.stairs_group
+      - service: switch.turn_on
+        entity_id: switch.stairs_group
 
   - alias: Stairs light auto off
     trigger:
@@ -42,8 +42,8 @@ automation:
         - 'off'
         - 'unavailable'
     action:
-      - service: light.turn_off
-        entity_id: light.stairs_group
+      - service: switch.turn_off
+        entity_id: switch.stairs_group
 
   - alias: Stairs light off when front door is open for 5 mins
     trigger:
@@ -60,5 +60,5 @@ automation:
         - 'off'
         - 'unavailable'
     action:
-      - service: light.turn_off
-        entity_id: light.stairs_group
+      - service: switch.turn_off
+        entity_id: switch.stairs_group

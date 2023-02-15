@@ -31,10 +31,10 @@ cards:
   - columns: 5
     entities:
       - entity: sensor.outside_climate_temperature
-      - entity: sensor.outside_climate_climate_humidity
+      - entity: sensor.outside_climate_humidity
       - entity: sensor.bedroom_closet_climate_temperature
         name: Closet
-      - entity: sensor.bedroom_closet_humidity
+      - entity: sensor.bedroom_closet_climate_humidity
         name: Closet
     show_icon: true
     show_state: true

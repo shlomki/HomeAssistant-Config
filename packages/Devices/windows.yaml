@@ -1,0 +1,135 @@
+automation:
+  - alias: Curtain Toggle Switch Sync
+    id: Curtain Toggle Switch Sync
+    mode: parallel
+    trigger:
+      - platform: state
+        entity_id:
+          - cover.living_room_curtain_toggle
+          - cover.kitchen_curtain_toggle
+          - cover.office_curtain_toggle
+          - cover.bedroom_curtain_toggle
+        from:
+          - "opening"
+          - "closing"
+          - "open"
+          - "closed"
+        to:
+          - "opening"
+          - "closing"
+          - "open"
+          - "closed"
+    action:
+      service: >
+        {% if trigger.to_state.state == 'opening' %}
+        cover.open_cover
+        {% elif trigger.to_state.state == 'closing' %}
+        cover.close_cover
+        {% else %}
+        cover.stop_cover
+        {% endif %}
+      data:
+        entity_id: "{{ trigger.to_state.entity_id | replace('_toggle', '') }}"
+
+cover:
+  #This is used because the kitchen curtain motor doesn't report position
+  - platform: cover_rf_time_based
+    devices:
+      kitchen_curtain:
+        name: Kitchen Curtain
+        travelling_time_up: 16.5
+        travelling_time_down: 16.5
+        cover_entity_id: cover.kitchen_curtain_motor_reverse
+        send_stop_at_ends: True
+
+  #This is used because the curtain motor "open" and "close" actions need to be reversed
+  - platform: template
+    covers:
+      kitchen_curtain_motor_reverse:
+        device_class: curtain
+        friendly_name: "Kitchen Curtain Motor Reverse"
+        value_template: "{{ states('cover.kitchen_curtain_motor') }}"
+        position_template: "{{ state_attr('cover.kitchen_curtain_motor', 'position') }}"
+        availability_template: "{{ not is_state('cover.kitchen_curtain_motor', 'unavailable')  }}"
+        open_cover:
+          service: cover.close_cover
+          data:
+            entity_id: cover.kitchen_curtain_motor
+        close_cover:
+          service: cover.open_cover
+          data:
+            entity_id: cover.kitchen_curtain_motor
+        set_cover_position:
+          service: cover.set_cover_position
+          data:
+            entity_id: cover.kitchen_curtain_motor
+            position: "{{position}}"
+        stop_cover:
+          service: cover.stop_cover
+          entity_id: cover.kitchen_curtain_motor
+
+  #This is used because the curtain motor "open" and "close" actions need to be reversed
+  - platform: template
+    covers:
+      office_curtain:
+        device_class: curtain
+        friendly_name: "Office Curtain"
+        value_template: "{{ states('cover.office_curtain_motor') }}"
+        availability_template: "{{ not is_state('cover.office_curtain_motor', 'unavailable')  }}"
+        position_template: "{{ state_attr('cover.office_curtain_motor', 'position') }}"
+        open_cover:
+          service: cover.set_cover_position
+          data:
+            entity_id: cover.office_curtain_motor
+            position: "100"
+        close_cover:
+          service: cover.set_cover_position
+          data:
+            entity_id: cover.office_curtain_motor
+            position: "0"
+        set_cover_position:
+          service: cover.set_cover_position
+          data:
+            entity_id: cover.office_curtain_motor
+            position: "{{position}}"
+        stop_cover:
+          service: cover.stop_cover
+          entity_id: cover.office_curtain_motor
+
+  #This is used because the curtain motor "open" and "close" actions need to be reversed
+  - platform: template
+    covers:
+      bedroom_curtain:
+        device_class: curtain
+        friendly_name: "Bedroom Curtain"
+        value_template: "{{ states('cover.bedroom_curtain_motor') }}"
+        availability_template: "{{ not is_state('cover.bedroom_curtain_motor', 'unavailable')  }}"
+        position_template: "{{ state_attr('cover.bedroom_curtain_motor', 'position') }}"
+        open_cover:
+          service: cover.set_cover_position
+          data:
+            entity_id: cover.bedroom_curtain_motor
+            position: "100"
+        close_cover:
+          service: cover.set_cover_position
+          data:
+            entity_id: cover.bedroom_curtain_motor
+            position: "0"
+        set_cover_position:
+          service: cover.set_cover_position
+          data:
+            entity_id: cover.bedroom_curtain_motor
+            position: "{{position}}"
+        stop_cover:
+          service: cover.stop_cover
+          entity_id: cover.bedroom_curtain_motor
+
+  #This is only used as a helper with hue remote automations
+  - platform: cover_rf_time_based
+    devices:
+      bedroom_curtain_with_moving_state:
+        name: Bedroom Curtain with Moving State
+        travelling_time_up: 13.5
+        travelling_time_down: 13.5
+        cover_entity_id: cover.bedroom_curtain
+        send_stop_at_ends: false

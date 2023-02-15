@@ -1,0 +1,5 @@
+light:
+
+  - platform: switch
+    name: Toilet Night Light
+    entity_id: switch.toilet_night_light

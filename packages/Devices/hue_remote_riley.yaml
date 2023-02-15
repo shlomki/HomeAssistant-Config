@@ -9,23 +9,21 @@ automation:
     alias: Hue Remote Riley Actions
     mode: restart
     trigger:
-      - platform: event
-        event_type: deconz_event
-        event_data:
-          device_id: !secret hue_remote_riley_device_id
+      - platform: state
+        entity_id: sensor.riley_hue_remote_action
     variables:
-      button_code: "{{ trigger.event.data.event }}"
+      button_code: "{{ trigger.to_state.state }}"
     action:
       - alias: "choose button"
         choose:
           ## Button 1 Short Click: White Tablet
-          - conditions: "{{ button_code == 1000 }}"
+          - conditions: "{{ button_code == 'on-press' }}"
             sequence:
               - service: switch.toggle
                 entity_id: switch.house_tablet_screen
 
           ## Button Short Click: Volume On
-          - conditions: "{{ button_code == 2000 }}"
+          - conditions: "{{ button_code == 'up-press' }}"
             sequence:
               - service: input_number.set_value
                 target:
@@ -36,7 +34,7 @@ automation:
                   value: 5
 
           ## Button Short Click: Volume Off
-          - conditions: "{{ button_code == 3000 }}"
+          - conditions: "{{ button_code == 'down-press' }}"
             sequence:
               - service: input_number.set_value
                 target:
@@ -47,7 +45,7 @@ automation:
                   value: 0
 
           ## Button 4 Short Click: Black Tablet
-          - conditions: "{{ button_code == 4000 }}"
+          - conditions: "{{ button_code == 'off-press' }}"
             sequence:
               - service: switch.toggle
                 entity_id: switch.black_tablet_screen

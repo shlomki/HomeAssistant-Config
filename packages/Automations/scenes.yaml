@@ -5,7 +5,7 @@ scene:
       group.all_lights: off
       cover.bedroom_shutter:
         state: open
-        current_position: 9
+        current_position: 11
       lock.front_door: "locked"
       switch.house_tablet_screen: off
       media_player.living_room_tv: off
@@ -21,6 +21,7 @@ scene:
       light.living_room_hallway: off
       light.living_room_main: off
       light.living_room_tv_light: off
+      light.living_room_curtain_light: off
 
       #The rest of the Kitchen lights
       light.kitchen_counter: off
@@ -43,7 +44,7 @@ sensor:
         friendly_name: "Sleep Scene"
         unit_of_measurement: "watt"
         value_template: "{{ (is_state('group.all_lights', 'off') and
-          is_state_attr('cover.bedroom_shutter', 'current_position', 9) and
+          is_state_attr('cover.bedroom_shutter', 'current_position', 11) and
           is_state('lock.front_door', 'locked') and
           is_state('switch.house_tablet_screen', 'off') and
           is_state('media_player.living_room_tv', 'off')) | replace(true, 'on') | replace(false, 'off') }}"
@@ -61,6 +62,7 @@ sensor:
           is_state('light.living_room_hallway', 'off') and
           is_state('light.living_room_main', 'off') and
           is_state('light.living_room_tv_light', 'off') and
+          is_state('light.living_room_curtain_light', 'off') and
 
           is_state('light.kitchen_counter', 'off') and
           is_state('light.kitchen_pantry', 'off') and
