@@ -27,6 +27,23 @@ automation:
         below: 1
         for:
           minutes: 20
+    condition:
+      - condition: or
+        conditions:
+          - condition: and
+            conditions:
+              #Make sure to set the machine to Clean only if the previous state was Running
+              - alias: "The new state is Clean"
+                condition: template
+                value_template: "{{ trigger.id == 'Clean' }}"
+              - alias: "And the previous state is Idle"
+                condition: state
+                entity_id: input_select.laundry_machine_status
+                state: "Running"
+
+          - alias: "Or any other state"
+            condition: template
+            value_template: "{{ trigger.id != 'Clean' }}"
     action:
       - service: input_select.select_option
         data:
