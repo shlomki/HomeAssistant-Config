@@ -223,10 +223,9 @@ automation:
 
   - alias: Front door lock battery is critical
     trigger:
-      - platform: state
-        entity_id: binary_sensor.front_door_lock_battery
-        from: "off"
-        to: "on"
+      - platform: numeric_state
+        entity_id: sensor.front_door_lock_battery_level
+        below: 35
     action:
       - service: notify.shlomi
         data:
@@ -234,7 +233,6 @@ automation:
 
 shell_command:
   removesnapshots: 'find /media/front_door/{{ day }}/ -exec rm {} \;'  
-
 
 script:
   front_door_lock_toggle:
@@ -245,7 +243,7 @@ script:
         entity_id: binary_sensor.front_door
         state: "off"
 
-      - service: "{{ 'lock.lock' if is_state('binary_sensor.front_door_lock', 'on') else 'lock.unlock' }}"
+      - service: "{{ iif(is_state('lock.front_door', 'unlocked'), 'lock.lock', 'lock.unlock') }}"
         entity_id: lock.front_door
 
   blink_living_room_bff_light:
@@ -323,14 +321,7 @@ group:
 template:
   - sensor:
       - name: "Front Door Combined"
-        state: "{{ states('binary_sensor.front_door') | replace('off', 'Closed') | replace('on', 'Open') | capitalize }}, {{ states('lock.front_door') if is_state('binary_sensor.front_door_lock', 'unavailable') else states('binary_sensor.front_door_lock') | replace('off', 'Locked') | replace('on', 'Unlocked') | capitalize }}"
-
-
-  - binary_sensor:
-    # Keep track how many days have past since a date
-    - name: "Front Door Lock Battery"
-      device_class: battery
-      state: "{{ state_attr('lock.front_door', 'battery_critical') }}"
+        state: "{{ states('binary_sensor.front_door') | replace('off', 'Closed') | replace('on', 'Open') | capitalize }}, {{ states('lock.front_door') | replace('off', 'Locked') | replace('on', 'Unlocked') | capitalize }}"
 
 switch:
   - platform: template

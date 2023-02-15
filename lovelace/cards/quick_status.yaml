@@ -12,6 +12,7 @@ cards:
           navigation_path: "[[[ return (window.location.hash == '#entrance') ? '.' : '#entrance'; ]]]"
         hold_action:
           action: more-info
+          entity: lock.front_door
         entity: sensor.front_door_combined
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.entrance ]]]"
         icon_height: 50px
