@@ -6,38 +6,3 @@ weather:
     temperature_unit: "°C"
     humidity_template: "{{ states('sensor.outside_climate_humidity') }}"
     forecast_template: "{{ state_attr('weather.home_open_weather_map', 'forecast') }}"
-
-
-template:
-  - binary_sensor:
-    - name: "Rain Expected Next 3 days"
-      device_class: moisture
-      state: >
-        {% set forecast = state_attr('weather.outside_weather', 'forecast') %}
-        {{ forecast[1].precipitation_probability > 40 and
-            forecast[1].precipitation > 1 and
-
-            forecast[2].precipitation_probability > 40 and
-            forecast[2].precipitation > 1 and
-
-            forecast[3].precipitation_probability > 40 and
-            forecast[3].precipitation > 1 }}
-
-automation:
-  - id: Rain Expected Next 3 Days
-    alias: Rain Expected Next 3 Days
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.rain_expected_next_3_days
-        from: "off"
-        to: "on"
-      - platform: state
-        entity_id: binary_sensor.rain_expected_next_3_days
-        from: "on"
-        to: "off"
-        for:
-          days: 3
-    action:
-      - service: notify.shlomi
-        data:
-          message: "💦 {{ trigger.to_state.state | replace('on', 'Rainy weather') | replace('off', 'Clear weather') }} is expected for 3 days straight"
