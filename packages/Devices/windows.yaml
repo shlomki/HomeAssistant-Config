@@ -104,7 +104,7 @@ cover:
         friendly_name: "Bedroom Curtain"
         value_template: "{{ states('cover.bedroom_curtain_motor') }}"
         availability_template: "{{ not is_state('cover.bedroom_curtain_motor', 'unavailable')  }}"
-        position_template: "{{ state_attr('cover.bedroom_curtain_motor', 'position') }}"
+        position_template: "{{ state_attr('cover.bedroom_curtain_motor', 'current_position') }}"
         open_cover:
           service: cover.set_cover_position
           data:

@@ -3,11 +3,10 @@
 ## Button 3: Bedroom Shutter
 ## Button 4: Black Tablet
 
-
 automation:
   - id: Hue Remote Riley Actions
     alias: Hue Remote Riley Actions
-    mode: restart
+    mode: queued
     trigger:
       - platform: state
         entity_id: sensor.riley_hue_remote_action
@@ -27,7 +26,7 @@ automation:
             sequence:
               - service: input_number.set_value
                 target:
-                  entity_id: 
+                  entity_id:
                     - input_number.house_tablet_volume
                     - input_number.black_tablet_volume
                 data:
@@ -38,7 +37,7 @@ automation:
             sequence:
               - service: input_number.set_value
                 target:
-                  entity_id: 
+                  entity_id:
                     - input_number.house_tablet_volume
                     - input_number.black_tablet_volume
                 data:
