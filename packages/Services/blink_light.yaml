@@ -3,23 +3,32 @@ script:
     alias: Blink Light
     mode: parallel
     variables:
-      dimmable: "{{ 'brightness' in state_attr(light_entity_id, 'supported_color_modes')  }}"
+      light_original_state: "{{ states(light_entity_id) }}"
+      light_is_dimmable: "{{ 'brightness' in state_attr(light_entity_id, 'supported_color_modes')  }}"
     sequence:
 
-      - service: scene.create
-        data:
-          scene_id: blink_light
-          snapshot_entities: light.living_room_curtain_light
+      - if:
+        - alias: "Light isn't on"
+          condition: template
+          value_template: "{{ light_original_state != 'on' }}"
+        - alias: "Light supports brightness"
+          condition: template
+          value_template: "{{ light_is_dimmable }}"
+        then: #Turn on the light and wait 1 second to get its brightness
+          - service: light.turn_on
+            data:
+              entity_id: "{{ light_entity_id }}"
+          - delay:
+              seconds: 1
 
-      - service: light.turn_on
-        data:
-          entity_id: "{{ light_entity_id }}"
-          brightness_pct: "100"
+      - alias: "Get the updated brightness value"
+        variables:
+          light_original_brigtness: "{{ state_attr(light_entity_id, 'brightness') }}"
 
       - if:
-            - alias: "Light supports brightness"
-              condition: template
-              value_template: "{{ dimmable }}"
+        - alias: "Light supports brightness"
+          condition: template
+          value_template: "{{ light_is_dimmable }}"
         then:
           - repeat:
               count: 10
@@ -30,6 +39,13 @@ script:
                     brightness_pct: "{{ 100 if (state_attr(light_entity_id, 'brightness') | int(1) ) <= 50 else 1 }}"
                 - delay:
                     seconds: "{{ delay_seconds | default(1) }}"
+
+          #Return to original brightness
+          - service: light.turn_on
+            data:
+              entity_id: "{{ light_entity_id }}"
+              brightness: "{{ light_original_brigtness }}"
+
         else: #Light doesn't support brighness
           - repeat:
               count: 10
@@ -40,6 +56,9 @@ script:
                 - delay:
                     seconds: "{{ delay_seconds | default(1) }}"
 
-      - service: scene.turn_on
-        entity_id: scene.blink_light
+
+      #Return to original state
+      - service: "light.turn_{{ light_original_state }}"
+        data:
+          entity_id: "{{ light_entity_id }}"
 
