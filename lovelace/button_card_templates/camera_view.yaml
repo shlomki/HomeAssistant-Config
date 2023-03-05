@@ -7,8 +7,6 @@ camera-view:
       hide_header: false
       title: Live View
       card:
-        camera_view: live
-        type: picture-glance
-        entities: []
-        camera_image: |
+        type: 'custom:webrtc-camera'
+        entity: |
           [[[ return variables.stream; ]]]

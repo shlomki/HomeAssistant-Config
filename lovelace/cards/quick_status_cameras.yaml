@@ -11,7 +11,7 @@ cards:
             - type: horizontal-stack
               cards:
                 - type: custom:button-card
-                  template: camera-view
+                  template: camera-status
                   entity: device_tracker.ubnt_device_camera_livingroom
                   variables:
                     stream: camera.living_room
@@ -21,11 +21,9 @@ cards:
                     navigation_path: /lovelace-mobile/living-room
 
                 - type: custom:button-card
-                  template: camera-view
+                  template: camera-status
                   entity: device_tracker.ubnt_device_camera_balcony
                   name: Balcony
-                  variables:
-                    stream: camera.balcony
                   tap_action:
                     action: navigate
                     navigation_path: /lovelace-mobile/balcony
@@ -43,26 +41,33 @@ cards:
                 #   variables:
                 #     stream: camera.hallway
                 #   name: Hallway
+
             - type: horizontal-stack
               cards:
                 - type: custom:button-card
-                  template: camera-view
+                  template: camera-status
                   entity: device_tracker.ubnt_device_camera_office
-                  variables:
-                    stream: camera.office
                   name: Office
+                  tap_action:
+                    action: navigate
+                    navigation_path: /lovelace-mobile/office
+
                 - type: custom:button-card
-                  template: camera-view
+                  template: camera-status
                   entity: device_tracker.ubnt_device_camera_guests
-                  variables:
-                    stream: camera.guests
                   name: Guests
+                  tap_action:
+                    action: navigate
+                    navigation_path: /lovelace-mobile/guests
+                    
                 - type: custom:button-card
-                  template: camera-view
+                  template: camera-status
                   entity: device_tracker.ubnt_device_camera_riley
-                  variables:
-                    stream: camera.riley
                   name: Riley
+                  tap_action:
+                    action: navigate
+                    navigation_path: /lovelace-mobile/riley
+
                 # - type: custom:button-card
                 #   template: camera-view
                 #   entity: device_tracker.ubnt_device_camera_bedroom
