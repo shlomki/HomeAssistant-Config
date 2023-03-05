@@ -23,7 +23,7 @@ automation:
           seconds: 1.5
     action:
       - service: switch.turn_on
-        entity_id: switch.stairs_group
+        entity_id: switch.stairs
 
   - alias: Stairs light auto off
     trigger:

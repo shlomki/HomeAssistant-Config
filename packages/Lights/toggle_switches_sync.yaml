@@ -1,3 +1,10 @@
+group:
+  hallway_toggles:
+    all: true
+    entities:
+      - switch.hallway_toggle_back
+      - switch.hallway_toggle_front
+
 automation:
   - alias: Living room sync side lamp
     max_exceeded: silent
@@ -45,7 +52,6 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - light.stairs
           - switch.stairs_toggle
         not_from:
           - unavailable
@@ -55,7 +61,7 @@ automation:
           - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id: switch.stairs_group
+        entity_id: switch.stairs
 
   - alias: Office switches sync bff light
     id: Office switches sync bff light
@@ -89,10 +95,10 @@ automation:
         not_from:
           - unavailable
           - unknown
-        not_to:
-          - ""
-          - unavailable
-          - unknown
+        to:
+          - single
+          - double
+          - long
     condition:
       - condition: or
         conditions:
@@ -173,11 +179,11 @@ automation:
     condition: #This is needed to avoid endless loops
       - alias: "Hallway main group is not the same state"
         condition: template
-        value_template: "{{ not is_state('switch.hallway_toggle_group', trigger.to_state.state) }}"
+        value_template: "{{ not is_state('group.hallway_toggles', trigger.to_state.state) }}"
 
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id: switch.hallway_toggle_group
+        entity_id: group.hallway_toggles
 
   - alias: Hallway sync controllers when switches change
     max_exceeded: silent
@@ -203,7 +209,7 @@ automation:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id:
           - light.hallway_controllers_group
-          - switch.hallway_toggle_group
+          - switch.hallway_toggles
 
   - alias: Riley switches scene
     max_exceeded: silent
@@ -240,8 +246,8 @@ automation:
           - unavailable
           - unknown
     action:
-      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id: switch.bedroom_main
+      - service: light.toggle
+        entity_id: light.bedroom_main
 
   - alias: Bedroom switches sync entrance
     max_exceeded: silent
@@ -258,7 +264,7 @@ automation:
           - unavailable
           - unknown
     action:
-      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
+      - service: light.toggle
         entity_id: light.bedroom_entrance
 
   - alias: Bedroom switches scene
@@ -268,8 +274,8 @@ automation:
       - platform: state
         entity_id:
           - switch.bedroom_scene
-          - switch.bedroom_scene_left
-          - swtich.bedroom_scene_right
+          - switch.bedroom_scene_toggle_left
+          - switch.bedroom_scene_toggle_right
         not_from:
           - unavailable
           - unknown

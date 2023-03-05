@@ -4,6 +4,18 @@ cards:
     template: title
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lights ]]]"
 
+  - type: conditional
+    conditions:
+      - entity: light.bedroom_dimmable_lights
+        state: "on"
+    card:
+      type: custom:slider-entity-row
+      entity: light.bedroom_dimmable_lights
+      full_row: true
+      min: 1
+      max: 100
+      step: 5
+
   - type: horizontal-stack
     cards:
 

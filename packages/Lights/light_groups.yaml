@@ -118,12 +118,6 @@ light:
               entity_id: "{{ expand('group.living_room_dimmable_lights') | selectattr('state', 'equalto', 'on') | map(attribute='entity_id') | list }}" #Set brightness for lights that are on only
               brightness: "{{ brightness }}"
 
-  - platform: group
-    name: Hallway Dimmable Lights
-    entities:
-      - light.hallway_front
-      - light.hallway_back
-
   - platform: template
     lights:
       bedroom_dimmable_lights:
