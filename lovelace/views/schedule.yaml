@@ -23,6 +23,7 @@ cards:
       - lock.front_door
       - script.housekeeper_unlock_and_lock_door
       - group.bffs
+      - input_boolean.guest_mode
       - switch.riley_heater
       - light.yule_trees
       - light.office_bff_light
