@@ -36,7 +36,7 @@ automation:
               - alias: "The new state is Clean"
                 condition: template
                 value_template: "{{ trigger.id == 'Clean' }}"
-              - alias: "And the previous state is Idle"
+              - alias: "And the previous state is Running"
                 condition: state
                 entity_id: input_select.laundry_machine_status
                 state: "Running"
