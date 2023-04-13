@@ -69,6 +69,7 @@ automation:
 
   - id: Unavailable Entities - Store Temp State
     alias: Unavailable Entities - Store Temp State
+    mode: restart
 
     trigger:
       - platform: state
@@ -191,10 +192,14 @@ group:
       - switch.toilet_vent
       - binary_sensor.dog_cage
       - sensor.water_boiler_temperature
-      - binary_sensor.hallway_front_smoke
       - sensor.riley_hue_remote_action
       - sensor.shlomi_hue_remote_action
       - sensor.inbal_hue_remote_action
+
+      #Smoke Sensors
+      - binary_sensor.hallway_front_smoke
+      - binary_sensor.hallway_back_smoke
+      - binary_sensor.electricity_closet_smoke
 
       #Fans
       # - switch.gray_fan_smart_plug
@@ -204,6 +209,7 @@ group:
       #Smart Plugs
       # - switch.white_yule_tree
       # - switch.green_yule_tree
+      # - switch.yogurt_maker
 
       #TVs & Media Players
       - media_player.living_room_tv
