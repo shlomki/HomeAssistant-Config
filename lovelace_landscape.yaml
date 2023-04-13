@@ -3,11 +3,9 @@ title: Home
 kiosk_mode:
   kiosk: true
 
-decluttering_templates:
-  !include_dir_merge_named /config/lovelace/decluttering_templates/
+decluttering_templates: !include_dir_merge_named /config/lovelace/decluttering_templates/
 
-button_card_templates:
-  !include_dir_merge_named /config/lovelace/button_card_templates/
+button_card_templates: !include_dir_merge_named /config/lovelace/button_card_templates/
 
 views:
   - !include /config/lovelace/views/01_dashboard_landscape.yaml
@@ -20,4 +18,5 @@ views:
   - !include /config/lovelace/views/08_config_ac.yaml
   - !include /config/lovelace/views/09_servers.yaml
   - !include /config/lovelace/views/10_dev.yaml
-
+  - !include /config/lovelace/views/21_front_door_camera.yaml
+  - !include /config/lovelace/views/22_riley_camera.yaml

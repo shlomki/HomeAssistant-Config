@@ -1,0 +1,11 @@
+title: Riley Camera
+path: riley-camera
+icon: mdi:cctv
+badges: []
+subview: false
+panel: true
+cards:
+
+      - type: 'custom:webrtc-camera'
+        entity: camera.riley
+        style: "video {aspect-ratio: 16/9; object-fit: fill;}"

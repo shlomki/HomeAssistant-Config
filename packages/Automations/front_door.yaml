@@ -2,16 +2,15 @@ input_text:
   gallery_display_day:
 
 # rest_command:
-#   autoremote_house_tablet_doorbell_command: 
+#   autoremote_house_tablet_doorbell_command:
 #     method: GET
 #     url: !secret autoremote_house_tablet_doorbell_command
-
 
 automation:
   # - alias: Remember last door motion
   #   trigger:
   #     - platform: state
-  #       entity_id: 
+  #       entity_id:
   #         - binary_sensor.camera_front_door_motion
   #         - binary_sensor.camera_living_room_motion
   #       from: 'off'
@@ -26,8 +25,8 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.front_door
-        from: 'off'
-        to: 'on'
+        from: "off"
+        to: "on"
     condition:
       - condition: state
         entity_id: group.bffs
@@ -36,7 +35,7 @@ automation:
       - service: notify.bffs
         data:
           message: The front door has been opened and no one's home!
-        
+
   - alias: Door is opened with photo actions
     variables:
       today_name: >
@@ -47,37 +46,38 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.front_door
-        from: 'off'
-        to: 'on'
+        from: "off"
+        to: "on"
     action:
       - service: camera.snapshot
         data:
           entity_id: camera.front_door
-          filename: '{{ front_door_photo }}'
+          filename: "{{ front_door_photo }}"
       - service: camera.snapshot
         data:
           entity_id: camera.living_room
-          filename: '{{ living_room_photo }}'
+          filename: "{{ living_room_photo }}"
       - service: script.notify_shlomi_when_away_with_photo_actions
         data:
           message: The front door has been opened
-          front_door_photo: '{{ front_door_photo }}'
-          living_room_photo: '{{ living_room_photo }}'
+          front_door_photo: "{{ front_door_photo }}"
+          living_room_photo: "{{ living_room_photo }}"
       - service: script.notify_inbal_when_away_with_photo_actions
         data:
           message: The front door has been opened
-          front_door_photo: '{{ front_door_photo }}'
-          living_room_photo: '{{ living_room_photo }}'
-
+          front_door_photo: "{{ front_door_photo }}"
+          living_room_photo: "{{ living_room_photo }}"
 
   - alias: Doorbell ring
     trigger:
       - platform: state
         entity_id: binary_sensor.doorbell
-        from: 'off'
-        to: 'on'
+        from: "off"
+        to: "on"
     action:
-      - service: script.blink_living_room_bff_light
+      - service: script.blink_light
+        data:
+          light_entity_id: light.living_room_curtain_light
       - service: notify.bffs
         data:
           message: "Ding dong! Someone is at the door!"
@@ -90,28 +90,37 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.doorbell
-        from: 'off'
-        to: 'on'
+        from: "off"
+        to: "on"
     action:
       - service: camera.snapshot
         data:
           entity_id: camera.front_door
-          filename: '{{ filename }}'
+          filename: "{{ filename }}"
       - service: script.notify_bffs_photo
         data:
-          file: '{{ filename }}'
+          file: "{{ filename }}"
       - delay:
           seconds: 10
 
-  # - alias: Doorbell display video on house tablet
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.doorbell
-  #       from: 'off'
-  #       to: 'on'
-  #   action:
-  #     #Launch HA on tablet using AutoRemote
-  #     - service: rest_command.autoremote_house_tablet_doorbell_command
+  - alias: Doorbell display video on house tablet
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.doorbell
+        from: 'off'
+        to: 'on'
+    action:
+      - service: fully_kiosk.load_url
+        data:
+          url: !secret front_door_camera_url
+        target:
+          device_id: !secret house_tablet_device_id
+      - delay:
+          seconds: 30
+      - service: button.press
+        target:
+          entity_id: button.house_tablet_load_start_url
+
 
   #     #Show the front door camera on tablet
   #     - service: browser_mod.popup
@@ -123,7 +132,7 @@ automation:
   #         card:
   #           type: custom:webrtc-camera
   #           entity: camera.front_door
-      
+
   #     #Wait for the door to open for 1 minute
   #     - wait_template: "{{ is_state('binary_sensor.front_door', 'on') }}"
   #       timeout:
@@ -139,7 +148,7 @@ automation:
   #           sequence:
   #             - delay:
   #                 seconds: 20
-          
+
   #     #Close the popup
   #     - service: browser_mod.close_popup
   #       data:
@@ -165,21 +174,21 @@ automation:
   - alias: Front door Left Open
     mode: single
     trigger:
-    - platform: state
-      entity_id: binary_sensor.front_door
-      from: 'off'
-      to: 'on'
-      for: 
-        minutes: 3
+      - platform: state
+        entity_id: binary_sensor.front_door
+        from: "off"
+        to: "on"
+        for:
+          minutes: 3
     action:
       - service: script.notify_all
         data:
           message: Hey, I think the front door was left open
       - wait_for_trigger:
-        - platform: state
-          entity_id: binary_sensor.front_door
-          from: 'on'
-          to: 'off'
+          - platform: state
+            entity_id: binary_sensor.front_door
+            from: "on"
+            to: "off"
       - service: script.notify_all
         data:
           message: The front door was closed
@@ -187,12 +196,12 @@ automation:
   - alias: Front door Left Open Reminder
     mode: single
     trigger:
-    - platform: state
-      entity_id: binary_sensor.front_door
-      from: 'off'
-      to: 'on'
-      for: 
-        minutes: 10
+      - platform: state
+        entity_id: binary_sensor.front_door
+        from: "off"
+        to: "on"
+        for:
+          minutes: 10
     action:
       - service: script.notify_all
         data:
@@ -226,13 +235,15 @@ automation:
       - platform: numeric_state
         entity_id: sensor.front_door_lock_battery_level
         below: 35
+        for:
+          seconds: 30
     action:
       - service: notify.shlomi
         data:
-          message: "Front Door Lock is low on battery! Charge it soon!"
+          message: "Front Door Lock is low on battery! Charge it soon! ({{ trigger.to_state.state }}%)"
 
 shell_command:
-  removesnapshots: 'find /media/front_door/{{ day }}/ -exec rm {} \;'  
+  removesnapshots: 'find /media/front_door/{{ day }}/ -exec rm {} \;'
 
 script:
   front_door_lock_toggle:
@@ -267,32 +278,31 @@ script:
       - service: notify.bffs
         data:
           message: "🧹🔓 The front door was unlocked to let the housekeeper in"
-        
 
       #Wait 2 hours for the housekeeper to open the door
       - wait_for_trigger:
-        - platform: state
-          entity_id: binary_sensor.front_door
-          from: 'off'
-          to: 'on'
+          - platform: state
+            entity_id: binary_sensor.front_door
+            from: "off"
+            to: "on"
         timeout:
           hours: "2"
         continue_on_timeout: true
 
-      - if: 
+      - if:
           #If housekeeper had arrived (the front door opened during this time)
           - condition: template
             value_template: "{{ wait.remaining > 0 }}" #If there was time remaining in the timeout
         then:
           - service: notify.bffs
-          
+
             data:
               message: "🧹👩 The housekeeper has arrived. I'll lock the door in about 2 hours."
 
           #Wait for 2h 10m hours starting now
           - delay:
               minutes: "130"
-                
+
           #Lock the front door (assuming the housekeeper has finished)
           - service: lock.lock
             target:
@@ -336,3 +346,14 @@ switch:
           service: script.turn_off
           target:
             entity_id: script.housekeeper_unlock_and_lock_door
+
+# rest_command:
+#   front_door_play_doorbell:
+#     url: "http://localhost:1984/api/streams?dst=camera.office&src=ffmpeg:https://bffs.duckdns.org:8123/local/doorbell_pressed.mp3#audio=pcma#input=file"
+#     method: POST
+
+# media_player:
+#   - platform: webrtc
+#     name: Office Camera
+#     stream: camera.office
+#     audio: h264
