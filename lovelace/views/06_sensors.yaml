@@ -8,6 +8,12 @@ badges: []
 cards:
   - type: custom:button-card
     template: back-button
+
+  - type: entities
+    entities:
+      - entity: input_boolean.z2m_bedroom_permit_join
+      - entity: input_boolean.z2m_living_room_permit_join
+      
   - type: entities
     entities:
       - entity: sensor.unavailable_entities
@@ -50,7 +56,6 @@ cards:
       method: state
   - entities:
       - entity: binary_sensor.rain
-      - entity: binary_sensor.toilet_flush
     show_header_toggle: false
     title: Other Sensors
     type: entities

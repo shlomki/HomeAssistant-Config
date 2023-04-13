@@ -1,0 +1,32 @@
+input_boolean:
+  z2m_living_room_permit_join:
+    name: Zigbee2MQTT Living Room Permit Join
+  z2m_bedroom_permit_join:
+    name: Zigbee2MQTT Bedroom Permit Join
+
+
+automation:
+  - id: Zigbee2MQTT Permit Join
+    alias: Zigbee2MQTT Permit Join
+    mode: parallel
+    trigger:
+      - platform: state
+        entity_id: 
+          - input_boolean.z2m_living_room_permit_join
+          - input_boolean.z2m_bedroom_permit_join
+        from: 
+          - "on"
+          - "off"
+        to:
+          - "on"
+          - "off"
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "zigbee2mqtt{{'-bedroom' if trigger.to_state.entity_id == 'input_boolean.z2m_bedroom_permit_join' }}/bridge/request/permit_join"
+          payload: "{\"value\": {{ 'true' if trigger.to_state.state == 'on' else 'off' }}, \"time\": 240}"
+      - delay:
+          minutes: 4
+      - service: input_boolean.turn_off
+        data:
+          entity_id: "{{ trigger.to_state.entity_id }}"
