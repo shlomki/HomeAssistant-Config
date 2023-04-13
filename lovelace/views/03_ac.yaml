@@ -10,7 +10,6 @@ badges: []
 cards:
   - type: custom:button-card
     template: back-button
-  
 
   - type: vertical-stack
     cards:
@@ -31,20 +30,15 @@ cards:
   - columns: 5
     entities:
       - entity: sensor.outside_climate_temperature
+        name: Outside
       - entity: sensor.outside_climate_humidity
+        name: Outside
       - entity: sensor.bedroom_closet_climate_temperature
         name: Closet
       - entity: sensor.bedroom_closet_climate_humidity
         name: Closet
+      - entity: sensor.solar_system_temperature
     show_icon: true
     show_state: true
     title: Other
     type: glance
-  - type: glance
-    entities:
-      - entity: sensor.living_room_climate_temperature
-      - entity: sensor.office_climate_temperature
-      - entity: sensor.guests_climate_temperature
-      - entity: sensor.riley_climate_temperature
-      - entity: sensor.bedroom_climate_temperature
-    title: Rooms
