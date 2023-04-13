@@ -1,41 +1,26 @@
+mqtt:
+  scene:
+    - name: Z2M Evening Living Room Area
+      unique_id: z2m_evening_living_room_area
+      command_topic: "zigbee2mqtt/master_living_room/set"
+      payload_on: '{"scene_recall": 0}'
+
+    - name: Z2M Evening Bedroom Area
+      unique_id: z2m_evening_bedroom_area
+      command_topic: "zigbee2mqtt-bedroom/master_bedroom/set"
+      payload_on: '{"scene_recall": 0}'
+
 scene:
   - name: Sleep
     icon: "mdi:sleep"
     entities:
-      group.all_lights: off
+      light.all_lights: off
       cover.bedroom_shutter:
         state: open
         current_position: 11
       lock.front_door: "locked"
       switch.house_tablet_screen: off
       media_player.living_room_tv: off
-
-  - name: Evening
-    entities:
-      light.living_room_side_lamp: on
-      light.living_room_bff_light: on
-      light.kitchen_island: on
-
-      #The rest of the Living Room lights
-      light.living_room_entrance: off
-      light.living_room_hallway: off
-      light.living_room_main: off
-      light.living_room_tv_light: off
-      light.living_room_curtain_light: off
-
-      #The rest of the Kitchen lights
-      light.kitchen_counter: off
-      light.kitchen_pantry: off
-
-      #The rest of the house
-      light.balcony_lights: off
-      light.toilet_lights: off
-      light.bathroom_lights: off
-      light.hallway_lights: off
-      light.office_lights: off
-      light.guests_lights: off
-      light.riley_lights: off
-      light.bedroom_lights: off
 
 sensor:
   - platform: template
@@ -49,13 +34,11 @@ sensor:
           is_state('switch.house_tablet_screen', 'off') and
           is_state('media_player.living_room_tv', 'off')) | replace(true, 'on') | replace(false, 'off') }}"
 
+switch:
   - platform: template
-    sensors:
+    switches:
       evening_scene:
-        friendly_name: "Evening Scene"
-        unit_of_measurement: "watt"
         value_template: "{{ (is_state('light.living_room_side_lamp', 'on') and
-          is_state('light.living_room_bff_light', 'on') and
           is_state('light.kitchen_island', 'on') and
 
           is_state('light.living_room_entrance', 'off') and
@@ -75,3 +58,15 @@ sensor:
           is_state('light.guests_main', 'off') and
           is_state('light.riley_main', 'off') and
           is_state('light.bedroom_lights', 'off')) | replace(true, 'on') | replace(false, 'off') }}"
+        turn_on:
+          service: scene.turn_on
+          target:
+            entity_id:
+              - scene.z2m_evening_bedroom_area
+              - scene.z2m_evening_living_room_area
+
+        turn_off:
+          service: light.turn_off
+          target:
+            entity_id:
+              - light.all_lights

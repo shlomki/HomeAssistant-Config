@@ -14,7 +14,7 @@ cards:
       - type: custom:button-card
         template: ha-button
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lights ]]]"
-        entity: group.all_lights
+        entity: light.all_lights
         icon: mdi:lightbulb-outline
         styles:
           card:

@@ -3,7 +3,7 @@ cards:
   - type: custom:button-card
     template: title
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lights ]]]"
-    entity: group.all_lights
+    entity: light.all_lights
     show_icon: false
     double_tap_action:
       action: toggle
