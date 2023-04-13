@@ -4,12 +4,21 @@ cards:
     template: title
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lights ]]]"
 
-  - type: horizontal-stack
-    cards:
+  - type: conditional
+    conditions:
+      - entity: light.guests_dimmable_lights
+        state: "on"
+    card:
+      type: custom:slider-entity-row
+      entity: light.guests_lights
+      full_row: true
+      min: 1
+      max: 100
+      step: 5
 
-      - type: custom:button-card
-        template: ha-button
-        entity: light.guests_main
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.main ]]]"
-        icon: mdi:lightbulb-outline
-        icon_height: 50px
+  - type: custom:button-card
+    template: ha-button
+    entity: light.guests_main
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.main ]]]"
+    icon: mdi:lightbulb-outline
+    icon_height: 50px

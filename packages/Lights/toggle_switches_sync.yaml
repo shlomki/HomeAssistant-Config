@@ -209,7 +209,7 @@ automation:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id:
           - light.hallway_controllers_group
-          - switch.hallway_toggles
+          - group.hallway_toggles
 
   - alias: Riley switches scene
     max_exceeded: silent
