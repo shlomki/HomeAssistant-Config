@@ -11,3 +11,21 @@ script:
         data:
           media_content_id: 'https://storage.googleapis.com/relaxation-sounds/forest_3600.mp3'
           media_content_type: music
+
+automation:
+  - id: Dog Cage is Still Open When Going to Sleep
+    alias: Dog Cage is Still Open When Going to Sleep
+    trigger:
+      - platform: state
+        entity_id: sensor.sleep_scene
+        from: "off"
+        to: "on"
+    condition:
+      - alias: "Dog Cage is Still Open"
+        condition: state
+        entity_id: binary_sensor.dog_cage
+        state: "on"
+    action:
+      - service: notify.bffs
+        data:
+          message: 'The Dog Cage is still open! Beware of pee when you wake up in the morning!'
