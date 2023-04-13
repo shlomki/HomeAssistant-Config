@@ -1,0 +1,32 @@
+automation:
+  - alias: Smoke - send notification
+    mode: parallel
+    trigger:
+      - platform: state
+        entity_id:
+          - binary_sensor.hallway_front_smoke
+          - binary_sensor.hallway_back_smoke
+          - binary_sensor.electricity_closet_smoke
+        from: "off"
+        to: "on"
+    action:
+      - repeat:
+          count: 5
+          sequence:
+            - service: notify.bffs
+              data:
+                message: "Fire detected at home!!! Location: {{ trigger.to_state.attributes.friendly_name | replace(' Smoke smoke', '') }} 🔥🔥🔥"
+            - delay:
+                seconds: 2
+
+  - alias: Smoke - blink lights
+    mode: parallel
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.hallway_front_smoke
+        from: "off"
+        to: "on"
+    action:
+      - service: script.blink_light
+        data:
+          light_entity_id: light.living_room_curtain_light
