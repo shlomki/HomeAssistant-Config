@@ -31,6 +31,20 @@ automation:
       data:
         entity_id: "{{ trigger.to_state.entity_id | replace('_toggle', '') }}"
 
+  #This is only used as a helper with hue remote automations
+  - id: Update bedroom curtain with moving state
+    alias: Update bedroom curtain with moving state
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: cover.bedroom_curtain
+        attribute: "current_position"
+    action:
+      service: cover_rf_time_based.set_known_position
+      data:
+        entity_id: cover.bedroom_curtain_with_moving_state
+        position: "{{ trigger.to_state.attributes.current_position }}"
+
 cover:
   #This is used because the kitchen curtain motor doesn't report position
   - platform: cover_rf_time_based

@@ -3,26 +3,39 @@
 ## Button 3: Bedroom Shutter
 ## Button 4: Black Tablet
 
+#com.mcu.reolink
+
 automation:
   - id: Hue Remote Riley Actions
     alias: Hue Remote Riley Actions
-    mode: queued
+    mode: parallel
     trigger:
       - platform: state
         entity_id: sensor.riley_hue_remote_action
+        not_to: ''
     variables:
       button_code: "{{ trigger.to_state.state }}"
     action:
       - alias: "choose button"
         choose:
-          ## Button 1 Short Click: White Tablet
-          - conditions: "{{ button_code == 'on-press' }}"
+          ## Button 1 Short Click: Turn On White Tablet
+          - conditions: "{{ button_code == 'on_press' }}"
             sequence:
-              - service: switch.toggle
+              - service: switch.turn_on
                 entity_id: switch.house_tablet_screen
 
+              - if: 
+                - condition: not
+                  conditions:
+                    - alias: "Foreground app isn't Reolink"
+                      condition: state
+                      entity_id: sensor.house_tablet_foreground_app
+                      state: "com.mcu.reolink"
+                then:
+                  service: rest_command.house_tablet_run_reolink
+                  
           ## Button Short Click: Volume On
-          - conditions: "{{ button_code == 'up-press' }}"
+          - conditions: "{{ button_code == 'up_press' }}"
             sequence:
               - service: input_number.set_value
                 target:
@@ -33,7 +46,7 @@ automation:
                   value: 5
 
           ## Button Short Click: Volume Off
-          - conditions: "{{ button_code == 'down-press' }}"
+          - conditions: "{{ button_code == 'down_press' }}"
             sequence:
               - service: input_number.set_value
                 target:
@@ -43,8 +56,8 @@ automation:
                 data:
                   value: 0
 
-          ## Button 4 Short Click: Black Tablet
-          - conditions: "{{ button_code == 'off-press' }}"
+          ## Button 4 Short Click: Turn Off White Tablet
+          - conditions: "{{ button_code == 'off_press' }}"
             sequence:
-              - service: switch.toggle
-                entity_id: switch.black_tablet_screen
+              - service: switch.turn_off
+                entity_id: switch.house_tablet_screen
