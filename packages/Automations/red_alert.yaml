@@ -1,36 +1,110 @@
-sensor:
-  - platform: template
-    sensors:
-      red_alert_in_my_area:
-        friendly_name: "Rishon LeZion Red Alert"
-        icon_template: mdi:bell-ring-outline
-        value_template: >-
-          {% set city = 'ראשון לציון - מזרח' %}
-          {% set redAlertData=state_attr('sensor.red_alert', 'data') %}
-          {% if redAlertData is not none %}
-            {% if city in redAlertData %} on {% else %} off {% endif %}
-          {% else %}
-            off
-          {% endif %}
-  ################################################
-  
-  - platform: rest
-    resource: https://www.oref.org.il/WarningMessages/alert/alerts.json
-    name: red_alert
-    value_template: "{{ value_json.data if value else [] }}"
-    scan_interval: 5
-    headers:
-      Referer: https://www.oref.org.il/
-      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36
-      X-Requested-With: XMLHttpRequest
+# sensor:
+#   - platform: template
+#     sensors:
+#       red_alert_in_my_area:
+#         friendly_name: "Red Alert in My Area"
+#         icon_template: mdi:bell-ring-outline
+#         value_template: >-
+#           {% set city = 'ראשון לציון - מזרח' %}
+#           {{ city in state_attr('sensor.red_alert', 'data') }}
+
+#   ################################################
+
+#   - platform: rest
+#     resource: https://www.oref.org.il/WarningMessages/alert/alerts.json
+#     name: red_alert
+#     value_template: >
+#       {% set response = value %}
+#       {% if response == '' %}
+#         {% set !include_dir_list  response = "{ 'data': [] }" %}
+#         {{ response | to_json }}
+#       {% endif %}
+#     scan_interval: 5
+#     json_attributes:
+#       - data
+#     headers:
+#       Referer: https://www.oref.org.il/
+#       Accept: application/json
+#       User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36
+#       X-Requested-With: XMLHttpRequest
 
 ################################################
 
+sensor:
+  - platform: rest
+    resource: !secret red_alert_url #using Dmatik's oref-alerts-proxy-ms docker: https://github.com/dmatik/oref-alerts-proxy-ms
+    name: red_alert
+    value_template: "OK"
+    json_attributes:
+      - alert
+      - current
+    scan_interval: 5
+    timeout: 30
+
+binary_sensor:
+  - platform: template
+    sensors:
+      red_alert_in_my_area:
+        friendly_name: "Red Alert in My Area"
+        value_template: >-
+          {{ state_attr('sensor.red_alert', 'alert') == true and 
+                    'ראשון לציון - מזרח' in state_attr('sensor.red_alert', 'current')['data'] }}
+
 automation:
+  - alias: Red Alert - Notify BFFs
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.red_alert_in_my_area
+        from: "off"
+        to: "on"
+        for:
+          seconds: 1
+    action:
+      - service: notify.bffs
+        data:
+          message: Red Alert at home!
+
+  - alias: Red Alert - Blink Lights
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.red_alert_in_my_area
+        from: "off"
+        to: "on"
+        for:
+          seconds: 1
+    action:
+      - service: script.turn_on
+        target:
+          entity_id: script.blink_light
+        data:
+          variables:
+            light_entity_id: light.living_room_curtain_light
+
+      - service: script.turn_on
+        target:
+          entity_id: script.blink_light
+        data:
+          variables:
+            light_entity_id: light.office_bff_light
+
+      - service: script.turn_on
+        target:
+          entity_id: script.blink_light
+        data:
+          variables:
+            light_entity_id: light.living_room_side_lamp
+
+      - service: script.turn_on
+        target:
+          entity_id: script.blink_light
+        data:
+          variables:
+            light_entity_id: light.bathroom_cabinet
+
   - alias: Red Alert - Close shutters
     trigger:
       - platform: state
-        entity_id: sensor.red_alert_in_my_area
+        entity_id: binary_sensor.red_alert_in_my_area
         from: "off"
         to: "on"
         for:
@@ -47,7 +121,7 @@ automation:
   - alias: Red Alert - Turn on lights living room kitchen
     trigger:
       - platform: state
-        entity_id: sensor.red_alert_in_my_area
+        entity_id: binary_sensor.red_alert_in_my_area
         from: "off"
         to: "on"
     condition:
@@ -56,14 +130,8 @@ automation:
         - alias: All lights are off
           condition: state
           entity_id:
-            - light.living_room_main_combined
-            - light.living_room_entrance
-            - light.living_room_hallway
-            - light.living_room_side_lamp_combined
-            - light.living_room_tv_light
-            - light.kitchen_island_combined
-            - light.kitchen_pantry
-            - light.kitchen_counter
+            - group.living_room_lights
+            - group.kitchen_lights
           state: "off"
 
         - alias: It's daytime
@@ -81,12 +149,12 @@ automation:
 
     action:
       - service: light.turn_on
-        entity_id: light.living_room_main_combined
+        entity_id: light.living_room_main
 
   - alias: Red Alert - Turn on lights office
     trigger:
       - platform: state
-        entity_id: sensor.red_alert_in_my_area
+        entity_id: binary_sensor.red_alert_in_my_area
         from: "off"
         to: "on"
     condition:
@@ -94,9 +162,7 @@ automation:
       conditions:
         - alias: All lights are off
           condition: state
-          entity_id:
-            - light.office_main_combined
-            - light.office_bff_light
+          entity_id: group.office_lights
           state: "off"
 
         - alias: It's daytime
@@ -113,12 +179,12 @@ automation:
 
     action:
       - service: light.turn_on
-        entity_id: light.office_main_combined
+        entity_id: light.office_main
 
-  - alias: Red Alert - Turn on lights birds
+  - alias: Red Alert - Turn on lights guests
     trigger:
       - platform: state
-        entity_id: sensor.red_alert_in_my_area
+        entity_id: binary_sensor.red_alert_in_my_area
         from: "off"
         to: "on"
     condition:
@@ -126,8 +192,7 @@ automation:
       conditions:
         - alias: All lights are off
           condition: state
-          entity_id:
-            - light.birds_main_combined
+          entity_id: light.guests_main
           state: "off"
 
         - alias: It's daytime
@@ -139,17 +204,17 @@ automation:
           condition: numeric_state
           attribute: current_position
           entity_id:
-            - cover.birds_shutter
+            - cover.guests_shutter
           above: 30
 
     action:
       - service: light.turn_on
-        entity_id: light.birds_main_combined
+        entity_id: light.guests_main
 
   - alias: Red Alert - Turn on lights bedroom
     trigger:
       - platform: state
-        entity_id: sensor.red_alert_in_my_area
+        entity_id: binary_sensor.red_alert_in_my_area
         from: "off"
         to: "on"
     condition:
@@ -157,9 +222,7 @@ automation:
       conditions:
         - alias: All lights are off
           condition: state
-          entity_id:
-            - light.bedroom_main_combined
-            - light.bedroom_entrance_combined
+          entity_id: group.bedroom_lights
           state: "off"
 
         - alias: It's daytime
@@ -176,4 +239,4 @@ automation:
 
     action:
       - service: light.turn_on
-        entity_id: light.bedroom_main_combined
+        entity_id: light.bedroom_main
