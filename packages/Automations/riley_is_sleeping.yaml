@@ -23,8 +23,11 @@ automation:
           - switch.black_tablet_screen
         from: "off"
         to: "on"
+      - platform: state
+        entity_id: sensor.house_tablet_foreground_app
+        to: "com.mcu.reolink"
     condition:
-      - alias: "After "
+      - alias: "At night time"
         condition: time
         after: input_datetime.riley_goes_to_sleep
         before: input_datetime.dawn
