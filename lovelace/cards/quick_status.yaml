@@ -57,6 +57,7 @@ cards:
           navigation_path: "[[[ return (window.location.hash == '#cameras') ? '.' : '#cameras'; ]]]"
         hold_action:
           action: more-info
+          entity: input_boolean.override_cameras_offline_warning
 
       #Appliances Button
       - type: custom:button-card
