@@ -86,6 +86,37 @@ automation:
         entity_id: input_text.unavailable_entities_temp_state
         value: "{{ '' if trigger.from_state.state == 'Online' else trigger.from_state.state }}"
 
+
+
+  #######################################################
+  ### Enable/Disable notifications on HA start/shutdown
+  #######################################################
+
+  - id: Unavailable Entities - Pause Notifications on Start and Shutdown
+    alias: Unavailable Entities - Pause Notifications on Start and Shutdown
+    trigger:
+      - platform: homeassistant
+        event: start
+        id: turn_on
+
+      - platform: homeassistant
+        event: shutdown
+        id: turn_off
+
+    action:
+      - if:
+          - alias: "Home Assistant is starting, wait for 1 minute"
+            condition: template
+            value_template: "{{ trigger.id == 'turn_on' }}"
+        then:
+          delay:
+            minutes: 1
+
+      - service: "automation.{{ trigger.id }}"
+        data:
+          entity_id: automation.unavailable_entities_notify
+
+
   #######################################################
   ### Group of monitored entities.
   ### Add any entities you want to be notified about.
@@ -94,6 +125,7 @@ automation:
 group:
   monitored_entities:
     entities:
+      - light.living_room_side_lamp
       - switch.living_room_entrance
       - switch.living_room_hallway
       - switch.living_room_main
