@@ -3,7 +3,7 @@ group:
     entities:
       - fan.balcony_fan
       - fan.living_room_fan
-      - fan.office
+      - fan.office_fan
       - fan.bedroom_fan
       - switch.toilet_vent
 
@@ -11,7 +11,8 @@ group:
     entities:
       - fan.balcony_fan
       - fan.living_room_fan
-      - fan.office
+      - fan.office_fan
+      - fan.riley_fan
       - fan.bedroom_fan
       - fan.gray_fan
       - switch.toilet_vent

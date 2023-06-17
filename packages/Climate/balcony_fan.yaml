@@ -105,6 +105,7 @@ fan:
     fans:
       balcony_fan:
         friendly_name: "Balcony Fan"
+        unique_id: "Balcony Fan"
         value_template: "{{ states('input_boolean.balcony_fan_power') }}"
         preset_mode_template: "{{ states('input_select.balcony_fan_preset') }}"
         percentage_template: "{{ (states('input_number.balcony_fan_speed') | int * 16.666 ) | round }}"

@@ -32,8 +32,9 @@ input_number:
 fan:
   - platform: template
     fans:
-      office:
+      office_fan:
         friendly_name: "Office Fan"
+        unique_id: "Office Fan"
         value_template: "{{ states('input_boolean.office_fan_power') }}"
         percentage_template: "{{ (states('input_number.office_fan_speed') | int * 33.333 ) | round }}"
         speed_count: 3

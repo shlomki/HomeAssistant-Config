@@ -23,7 +23,7 @@ cards:
 
       - type: custom:button-card
         template: ha-button
-        entity: fan.office
+        entity: fan.office_fan
         name: "Fan"
         icon: mdi:ceiling-fan
         hold_action:

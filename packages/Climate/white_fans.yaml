@@ -9,9 +9,9 @@ fan:
     token: !secret xiaomi_living_room_fan_token
 
   - platform: xiaomi_miio_fan
-    name: Bedroom Fan
-    host: !secret xiaomi_bedroom_fan_ip
-    token: !secret xiaomi_bedroom_fan_token
+    name: Riley Fan
+    host: !secret xiaomi_riley_fan_ip
+    token: !secret xiaomi_riley_fan_token
 
 input_text:
   temp_fan_angle:

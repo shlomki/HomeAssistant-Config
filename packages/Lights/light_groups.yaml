@@ -59,6 +59,10 @@ group:
       - light.kitchen_pantry
       - light.kitchen_counter
 
+  Kitchen Dimmable Lights:
+    entities:
+      - light.kitchen_island
+
   Hallway Lights:
     all: true
     entities:
@@ -111,7 +115,6 @@ group:
 
   Bedroom Dimmable Lights:
     entities:
-      - light.bedroom_main
       - light.bedroom_entrance
 
 light:
@@ -280,6 +283,31 @@ light:
           service: homeassistant.turn_off
           target:
             entity_id: group.kitchen_lights
+
+  - platform: template
+    lights:
+      kitchen_dimmable_lights:
+        friendly_name: "Kitchen Dimmable Lights"
+        value_template: "{{ expand('group.kitchen_dimmable_lights') | selectattr('state', 'equalto', 'on') | map(attribute='entity_id') | list | count > 0 }} " #Are any lights in the group on?
+        level_template: "{{ average((expand('group.kitchen_dimmable_lights') | selectattr('state', 'equalto', 'on') | map(attribute='attributes.brightness') | list) or [0]) }} " #What's the average brighthness in the group?
+        availability_template: "{{ expand('group.kitchen_dimmable_lights') | selectattr('state', 'in', ['on','off']) | list | count > 0 }}" #Are all lights in the group available?
+        turn_on:
+          - service: light.turn_on
+            data:
+              entity_id: "{{ expand('group.kitchen_dimmable_lights') | map(attribute='entity_id') | list }}" #Turn on all lights in the group
+        turn_off:
+          - service: light.turn_off
+            data:
+              entity_id: "{{ expand('group.kitchen_dimmable_lights') | map(attribute='entity_id') | list }}" #Turn off all lights in the group
+        set_level:
+          - service: script.turn_on
+            target:
+              entity_id: script.set_relative_light_level
+            data:
+              variables:
+                group_entity_id: group.kitchen_dimmable_lights
+                light_entity_id: light.kitchen_dimmable_lights
+                brightness: "{{ brightness }}"
 
       office_lights:
         friendly_name: "Office Lights"
