@@ -1,25 +1,7 @@
 input_text:
   gallery_display_day:
 
-# rest_command:
-#   autoremote_house_tablet_doorbell_command:
-#     method: GET
-#     url: !secret autoremote_house_tablet_doorbell_command
-
 automation:
-  # - alias: Remember last door motion
-  #   trigger:
-  #     - platform: state
-  #       entity_id:
-  #         - binary_sensor.camera_front_door_motion
-  #         - binary_sensor.camera_living_room_motion
-  #       from: 'off'
-  #       to: 'on'
-  #   action:
-  #     - service: input_text.set_value
-  #       entity_id: input_text.last_door_motion
-  #       data:
-  #         value: '{{ trigger.to_state.entity_id }}'
 
   - alias: Door is opened when not home
     trigger:
@@ -41,8 +23,8 @@ automation:
       today_name: >
         {% set sensor_names = [ 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday','Saturday','Sunday'] %}
         {{ sensor_names[now().weekday()] }}
-      front_door_photo: "/media/front_door/{{today_name}}/{{ now().strftime('%H.%M.%S') }}_front_door.jpg"
-      living_room_photo: "/media/front_door/{{today_name}}/{{ now().strftime('%H.%M.%S') }}_living_room.jpg"
+      front_door_photo: "camera_snaps/{{today_name}}/{{ now().strftime('%H.%M.%S') }}_front_door.jpg"
+      living_room_photo: "camera_snaps/{{today_name}}/{{ now().strftime('%H.%M.%S') }}_living_room.jpg"
     trigger:
       - platform: state
         entity_id: binary_sensor.front_door
@@ -110,66 +92,37 @@ automation:
         from: 'off'
         to: 'on'
     action:
+      - variables:
+          fully_kiosk_was_in_foreground: "{{ is_state('sensor.house_tablet_foreground_app', 'de.ozerov.fully') }}" #Was Fully Kiosk in the foreground?
+
       - service: fully_kiosk.load_url
         data:
           url: !secret front_door_camera_url
         target:
           device_id: !secret house_tablet_device_id
-      - delay:
-          seconds: 30
+
+      - service: button.press
+        target:
+          entity_id: button.house_tablet_bring_to_foreground
+
+      #Wait for the door to open for 1 minute
+      - wait_template: "{{ is_state('binary_sensor.front_door', 'on') }}"
+        timeout:
+          minutes: 1
+        continue_on_timeout: true
+
+      - if:
+        - alias: "A different app was in the foreground"
+          condition: template
+          value_template: "{{ fully_kiosk_was_in_foreground == false}}"
+        then:
+          - service: button.press
+            target:
+              entity_id: button.house_tablet_send_to_background
+
       - service: button.press
         target:
           entity_id: button.house_tablet_load_start_url
-
-
-  #     #Show the front door camera on tablet
-  #     - service: browser_mod.popup
-  #       data:
-  #         title: Front Door
-  #         deviceID:
-  #           - house_tablet
-  #         large: true
-  #         card:
-  #           type: custom:webrtc-camera
-  #           entity: camera.front_door
-
-  #     #Wait for the door to open for 1 minute
-  #     - wait_template: "{{ is_state('binary_sensor.front_door', 'on') }}"
-  #       timeout:
-  #         minutes: 1
-  #       continue_on_timeout: true
-
-  #     - choose:
-  #         # If door has been opened, wait for an additional 20 seconds
-  #         - conditions:
-  #             - condition: state
-  #               entity_id: binary_sensor.front_door
-  #               state: 'on'
-  #           sequence:
-  #             - delay:
-  #                 seconds: 20
-
-  #     #Close the popup
-  #     - service: browser_mod.close_popup
-  #       data:
-  #         deviceID:
-  #           - house_tablet
-
-  # - alias: Door is opened with photo from last motion
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.front_door
-  #       from: 'off'
-  #       to: 'on'
-  #   action:
-  #     - service: camera.snapshot
-  #       data:
-  #         entity_id: '{{ states("input_text.last_door_motion") }}'
-  #         filename: 'camera_snaps/{{ states("input_text.last_door_motion") }}.jpg'
-  #     - service: script.notify_bffs_photo
-  #       data:
-  #         message: The front door has been opened
-  #         file: 'camera_snaps/{{ states("input_text.last_door_motion") }}.jpg'
 
   - alias: Front door Left Open
     mode: single
@@ -243,7 +196,7 @@ automation:
           message: "Front Door Lock is low on battery! Charge it soon! ({{ trigger.to_state.state }}%)"
 
 shell_command:
-  removesnapshots: 'find /media/front_door/{{ day }}/ -exec rm {} \;'
+  removesnapshots: 'find camera_snaps/{{ day }}/ -exec rm {} \;'
 
 script:
   front_door_lock_toggle:
@@ -349,7 +302,7 @@ switch:
 
 # rest_command:
 #   front_door_play_doorbell:
-#     url: "http://localhost:1984/api/streams?dst=camera.office&src=ffmpeg:https://bffs.duckdns.org:8123/local/doorbell_pressed.mp3#audio=pcma#input=file"
+#     url: "http://localhost:1984/api/streams?dst=camera.office&src=ffmpeg:https://ha.shlomi.green/local/doorbell_pressed.mp3#audio=pcma#input=file"
 #     method: POST
 
 # media_player:

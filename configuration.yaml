@@ -2,13 +2,14 @@ homeassistant:
   name: Home
   latitude: !secret ha_lat
   longitude: !secret ha_long
+  country: !secret country
   elevation: 65
   unit_system: metric
   time_zone: Asia/Jerusalem
   allowlist_external_dirs:
-    - "/media/front_door"
+    - "/config/camera_snaps"
   media_dirs:
-    front_door: "/media/front_door"
+    camera_snaps: "/config/camera_snaps"
   packages: !include_dir_named packages
   customize: !include customize.yaml
   external_url: !secret ha_base_url
@@ -28,8 +29,6 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 
 http:
-  ssl_certificate: /ssl/fullchain.pem
-  ssl_key: /ssl/privkey.pem
   server_port: !secret ha_port
   ip_ban_enabled: true
   login_attempts_threshold: 5
@@ -39,11 +38,6 @@ http:
 python_script:
 
 wake_on_lan:
-
-browser_mod:
-  prefix: "browser_"
-  disable:
-    - all
 
 recorder:
   include:
@@ -79,9 +73,9 @@ recorder:
       - sensor.front_door_lock_battery_level
       - binary_sensor.rain
       - sensor.riley_main_toggle
-      
-
-
+      - binary_sensor.internet_connection
+      - binary_sensor.ubnt_interface_eth10_connected
+      - binary_sensor.google_connection
 
 
 lovelace:
