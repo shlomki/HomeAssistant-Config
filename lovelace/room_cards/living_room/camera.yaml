@@ -1,2 +1,4 @@
 type: 'custom:webrtc-camera'
 entity: camera.living_room
+mode: mse
+intersection: 0

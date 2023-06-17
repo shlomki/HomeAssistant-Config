@@ -63,24 +63,25 @@ cards:
         tap_action:
           action: fire-dom-event
           browser_mod:
-            command: popup
-            hide_header: false
-            title: UPS
-            card:
-              type: entities
-              entities:
-                - entity: sensor.ups_status
-                - entity: sensor.ups_battery
-                - entity: sensor.ups_load
-                - entity: sensor.ups_time_left
-                - entity: sensor.ups_time_on_battery
-                - entity: sensor.ups_transfer_count
-                - entity: input_datetime.last_power_outage
-                - entity: input_number.power_outages_today_count
-                - entity: input_number.power_outages_monthly_count
+            service: browser_mod.popup
+            data:
               title: UPS
+              content:
+                type: entities
+                entities:
+                  - entity: sensor.ups_status
+                  - entity: sensor.ups_battery
+                  - entity: sensor.ups_load
+                  - entity: sensor.ups_time_left
+                  - entity: sensor.ups_time_on_battery
+                  - entity: sensor.ups_transfer_count
+                  - entity: input_datetime.last_power_outage
+                  - entity: input_number.power_outages_today_count
+                  - entity: input_number.power_outages_monthly_count
+                title: UPS
         hold_action:
           action: more-info
+
       - type: vertical-stack
         cards:
           - type: custom:button-card
@@ -103,20 +104,20 @@ cards:
             tap_action:
               action: fire-dom-event
               browser_mod:
-                command: popup
-                hide_header: false
-                title: Power Consumption
-                card:
-                  type: entities
-                  entities:
-                    - entity: sensor.power_cost_per_hour
-                    - entity: sensor.energy_total_today_cost
-                    - entity: sensor.energy_total_next_bill_cost
-                    - entity: sensor.power_total
-                    - entity: sensor.shelly_3em_channel_a_power
-                    - entity: sensor.shelly_3em_channel_b_power
-                    - entity: sensor.shelly_3em_channel_c_power
-                  show_header_toggle: false
+                service: browser_mod.popup
+                data:
+                  title: Power Consumption
+                  content:
+                    type: entities
+                    entities:
+                      - entity: sensor.power_cost_per_hour
+                      - entity: sensor.energy_total_today_cost
+                      - entity: sensor.energy_total_next_bill_cost
+                      - entity: sensor.power_total
+                      - entity: sensor.shelly_3em_channel_a_power
+                      - entity: sensor.shelly_3em_channel_b_power
+                      - entity: sensor.shelly_3em_channel_c_power
+                    show_header_toggle: false
             hold_action:
               action: more-info
           - type: custom:button-card
@@ -139,20 +140,20 @@ cards:
             tap_action:
               action: fire-dom-event
               browser_mod:
-                command: popup
-                hide_header: false
-                title: Power Consumption
-                card:
-                  type: entities
-                  entities:
-                    - entity: sensor.power_cost_per_hour
-                    - entity: sensor.energy_total_today_cost
-                    - entity: sensor.energy_total_next_bill_cost
-                    - entity: sensor.power_total
-                    - entity: sensor.shelly_3em_channel_a_power
-                    - entity: sensor.shelly_3em_channel_b_power
-                    - entity: sensor.shelly_3em_channel_c_power
-                  show_header_toggle: false
+                service: browser_mod.popup
+                data:
+                  title: Power Consumption
+                  content:
+                    type: entities
+                    entities:
+                      - entity: sensor.power_cost_per_hour
+                      - entity: sensor.energy_total_today_cost
+                      - entity: sensor.energy_total_next_bill_cost
+                      - entity: sensor.power_total
+                      - entity: sensor.shelly_3em_channel_a_power
+                      - entity: sensor.shelly_3em_channel_b_power
+                      - entity: sensor.shelly_3em_channel_c_power
+                    show_header_toggle: false
             hold_action:
               action: more-info
               

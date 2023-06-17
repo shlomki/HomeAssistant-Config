@@ -20,26 +20,13 @@ cards:
           - sensor.bedroom_temperature_monitor
           - timer.ac_damper_bedroom
 
-      - type: conditional
-        conditions:
-          - entity: fan.bedroom_fan
-            state_not: "unavailable"
-        card: 
-          type: custom:button-card
-          template: ha-button
-          entity: fan.bedroom_fan
-          name: Fan
-          icon: mdi:fan
-          hold_action:
-            action: fire-dom-event
-            browser_mod:
-              command: popup
-              hide_header: false
-              title: Living Room Fan
-              card:
-                entity: fan.bedroom_fan
-                name: Living Room Fan
-                type: custom:fan-xiaomi
+      - type: custom:button-card
+        template: ha-button
+        entity: fan.bedroom_fan
+        name: "Fan"
+        icon: mdi:ceiling-fan
+        hold_action:
+          action: more-info
 
       - type: conditional
         conditions:
@@ -58,3 +45,12 @@ cards:
         template: tv-button
         entity: media_player.bedroom_tv
         name: TV
+
+      - type: custom:button-card
+        template: ha-button
+        entity: script.click_to_wake_up
+        name: "Wake Up"
+        icon: mdi:bed-clock
+        tap_action:
+          action: call-service
+          service: script.click_to_wake_up

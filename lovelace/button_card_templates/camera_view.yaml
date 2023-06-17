@@ -3,10 +3,10 @@ camera-view:
   tap_action:
     action: fire-dom-event
     browser_mod:
-      command: popup
-      hide_header: false
-      title: Live View
-      card:
-        type: 'custom:webrtc-camera'
-        entity: |
-          [[[ return variables.stream; ]]]
+      service: browser_mod.popup
+      data:
+        title: Live View
+        content:
+          type: 'custom:webrtc-camera'
+          entity: |
+            [[[ return variables.stream; ]]]

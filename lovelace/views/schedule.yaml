@@ -29,6 +29,8 @@ cards:
       - light.office_bff_light
       - light.living_room_side_lamp
       - switch.water_boiler_with_timer
+      - switch.shlomi_pc
+      - script.click_to_wake_up
 
     exclude: []
     title: true

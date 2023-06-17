@@ -6,15 +6,15 @@ tv-button:
   hold_action:
     action: fire-dom-event
     browser_mod:
-      command: popup
-      hide_header: false
-      title: |
-        [[[ return entity.attributes.friendly_name; ]]]
-      card:
-        type: vertical-stack
-        cards:
-          - type: custom:decluttering-card
-            template: tv_remote
-            variables:
-              - entity_id: |
-                  [[[ return entity.entity_id; ]]]
+      service: browser_mod.popup
+      data:
+        title: |
+          [[[ return entity.attributes.friendly_name; ]]]
+        content:
+          type: vertical-stack
+          cards:
+            - type: custom:decluttering-card
+              template: tv_remote
+              variables:
+                - entity_id: |
+                    [[[ return entity.entity_id; ]]]

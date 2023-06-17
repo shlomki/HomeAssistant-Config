@@ -1,2 +1,4 @@
 type: 'custom:webrtc-camera'
 entity: camera.riley
+intersection: 0
+mode: mse

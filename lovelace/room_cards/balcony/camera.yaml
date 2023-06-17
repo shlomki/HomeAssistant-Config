@@ -1,2 +1,3 @@
 type: 'custom:webrtc-camera'
 entity: camera.balcony
+intersection: 0

@@ -16,9 +16,10 @@ cards:
     hold_action:
       action: fire-dom-event
       browser_mod:
-        command: popup
-        title: Living Room
-        card: !include /config/lovelace/room_cards/living_room/lights.yaml
+        service: browser_mod.popup
+        data:
+          title: Living Room
+          content: !include /config/lovelace/room_cards/living_room/lights.yaml
     entity: group.living_room_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.living_room ]]]"
     icon: mdi:sofa-outline
@@ -40,9 +41,10 @@ cards:
     hold_action:
       action: fire-dom-event
       browser_mod:
-        command: popup
-        title: Balcony
-        card: !include /config/lovelace/room_cards/balcony/lights.yaml
+        service: browser_mod.popup
+        data:
+          title: Balcony
+          content: !include /config/lovelace/room_cards/balcony/lights.yaml
     entity: group.balcony_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.balcony ]]]"
     icon_height: 50px
@@ -64,22 +66,10 @@ cards:
     hold_action:
       action: fire-dom-event
       browser_mod:
-        command: popup
-        title: Kitchen
-        card:
-          type: custom:auto-entities
-          card:
-            type: entities
-          entities:
-            - type: custom:slider-entity-row
-              entity: light.kitchen_island
-              full_row: true
-              min: 1
-              max: 100
-              step: 5
-          filter:
-            include:
-              - group: group.kitchen_lights
+        service: browser_mod.popup
+        data:
+          title: Kitchen
+          content: !include /config/lovelace/room_cards/kitchen/lights.yaml
     entity: group.kitchen_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.kitchen ]]]"
     icon_height: 50px
@@ -102,9 +92,10 @@ cards:
     hold_action:
       action: fire-dom-event
       browser_mod:
-        command: popup
-        title: Toilet
-        card: !include /config/lovelace/room_cards/toilet/lights.yaml
+        service: browser_mod.popup
+        data:
+          title: Toilet
+          content: !include /config/lovelace/room_cards/toilet/lights.yaml
     entity: group.toilet_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.toilet ]]]"
     icon_height: 50px
@@ -126,9 +117,10 @@ cards:
     hold_action:
       action: fire-dom-event
       browser_mod:
-        command: popup
-        title: Bathroom
-        card: !include /config/lovelace/room_cards/bathroom/lights.yaml
+        service: browser_mod.popup
+        data:
+          title: Bathroom
+          content: !include /config/lovelace/room_cards/bathroom/lights.yaml
     entity: group.bathroom_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bathroom ]]]"
     icon_height: 50px

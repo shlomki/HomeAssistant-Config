@@ -54,6 +54,18 @@ cards:
       exclude: []
     sort:
       method: state
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: Window Sensors
+    filter:
+      include:
+        - domain: binary_sensor
+          attributes:
+            device_class: window
+      exclude: []
+    sort:
+      method: state
   - entities:
       - entity: binary_sensor.rain
     show_header_toggle: false

@@ -13,24 +13,25 @@ cards:
     hold_action:
       action: fire-dom-event
       browser_mod:
-        command: popup
-        title: Hallway
-        card:
-          type: vertical-stack
-          cards:
-            - type: custom:auto-entities
-              card:
-                type: entities
-              entities:
-                - type: custom:slider-entity-row
-                  entity: light.hallway_lights
-                  full_row: true
-                  min: 1
-                  max: 100
-                  step: 5
-              filter:
-                include:
-                  - group: group.hallway_lights
+        service: browser_mod.popup
+        data:
+          title: Hallway
+          content: 
+            type: vertical-stack
+            cards:
+              - type: custom:auto-entities
+                card:
+                  type: entities
+                entities:
+                  - type: custom:slider-entity-row
+                    entity: light.hallway_lights
+                    full_row: true
+                    min: 1
+                    max: 100
+                    step: 5
+                filter:
+                  include:
+                    - group: group.hallway_lights
     entity: light.hallway_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.hallway ]]]"
     icon_height: 50px
@@ -51,9 +52,10 @@ cards:
     hold_action:
       action: fire-dom-event
       browser_mod:
-        command: popup
-        title: Office
-        card: !include /config/lovelace/room_cards/office/lights.yaml
+        service: browser_mod.popup
+        data:
+          title: Office
+          content: !include /config/lovelace/room_cards/office/lights.yaml
     entity: group.office_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.office ]]]"
     icon_height: 50px
@@ -72,9 +74,10 @@ cards:
     hold_action:
       action: fire-dom-event
       browser_mod:
-        command: popup
-        title: Guests
-        card: !include /config/lovelace/room_cards/guests/lights.yaml
+        service: browser_mod.popup
+        data:
+          title: Guests
+          content: !include /config/lovelace/room_cards/guests/lights.yaml
     entity: light.guests_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.guests ]]]"
     icon_height: 50px
@@ -93,9 +96,10 @@ cards:
     hold_action:
       action: fire-dom-event
       browser_mod:
-        command: popup
-        title: Riley
-        card: !include /config/lovelace/room_cards/riley/lights.yaml
+        service: browser_mod.popup
+        data:
+          title: Riley
+          content: !include /config/lovelace/room_cards/riley/lights.yaml
     entity: light.riley_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.riley ]]]"
     icon_height: 50px
@@ -125,9 +129,10 @@ cards:
     hold_action:
       action: fire-dom-event
       browser_mod:
-        command: popup
-        title: Bedroom
-        card: !include /config/lovelace/room_cards/bedroom/lights.yaml
+        service: browser_mod.popup
+        data:
+          title: Bedroom
+          content: !include /config/lovelace/room_cards/bedroom/lights.yaml
     entity: group.bedroom_lights
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bedroom ]]]"
     icon_height: 50px

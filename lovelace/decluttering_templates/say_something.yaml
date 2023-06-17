@@ -1,0 +1,43 @@
+say_something:
+  card:
+    type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title
+        name: Say Something
+
+      - type: entities
+        entities:
+          - entity: input_text.say_something_[[room_name]]
+            type: 'custom:text-input-row'
+
+          - entity: input_select.say_something_language
+            icon: mdi:translate
+          
+          - type: custom:slider-entity-row
+            entity: 'media_player.[[room_name]]_speaker'
+            name: Volume
+
+          # - type: 'custom:button-card'
+          #   template: ha-button
+          #   entity: input_select.say_something_language
+          #   name: English
+          #   state:
+          #     - value: English
+          #     - value: Hebrew
+          # - type: 'custom:button-card'
+          #   template: ha-button
+          #   entity: input_select.say_something_language
+          #   name: Hebrew
+          #   state:
+          #     - value: English
+          #     - value: Hebrew
+
+          - type: call-service
+            name: ' '
+            icon: 'mdi:voice'
+            action_name: Play it
+            service: script.send_annoucement
+            service_data:
+              room_name: '[[room_name]]'
+            
