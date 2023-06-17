@@ -5,39 +5,13 @@ badges: []
 panel: true
 subview: false
 cards:
-  - type: vertical-stack
-    cards:
-      - type: custom:button-card
-        template: title-large
-        name: Front Door Camera
+  # - type: vertical-stack
+  #   cards:
+  #     - type: custom:button-card
+  #       template: title-large
+  #       name: Front Door Camera
 
-      - type: 'custom:webrtc-camera'
-        entity: camera.front_door
-        style: "video {aspect-ratio: 16/9; object-fit: fit;}"
-        muted: true
-        ptz:
-          service: onvif.ptz
-          data_left:
-            entity_id: camera.front_door_onvif_profile000_mainstream
-            pan: LEFT
-            move_mode: ContinuousMove
-          data_right:
-            entity_id: camera.front_door_onvif_profile000_mainstream
-            pan: RIGHT
-            move_mode: ContinuousMove
-          data_up:
-            entity_id: camera.front_door_onvif_profile000_mainstream
-            tilt: UP
-            move_mode: ContinuousMove
-          data_down:
-            entity_id: camera.front_door_onvif_profile000_mainstream
-            tilt: DOWN
-            move_mode: ContinuousMove
-          data_zoom_in:
-            entity_id: camera.front_door_onvif_profile000_mainstream
-            zoom: ZOOM_IN
-            move_mode: ContinuousMove
-          data_zoom_out:
-            entity_id: camera.front_door_onvif_profile000_mainstream
-            zoom: ZOOM_OUT
-            move_mode: ContinuousMove
+    - type: 'custom:webrtc-camera'
+      entity: camera.front_door
+      style: "video {aspect-ratio: 16/9; object-fit: fit;}"
+      muted: true
