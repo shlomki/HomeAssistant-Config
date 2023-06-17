@@ -2,6 +2,7 @@ input_boolean:
   living_room_script_running:
   guests_script_running:
   riley_script_running:
+  bedroom_main_light:
 
   living_room_color_fix:
   guests_main_color_fix:
@@ -147,20 +148,51 @@ light:
       bedroom_main:
         unique_id: "Bedroom Light Main"
         friendly_name: "Bedroom Main"
-        value_template: "{{ is_state('switch.bedroom_main','on') }}"
-        level_template: "{% set level = state_attr('light.bedroom_main_hue','brightness') %}{{ level if level != None else 0 }}"
+        value_template: "{{ is_state('input_boolean.bedroom_main_light','on') }}"
         availability_template: "{{ not is_state('switch.bedroom_main','unavailable') }}"
         turn_on:
+          - if:
+              - alias: "Bedroom Fan Light is actually on"
+                condition: state
+                entity_id: switch.bedroom_main
+                state: "off"
+            then:
+              - service: homeassistant.turn_on
+                entity_id: switch.bedroom_main
+              - delay:
+                  seconds: 1
+
+          - if:
+              - alias: "Bedroom Fan Light is actually off"
+                condition: state
+                entity_id: input_boolean.bedroom_main_light
+                state: "off"
+            then:
+              - service: input_boolean.turn_off
+                entity_id: input_boolean.bedroom_main_light
+
+              - service: script.bedroom_fan_control
+                data:
+                  action: "light"
+    
+
+        turn_off:
+          - if:
+              - alias: "Bedroom Fan Light is actually on"
+                condition: state
+                entity_id: input_boolean.bedroom_main_light
+                state: "on"
+            then:
+              - service: input_boolean.turn_off
+                entity_id: input_boolean.bedroom_main_light
+
+              - service: script.bedroom_fan_control
+                data:
+                  action: "light"
+    
           - service: homeassistant.turn_on
             entity_id: switch.bedroom_main
-        turn_off:
-          - service: homeassistant.turn_off
-            entity_id: switch.bedroom_main
-        set_level:
-          - service: light.turn_on
-            data:
-              entity_id: light.bedroom_main_hue
-              brightness: "{{ brightness }}"
+
 
   - platform: template
     lights:
@@ -321,7 +353,7 @@ automation:
         entity_id: input_boolean.riley_main_color_fix
 
   - alias: Ceiling Lights Set Full Brightness When Turning On
-    description: ""
+    id: Ceiling Lights Set Full Brightness When Turning On
     trigger:
       - platform: state
         entity_id:
@@ -335,4 +367,6 @@ automation:
     action:
       - service: input_number.set_value
         data:
-          entity_id: "input_number.{{ trigger.to_state.entity_id | replace('switch.', '') | replace('_entrance', '') | replace('_hallway', '')  | replace('main_', '') }}_light_level"
+          entity_id: "input_number.{{ trigger.to_state.entity_id | replace('switch.', '') | replace('_entrance', '') | replace('_hallway', '')  | replace('main_', '') | replace('_main', '') }}_light_level"
+          value: 18
+
