@@ -58,7 +58,7 @@ cards:
     cards:
       - type: custom:button-card
         template: title
-        name: BFFs are Home Notifications
+        name: Notifications
 
       - type: horizontal-stack
         cards:
@@ -78,6 +78,15 @@ cards:
             show_label: true
             entity: automation.inbal_came_home
             icon: mdi:account-outline
+
+
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: It's Raining
+            label: Notification
+            show_label: true
+            entity: automation.notify_when_raining
+            icon: mdi:water-alert
 
   - type: vertical-stack
     cards:

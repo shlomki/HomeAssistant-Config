@@ -32,7 +32,7 @@ automation:
                     entity_id: group.windows
                     state: 'on'
             sequence:
-              - service: notify.bffs
+              - service: notify.shlomi
                 data:
                   message: >
                     It's raining! These windows are open: {%- for entity_id in states.group.windows.attributes.entity_id -%}
@@ -44,13 +44,13 @@ automation:
               - condition: template
                 value_template: "{{ trigger.to_state.state == 'on' }}"
             sequence:
-              - service: notify.bffs
+              - service: notify.shlomi
                 data:
                   message: It's raining!
           - conditions:
               - condition: template
                 value_template: "{{ trigger.to_state.state == 'off' }}"
             sequence:
-              - service: notify.bffs
+              - service: notify.shlomi
                 data:
                   message: It's not raining anymore!
