@@ -9,10 +9,9 @@ switch:
     mac: !secret shlomi_pc_mac
     broadcast_address: !secret lan_broadcast
     turn_off:
-      service: hassio.addon_stdin
+      service: button.press
       data:
-        addon: core_rpc_shutdown
-        input: shlomi-pc
+        entity_id: button.shlomi_pc_shutdown
 
   - platform: wake_on_lan
     name: Unraid Server
