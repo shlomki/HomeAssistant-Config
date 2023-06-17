@@ -27,7 +27,6 @@ sensor:
     sensors:
       sleep_scene:
         friendly_name: "Sleep Scene"
-        unit_of_measurement: "watt"
         value_template: "{{ (is_state('group.all_lights', 'off') and
           is_state_attr('cover.bedroom_shutter', 'current_position', 11) and
           is_state('lock.front_door', 'locked') and
