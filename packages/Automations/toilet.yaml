@@ -4,6 +4,14 @@ group:
       - automation.toilet_light_on_motion
       - automation.toilet_turn_on_vent_if_theres_someone_in_the_toilet_for_a_few_mins
 
+binary_sensor:
+  - platform: group
+    name: "Toilet Occupancy"
+    device_class: occupancy
+    entities:
+      - binary_sensor.toilet_motion
+      - binary_sensor.toilet_presence
+
 automation:
 
   - alias: Toilet light on motion
@@ -13,15 +21,14 @@ automation:
       - id: 'on'
         platform: state
         entity_id: 
-          - binary_sensor.toilet_motion
-          - binary_sensor.toilet_presence
+          - binary_sensor.toilet_occupancy
           - binary_sensor.toilet_door
         from: 'off'
         to: 'on'
 
       - id: 'off'
         platform: state
-        entity_id: binary_sensor.toilet_presence
+        entity_id: binary_sensor.toilet_occupancy
         from: 'on'
         to: 'off'
 
@@ -33,7 +40,7 @@ automation:
     mode: restart
     trigger:
       - platform: state
-        entity_id: binary_sensor.toilet_presence
+        entity_id: binary_sensor.toilet_occupancy
         from: 'off'
         to: 'on'
         for:
@@ -42,7 +49,7 @@ automation:
       #Wait for them to leave the toilet
       - wait_for_trigger:
           - platform: state
-            entity_id: binary_sensor.toilet_presence
+            entity_id: binary_sensor.toilet_occupancy
             from: "on"
             to: "off"
 
