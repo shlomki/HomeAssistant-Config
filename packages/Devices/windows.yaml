@@ -86,6 +86,7 @@ cover:
   - platform: template
     covers:
       office_curtain:
+        unique_id: "Office Curtain"
         device_class: curtain
         friendly_name: "Office Curtain"
         value_template: "{{ states('cover.office_curtain_motor') }}"

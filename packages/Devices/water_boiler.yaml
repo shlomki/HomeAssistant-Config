@@ -1,8 +1,3 @@
-switcher_kis:
-  phone_id: !secret switcher_phone_id
-  device_id: !secret switcher_device_id
-  device_password: !secret switcher_device_password
-
 input_datetime:
   water_boiler_last_on:
     has_date: true
@@ -109,6 +104,7 @@ switch:
   - platform: template
     switches:
       water_boiler_with_timer:
+        unique_id: "Water Boiler With Timer"
         value_template: "{{ is_state('switch.water_boiler', 'on') }}"
         turn_on:
           service: switcher_kis.turn_on_with_timer
