@@ -1,7 +1,14 @@
 title: Home
 
-kiosk_mode:
-  kiosk: true
+wallpanel:
+  enabled: false
+  hide_toolbar: true
+  hide_sidebar: true
+  idle_time: 0
+  # cards:
+  #   - type: weather-forecast
+  #     entity: weather.outside_weather
+  #     show_forecast: true
 
 decluttering_templates: !include_dir_merge_named /config/lovelace/decluttering_templates/
 
