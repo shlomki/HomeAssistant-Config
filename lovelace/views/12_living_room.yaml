@@ -19,6 +19,11 @@ cards:
 
       - !include /config/lovelace/room_cards/living_room/devices.yaml
 
+      - type: custom:decluttering-card
+        template: say_something
+        variables:
+          - room_name: living_room
+
 
 #Room Name
 #Camera view

@@ -1,0 +1,30 @@
+input_text:
+  say_something_living_room:
+    name: Say Something
+  say_something_balcony:
+    name: Say Something
+  say_something_office:
+    name: Say Something
+  say_something_guests:
+    name: Say Something
+  say_something_bathroom:
+    name: Say Something
+  say_something_bedroom:
+    name: Say Something
+
+input_select:
+  say_something_language:
+    name: Language
+    options:
+      - Hebrew
+      - English
+
+script:
+  send_annoucement:
+    alias: "Send Annoucement"
+    sequence:
+      - service: "tts.{{ 'cloud_say' if is_state('input_select.say_something_language', 'Hebrew') else 'google_translate_say' }}"
+        data:
+          entity_id: "media_player.{{ room_name }}_speaker"
+          message: "{{ states('input_text.say_something_' +  room_name) }}"
+          language: "{{ 'he-IL' if is_state('input_select.say_something_language', 'Hebrew') else 'en-us' }}"
