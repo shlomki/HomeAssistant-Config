@@ -12,6 +12,24 @@ script:
           media_content_id: 'https://storage.googleapis.com/relaxation-sounds/forest_3600.mp3'
           media_content_type: music
 
+  click_to_wake_up:
+      alias: "Click to Wake Up"
+      sequence:
+        - service: automation.turn_off
+          entity_id: automation.bedroom_switches_scene
+
+        - repeat:
+            count: 6
+            sequence:  
+              - service: switch.toggle
+                data:
+                  entity_id: switch.bedroom_scene_toggle_right
+              - delay:
+                  seconds: 1
+                  
+        - service: automation.turn_on
+          entity_id: automation.bedroom_switches_scene
+
 automation:
   - id: Dog Cage is Still Open When Going to Sleep
     alias: Dog Cage is Still Open When Going to Sleep
@@ -29,3 +47,4 @@ automation:
       - service: notify.bffs
         data:
           message: 'The Dog Cage is still open! Beware of pee when you wake up in the morning!'
+
