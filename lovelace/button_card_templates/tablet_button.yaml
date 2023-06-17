@@ -20,18 +20,18 @@ tablet-button:
   hold_action:
     action: fire-dom-event
     browser_mod:
-      command: popup
-      hide_header: false
-      title: |
-        [[[ return variables.tablet_friendly_name; ]]]
-      card:
-        type: vertical-stack
-        cards:
-          - type: custom:decluttering-card
-            template: tablet_control
-            variables:
-              - tablet_id: |
-                  [[[ return variables.tablet_id; ]]]
+      service: browser_mod.popup
+      data:
+        title: |
+          [[[ return variables.tablet_friendly_name; ]]]
+        content:
+          type: vertical-stack
+          cards:
+            - type: custom:decluttering-card
+              template: tablet_control
+              variables:
+                - tablet_id: |
+                    [[[ return variables.tablet_id; ]]]
   styles:
     custom_fields:
       volume_muted:

@@ -85,247 +85,247 @@ climate-button:
   hold_action:
     action: fire-dom-event
     browser_mod:
-      command: popup
-      hide_header: false
-      title: |
-        [[[ return entity.attributes.friendly_name; ]]]
-      card:
-        type: vertical-stack
-        cards:
-          - type: custom:mini-climate
-            entity: |
-              [[[ return entity.entity_id; ]]]
-            swap_temperatures: true
-            hvac_mode:
-              hide: true
-            fan_mode:
-              hide: true
-            toggle:
-              default: on
-              hide: true
-            secondary_info:
-              type: last-changed
-            buttons:
-              power:
-                location: main
-                icon: mdi:power
-                state:
-                  mapper: "state => (state == 'fan_only' ? 'on': 'off')"
-                toggle_action: >
-                  [[[ return "(state) => this.call_service('homeassistant', (state == 'on' ? 'turn_off': 'turn_on'),  { 'entity_id': '" + entity.entity_id +"' })" ]]]
-              fan-low:
-                location: bottom
-                icon: mdi:fan-speed-1
-                state:
-                  mapper: "(state, entity) => (entity.attributes.fan_mode == 'Low' ? 'on': 'off')"
-                toggle_action: >
-                  [[[ return "(state) => this.call_service('climate', 'set_fan_mode',  { 'entity_id': '" + entity.entity_id +"', 'fan_mode': 'Low'})" ]]]
-              fan-medium:
-                location: bottom
-                icon: mdi:fan-speed-2
-                state:
-                  mapper: "(state, entity) => (entity.attributes.fan_mode == 'Medium' ? 'on': 'off')"
-                toggle_action: >
-                  [[[ return "(state) => this.call_service('climate', 'set_fan_mode',  { 'entity_id': '" + entity.entity_id +"', 'fan_mode': 'Medium'})" ]]]
-              fan-high:
-                location: bottom
-                icon: mdi:fan-speed-3
-                state:
-                  mapper: "(state, entity) => (entity.attributes.fan_mode == 'High' ? 'on': 'off')"
-                toggle_action: >
-                  [[[ return "(state) => this.call_service('climate', 'set_fan_mode',  { 'entity_id': '" + entity.entity_id +"', 'fan_mode': 'High'})" ]]]
-              fan-auto:
-                location: bottom
-                icon: mdi:fan-auto
-                state:
-                  mapper: "(state, entity) => (entity.attributes.fan_mode == 'Auto' ? 'on': 'off')"
-                toggle_action: >
-                  [[[ return "(state) => this.call_service('climate', 'set_fan_mode',  { 'entity_id': '" + entity.entity_id +"', 'fan_mode': 'Auto'})" ]]]
-              smartauto:
-                location: bottom
-                icon: mdi:sun-snowflake-variant
-                state:
-                  entity: input_select.ac_smartauto_location
-                  mapper: >
-                    [[[ return "(state) => (state == '" + variables.damper_name.replace('ac_damper_','') + "' ? 'on': 'off')" ]]]
-                toggle_action: >
-                  [[[ return "(state) => this.call_service('script', 'turn_on',  { 'entity_id': 'script.toggle_ac_smartauto', 'variables': { 'location': '" + variables.damper_name.replace('ac_damper_', '') + "'} })" ]]]
-            indicators:
-              window0:
-                icon:
-                  template: |
-                    (value) => (value == '' ? '' : 'mdi:window-open-variant')
-                  style: |
-                    (value) => (value != '' ? { color: 'red' } : {})
-                source:
-                  entity: |
-                    [[[
-                      if (variables.window_entity_ids != null) {
-                        if (Array.isArray(variables.window_entity_ids)) {
-                          return variables.window_entity_ids[0];
-                        } else {
-                          return variables.window_entity_ids;
-                        }
-                      }
-                    ]]]
-
-                  values:
-                    "on": |
+      service: browser_mod.popup
+      data:
+        title: |
+          [[[ return entity.attributes.friendly_name; ]]]
+        content:
+          type: vertical-stack
+          cards:
+            - type: custom:mini-climate
+              entity: |
+                [[[ return entity.entity_id; ]]]
+              swap_temperatures: true
+              hvac_mode:
+                hide: true
+              fan_mode:
+                hide: true
+              toggle:
+                default: on
+                hide: true
+              secondary_info:
+                type: last-changed
+              buttons:
+                power:
+                  location: main
+                  icon: mdi:power
+                  state:
+                    mapper: "state => (state == 'fan_only' ? 'on': 'off')"
+                  toggle_action: >
+                    [[[ return "(state) => this.call_service('homeassistant', (state == 'on' ? 'turn_off': 'turn_on'),  { 'entity_id': '" + entity.entity_id +"' })" ]]]
+                fan-low:
+                  location: bottom
+                  icon: mdi:fan-speed-1
+                  state:
+                    mapper: "(state, entity) => (entity.attributes.fan_mode == 'Low' ? 'on': 'off')"
+                  toggle_action: >
+                    [[[ return "(state) => this.call_service('climate', 'set_fan_mode',  { 'entity_id': '" + entity.entity_id +"', 'fan_mode': 'Low'})" ]]]
+                fan-medium:
+                  location: bottom
+                  icon: mdi:fan-speed-2
+                  state:
+                    mapper: "(state, entity) => (entity.attributes.fan_mode == 'Medium' ? 'on': 'off')"
+                  toggle_action: >
+                    [[[ return "(state) => this.call_service('climate', 'set_fan_mode',  { 'entity_id': '" + entity.entity_id +"', 'fan_mode': 'Medium'})" ]]]
+                fan-high:
+                  location: bottom
+                  icon: mdi:fan-speed-3
+                  state:
+                    mapper: "(state, entity) => (entity.attributes.fan_mode == 'High' ? 'on': 'off')"
+                  toggle_action: >
+                    [[[ return "(state) => this.call_service('climate', 'set_fan_mode',  { 'entity_id': '" + entity.entity_id +"', 'fan_mode': 'High'})" ]]]
+                fan-auto:
+                  location: bottom
+                  icon: mdi:fan-auto
+                  state:
+                    mapper: "(state, entity) => (entity.attributes.fan_mode == 'Auto' ? 'on': 'off')"
+                  toggle_action: >
+                    [[[ return "(state) => this.call_service('climate', 'set_fan_mode',  { 'entity_id': '" + entity.entity_id +"', 'fan_mode': 'Auto'})" ]]]
+                smartauto:
+                  location: bottom
+                  icon: mdi:sun-snowflake-variant
+                  state:
+                    entity: input_select.ac_smartauto_location
+                    mapper: >
+                      [[[ return "(state) => (state == '" + variables.damper_name.replace('ac_damper_','') + "' ? 'on': 'off')" ]]]
+                  toggle_action: >
+                    [[[ return "(state) => this.call_service('script', 'turn_on',  { 'entity_id': 'script.toggle_ac_smartauto', 'variables': { 'location': '" + variables.damper_name.replace('ac_damper_', '') + "'} })" ]]]
+              indicators:
+                window0:
+                  icon:
+                    template: |
+                      (value) => (value == '' ? '' : 'mdi:window-open-variant')
+                    style: |
+                      (value) => (value != '' ? { color: 'red' } : {})
+                  source:
+                    entity: |
                       [[[
                         if (variables.window_entity_ids != null) {
                           if (Array.isArray(variables.window_entity_ids)) {
-                            return states[variables.window_entity_ids[0]].attributes.friendly_name.replace(" Window", "");
+                            return variables.window_entity_ids[0];
                           } else {
-                            return 'Window Open'
+                            return variables.window_entity_ids;
                           }
                         }
                       ]]]
-                    "off": ""
-                    "unavailable": "Unavailable"
-                  mapper: value => this.source.values[value]
 
-              window1:
-                icon:
-                  template: |
-                    (value) => (value == '' ? '' : 'mdi:window-open-variant')
-                  style: |
-                    (value) => (value != '' ? { color: 'red' } : {})
-                source:
-                  entity: |
-                    [[[
-                      if (variables.window_entity_ids != null) {
-                        if (Array.isArray(variables.window_entity_ids)) {
-                          return variables.window_entity_ids[1];
-                        } else {
-                          return variables.window_entity_ids;
-                        }
-                      }
-                    ]]]
+                    values:
+                      "on": |
+                        [[[
+                          if (variables.window_entity_ids != null) {
+                            if (Array.isArray(variables.window_entity_ids)) {
+                              return states[variables.window_entity_ids[0]].attributes.friendly_name.replace(" Window", "");
+                            } else {
+                              return 'Window Open'
+                            }
+                          }
+                        ]]]
+                      "off": ""
+                      "unavailable": "Unavailable"
+                    mapper: value => this.source.values[value]
 
-                  values:
-                    "on": |
+                window1:
+                  icon:
+                    template: |
+                      (value) => (value == '' ? '' : 'mdi:window-open-variant')
+                    style: |
+                      (value) => (value != '' ? { color: 'red' } : {})
+                  source:
+                    entity: |
                       [[[
                         if (variables.window_entity_ids != null) {
                           if (Array.isArray(variables.window_entity_ids)) {
-                            return states[variables.window_entity_ids[1]].attributes.friendly_name.replace(" Window", "");
+                            return variables.window_entity_ids[1];
                           } else {
-                            return ''
+                            return variables.window_entity_ids;
                           }
                         }
                       ]]]
-                    "off": ""
-                    "unavailable": "Unavailable"
-                  mapper: value => this.source.values[value]
 
-          - type: horizontal-stack
-            cards:
-              - type: custom:button-card
-                entity: >
-                  [[[ return "timer." + variables.damper_name; ]]]
-                layout: icon_name_state2nd
-                show_name: true
-                show_icon: true
-                show_state: true
-                name: "Timer"
-                styles:
-                  card:
-                    - height: 68px
-                tap_action:
-                  action: call-service
-                  service: script.ac_damper_toggle_timer
-                  service_data:
-                    damper_name: |
-                      [[[ return variables.damper_name; ]]]
-                state:
-                  - value: "active"
-                    color: rgb(253, 216, 53)
-                    icon: mdi:timer-play-outline
-                    styles:
-                      icon:
-                        - animation: blink 2s ease infinite
-                  - value: "idle"
-                    color: rgb(68, 115, 158)
-                    icon: mdi:timer-stop-outline
+                    values:
+                      "on": |
+                        [[[
+                          if (variables.window_entity_ids != null) {
+                            if (Array.isArray(variables.window_entity_ids)) {
+                              return states[variables.window_entity_ids[1]].attributes.friendly_name.replace(" Window", "");
+                            } else {
+                              return ''
+                            }
+                          }
+                        ]]]
+                      "off": ""
+                      "unavailable": "Unavailable"
+                    mapper: value => this.source.values[value]
 
-              - type: custom:numberbox-card
-                entity: >
-                  [[[ return "input_number." + variables.damper_name;  ]]]
-                unit: time
-                speed: 100
-                border: true
-                name: false
-                style: >
-                  .body{display:block!important}
-                  .body::after{text-align:center;font-size:10px;content:"Custom Time (HH:MM)";display:block!important}
+            - type: horizontal-stack
+              cards:
+                - type: custom:button-card
+                  entity: >
+                    [[[ return "timer." + variables.damper_name; ]]]
+                  layout: icon_name_state2nd
+                  show_name: true
+                  show_icon: true
+                  show_state: true
+                  name: "Timer"
+                  styles:
+                    card:
+                      - height: 68px
+                  tap_action:
+                    action: call-service
+                    service: script.ac_damper_toggle_timer
+                    service_data:
+                      damper_name: |
+                        [[[ return variables.damper_name; ]]]
+                  state:
+                    - value: "active"
+                      color: rgb(253, 216, 53)
+                      icon: mdi:timer-play-outline
+                      styles:
+                        icon:
+                          - animation: blink 2s ease infinite
+                    - value: "idle"
+                      color: rgb(68, 115, 158)
+                      icon: mdi:timer-stop-outline
 
-          - type: horizontal-stack
-            square: false
-            cards:
-              - type: custom:button-card
-                template: timer-button
-                name: 15m
-                entity: >
-                  [[[ return "input_number." + variables.damper_name;  ]]]
-                variables:
-                  value: 15
-              - type: custom:button-card
-                template: timer-button
-                name: 30m
-                entity: >
-                  [[[ return "input_number." + variables.damper_name;  ]]]
-                variables:
-                  value: 30
-              - type: custom:button-card
-                template: timer-button
-                name: 45m
-                entity: >
-                  [[[ return "input_number." + variables.damper_name;  ]]]
-                variables:
-                  value: 45
-              - type: custom:button-card
-                template: timer-button
-                name: 1H
-                entity: >
-                  [[[ return "input_number." + variables.damper_name;  ]]]
-                variables:
-                  value: 60
-              - type: custom:button-card
-                template: timer-button
-                name: 2H
-                entity: >
-                  [[[ return "input_number." + variables.damper_name;  ]]]
-                variables:
-                  value: 120
-              - type: custom:button-card
-                template: timer-button
-                name: 3H
-                entity: >
-                  [[[ return "input_number." + variables.damper_name;  ]]]
-                variables:
-                  value: 180
-              - type: custom:button-card
-                template: timer-button
-                name: 4H
-                entity: >
-                  [[[ return "input_number." + variables.damper_name;  ]]]
-                variables:
-                  value: 240
+                - type: custom:numberbox-card
+                  entity: >
+                    [[[ return "input_number." + variables.damper_name;  ]]]
+                  unit: time
+                  speed: 100
+                  border: true
+                  name: false
+                  style: >
+                    .body{display:block!important}
+                    .body::after{text-align:center;font-size:10px;content:"Custom Time (HH:MM)";display:block!important}
 
-          - type: custom:state-switch
-            entity: template
-            template: > 
-              [[[ return (variables.heater_entity_id != null) ? "show" : "hide"; ]]]
-            states:
-              "show":
-                type: vertical-stack
-                cards:
-                  - type: custom:button-card
-                    template: title
-                    name: "Heater"
+            - type: horizontal-stack
+              square: false
+              cards:
+                - type: custom:button-card
+                  template: timer-button
+                  name: 15m
+                  entity: >
+                    [[[ return "input_number." + variables.damper_name;  ]]]
+                  variables:
+                    value: 15
+                - type: custom:button-card
+                  template: timer-button
+                  name: 30m
+                  entity: >
+                    [[[ return "input_number." + variables.damper_name;  ]]]
+                  variables:
+                    value: 30
+                - type: custom:button-card
+                  template: timer-button
+                  name: 45m
+                  entity: >
+                    [[[ return "input_number." + variables.damper_name;  ]]]
+                  variables:
+                    value: 45
+                - type: custom:button-card
+                  template: timer-button
+                  name: 1H
+                  entity: >
+                    [[[ return "input_number." + variables.damper_name;  ]]]
+                  variables:
+                    value: 60
+                - type: custom:button-card
+                  template: timer-button
+                  name: 2H
+                  entity: >
+                    [[[ return "input_number." + variables.damper_name;  ]]]
+                  variables:
+                    value: 120
+                - type: custom:button-card
+                  template: timer-button
+                  name: 3H
+                  entity: >
+                    [[[ return "input_number." + variables.damper_name;  ]]]
+                  variables:
+                    value: 180
+                - type: custom:button-card
+                  template: timer-button
+                  name: 4H
+                  entity: >
+                    [[[ return "input_number." + variables.damper_name;  ]]]
+                  variables:
+                    value: 240
 
-                  - type: custom:button-card
-                    template: ha-button
-                    entity: >
-                      [[[ return variables.heater_entity_id; ]]]
-                    name: "Heater"
-                    icon: mdi:radiator
+            - type: custom:state-switch
+              entity: template
+              template: > 
+                [[[ return (variables.heater_entity_id != null) ? "show" : "hide"; ]]]
+              states:
+                "show":
+                  type: vertical-stack
+                  cards:
+                    - type: custom:button-card
+                      template: title
+                      name: "Heater"
+
+                    - type: custom:button-card
+                      template: ha-button
+                      entity: >
+                        [[[ return variables.heater_entity_id; ]]]
+                      name: "Heater"
+                      icon: mdi:radiator
