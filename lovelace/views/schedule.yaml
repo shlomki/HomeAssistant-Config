@@ -12,6 +12,7 @@ cards:
       - climate.ac_damper_office
       - climate.ac_damper_riley
       - cover.bedroom_shutter
+      - cover.bedroom_curtain
       - cover.guests_shutter
       - cover.kitchen_curtain
       - cover.kitchen_shutter
