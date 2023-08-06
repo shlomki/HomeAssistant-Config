@@ -1,0 +1,143 @@
+# Ok google: play smart home game
+# Google replies: it's time to play!
+# Intro music starts
+# Special Light turns on
+# Stage 1: music freeze game
+# Stage 2: find a toy
+# Stage 3: Find a secret place
+
+switch:
+  - platform: template
+    switches:
+      dance_freeze_game:
+        unique_id: "Dance Freeze Game"
+        friendly_name: "Dance Freeze Game"
+        value_template: "{{ is_state('script.dance_freeze_game', 'on') }}"
+        turn_on:
+          service: script.turn_on
+          target:
+            entity_id: script.dance_freeze_game
+        turn_off:
+          service: script.turn_off
+          target:
+            entity_id: script.dance_freeze_game
+
+script:
+  dance_freeze_game:
+    alias: "Dance Freeze Game"
+    variables:
+      media_player_spotify: media_player.spotify_shlomi_green
+      media_player_speaker: media_player.living_room_speaker
+      volume: 50
+      max_play_time: 20
+      max_pause_time: 10
+      playlist: spotify:playlist:6fBwZ8uWVhBbsdrkUqoiKM
+
+    sequence:
+      - if: #If spotify isn't playing right now
+          - condition: not
+            conditions:
+              - alias: "Spotify isn't playing right now"
+                condition: state
+                entity_id: "media_player.spotify_shlomi_green"
+                state: "playing"
+
+        then: 
+          - delay:
+              seconds: 1
+
+            #Say that the game is starting
+          - service: tts.google_translate_say 
+            data:
+              entity_id: media_player.living_room_speaker
+              message: "Alright, let's get ready to rumble! Dance when the music is playing, and freeze when the music stops. Are you ready?"
+          
+          #Wait for the announcement to finish
+          - wait_for_trigger:
+              - platform: state
+                entity_id: media_player.living_room_speaker
+                from: "playing"
+            timeout:
+              seconds: 10
+            continue_on_timeout: true
+
+          #Start playing Riley's favorite playlist
+          - service: spotcast.start
+            data:
+              entity_id: media_player.living_room_speaker
+              start_volume: 50
+              random_song: true
+              uri: spotify:playlist:6fBwZ8uWVhBbsdrkUqoiKM
+
+        #Wait until Spotify starts playing
+      - wait_template: "{{ is_state(media_player_spotify, 'playing') }}"
+        timeout:
+          seconds: 30
+        continue_on_timeout: true
+
+      - if: #If Spotify failed to start playing
+          - condition: template
+            value_template: "{{ wait.remaining == 0 }}"
+        then:
+          #Invite people to choose their own music
+          - service: tts.google_translate_say
+            data:
+              entity_id: media_player.living_room_speaker
+              message: 'What would you like to dance to? Please say "Ok Google" and tell me what to play'
+
+          #Wait for the music to start
+          - wait_template: "{{ is_state(media_player_spotify, 'playing') }}"
+            timeout:
+              seconds: 30
+            continue_on_timeout: false
+          
+      - repeat:
+          while:            
+          sequence:
+            #Play Time
+            - delay:
+                seconds: "{{ range(5, 20) | random }}"
+
+            - if: #If the music has been paused
+                - alias: "Music has been paused"
+                  condition: state
+                  entity_id: "media_player.spotify_shlomi_green"
+                  state: "paused"
+              then:
+                #Wait for 1 minute before stopping
+                - wait_for_trigger:
+                    - platform: state
+                      entity_id: "media_player.spotify_shlomi_green"
+                      to: "playing"
+                    - platform: state
+                      entity_id: "media_player.spotify_shlomi_green"
+                      to: "idle"
+                  timeout:
+                    minutes: 1
+                  continue_on_timeout: true
+              
+                - if: #If the music was indeed stopped for 1 minute
+                    - condition: or
+                      conditions:
+                        - condition: template #Music was paused for 1 minute
+                          value_template: "{{ wait.remaining == 0 }}"
+
+                        - condition: state #Music was stopped completely
+                          entity_id: "media_player.spotify_shlomi_green"
+                          state: "idle"
+
+                  then: #Then say goodbye
+                    - service: tts.google_translate_say
+                      data:
+                        entity_id: media_player.living_room_speaker
+                        message: "It was fun dancing with you! If you'd like to play again, just say: Ok Google, dance freeze game"
+
+            - service: media_player.media_pause                
+              entity_id: "media_player.spotify_shlomi_green"
+
+            #Pause Time
+            - delay:
+                seconds: "{{ range(2, 10) | random }}"
+
+            - service: media_player.media_play
+              entity_id: "media_player.spotify_shlomi_green"
