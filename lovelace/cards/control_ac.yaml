@@ -10,12 +10,14 @@ cards:
         triggers_update:
           - binary_sensor.balcony_window
           - binary_sensor.kitchen_window
+          - binary_sensor.bathroom_door
           - sensor.living_room_temperature_monitor
           - timer.ac_damper_living_room
         variables:
           window_entity_ids:
             - binary_sensor.balcony_window
             - binary_sensor.kitchen_window
+          door_entity_ids: binary_sensor.bathroom_door
           temperature_monitor_entity_id: sensor.living_room_temperature_monitor
           damper_name: ac_damper_living_room
 
@@ -25,13 +27,18 @@ cards:
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.office ]]]"
         icon: mdi:monitor
         variables:
+          door_entity_ids: binary_sensor.office_door
           window_entity_ids: binary_sensor.office_window
           temperature_monitor_entity_id: sensor.office_temperature_monitor
           damper_name: ac_damper_office
         triggers_update:
+          - binary_sensor.office_door
           - binary_sensor.office_window
           - sensor.office_temperature_monitor
           - timer.ac_damper_office
+
+  - type: horizontal-stack
+    cards:
 
       - type: custom:button-card
         template: climate-button
@@ -39,10 +46,12 @@ cards:
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.guests ]]]"
         icon: mdi:account-multiple
         variables:
+          door_entity_ids: binary_sensor.guests_door
           window_entity_ids: binary_sensor.guests_window
           temperature_monitor_entity_id: sensor.guests_temperature_monitor
           damper_name: ac_damper_guests
         triggers_update:
+          - binary_sensor.guests_door
           - binary_sensor.guests_window
           - sensor.guests_temperature_monitor
           - timer.ac_damper_guests
@@ -54,6 +63,7 @@ cards:
         icon: mdi:face-woman-outline
         variables:
           window_entity_ids: binary_sensor.riley_window
+          door_entity_ids: binary_sensor.riley_door
           temperature_monitor_entity_id: sensor.riley_temperature_monitor
           damper_name: ac_damper_riley
           heater_entity_id: switch.riley_heater
@@ -65,9 +75,13 @@ cards:
           duration: 3
         triggers_update:
           - binary_sensor.riley_window
+          - binary_sensor.riley_door
           - sensor.riley_temperature_monitor
           - timer.ac_damper_riley
           - switch.riley_heater
+
+  - type: horizontal-stack
+    cards:
 
       - type: custom:button-card
         template: climate-button
@@ -76,10 +90,48 @@ cards:
         icon: mdi:bed
         variables:
           window_entity_ids: binary_sensor.bedroom_window
+          door_entity_ids: binary_sensor.bedroom_door
           temperature_monitor_entity_id: sensor.bedroom_temperature_monitor
           damper_name: ac_damper_bedroom
         triggers_update:
           - binary_sensor.bedroom_window
+          - binary_sensor.bedroom_door
           - sensor.bedroom_temperature_monitor
           - timer.ac_damper_bedroom
+
+      #AC
+      - type: custom:button-card
+        template: climate-button
+        entity: climate.mainac
+        name: "Settings"
+        icon: mdi:cog
+
+        size: 20%
+
+        tap_action:
+          action: more-info
+
+        color: gray
+
+        # state:
+        #   - value: fan_only
+        #     color: rgb(253, 216, 53)
+        #     # icon: mdi:fan
+        #   - value: dry
+        #     color: rgb(253, 216, 53)
+        #     # icon: mdi:water-percent
+        #   - value: auto
+        #     color: rgb(253, 216, 53)
+        #     # icon: mdi:autorenew
+        #   - operator: regex
+        #     value: "off"
+        #     color: rgb(68, 115, 158)
+        #     # icon: mdi:power-plug-off-outline
+        #   - operator: regex
+        #     value: heat
+        #     color: red
+        #   - operator: regex
+        #     value: cool
+        #     # icon: mdi:snowflake
+        #     color: "#2196f3"
 

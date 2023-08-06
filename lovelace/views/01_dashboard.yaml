@@ -1,32 +1,331 @@
 title: Dashboard
 path: dashboard
-visible:
-  - user: 954f920b6d6b4dd795e5ea5ab3f225d5
-  - user: 9ccaeb57363d4902b296eb297da459e3
-  - user: aa6d3713da1a4e1eac92dd176a3ae708
-  - user: 441ffac368ed4f50911212c0816b227a
-panel: false
 icon: mdi:view-dashboard-variant-outline
-badges: []
+type: custom:grid-layout
+layout:
+  grid-template-columns: auto 35%
+  grid-template-rows: 22% 7% auto 7%
+  grid-template-areas: |
+    "header notification"
+    "badges badges"
+    "main main"
+    "footer footer"
+
+  height: 99%
+
 cards:
+
+  - type: custom:mushroom-title-card
+    title: "{{ states('sensor.greeting_in_other_languages') }}, {{ user }}!"
+    subtitle: "(that's {{ states('sensor.greeting_in_english') }} in {{ states('input_select.todays_greeting_launguage') }}!)"
+    view_layout:
+      grid-area: header
+  - type: custom:mushroom-chips-card
+    
+    chips:
+      - type: template
+        entity: sensor.notification_count
+        icon: mdi:bell-outline
+        content: |-
+          {% set count = states(entity) | int %}
+          {{ count if count > 0 else '' }}
+        icon_color: |-
+          {{ 'red' if (states(entity) | int) > 0 }}
+        tap_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              card_mod:
+                style:
+                  #popup header
+                  .:
+              content: !include /config/lovelace/cards/notifications.yaml
+              
+
+      - type: menu
+
+      - type: weather
+        entity: weather.max_temp
+        show_conditions: true
+        show_temperature: true
+        tap_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              content: !include /config/lovelace/cards/weather.yaml
+    alignment: end
+    view_layout:
+      grid-area: notification
+
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: entity
+        entity: person.shlomi
+        use_entity_picture: true
+      - type: entity
+        entity: person.inbal
+        use_entity_picture: true
+
+      - type: template
+        icon: mdi:account-circle
+        content: '{{ ''Awake'' if states(entity) == ''off'' else ''Sleeping''}}'
+        entity: input_boolean.riley_is_sleeping
+        picture: /local/photos/riley_awake.jpg
+        tap_action:
+          action: call-service
+          service: input_boolean.toggle
+          target:
+            entity_id: input_boolean.riley_is_sleeping
+
+      - type: template
+        icon: mdi:account-circle
+        content: 'Guests'
+        entity: input_boolean.guest_mode
+        icon_color: "{{ 'green' if states(entity) == 'on' else '' }}"
+        tap_action:
+          action: call-service
+          service: input_boolean.toggle
+          target:
+            entity_id: input_boolean.guest_mode
+
+    view_layout:
+      grid-area: badges
+    alignment: center
+
   - type: vertical-stack
     cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Entrance
+            entity: sensor.front_door_combined
+            icon: >-
+              {% set state = states(entity) %}
+              {% if state == "Open, Unlocked" or state == "Open, Locked" %}
+              mdi:door-open
+              {% elif state == "Closed, Unlocked" %}
+              mdi:door-closed
+              {% elif state == "Closed, Locked" %}
+              mdi:door-closed-lock
+              {% endif %}
+            icon_color: >-
+              {% set state = states(entity) %}
+              {% if state == "Open, Unlocked" or state == "Open, Locked" %}
+              red
+              {% elif state == "Closed, Unlocked" %}
+              orange
+              {% endif %}
+            
+            layout: vertical
+            multiline_secondary: false
+            fill_container: true
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  content: !include /config/lovelace/cards/quick_status_entrance.yaml
 
-      #Title
-      - type: custom:button-card
-        template: title-large
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.the_green_family ]]]"
+          - type: custom:mushroom-template-card
+            primary: Windows
+            secondary: >-
+              {% if is_state(entity, 'on') %}
+                {% set windows_open_count = expand('group.windows') %}
+                {{ (windows_open_count | selectattr('state', 'eq', 'on') | list | length) }} Open
+              {% endif %}
+            icon: "{{ 'mdi:window-open-variant' if is_state(entity, 'on') else 'mdi:window-closed-variant' }}"
+            icon_color: '{{ ''green'' if states(entity) == ''on''}}'
+            layout: vertical
+            badge_icon: ''
+            fill_container: true
+            entity: group.windows
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  content: !include /config/lovelace/cards/control_windows_container.yaml
 
-      #Dashboard shortcuts
-      - !include /config/lovelace/cards/quick_status.yaml
+          - type: custom:mushroom-template-card
+            primary: Lights
+            entity: group.all_lights
+            secondary: >-
+              {% if is_state(entity, 'on') %}
+                {% set count = (expand(entity) | selectattr('state', 'eq', 'on') | list | length) %}
+                {{ count }} Room{{ 's' if count > 1 }}
+              {% endif %}
+            icon: mdi:lightbulb
+            icon_color: "{{ 'yellow' if is_state(entity, 'on') }}"
+            layout: vertical
+            fill_container: true
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  content: !include /config/lovelace/cards/control_lights_container.yaml
 
-      #Control shortcuts
-      - !include /config/lovelace/cards/control_2rows.yaml
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Shower
+            icon: mdi:shower
+            icon_color: '{{ ''red'' if states(entity) == ''on'' }}'
+            layout: vertical
+            entity: group.shower
+            multiline_secondary: false
+            fill_container: true
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  content: !include /config/lovelace/cards/control_shower.yaml
 
-      #Who's Home
-      - !include /config/lovelace/cards/whos_home_title_1_row.yaml
+          - type: custom:mushroom-template-card
+            primary: AC
+            entity: group.dampers
+            fill_container: true
+            secondary: |-
+              {% if is_state(entity, 'on') %}
+                {% set count = expand(entity) %}
+                {{ (count | selectattr('state', 'eq', 'fan_only') | list | length) }} On
+              {% endif %}
+            icon: >-
+              {% set ac_state = states('climate.mainac') %}
+              {% if ac_state == 'heat' %}
+                mdi:weather-sunny
+              {% elif ac_state == 'cool' %}
+                mdi:snowflake
+              {% elif ac_state == 'fan_only' %}
+                mdi:fan
+              {% elif ac_state == 'off' %}
+                mdi:power-plug-off
+              {% endif %}
+              
+            icon_color: >- 
+              {% if is_state(entity, 'on') %}
+                {% if is_state('climate.main_ac', 'heat') %}
+                  red
+                {% else %}
+                  blue
+                {% endif %}
+              {% endif %}
+            layout: vertical
+            badge_icon: >-
+              {% set monitor = states('sensor.all_rooms_temperature_monitor') %}
+              {% if (monitor == "Hot" or monitor == "Very Hot") %}
+                mdi:fire
+              {% elif (monitor == "Cold" or monitor == "Very Cold") %}
+                mdi:snowflake
+              {% endif %}
+            badge_color: >-
+              {% set monitor = states('sensor.all_rooms_temperature_monitor') %}
+              {% if (monitor == "Hot" or monitor == "Very Hot") %}
+                red
+              {% elif (monitor == "Cold" or monitor == "Very Cold") %}
+                blue
+              {% endif %}
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  content: !include /config/lovelace/cards/control_ac.yaml
 
-      #Power
-      - !include /config/lovelace/cards/power.yaml
 
-          
+          - type: custom:mushroom-template-card
+            primary: Fans
+            entity: group.all_fans
+            secondary: >-
+              {% if is_state(entity, 'on') %}
+                {% set count = expand(entity) %}
+                {{ (count | selectattr('state', 'eq', 'on') | list | length) }} On
+              {% endif %}
+            icon: mdi:fan
+            icon_color: '{{ ''purple'' if states(entity) == ''on'' }}'
+            layout: vertical
+            fill_container: true
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  content: !include /config/lovelace/cards/control_fans.yaml
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Screens
+            secondary: >-
+              {% if is_state(entity, 'on') %}
+                {% set count = expand(entity) %}
+                {{ (count | selectattr('state', 'eq', 'on') | list | length) }} On
+              {% endif %}
+            icon: mdi:monitor-cellphone
+            icon_color: '{{ ''teal'' if states(entity) == ''on'' }}'
+            layout: vertical
+            entity: group.all_screens
+            fill_container: true
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  content: !include /config/lovelace/cards/control_screens.yaml
+
+          - type: custom:mushroom-template-card
+            primary: Rooms
+            icon: mdi:floor-plan
+            icon_color: ''
+            layout: vertical
+            fill_container: true
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  content: !include /config/lovelace/cards/control_rooms.yaml
+
+          - type: custom:mushroom-template-card
+            primary: Quick
+            entity: group.scenes
+            icon: mdi:gesture-tap
+            icon_color: "{{ 'pink' if is_state(entity, 'on') }}"
+            layout: vertical
+            multiline_secondary: false
+            fill_container: true
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  content: !include /config/lovelace/cards/control_scenes.yaml
+
+    view_layout:
+      grid-area: main
+
+
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: template
+        entity: sensor.power_cost_per_hour
+        icon: mdi:lightning-bolt-circle
+        icon_color: |-
+          {% set cost = states(entity) | float %}
+          {{ '' if cost <= 1.5 else 'orange' if cost <= 2.2 else 'red' }}
+        content: >-
+          Power consumption is {% set cost = states(entity) | float %}
+          {{ 'normal' if cost <= 1.5 else 'medium' if cost <= 2.2 else 'high' }}
+          ({{ states(entity) }} ILS per hour)
+        tap_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              content: !include /config/lovelace/cards/power.yaml
+
+    view_layout:
+      grid-area: footer

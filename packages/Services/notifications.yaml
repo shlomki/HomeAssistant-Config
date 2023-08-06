@@ -1,0 +1,102 @@
+group:
+  notifications_group:
+    entities:
+      - binary_sensor.power_outage_notification
+      - binary_sensor.internet_connection_offline_notification
+      - binary_sensor.cameras_offline_notification
+      - binary_sensor.appliances_notification
+      - binary_sensor.laundry_machine_notification
+      - binary_sensor.unavailable_entities_notification
+
+input_boolean:
+  power_outage_notification_silence:
+  internet_connection_offline_notification_silence:
+  cameras_offline_notification_silence:
+  appliances_notification_silence:
+  laundry_machine_notification_silence:
+  unavailable_entities_notification_silence:
+
+template:
+  - sensor:
+      - name: Notification Count
+        state: "{{ expand('group.notifications_group') | selectattr('state', 'eq', 'on') | selectattr('attributes.silenced', 'eq', false) | list | length }}"
+
+  - binary_sensor:
+      - name: Power Outage Notification
+        state: "{{ not is_state('sensor.ups_status', 'ONLINE') }}"
+        attributes:
+          silenced: "{{ is_state('input_boolean.power_outage_notification_silence', 'on') }}"
+
+  - binary_sensor:
+      - name: Internet Connection Offline Notification
+        state: "{{ is_state('binary_sensor.internet_connection', 'off') }}"
+        attributes:
+          silenced: "{{ is_state('input_boolean.internet_connection_offline_notification_silence', 'on') }}"
+
+  - binary_sensor:
+      - name: Cameras Offline Notification
+        state: "{{ is_state('binary_sensor.cameras_online', 'off') }}"
+        attributes:
+          silenced: "{{ is_state('input_boolean.cameras_offline_notification_silence', 'on') }}"
+        
+  - binary_sensor:
+      - name: Appliances Notification
+        state: "{{ not is_state('sensor.appliances', 'Ok') }}"
+        attributes:
+          silenced: "{{ is_state('input_boolean.appliances_notification_silence', 'on') }}"
+
+  - binary_sensor:
+      - name: Laundry Machine Notification
+        state: "{{ not is_state('input_select.laundry_machine_status', 'Idle') }}"
+        attributes:
+          silenced: "{{ is_state('input_boolean.laundry_machine_notification_silence', 'on') }}"        
+
+  - binary_sensor:
+      - name: Unavailable Entities Notification
+        state: "{{ not is_state('sensor.unavailable_entities', 'Online') }}"
+        attributes:
+          silenced: "{{ is_state('input_boolean.unavailable_entities_notification_silence', 'on') }}"
+        
+
+automation:
+  - id: Reset Notification Silencing
+    alias: Reset Notification Silencing
+    trigger:
+      - platform: state
+        entity_id: 
+          - binary_sensor.power_outage_notification
+          - binary_sensor.internet_connection_offline_notification
+          - binary_sensor.cameras_offline_notification
+          - binary_sensor.appliances_notification
+          - binary_sensor.laundry_machine_notification
+          - binary_sensor.unavailable_entities_notification
+        from: "on"
+        to: "off"
+    condition:
+      - alias: "This notification was silenced"
+        condition: template
+        value_template: "{{ states('input_boolean.' + (trigger.to_state.entity_id | replace('binary_sensor.', '')) + '_silence') == 'on' }}"
+        
+    action:
+      - service: input_boolean.turn_off
+        data:
+          entity_id: "input_boolean.{{ trigger.to_state.entity_id | replace('binary_sensor.', '') }}_silence"
+
+  - id: Reset Laundry Machine Notification Silencing
+    alias: Reset Laundry Machine Notification Silencing
+    trigger:
+      #This sensor has multiple states. If it has changed from one state to another, which is not "Ok", reset the notification silenceing
+      - platform: state
+        entity_id: input_select.laundry_machine_status
+        not_to: "Idle"
+
+    condition:
+      - alias: "This notification was silenced"
+        condition: state
+        entity_id: input_boolean.laundry_machine_notification_silence
+        state: "on"
+        
+    action:
+      - service: input_boolean.turn_off
+        data:
+          entity_id: "input_boolean.laundry_machine_notification_silence"

@@ -1,0 +1,245 @@
+type: vertical-stack
+cards:
+
+#Container Parent Buttons
+  - type: vertical-stack
+    cards:
+
+    - type: horizontal-stack
+      cards:    
+        - type: custom:button-card
+          template: notification
+          layout: icon_name
+          name: "Power"
+          entity: sensor.ups_status
+          icon: mdi:transmission-tower
+          variables:
+            silence_entity: input_boolean.power_outage_notification_silence
+            notification_entity: binary_sensor.power_outage_notification
+          state:
+            - value: ONBATT
+              color: red
+              label: >-
+                [[[ return states['sensor.ups_battery'].state  + '% |
+                ' + states['sensor.ups_time_left'].state + 'm' ]]]
+              icon: mdi:transmission-tower-off
+              styles:
+                icon:
+                  - animation: blink 2s ease infinite
+            - value: COMMLOST
+              color: orange
+              label: Connection Lost
+              icon: mdi:alert
+            - value: ONLINE
+              color: green
+              label: >-
+                [[[ var percent = states['sensor.ups_battery'].state;
+          tap_action:
+            action: fire-dom-event
+            browser_mod:
+              service: browser_mod.popup
+              data:
+                content:
+                  type: entities
+                  entities:
+                    - entity: sensor.ups_status
+                    - entity: sensor.ups_battery
+                    - entity: sensor.ups_load
+                    - entity: sensor.ups_time_left
+                    - entity: sensor.ups_time_on_battery
+                    - entity: sensor.ups_transfer_count
+                    - entity: input_datetime.last_power_outage
+                    - entity: input_number.power_outages_today_count
+                    - entity: input_number.power_outages_monthly_count
+                  title: UPS
+
+    #Internet Button
+    - type: horizontal-stack
+      cards:    
+        - type: custom:button-card
+          template: notification
+          layout: icon_name
+          name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.internet ]]]"
+          entity: binary_sensor.internet_connection
+          variables:
+            silence_entity: input_boolean.internet_connection_offline_notification_silence
+            notification_entity: binary_sensor.internet_connection_offline_notification
+          tap_action:
+            action: navigate
+            navigation_path: "[[[ return (window.location.hash == '#internet') ? '.' : '#internet'; ]]]"
+          hold_action:
+            action: more-info
+          state:
+            - value: 'on'
+              id: 'on'
+              icon: mdi:earth
+              color: green
+              
+            - value: 'off'
+              id: 'off'
+              icon: mdi:earth-remove
+              color: red
+              styles:
+                icon:
+                  - animation: blink 2s ease infinite
+          triggers_update:
+            - binary_sensor.internet_connection_offline_notification
+
+
+    #Cameras Button
+    - type: horizontal-stack
+      cards:    
+        - type: custom:button-card
+          layout: icon_name
+          template: notification
+          icon: mdi:cctv
+          name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.cameras ]]]"
+          entity: binary_sensor.cameras_online
+          variables:
+            silence_entity: input_boolean.cameras_offline_notification_silence
+            notification_entity: binary_sensor.cameras_offline_notification
+          tap_action:
+            action: navigate
+            navigation_path: "[[[ return (window.location.hash == '#cameras') ? '.' : '#cameras'; ]]]"
+          hold_action:
+            action: more-info
+          state:
+            - value: 'off'
+              id: 'off'
+              color: red
+              styles:
+                icon:
+                  - animation: blink 2s ease infinite
+            - value: not_home
+              color: red
+              styles:
+                icon:
+                  - animation: blink 2s ease infinite
+            - value: unavailable
+              color: red
+              styles:
+                icon:
+                  - animation: blink 2s ease infinite
+            - value: 'on'
+              id: 'on'
+              color: green
+            - value: home
+              color: green
+            - value: idle
+              color: green
+          triggers_update:
+            - binary_sensor.cameras_offline_notification
+
+    #Appliances Button
+    - type: horizontal-stack
+      cards:
+        - type: custom:button-card
+          template: notification
+          layout: icon_name
+          name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.appliances ]]]"
+          entity: sensor.appliances
+          variables:
+            silence_entity: input_boolean.appliances_notification_silence
+            notification_entity: binary_sensor.appliances_notification
+          state:
+            - value: 'Fridge is Open'
+              icon: mdi:fridge-alert-outline
+              color: red
+              styles:
+                icon:
+                  - animation: blink 2s ease infinite
+            - value: 'Laundry is Running'
+              icon: mdi:washing-machine
+              color: orange
+            - value: 'Laundry is Clean'
+              icon: mdi:washing-machine-alert
+              color: red
+              styles:
+                icon:
+                  - animation: blink 2s ease infinite
+            - operator: 'default' 
+              icon: mdi:power-plug-outline
+              color: green
+          tap_action:
+            action: navigate
+            navigation_path: "[[[ return (window.location.hash == '#appliances') ? '.' : '#appliances'; ]]]"
+          hold_action:
+            action: more-info
+          triggers_update:
+            - binary_sensor.appliances_notification
+
+    #Laundry Machine Button
+    - type: horizontal-stack
+      cards:
+        - type: custom:button-card
+          template: notification
+          layout: icon_name
+          name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.laundry_machine ]]]"
+          entity: input_select.laundry_machine_status
+          variables:
+            silence_entity: input_boolean.laundry_machine_notification_silence
+            notification_entity: binary_sensor.laundry_machine_notification
+          state:
+            - value: 'Idle'
+              icon: mdi:washing-machine
+              color: green
+
+            - value: 'Running'
+              label: 'Running'
+              icon: mdi:washing-machine
+              color: orange
+
+            - value: 'Clean'
+              label: 'Clean'
+              icon: mdi:washing-machine-alert
+              color: red
+              styles:
+                icon:
+                  - animation: blink 2s ease infinite
+          tap_action:
+            action: navigate
+            navigation_path: "[[[ return (window.location.hash == '#laundry_machine') ? '.' : '#laundry_machine'; ]]]"
+          hold_action:
+            action: more-info
+          triggers_update:
+            - binary_sensor.laundry_machine_notification
+
+    #Entities Button
+    - type: horizontal-stack
+      cards:    
+        - type: custom:button-card
+          template: notification
+          layout: icon_name
+          name: "Smart Home"
+          entity: sensor.unavailable_entities
+          variables:
+            silence_entity: input_boolean.unavailable_entities_notification_silence
+            notification_entity: binary_sensor.unavailable_entities_notification
+          state:
+            - operator: default
+              icon: mdi:home-assistant
+              color: red
+            - value: Online
+              icon: mdi:home-assistant
+              color: green
+          tap_action:
+            action: navigate
+            navigation_path: "[[[ return (window.location.hash == '#entities') ? '.' : '#entities'; ]]]"
+          hold_action:
+            action: more-info
+          triggers_update:
+            - binary_sensor.unavailable_entities_notification
+
+#Hidden Cards
+
+  - type: custom:state-switch
+    entity: hash
+    default: none
+    states:
+      entrance: !include /config/lovelace/cards/quick_status_entrance_container.yaml
+      internet: !include /config/lovelace/cards/quick_status_internet.yaml
+      cameras: !include /config/lovelace/cards/quick_status_cameras.yaml
+      appliances: !include /config/lovelace/cards/quick_status_appliances.yaml
+      laundry_machine: !include /config/lovelace/cards/quick_status_laundry_machine.yaml
+      entities: !include /config/lovelace/cards/quick_status_entities.yaml
+

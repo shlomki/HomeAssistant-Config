@@ -1,8 +1,37 @@
 weather:
   - platform: template
     name: "Outside Weather"
-    condition_template: "{{ states('weather.home_open_weather_map') }}"
+    condition_template: "{{ states('weather.ims_weather') }}"
     temperature_template: "{{ states('sensor.outside_climate_temperature') }}"
     temperature_unit: "°C"
     humidity_template: "{{ states('sensor.outside_climate_humidity') }}"
-    forecast_template: "{{ state_attr('weather.home_open_weather_map', 'forecast') }}"
+    forecast_template: "{{ state_attr('weather.ims_weather', 'forecast') }}"
+
+  - platform: template
+    name: "Max Temp"
+    condition_template: "{{ states('weather.ims_weather') }}"
+    temperature_template: "{{ state_attr('weather.ims_weather', 'forecast')[0].temperature }}"
+    temperature_unit: "°C"
+    humidity_template: "{{ states('sensor.outside_climate_humidity') }}"
+    forecast_template: "{{ state_attr('weather.ims_weather', 'forecast') }}"
+
+# template:
+#   - sensor:
+#       - name: "Weather Description"
+#         state: "{{ state_attr('sensor.weather_description', states('weather.outside_weather')) }}"
+#         attributes: 
+#           clear-night: Clear night
+#           cloudy: Many clouds
+#           exceptional: Exceptional
+#           fog: Fog
+#           hail: Hail
+#           lightning: Lightning / thunderstorms
+#           lightning-rainy: Lightning / thunderstorms and rain
+#           partlycloudy: Partly cloudy
+#           pouring: Pouring rain
+#           rainy: Rain
+#           snowy: Snow
+#           snowy-rainy: Snow and Rain
+#           sunny: Sunshine
+#           windy: Wind
+#           windy-variant: Wind and clouds

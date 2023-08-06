@@ -1,0 +1,38 @@
+notification:
+  layout: icon_name
+  size: 28%  
+  custom_fields:
+    button:
+      card:
+        type: custom:button-card
+        aspect_ratio: 1/1
+        entity: |
+          [[[ return variables.silence_entity; ]]]
+        show_name: false
+        tap_action:
+          action: toggle
+        hold_action:
+            action: more-info
+        state:
+          - value: 'off'
+            id: 'off'
+            icon: mdi:bell-badge-outline
+            color: red
+          - value: 'on'
+            id: 'on'
+            icon: mdi:bell-check-outline
+            color: black
+            
+        
+  styles:
+    grid:
+      - grid-template-areas: '"i n button"' 
+    card:
+      - padding: 10px 0
+    custom_fields:
+      button:
+        - padding: 10px 10px 10px 10px
+        - border-width: 15px
+        - width: 50px
+        - visibility: |
+            [[[ return (states[variables.notification_entity].state == "on") ? "visible" : "hidden"; ]]]

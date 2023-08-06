@@ -2,7 +2,7 @@ type: vertical-stack
 cards:
   - type: custom:button-card
     template: container
-    name: Unavailable Entities
+    name: Disconnected Devices
     custom_fields:
       buttons:
         card:

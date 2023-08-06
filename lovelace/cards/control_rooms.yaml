@@ -7,11 +7,9 @@ cards:
       #Living room and Kitchen
 
       - type: custom:button-card
-        template: ha-button
-        tap_action:
-          action: navigate
-          navigation_path: living-room
-        # entity: group.living_room_lights
+        template: room-card
+        variables:
+          room_name: living-room
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.living_room ]]]"
         icon: mdi:sofa-outline
         icon_height: 50px
@@ -21,11 +19,9 @@ cards:
       #Balcony
 
       - type: custom:button-card
-        template: ha-button
-        tap_action:
-          action: navigate
-          navigation_path: balcony
-        # entity: group.balcony_lights
+        template: room-card
+        variables:
+          room_name: balcony
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.balcony ]]]"
         icon: mdi:string-lights
         icon_height: 50px
@@ -34,11 +30,9 @@ cards:
       #Toilet 
 
       - type: custom:button-card
-        template: ha-button
-        tap_action:
-          action: navigate
-          navigation_path: toilet
-        # entity: group.balcony_lights
+        template: room-card
+        variables:
+          room_name: toilet
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.toilet ]]]"
         icon: mdi:toilet
         icon_height: 50px
@@ -47,10 +41,9 @@ cards:
       #Bathroom
 
       - type: custom:button-card
-        template: ha-button
-        tap_action:
-          action: navigate
-          navigation_path: bathroom
+        template: room-card
+        variables:
+          room_name: bathroom
         color: rgb(68, 115, 158)
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bathroom ]]]"
         icon_height: 50px
@@ -62,10 +55,9 @@ cards:
       # Office
 
       - type: custom:button-card
-        template: ha-button
-        tap_action:
-          action: navigate
-          navigation_path: office
+        template: room-card
+        variables:
+          room_name: office
         color: rgb(68, 115, 158)
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.office ]]]"
         icon_height: 50px
@@ -74,10 +66,9 @@ cards:
       #Guests
 
       - type: custom:button-card
-        template: ha-button
-        tap_action:
-          action: navigate
-          navigation_path: guests
+        template: room-card
+        variables:
+          room_name: guests
         color: rgb(68, 115, 158)
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.guests ]]]"
         icon_height: 50px
@@ -86,10 +77,9 @@ cards:
       #Riley
 
       - type: custom:button-card
-        template: ha-button
-        tap_action:
-          action: navigate
-          navigation_path: riley
+        template: room-card
+        variables:
+          room_name: riley
         color: rgb(68, 115, 158)
         name: Riley
         icon_height: 50px
@@ -105,10 +95,9 @@ cards:
 
       #Bedroom
       - type: custom:button-card
-        template: ha-button
-        tap_action:
-          action: navigate
-          navigation_path: bedroom
+        template: room-card
+        variables:
+          room_name: bedroom
         color: rgb(68, 115, 158)
         name: Bedroom
         icon_height: 50px

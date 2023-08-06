@@ -23,28 +23,5 @@ group:
 template:
   - binary_sensor:
       - name: Cameras Online
-        state: "{{ expand('group.cameras_device_trackers') | selectattr('state', 'in', ['unavailable', 'unknown', 'not_home' ]) | list | length == 0 or is_state('input_boolean.override_cameras_offline_warning', 'on') }}"
+        state: "{{ expand('group.cameras_device_trackers') | selectattr('state', 'in', ['unavailable', 'unknown', 'not_home' ]) | list | length == 0 }}"
 
-input_boolean:
-  override_cameras_offline_warning:
-    name: Override Cameras Offline Warning
-
-automation:
-- id: Cancel cameras offline warning override when all cameras are online
-  alias: Cancel cameras offline warning override when all cameras are online
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.cameras_online
-      to: "on"
-      for:
-        hours: 1
-  condition:
-    - alias: "Override warning is active"
-      condition: state
-      entity_id: input_boolean.override_cameras_offline_warning
-      state: "on"
-  action:
-    - alias: "Disable override"
-      service: input_boolean.turn_off
-      target:
-        entity_id: input_boolean.override_cameras_offline_warning

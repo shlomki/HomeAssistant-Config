@@ -1,10 +1,6 @@
 climate-button:
   template: ha-button
-  variables:
-    var_name: window_entity_ids
-    var_name2: temperature_monitor_entity_id
-    var_name3: damper_name
-    var_name4: heater_entity_id
+  
   tap_action:
     action: toggle
   styles:
@@ -16,6 +12,7 @@ climate-button:
       - position: relative
     label:
       - font-size: 10px
+
     custom_fields:
       window_open:
         - position: absolute
@@ -25,7 +22,7 @@ climate-button:
         - width: 20px
         - visibility: |
             [[[
-              if (variables.window_entity_ids != null) {
+              if (variables && 'window_entity_ids' in variables) {
                 if (Array.isArray(variables.window_entity_ids)) {
                   for (const entity of variables.window_entity_ids) {
                     if (states[entity].state == "on") return "visible";
@@ -37,6 +34,28 @@ climate-button:
 
               return "hidden";
             ]]]
+
+      door_open:
+        - position: absolute
+        - left: 80%
+        - top: 5%
+        - height: 20px
+        - width: 20px
+        - visibility: |
+            [[[
+              if (variables && 'door_entity_ids' in variables) {
+                if (Array.isArray(variables.door_entity_ids)) {
+                  for (const entity of variables.door_entity_ids) {
+                    if (states[entity].state == "on") return "visible";
+                  }
+                } else {
+                  if (states[variables.door_entity_ids].state == "on") return "visible";
+                }
+              }
+
+              return "hidden";
+            ]]]
+
       heater_on:
         - position: absolute
         - left: 5%
@@ -45,7 +64,7 @@ climate-button:
         - width: 20px
         - visibility: |
             [[[
-              if (variables.heater_entity_id != null) {
+              if (variables && 'heater_entity_id' in variables) {
                 return (states[variables.heater_entity_id].state == "on") ? "visible" : "hidden";
               }
               return "hidden";
@@ -57,7 +76,7 @@ climate-button:
         - height: 20px
         - width: 20px
         - visibility: |
-            [[[ return (states["timer." + variables.damper_name].state == "active") ? "visible" : "hidden"; ]]]
+            [[[ return (variables && 'damper_name' in variables && states["timer." + variables.damper_name].state == "active") ? "visible" : "hidden";  ]]]
   size: 33%
   state:
     - value: "off"
@@ -66,7 +85,9 @@ climate-button:
       color: rgb(253, 216, 53)
   custom_fields:
     window_open: >
-      [[[ return '<ha-icon icon="mdi:window-open-variant" style="width: 16px; height:16px; color: red;"></ha-icon>'; ]]]
+      [[[ return '<ha-icon icon="mdi:window-open-variant" style="color: red;"></ha-icon>'; ]]]
+    door_open: >
+      [[[ return '<ha-icon icon="mdi:door-open" style="color: red;"></ha-icon>'; ]]]
     timer_active: >
       [[[ return '<ha-icon icon="mdi:timer-play-outline" style="width: 16px; height:16px; color: rgb(68, 115, 158);"></ha-icon>'; ]]]
     heater_on: >
@@ -75,19 +96,21 @@ climate-button:
   show_label: true
   label: |-
     [[[ let monitor = ''; 
-        if ('temperature_monitor_entity_id' in variables) {
-          monitor = states[variables.temperature_monitor_entity_id].state;
-          monitor = monitor.replace('Ok', '').replace('Very ', '').replace('Cold', 'turquoise').replace('Hot', 'red');
-        }
-        return '<div>' + entity.attributes.fan_mode + ' ' + entity.attributes.temperature + '°</div><div style="color: ' + monitor + '">' +
-        entity.attributes.current_temperature + '°' + ( user.name === 'Shlomi' ? ' | ' + entity.attributes.current_humidity + '%' : '' )  + '</div>'; ]]]
+          if (variables && 'temperature_monitor_entity_id' in variables) {
+            monitor = states[variables.temperature_monitor_entity_id].state;
+            monitor = monitor.replace('Ok', '').replace('Very ', '').replace('Cold', 'turquoise').replace('Hot', 'red');
+          
+            return '<div>' + entity.attributes.fan_mode + ' ' + entity.attributes.temperature + '°</div><div style="color: ' + monitor + '">' +
+            entity.attributes.current_temperature + '°' + ( user.name === 'Shlomi' ? ' | ' + entity.attributes.current_humidity + '%' : '' )  + '</div>'; 
+          }
+        ]]]
 
   hold_action:
     action: fire-dom-event
     browser_mod:
       service: browser_mod.popup
       data:
-        title: |
+        title: >
           [[[ return entity.attributes.friendly_name; ]]]
         content:
           type: vertical-stack
@@ -144,6 +167,8 @@ climate-button:
                 smartauto:
                   location: bottom
                   icon: mdi:sun-snowflake-variant
+                  hide: >
+                      [[[ return (variables && "damper_name" in variables) ;]]]
                   state:
                     entity: input_select.ac_smartauto_location
                     mapper: >
@@ -160,7 +185,7 @@ climate-button:
                   source:
                     entity: |
                       [[[
-                        if (variables.window_entity_ids != null) {
+                        if (variables && 'window_entity_ids' in variables) {
                           if (Array.isArray(variables.window_entity_ids)) {
                             return variables.window_entity_ids[0];
                           } else {
@@ -172,7 +197,7 @@ climate-button:
                     values:
                       "on": |
                         [[[
-                          if (variables.window_entity_ids != null) {
+                          if (variables && 'window_entity_ids' in variables) {
                             if (Array.isArray(variables.window_entity_ids)) {
                               return states[variables.window_entity_ids[0]].attributes.friendly_name.replace(" Window", "");
                             } else {
@@ -193,7 +218,7 @@ climate-button:
                   source:
                     entity: |
                       [[[
-                        if (variables.window_entity_ids != null) {
+                        if (variables && 'window_entity_ids' in variables) {
                           if (Array.isArray(variables.window_entity_ids)) {
                             return variables.window_entity_ids[1];
                           } else {
@@ -205,7 +230,7 @@ climate-button:
                     values:
                       "on": |
                         [[[
-                          if (variables.window_entity_ids != null) {
+                          if (variables && 'window_entity_ids' in variables) {
                             if (Array.isArray(variables.window_entity_ids)) {
                               return states[variables.window_entity_ids[1]].attributes.friendly_name.replace(" Window", "");
                             } else {
@@ -221,7 +246,7 @@ climate-button:
               cards:
                 - type: custom:button-card
                   entity: >
-                    [[[ return "timer." + variables.damper_name; ]]]
+                    [[[ return (variables && "damper_name" in variables) ? "timer." + variables.damper_name : ""; ]]]
                   layout: icon_name_state2nd
                   show_name: true
                   show_icon: true
@@ -235,7 +260,7 @@ climate-button:
                     service: script.ac_damper_toggle_timer
                     service_data:
                       damper_name: |
-                        [[[ return variables.damper_name; ]]]
+                        [[[ return (variables && "damper_name" in variables) ? variables.damper_name : ""; ]]]
                   state:
                     - value: "active"
                       color: rgb(253, 216, 53)
@@ -249,7 +274,7 @@ climate-button:
 
                 - type: custom:numberbox-card
                   entity: >
-                    [[[ return "input_number." + variables.damper_name;  ]]]
+                    [[[ return (variables && "damper_name" in variables) ? "input_number." + variables.damper_name : ""; ]]]
                   unit: time
                   speed: 100
                   border: true
@@ -265,56 +290,56 @@ climate-button:
                   template: timer-button
                   name: 15m
                   entity: >
-                    [[[ return "input_number." + variables.damper_name;  ]]]
+                    [[[ return (variables && "damper_name" in variables) ? "input_number." + variables.damper_name : ""; ]]]
                   variables:
                     value: 15
                 - type: custom:button-card
                   template: timer-button
                   name: 30m
                   entity: >
-                    [[[ return "input_number." + variables.damper_name;  ]]]
+                    [[[ return (variables && "damper_name" in variables) ? "input_number." + variables.damper_name : ""; ]]]
                   variables:
                     value: 30
                 - type: custom:button-card
                   template: timer-button
                   name: 45m
                   entity: >
-                    [[[ return "input_number." + variables.damper_name;  ]]]
+                    [[[ return (variables && "damper_name" in variables) ? "input_number." + variables.damper_name : ""; ]]]
                   variables:
                     value: 45
                 - type: custom:button-card
                   template: timer-button
                   name: 1H
                   entity: >
-                    [[[ return "input_number." + variables.damper_name;  ]]]
+                    [[[ return (variables && "damper_name" in variables) ? "input_number." + variables.damper_name : ""; ]]]
                   variables:
                     value: 60
                 - type: custom:button-card
                   template: timer-button
                   name: 2H
                   entity: >
-                    [[[ return "input_number." + variables.damper_name;  ]]]
+                    [[[ return (variables && "damper_name" in variables) ? "input_number." + variables.damper_name : ""; ]]]
                   variables:
                     value: 120
                 - type: custom:button-card
                   template: timer-button
                   name: 3H
                   entity: >
-                    [[[ return "input_number." + variables.damper_name;  ]]]
+                    [[[ return (variables && "damper_name" in variables) ? "input_number." + variables.damper_name : ""; ]]]
                   variables:
                     value: 180
                 - type: custom:button-card
                   template: timer-button
                   name: 4H
                   entity: >
-                    [[[ return "input_number." + variables.damper_name;  ]]]
+                    [[[ return (variables && "damper_name" in variables) ? "input_number." + variables.damper_name : ""; ]]]
                   variables:
                     value: 240
 
             - type: custom:state-switch
               entity: template
               template: > 
-                [[[ return (variables.heater_entity_id != null) ? "show" : "hide"; ]]]
+                [[[ return (variables && "heater_entity_id" in variables) ? "show" : "hide"; ]]]
               states:
                 "show":
                   type: vertical-stack
@@ -326,6 +351,6 @@ climate-button:
                     - type: custom:button-card
                       template: ha-button
                       entity: >
-                        [[[ return variables.heater_entity_id; ]]]
+                        [[[ return (variables && "heater_entity_id" in variables) ? variables.heater_entity_id : ""; ]]] 
                       name: "Heater"
                       icon: mdi:radiator

@@ -12,22 +12,67 @@ template:
           {% elif t >= 21 %} Night
           {% endif %}
 
-  - sensor:
-      - name: Greeting Body
-        icon: mdi:hand-wave
-        state: >
-            {% set new_messages = false %}
+  # - sensor:
+  #     - name: Greeting Body
+  #       icon: mdi:hand-wave
+  #       state: >
+  #           {% set new_messages = false %}
 
-            {% if states('sensor.power_outage_today') == "True" %}<p>
-            - There was a power outage today at {{ state_attr('input_datetime.last_power_outage', 'timestamp') | timestamp_custom('%I:%M %p') }}. {% set new_messages = true %}{% endif %}
+  #           {% if states('sensor.power_outage_today') == "True" %}<p>
+  #           - There was a power outage today at {{ state_attr('input_datetime.last_power_outage', 'timestamp') | timestamp_custom('%I:%M %p') }}. {% set new_messages = true %}{% endif %}
             
-            {% if states('switch.water_boiler') == 'on' %}
-            <p>- Water boiler has been running for {{ states('sensor.water_boiler_metrics_duration_last_time') }}.</p>{% set new_messages = true %}
-            {% elif states('switch.water_boiler') == 'off' and states('binary_sensor.water_boiler_was_on_today') == 'on' %}
-            <p>- Water boiler has finished {{ states('sensor.water_boiler_metrics_time_since_finished') }} ago, after being on for {{ states('sensor.water_boiler_metrics_duration_last_time') }}.</p>{% set new_messages = true %}
-            {% endif %}
+  #           {% if states('switch.water_boiler') == 'on' %}
+  #           <p>- Water boiler has been running for {{ states('sensor.water_boiler_metrics_duration_last_time') }}.</p>{% set new_messages = true %}
+  #           {% elif states('switch.water_boiler') == 'off' and states('binary_sensor.water_boiler_was_on_today') == 'on' %}
+  #           <p>- Water boiler has finished {{ states('sensor.water_boiler_metrics_time_since_finished') }} ago, after being on for {{ states('sensor.water_boiler_metrics_duration_last_time') }}.</p>{% set new_messages = true %}
+  #           {% endif %}
 
-            {% set t = now().hour %}
-            {% if t <= 5 or t >= 22 and is_state('binary_sensor.front_door_lock', 'on') %}<p>- It's rather late and the door is still unlocked.</p>{% set new_messages = true %}{% endif %} 
+  #           {% set t = now().hour %}
+  #           {% if t <= 5 or t >= 22 and is_state('binary_sensor.front_door_lock', 'on') %}<p>- It's rather late and the door is still unlocked.</p>{% set new_messages = true %}{% endif %} 
 
-            {% if new_messages == false %}<p>No new messages.</p>{% endif %}
+  #           {% if new_messages == false %}<p>No new messages.</p>{% endif %}
+
+  - sensor:
+      - name: Greeting in Other Languages
+        icon: mdi:hand-wave
+        state: |-
+          {% set languages = state_attr('sensor.greeting_in_other_languages', states('sensor.time_of_day') | lower) %}
+          {% if languages %}
+            {{ (languages | from_json)[states('input_select.todays_greeting_launguage') | lower] }}
+          {% endif %}
+        attributes:
+          night: '{ "english": "Good night" , "french": "Bonne nuit", "italian": "Buona notte", "spanish": "Buenas noches", "german": "Gute nacht", "swedish": "Gute Nacht" }'
+          morning: '{ "english": "Good morning" , "french": "Bonjour", "italian": "Buongiorno", "spanish": "Buenos días", "german": "Guten Morgen", "swedish": "God morgon" }'
+          noon: '{ "english": "Good day", "french": "Bon midi", "italian": "Buon mezzogiorno", "spanish": "Buena mediodía", "german": "Guten tag", "swedish": "God middag" }'
+          afternoon: '{ "english": "Good afternoon" , "french": "Bon après-midi", "italian": "Buon pomeriggio", "spanish": "Buenas tardes", "german": "Guten Tag", "swedish": "God eftermiddag" }'
+          evening: '{ "english": "Good evening" , "french": "Bonne soirée", "italian": "Buonasera", "spanish": "Buenas noches", "german": "Guten Abend", "swedish": "God kväll" }'
+
+  - sensor:
+    - name: Greeting in English
+      icon: mdi:hand-wave
+      state: |-
+        {% set languages = state_attr('sensor.greeting_in_other_languages', states('sensor.time_of_day') | lower) %}
+        {% if languages %}
+          {{ (languages | from_json).english }}
+        {% endif %}
+
+
+input_select:
+  todays_greeting_launguage:
+    name: "Today's Greeting Language"
+    options:
+      - French
+      - Italian
+      - Spanish
+      - German
+      - Swedish
+
+automation:
+  - id: Select next greeting language
+    alias: Select next greeting language
+    trigger:
+      - platform: time
+        at: "00:00:00"
+    action:
+      - service: input_select.select_next
+        entity_id: input_select.todays_greeting_launguage

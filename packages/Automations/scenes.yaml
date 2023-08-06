@@ -1,3 +1,11 @@
+group:
+  scenes:
+    entities:
+      - switch.evening_scene
+      - sensor.sleep_scene
+      - switch.housekeeper_unlock_and_lock_door
+      - switch.dance_freeze_game
+
 mqtt:
   scene:
     - name: Z2M Evening Living Room Area

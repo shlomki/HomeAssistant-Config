@@ -4,10 +4,6 @@ template:
         state: >
           {% if is_state('group.fridges', 'on') %}
           Fridge is Open
-          {% elif is_state('input_select.laundry_machine_status', 'Running') %}
-          Laundry is Running
-          {% elif is_state('input_select.laundry_machine_status', 'Clean') %}
-          Laundry is Clean
           {% else %}
           Ok
           {% endif %}

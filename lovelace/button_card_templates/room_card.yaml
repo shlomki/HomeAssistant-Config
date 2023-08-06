@@ -1,0 +1,13 @@
+room-card:
+  template: ha-button
+  tap_action:
+    action: fire-dom-event
+    browser_mod:
+      service: browser_mod.sequence
+      data:
+        sequence:
+          - service: browser_mod.navigate
+            data:
+              path: |
+                [[[ return variables.room_name; ]]]
+          - service: browser_mod.close_popup

@@ -1,7 +1,6 @@
 type: custom:weather-card
-entity: weather.home_open_weather_map
+entity: weather.outside_weather
 current: true
-details: false
-# forecast: true
-# hourly_forecast: true
-# number_of_forecasts: 5
+forecast: true
+hourly_forecast: false
+number_of_forecasts: 6
