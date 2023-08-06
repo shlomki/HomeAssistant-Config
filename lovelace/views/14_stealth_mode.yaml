@@ -160,6 +160,20 @@ cards:
             entity: group.big_freezer_left_open_automations
             icon: mdi:fridge-outline
 
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title
+        name: Guests
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Schedules
+            entity: switch.guest_schedules
+            icon: mdi:timer-outline
+
 
 
   # - type: entities
