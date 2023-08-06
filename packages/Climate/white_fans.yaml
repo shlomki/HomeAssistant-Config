@@ -4,9 +4,9 @@ input_boolean:
 
 fan:
   - platform: xiaomi_miio_fan
-    name: Living Room Fan
-    host: !secret xiaomi_living_room_fan_ip
-    token: !secret xiaomi_living_room_fan_token
+    name: Guests Fan
+    host: !secret xiaomi_guests_fan_ip
+    token: !secret xiaomi_guests_fan_token
 
   - platform: xiaomi_miio_fan
     name: Riley Fan

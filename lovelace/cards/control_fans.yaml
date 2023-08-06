@@ -19,31 +19,48 @@ cards:
         entity: fan.balcony_fan
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.balcony ]]]"
         icon: mdi:ceiling-fan
-        hold_action:
-          action: more-info
 
+      - type: custom:button-card
+        template: ha-button
+        entity: fan.living_room_fan
+        name: "Living Room"
+        icon: mdi:ceiling-fan
 
+      - type: custom:button-card
+        template: ha-button
+        entity: fan.bedroom_fan
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bedroom ]]]"
+        icon: mdi:ceiling-fan
+
+  - type: horizontal-stack
+    cards:
+        
+      - type: custom:button-card
+        template: ha-button
+        entity: fan.office_fan
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.office ]]]"
+        icon: mdi:ceiling-fan
+        
       - type: conditional
         conditions:
-          - entity: fan.living_room_fan
+          - entity: fan.guests_fan
             state_not: "unavailable"
         card:
           type: custom:button-card
           template: ha-button
-          entity: fan.living_room_fan
-          name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.living_room ]]]"
+          entity: fan.guests_fan
+          name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.guests ]]]"
           icon: mdi:fan
           hold_action:
             action: fire-dom-event
             browser_mod:
               service: browser_mod.popup
               data:
-                title: Living Room Fan
                 content:
                   type: vertical-stack
                   cards:
-                    - entity: fan.living_room_fan
-                      name: Living Room Fan
+                    - entity: fan.guests_fan
+                      name: Guests Fan
                       type: custom:fan-xiaomi
                       # platform: xiaomi_miio_fan
                     - type: custom:button-card
@@ -58,43 +75,7 @@ cards:
                         action: call-service
                         service: script.reset_fan
                         service_data:
-                          entity_id: fan.living_room_fan
-
-      - type: custom:button-card
-        template: ha-button
-        entity: switch.toilet_vent
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.toilet ]]]"
-        icon: mdi:hvac
-        hold_action:
-          action: more-info
-
-  - type: horizontal-stack
-    cards:
-        
-      - type: custom:button-card
-        template: ha-button
-        entity: fan.office_fan
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.office ]]]"
-        icon: mdi:ceiling-fan
-        hold_action:
-          action: more-info
-
-      # - type: custom:button-card
-      #   template: ha-button
-      #   entity: fan.blue_fan
-      #   icon: mdi:fan
-      #   hold_action:
-      #     action: more-info
-      - type: conditional
-        conditions:
-          - entity: fan.gray_fan
-            state_not: "unavailable"
-        card:
-          type: custom:button-card
-          template: ha-button
-          entity: fan.gray_fan
-          icon: mdi:fan
-          name: "Gray Fan"
+                          entity_id: fan.guests_fan
             
       - type: conditional
         conditions:
@@ -111,7 +92,6 @@ cards:
             browser_mod:
               service: browser_mod.popup
               data:
-                title: Riley Fan
                 content:
                   type: vertical-stack
                   cards:
@@ -141,10 +121,43 @@ cards:
           triggers_update:
             - input_boolean.riley_is_sleeping
 
+
+
+
+
+  - type: horizontal-stack
+    cards:
+
+      - type: custom:button-card
+        color-type: blank-card
+        styles:
+          card:
+            - display: none
+
       - type: custom:button-card
         template: ha-button
-        entity: fan.bedroom_fan
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bedroom ]]]"
-        icon: mdi:ceiling-fan
-        hold_action:
-          action: more-info
+        entity: switch.toilet_vent
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.toilet ]]]"
+        icon: mdi:hvac
+
+      - type: conditional
+        conditions:
+          - entity: fan.gray_fan
+            state: "unavailable"
+        card:
+            type: custom:button-card
+            color-type: blank-card
+            styles:
+              card:
+                - display: none
+
+      - type: conditional
+        conditions:
+          - entity: fan.gray_fan
+            state_not: "unavailable"
+        card:
+          type: custom:button-card
+          template: ha-button
+          entity: fan.gray_fan
+          icon: mdi:fan
+          name: "Gray Fan"

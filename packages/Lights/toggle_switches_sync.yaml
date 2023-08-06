@@ -6,6 +6,26 @@ group:
       - switch.hallway_toggle_front
 
 automation:
+  - alias: Living room sync fan light
+    max_exceeded: silent
+    mode: single
+    trigger:
+      - platform: state
+        entity_id:
+          - light.living_room_main
+          - light.living_room_ceiling_fan
+        not_from:
+          - unavailable
+          - unknown
+        not_to:
+          - unavailable
+          - unknown
+    action:
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
+        entity_id:
+          - light.living_room_main
+          - light.living_room_ceiling_fan
+
   - alias: Living room sync side lamp
     max_exceeded: silent
     mode: single
@@ -62,6 +82,26 @@ automation:
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
         entity_id: switch.stairs
+
+  - alias: Balcony sync fan light with main light
+    max_exceeded: silent
+    mode: single
+    trigger:
+      - platform: state
+        entity_id:
+          - light.balcony_main
+        not_from:
+          - unavailable
+          - unknown
+        not_to:
+          - unavailable
+          - unknown
+    action:
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
+        entity_id:
+          - light.balcony_fan
+          - light.balcony_main
+          
 
   - alias: Office switches sync bff light
     id: Office switches sync bff light
@@ -267,15 +307,15 @@ automation:
       - service: light.toggle
         entity_id: light.bedroom_entrance
 
-  - alias: Bedroom switches scene
+  - alias: Bedroom fan toggles
     max_exceeded: silent
     mode: single
     trigger:
       - platform: state
         entity_id:
-          - switch.bedroom_scene
-          - switch.bedroom_scene_toggle_left
-          - switch.bedroom_scene_toggle_right
+          - switch.bedroom_fan_toggle
+          - switch.bedroom_fan_toggle_left
+          - switch.bedroom_fan_toggle_right
         not_from:
           - unavailable
           - unknown
@@ -283,10 +323,8 @@ automation:
           - unavailable
           - unknown
     action:
-      - service: light.turn_on
-        entity_id: light.bedroom_dimmable_lights
-        data:
-          brightness: "{{ 255 if state_attr('light.bedroom_dimmable_lights', 'brightness')|int < 127 else 1 }}"
+      - service: fan.toggle
+        entity_id: fan.bedroom_fan
 
   - alias: Balcony fan sync switch
     max_exceeded: silent

@@ -23,25 +23,6 @@ input_number:
     step: 1
 
 light:
-  - platform: template
-    lights:
-      living_room_main:
-        unique_id: "Living Room Light Main"
-        friendly_name: "Living Room Main"
-        value_template: "{{ is_state('switch.living_room_main','on') }}"
-        level_template: "{{ (states.input_number.living_room_light_level.state|int * 14.166)|round }}"
-        availability_template: "{{ not is_state('switch.living_room_main','unavailable') }}"
-        turn_on:
-          - service: homeassistant.turn_on
-            entity_id: switch.living_room_main
-        turn_off:
-          - service: homeassistant.turn_off
-            entity_id: switch.living_room_main
-        set_level:
-          - service: python_script.ceiling_light_set_level
-            data:
-              room: living_room
-              new_brightness_level: "{{ brightness }}"
 
   - platform: template
     lights:
@@ -143,56 +124,6 @@ light:
               entity_id: light.bedroom_entrance_hue
               brightness: "{{ brightness }}"
 
-  - platform: template
-    lights:
-      bedroom_main:
-        unique_id: "Bedroom Light Main"
-        friendly_name: "Bedroom Main"
-        value_template: "{{ is_state('input_boolean.bedroom_main_light','on') }}"
-        availability_template: "{{ not is_state('switch.bedroom_main','unavailable') }}"
-        turn_on:
-          - if:
-              - alias: "Bedroom Fan Light is actually on"
-                condition: state
-                entity_id: switch.bedroom_main
-                state: "off"
-            then:
-              - service: homeassistant.turn_on
-                entity_id: switch.bedroom_main
-              - delay:
-                  seconds: 1
-
-          - if:
-              - alias: "Bedroom Fan Light is actually off"
-                condition: state
-                entity_id: input_boolean.bedroom_main_light
-                state: "off"
-            then:
-              - service: input_boolean.turn_off
-                entity_id: input_boolean.bedroom_main_light
-
-              - service: script.bedroom_fan_control
-                data:
-                  action: "light"
-    
-
-        turn_off:
-          - if:
-              - alias: "Bedroom Fan Light is actually on"
-                condition: state
-                entity_id: input_boolean.bedroom_main_light
-                state: "on"
-            then:
-              - service: input_boolean.turn_off
-                entity_id: input_boolean.bedroom_main_light
-
-              - service: script.bedroom_fan_control
-                data:
-                  action: "light"
-    
-          - service: homeassistant.turn_on
-            entity_id: switch.bedroom_main
-
 
   - platform: template
     lights:
@@ -245,7 +176,6 @@ light:
 group:
   living room color changing lights:
     entities:
-      - light.living_room_main
       - light.living_room_entrance
       - light.living_room_hallway
 

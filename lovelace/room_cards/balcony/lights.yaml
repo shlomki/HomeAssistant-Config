@@ -34,10 +34,8 @@ cards:
 
       - type: custom:button-card
         template: ha-button
-        entity: script.balcony_fan_light
+        entity: light.balcony_fan
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.fan_light ]]]"
         icon: mdi:ceiling-fan-light
         icon_height: 50px
-        tap_action:
-          action: call-service
-          service: script.balcony_fan_light
+

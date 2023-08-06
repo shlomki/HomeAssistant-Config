@@ -173,10 +173,10 @@ group:
       - binary_sensor.kitchen_closet_leak
       - binary_sensor.air_conditioner_leak
       - switch.front_door_camera_module
-      - binary_sensor.bathroom_door
+
       - binary_sensor.toilet_presence
       - binary_sensor.toilet_motion
-      - binary_sensor.toilet_door
+
       - switch.subwoofer
       - cover.living_room_shutter_switch
       - cover.guests_shutter_switch
@@ -222,11 +222,15 @@ group:
       - cover.bedroom_curtain_motor
       - cover.bedroom_curtain_switch
       - switch.toilet_vent
-      - binary_sensor.dog_cage
       - sensor.water_boiler_temperature
       - sensor.riley_hue_remote_action
       - sensor.shlomi_hue_remote_action
       - sensor.inbal_hue_remote_action
+
+      - binary_sensor.riley_door
+      - binary_sensor.bedroom_door
+      - binary_sensor.toilet_door
+      - binary_sensor.bathroom_door
 
       #Smoke Sensors
       - binary_sensor.hallway_front_smoke
@@ -235,9 +239,12 @@ group:
 
       #Fans
       # - switch.gray_fan_smart_plug
-      # - fan.bedroom_fan
-      # - fan.living_room_fan
-
+      - fan.living_room_fan
+      - fan.office_fan
+      - fan.balcony_fan
+      - fan.riley_fan
+      - fan.bedroom_fan
+      
       #Smart Plugs
       # - switch.white_yule_tree
       # - switch.green_yule_tree

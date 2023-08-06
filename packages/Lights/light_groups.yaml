@@ -37,7 +37,6 @@ group:
 
   Living Room Dimmable Lights:
     entities:
-      - light.living_room_main
       - light.living_room_entrance
       - light.living_room_hallway
       - light.living_room_side_lamp
@@ -275,6 +274,7 @@ light:
       kitchen_lights:
         friendly_name: "Kitchen Lights"
         value_template: "{{ is_state('group.kitchen_lights', 'on') }}"
+        availability_template: "{{ expand('light.kitchen_island') | selectattr('state', 'in', ['on','off']) | list | count > 0 }}" #Are all lights in the group available?
         turn_on:
           service: light.turn_on
           target:

@@ -22,26 +22,11 @@ cards:
           temperature_monitor_entity_id: sensor.living_room_temperature_monitor
           damper_name: ac_damper_living_room
 
-      - type: conditional
-        conditions:
-          - entity: fan.living_room_fan
-            state_not: "unavailable"
-        card: 
-          type: custom:button-card
-          template: ha-button
-          entity: fan.living_room_fan
-          name: Fan
-          icon: mdi:fan
-          hold_action:
-            action: fire-dom-event
-            browser_mod:
-              service: browser_mod.popup
-              data:
-                title: Living Room Fan
-                content:
-                  entity: fan.living_room_fan
-                  name: Living Room Fan
-                  type: custom:fan-xiaomi
+      - type: custom:button-card
+        template: ha-button
+        entity: fan.living_room_fan
+        name: "Fan"
+        icon: mdi:ceiling-fan
 
       - type: conditional
         conditions:
