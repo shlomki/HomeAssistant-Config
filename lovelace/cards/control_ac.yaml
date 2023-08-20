@@ -112,26 +112,3 @@ cards:
           action: more-info
 
         color: gray
-
-        # state:
-        #   - value: fan_only
-        #     color: rgb(253, 216, 53)
-        #     # icon: mdi:fan
-        #   - value: dry
-        #     color: rgb(253, 216, 53)
-        #     # icon: mdi:water-percent
-        #   - value: auto
-        #     color: rgb(253, 216, 53)
-        #     # icon: mdi:autorenew
-        #   - operator: regex
-        #     value: "off"
-        #     color: rgb(68, 115, 158)
-        #     # icon: mdi:power-plug-off-outline
-        #   - operator: regex
-        #     value: heat
-        #     color: red
-        #   - operator: regex
-        #     value: cool
-        #     # icon: mdi:snowflake
-        #     color: "#2196f3"
-

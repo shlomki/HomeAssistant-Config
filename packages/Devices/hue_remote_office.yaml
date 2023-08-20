@@ -1,0 +1,63 @@
+## Button 1: Main Light
+## Button 2: BFF Light
+## Button 3: Fan
+## Button 4: AC
+
+automation:
+  - id: Office Hue Remote Actions
+    alias: Office Hue Remote Actions
+    mode: parallel
+    trigger:
+      - platform: state
+        entity_id: sensor.office_hue_remote_action
+        not_to: ''
+    variables:
+      button_code: "{{ trigger.to_state.state }}"
+    action:
+      - alias: "choose button"
+        choose:
+          ## Button 1 Release Press: Main Light Toggle
+          - conditions: "{{ button_code == 'on_press_release' }}"
+            sequence:
+              - service: light.toggle
+                target:
+                  entity_id: light.office_main
+
+
+          ## Button 2 Release Press: BFF Light Toggle
+          - conditions: "{{ button_code == 'up_press_release' }}"
+            sequence:
+              - service: light.toggle
+                target:
+                  entity_id: light.office_bff_light
+
+          ## Button 3 Release Press: Fan Toggle
+          - conditions: "{{ button_code == 'down_press_release' }}"
+            sequence:
+              - service: fan.toggle
+                entity_id: fan.office_fan
+
+          ## Button 3 Hold: Increase Speed
+          - conditions: "{{ button_code == 'down_hold' and is_state('fan.office_fan', 'on') }}"
+            sequence:
+              - service: fan.set_percentage
+                data:
+                  entity_id: fan.office_fan
+                  percentage: >-
+                    {% set step = state_attr('fan.office_fan', 'percentage_step') %}
+                    {% set current = state_attr('fan.office_fan', 'percentage') %}
+                    {{ step if (current + step > 101) else (current + step) }}
+
+          ## Button 4 Release Press: AC Toggle
+          - conditions: "{{ button_code == 'off_press_release' }}"
+            sequence:
+              - service: "climate.turn_{{ 'on' if is_state('climate.ac_damper_office', 'off') else 'off' }}"
+                target:
+                  entity_id: climate.ac_damper_office
+                  
+          ## Button 4 Release Hold: AC Turn off all dampers
+          - conditions: "{{ button_code == 'off_hold_release' }}"
+            sequence:
+              - service: homeassistant.turn_off
+                target:
+                  entity_id: group.dampers

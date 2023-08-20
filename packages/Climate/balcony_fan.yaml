@@ -194,8 +194,3 @@
 #           - service: input_boolean.turn_off
 #             entity_id: input_boolean.balcony_fan_light
 
-# group:
-#   balcony_fan_group:
-#     entities:
-#       - fan.balcony_fan
-#       - switch.balcony_fan_toggle

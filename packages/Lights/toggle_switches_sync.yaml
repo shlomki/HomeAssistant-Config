@@ -5,6 +5,12 @@ group:
       - switch.hallway_toggle_back
       - switch.hallway_toggle_front
 
+  balcony_fan_group:
+    entities:
+      - fan.balcony_fan
+      - switch.balcony_fan_toggle
+
+
 automation:
   - alias: Living room sync fan light
     max_exceeded: silent
