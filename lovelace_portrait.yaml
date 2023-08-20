@@ -1,5 +1,11 @@
 title: Home
 
+wallpanel:
+  enabled: false
+  hide_toolbar: true
+  hide_sidebar: true
+  idle_time: 0
+
 decluttering_templates: !include_dir_merge_named /config/lovelace/decluttering_templates/
 
 button_card_templates: !include_dir_merge_named /config/lovelace/button_card_templates/

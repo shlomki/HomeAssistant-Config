@@ -105,10 +105,10 @@ cards:
               {% set state = states(entity) %}
               {% if state == "Open, Unlocked" or state == "Open, Locked" %}
               mdi:door-open
-              {% elif state == "Closed, Unlocked" %}
-              mdi:door-closed
               {% elif state == "Closed, Locked" %}
               mdi:door-closed-lock
+              {% else %}
+              mdi:door-closed
               {% endif %}
             icon_color: >-
               {% set state = states(entity) %}
@@ -146,7 +146,13 @@ cards:
               browser_mod:
                 service: browser_mod.popup
                 data:
-                  content: !include /config/lovelace/cards/control_windows_container.yaml
+                  content: 
+                    type: vertical-stack
+                    cards:
+
+                      - !include /config/lovelace/cards/control_windows_shutters.yaml
+                      - !include /config/lovelace/cards/control_windows_curtains.yaml
+                      - !include /config/lovelace/cards/control_windows_other.yaml
 
           - type: custom:mushroom-template-card
             primary: Lights
@@ -165,7 +171,11 @@ cards:
               browser_mod:
                 service: browser_mod.popup
                 data:
-                  content: !include /config/lovelace/cards/control_lights_container.yaml
+                  content:
+                    type: vertical-stack
+                    cards:
+                      - !include /config/lovelace/cards/control_lights_row1.yaml
+                      - !include /config/lovelace/cards/control_lights_row2.yaml
 
       - type: horizontal-stack
         cards:

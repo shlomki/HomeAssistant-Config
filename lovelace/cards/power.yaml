@@ -4,6 +4,7 @@ cards:
   - type: custom:button-card
     template: title
     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.power ]]]"
+
   - type: horizontal-stack
     cards:
       - type: custom:button-card
@@ -157,17 +158,17 @@ cards:
             hold_action:
               action: more-info
               
-      - type: custom:mini-graph-card
-        entities:
-          - entity: sensor.energy_total_today_cost
-        aggregate_func: max
-        icon: mdi:flash
-        show:
-          name: false
-          icon: false
-          graph: bar
-          labels: false
-        group_by: date
-        hours_to_show: 96
-        bar_spacing: 10
-        lower_bound: 0
+  - type: custom:mini-graph-card
+    entities:
+      - entity: sensor.energy_total_today_cost
+    aggregate_func: max
+    icon: mdi:flash
+    name: Last 8 days
+    show:
+      icon: false
+      graph: bar
+      labels: false
+    group_by: date
+    hours_to_show: 192
+    bar_spacing: 10
+    lower_bound: 0
