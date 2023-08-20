@@ -12,8 +12,8 @@ homeassistant:
     camera_snaps: "/config/camera_snaps"
   packages: !include_dir_named packages
   customize: !include customize.yaml
-  external_url: !secret ha_base_url
-  internal_url: !secret ha_base_url
+  external_url: !secret ha_external_url
+  internal_url: !secret ha_internal_url
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
@@ -39,6 +39,9 @@ python_script:
 
 wake_on_lan:
 
+frontend:
+  themes: !include_dir_merge_named themes
+
 recorder:
   include:
     domains:
@@ -59,6 +62,7 @@ recorder:
       - sensor.energy_total_next_*
       - sensor.energy_total_today_*
       - sensor.*mold*
+      - sensor.*_temperature_monitor
     entities:
       - input_select.laundry_machine_status
       - binary_sensor.fridge
@@ -76,11 +80,17 @@ recorder:
       - binary_sensor.internet_connection
       - binary_sensor.ubnt_interface_eth10_connected
       - binary_sensor.google_connection
+      - sensor.laundry_machine_power
+      - sensor.laundry_machine_energy
+      - sensor.yogurt_maker_power
+      - sensor.yogurt_maker_energy
+      - sensor.riley_heater_power
+      - sensor.riley_heater_energy
+      
 
 
 lovelace:
   mode: storage
-  # Add yaml dashboards
   dashboards:
     lovelace-mobile:
       mode: yaml
@@ -96,56 +106,12 @@ lovelace:
       show_in_sidebar: true
       filename: lovelace_landscape.yaml
 
-      
-      # resources:
-      #   - url: /hacsfiles/button-card/button-card.js
-      #     type: module
-
-      #   - url: /hacsfiles/mini-climate-card/mini-climate-card-bundle.js?hacstag=2681639751210
-      #     type: module
-
-      #   - url: /hacsfiles/lovelace-slider-entity-row/slider-entity-row.js
-      #     type: module
-
-      #   - url: /hacsfiles/lovelace-fan-xiaomi/fan-xiaomi.js
-      #     type: module
-
-      #   - url: /hacsfiles/mini-media-player/mini-media-player-bundle.js?hacstag=1485208381150
-      #     type: module
-
-      #   - url: /hacsfiles/spotify-card/spotify-card.js?hacstag=173955605240
-      #     type: module
-
-      #   - url: /hacsfiles/lovelace-auto-entities/auto-entities.js?hacstag=167744584191
-      #     type: module
-
-      #   - url: /webrtc/webrtc-camera.js?v2.2.0
-      #     type: module
-
-      #   - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js?hacstag=1512800620110
-      #     type: module
-
-      #   - url: /hacsfiles/gallery-card/gallery-card.js?hacstag=284283867331
-      #     type: module
-
-      #   - url: /hacsfiles/Home-Assistant-Lovelace-Local-Conditional-card/local-conditional-card.js?hacstag=218178802111
-      #     type: module
-
-      #   - url: /hacsfiles/decluttering-card/decluttering-card.js?hacstag=188686483063
-      #     type: module
-
-      #   - url: /hacsfiles/lovelace-state-switch/state-switch.js?hacstag=158756598191
-      #     type: module
-
-      #   - url: /hacsfiles/scheduler-card/scheduler-card.js?hacstag=286270157233
-      #     type: module
-
-      #   - url: /hacsfiles/LG-WebOS-Remote-Control/lg-remote-control.js?hacstag=25700599020738
-      #     type: module
-
-      #   - url: /hacsfiles/lovelace-webos-keyboard-card/webos-keyboard-card.js?hacstag=3709970196489
-      #     type: module
-
+    # minimalist:
+    #   mode: yaml
+    #   title: Minimalist
+    #   icon: mdi:circle-small
+    #   show_in_sidebar: true
+    #   filename: ui_lovelace_minimalist/dashboard/ui-lovelace.yaml
 
 # logger:
 #   default: warning
@@ -165,14 +131,3 @@ lovelace:
 #     custom_components.ekon-local: debug
 #     homeassistant.components.shell_command: debug
 
-
-# lovelace:
-#   mode: storage
-#   dashboards:
-#     lovelace-yaml:
-#       mode: yaml
-#       filename: lovelace.yaml
-#       title: "Home"
-#       icon: mdi:view-dashboard
-#       show_in_sidebar: true
-#       require_admin: true

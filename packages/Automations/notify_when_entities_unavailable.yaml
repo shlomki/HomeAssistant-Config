@@ -226,6 +226,7 @@ group:
       - sensor.riley_hue_remote_action
       - sensor.shlomi_hue_remote_action
       - sensor.inbal_hue_remote_action
+      - sensor.office_hue_remote_action
 
       - binary_sensor.riley_door
       - binary_sensor.bedroom_door
