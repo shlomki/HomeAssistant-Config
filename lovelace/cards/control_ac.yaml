@@ -1,5 +1,6 @@
 type: vertical-stack
 cards:
+
   - type: horizontal-stack
     cards:
       - type: custom:button-card
@@ -101,14 +102,26 @@ cards:
 
       #AC
       - type: custom:button-card
-        template: climate-button
-        entity: climate.mainac
+        entity: switch.mainac
         name: "Settings"
         icon: mdi:cog
+        styles:
+          card:
+            - height: 115px
 
-        size: 20%
+        size: 15%
 
         tap_action:
           action: more-info
+          entity: climate.mainac
 
         color: gray
+        state:
+          - value: 'on'
+            id: 'on'
+            color: gray
+          - value: 'off'
+            id: 'off'
+            color: gray
+
+            

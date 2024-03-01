@@ -1,0 +1,91 @@
+type: vertical-stack
+cards:
+
+  - type: custom:button-card
+    template: 
+      - climate-button
+      - climate_button_state_colors
+    entity: climate.mainac
+    name: "Central Air Conditioning"
+    label: "On/Off"
+    color: rgb(253, 216, 53)
+    tap_action:
+      action: call-service
+      service: switch.toggle
+      service_data:
+        entity_id: switch.mainac
+
+    state:
+      - value: fan_only
+        icon: mdi:fan
+      - value: dry
+        icon: mdi:water-percent
+      - value: auto
+        icon: mdi:autorenew
+      - value: cool
+        icon: mdi:snowflake
+      - value: heat
+        icon: mdi:weather-sunny       
+      - value: "off"
+        id: "off"
+        icon: mdi:power
+
+
+    styles:
+      card:
+        - padding: 1% 0px
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        color_type: blank-card
+        
+      - type: custom:button-card
+        icon: mdi:cog
+        size: 30px
+        entity: switch.mainac
+        show_name: false
+        styles:
+          card:
+            - width: 50px
+            - height: 37px
+
+        tap_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              content: !include /config/lovelace/cards/control_ac.yaml
+
+        color: gray
+        state:
+          - value: 'on'
+            id: 'on'
+            color: gray
+          - value: 'off'
+            color: gray
+
+  # - type: custom:button-card
+  #   template: ha-button
+  #   entity: switch.mainac
+  #   name: "Settings"
+  #   icon: mdi:cog
+
+  #   size: 20%
+  #   tap_action:
+  #     action: fire-dom-event
+  #     browser_mod:
+  #       service: browser_mod.popup
+  #       data:
+  #         content: !include /config/lovelace/cards/control_ac.yaml
+
+  #   color: gray
+  #   state:
+  #     - value: 'on'
+  #       id: 'on'
+  #       color: gray
+  #     - value: 'off'
+  #       id: 'off'
+  #       color: gray
+
+        

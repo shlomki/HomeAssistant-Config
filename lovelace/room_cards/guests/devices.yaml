@@ -1,22 +1,63 @@
 type: vertical-stack
 cards:
+
   - type: custom:button-card
     template: title
     name: Devices
 
   - type: horizontal-stack
     cards: 
+      - type: conditional
+        conditions:
+          - entity: input_boolean.simple_smart_home_mode
+            state: "off"
+        card:
+          type: custom:button-card
+          template: climate-button
+          entity: climate.ac_damper_guests
+          name: "AC"
+          icon: mdi:account-multiple
+          variables:
+            window_entity_ids: binary_sensor.guests_window
+            temperature_monitor_entity_id: sensor.guests_temperature_monitor
+            damper_name: ac_damper_guests
+          triggers_update:
+            - binary_sensor.guests_window
+            - sensor.guests_temperature_monitor
+            - timer.ac_damper_guests
 
-      - type: custom:button-card
-        template: climate-button
-        entity: climate.ac_damper_guests
-        name: "AC"
-        icon: mdi:account-multiple
-        variables:
-          window_entity_ids: binary_sensor.guests_window
-          temperature_monitor_entity_id: sensor.guests_temperature_monitor
-          damper_name: ac_damper_guests
-        triggers_update:
-          - binary_sensor.guests_window
-          - sensor.guests_temperature_monitor
-          - timer.ac_damper_guests
+      - type: conditional
+        conditions:
+          - entity: fan.guests_fan
+            state_not: "unavailable"
+        card:
+          type: custom:button-card
+          template: ha-button
+          entity: fan.guests_fan
+          name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.fan ]]]"
+          icon: mdi:fan
+          hold_action:
+            action: fire-dom-event
+            browser_mod:
+              service: browser_mod.popup
+              data:
+                content:
+                  type: vertical-stack
+                  cards:
+                    - entity: fan.guests_fan
+                      name: Guests Fan
+                      type: custom:fan-xiaomi
+                      # platform: xiaomi_miio_fan
+                    - type: custom:button-card
+                      entity: script.reset_fan
+                      name: Reset Angle
+                      icon: mdi:angle-obtuse
+                      layout: icon_name
+                      styles:
+                        card:
+                          - height: 60px
+                      tap_action:
+                        action: call-service
+                        service: script.reset_fan
+                        service_data:
+                          entity_id: fan.guests_fan

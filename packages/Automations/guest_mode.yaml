@@ -1,25 +1,108 @@
 input_boolean:
   guest_mode:
+    name: Guest Mode
+  
+  simple_smart_home_mode:
+    name: Simple Smart Home Mode
+
+#When we leave and guests are home - guest mode should be on
+#When we're gone and guests leave - guest mode should stay on
+#When we're home and guests leave - guest mode should be turned off
+
+
+#When guests arrive - turn guest mode on
+#When guests leave and we're home - turn off
+#When we come back home and guests aren't there - guest mode should be turned off
+
+group:
+  guest_mode_automations:
+    entities:
+      - automation.guest_mode_turn_on_when_they_arrive
+      - automation.guest_mode_turn_off_when_they_leave_and_we_re_home
+      - automation.guest_mode_turn_off_when_returning_home_and_guests_aren_t_there
+
+# command_line:
+#   - sensor: 
+#       name: Guests Connected to Wifi
+#       command: !secret nmap_guest_network_scan #Run Nmap and return only the row that says how many hosts are up. Command is: 'nmap -sn -T4 NETWORK_IP_RANGE --exclude EXCLUDE_IPS | grep "hosts up"' 
+#       command_timeout: 120
+#       scan_interval: 300
+#       value_template: "{{ value | regex_findall_index(find='(\\d+)\\s+hosts\\s+up', index=0) }}"
+
+template:
+  - sensor:
+      - name: "Guest Names"
+        state: "{{ state_attr('person.guests', 'device_trackers') | select('is_state', 'home') | map('regex_findall_index', 'device_tracker\\.([^_]+)(?:_|$)', 0, '') | map('capitalize') | unique | join(', ') or 'No known guests' }}"
+
+  - binary_sensor:
+      - name: "Guests Connected to Wifi"
+        state: "{{ not is_state('sensor.guests_connected_to_wifi', '0') }}"
 
 automation:
-  - id: Guest Mode - turn off when returning home
-    alias: Guest Mode - turn off when returning home
+  - id: Guest Mode - turn on when they arrive
+    alias: Guest Mode - turn on when they arrive
+    trigger:
+      - platform: state
+        entity_id: person.guests
+        from: not_home
+        to: home
+        for:
+          minutes: 5
+
+    condition:
+      - alias: "Guest Mode is off"
+        condition: state
+        entity_id: input_boolean.guest_mode
+        state: "off"
+
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.guest_mode
+
+
+  - id: Guest Mode - turn off when they leave and we're home
+    alias: Guest Mode - turn off when they leave and we're home
+    trigger:
+      - platform: state
+        entity_id: person.guests
+        from: "home"
+        to: "not_home"
+    condition:
+      - alias: "We're home"
+        condition: state
+        entity_id: group.bffs
+        state: "home"
+
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.guest_mode
+
+
+  - id: Guest Mode - turn off when returning home and guests aren't there
+    alias: Guest Mode - turn off when returning home and guests aren't there
     trigger:
       - platform: state
         entity_id: group.bffs
         from: "not_home"
         to: "home"
     condition:
-      - alias: "Guest Mode has been on for more than 30 minutes"
-        condition: state
-        entity_id: input_boolean.guest_mode
-        state: "on"
-        for:
-          minutes: 30
+      and: 
+        - alias: "Guest Mode has been on for more than 30 minutes" #This is to prevent turning off guest mode when we're in the neighborhood (changing states frequently)
+          condition: state
+          entity_id: input_boolean.guest_mode
+          state: "on"
+          for:
+            minutes: 30
+
+        - alias: "Guests aren't detected on wifi"
+          condition: state
+          entity_id: person.guests
+          state: "not_home"
+
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.guest_mode
-      - service: notify.bffs
+      - service: notify.shlomi
         data:
           message: "Welcome back home! Guest Mode has been turned off."
 
@@ -61,3 +144,12 @@ switch:
           service: switch.turn_off
           target:
             entity_id: "{{ states.switch | selectattr('entity_id', 'search', 'switch.schedule_guests_*') | map(attribute='entity_id') | list }}"
+
+# sensor:
+#   - platform: history_stats
+#     name: Partial Power Consumption
+#     entity_id: light.my_lamp
+#     state: "on"
+#     type: time
+#     start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+#     end: "{{ now() }}"

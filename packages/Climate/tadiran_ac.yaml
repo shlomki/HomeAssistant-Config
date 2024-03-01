@@ -161,3 +161,17 @@ automation:
         data:
           entity_id: input_text.ac_entity_id
           value: "climate.mainac"
+
+switch:
+  - platform: template
+    switches:
+      mainac:
+        value_template: "{{ (not is_state('climate.mainac', 'off') and not is_state('climate.mainac', 'unavailable') and not is_state('climate.mainac', 'unknown')) }}"
+        turn_on:
+          - service: climate.turn_on
+            target:
+              entity_id: climate.mainac
+        turn_off:
+          - service: climate.turn_off
+            target:
+              entity_id: climate.mainac

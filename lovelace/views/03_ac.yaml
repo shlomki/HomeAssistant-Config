@@ -27,7 +27,7 @@ cards:
         card:
           type: thermostat
           entity: climate.manual_ac
-  - columns: 5
+  - columns: 4
     entities:
       - entity: sensor.outside_climate_temperature
         name: Outside
@@ -37,8 +37,22 @@ cards:
         name: Closet
       - entity: sensor.bedroom_closet_climate_humidity
         name: Closet
-      - entity: sensor.solar_system_temperature
     show_icon: true
     show_state: true
     title: Other
     type: glance
+  - type: entities
+    entities:
+      - sensor.water_boiler_temperature_top
+      - sensor.water_boiler_temperature_middle
+      - sensor.water_boiler_temperature_bottom
+      - sensor.water_boiler_temperature
+      - sensor.hot_showers_available
+
+
+  - type: entities
+    entities:
+      - sensor.water_boiler_temperature_top_average
+      - sensor.water_boiler_temperature_middle_adjusted_average
+      - sensor.water_boiler_temperature_bottom_average
+      - sensor.hot_showers_available_average

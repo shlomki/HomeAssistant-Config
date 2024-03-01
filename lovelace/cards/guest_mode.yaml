@@ -1,0 +1,101 @@
+type: vertical-stack
+cards:
+  # - type: entities
+  #   entities:
+  #     - sensor.guest_names
+  #     - sensor.guests_connected_to_wifi
+
+  - type: custom:mushroom-chips-card
+    alignment: center
+    chips:
+      - type: template
+        icon: mdi:account-circle
+        icon_color: '{{ "" if states(entity) == "No known guests" else "green" }}'
+        entity: sensor.guest_names
+        content: '{{ states(entity) }}'
+        tap_action:
+          action: more-info
+
+      - type: template
+        icon: mdi:wifi
+        icon_color: '{{ '''' if states(entity) == ''0'' else ''green'' }}'
+        entity: sensor.guests_connected_to_wifi
+        content: '{{ states(entity) }} connected'
+        tap_action:
+          action: more-info
+
+  - type: custom:button-card
+    template: ha-button
+    entity: input_boolean.guest_mode
+    icon: mdi:account-multiple
+    name: Guest Mode Enabled
+
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title
+        name: Configuration
+
+      - type: horizontal-stack
+        cards:
+
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Guest Mode
+            label: Enable Automatically
+            show_label: true
+            entity: group.guest_mode_automations
+            icon: mdi:account-outline
+
+          - type: custom:button-card
+            template: ha-button-small-label
+            name: Schedules
+            label: in Guests Room
+            show_label: true
+            entity: switch.guest_schedules
+            icon: mdi:timer-outline
+
+      - type: horizontal-stack
+        cards:
+
+          - type: custom:button-card
+            template: ha-button-small-label
+            entity: input_boolean.simple_smart_home_mode
+            name: Simple Mode
+            label: for AC Buttons
+            show_label: true
+            icon: mdi:account-check
+
+
+          - type: custom:button-card
+            template: ha-button-small-label
+            entity: automation.unlock_door_when_guests_arrive
+            name: Unlock Door
+            label: When Guests Arrive
+            show_label: true
+            icon: mdi:door-closed-lock
+
+  # - type: custom:auto-entities
+  #   card_param: chips
+  #   card:
+  #     type: custom:mushroom-chips-card
+  #   filter:
+  #     template: "{{ state_attr('person.guests', 'device_trackers') | select('is_state', 'home') | list }}"
+  #   show_empty: false
+
+
+  # - type: custom:auto-entities
+  #   card:
+  #     type: custom:mushroom-chips-card
+  #   card_param: chips
+  #   show_empty: false
+  #   include:
+  #     - domain: device_tracker
+  #       state: 'home'
+  #       filter:
+  #         template: "{{ state_attr('person.guests', 'device_trackers') | select('is_state', 'home') | list }}"
+  #       options:
+  #         type: entity
+  #         entity: this.entity_id
+  #         icon: mdi:account-circle
+

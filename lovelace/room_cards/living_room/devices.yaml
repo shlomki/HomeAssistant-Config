@@ -4,29 +4,39 @@ cards:
     template: title
     name: Devices
 
+
   - type: horizontal-stack
     cards:
-      - type: custom:button-card
-        template: climate-button
-        entity: climate.ac_damper_living_room
-        name: AC
-        icon: mdi:sofa-outline
-        triggers_update:
-          - binary_sensor.balcony_window
-          - binary_sensor.kitchen_window
-          - sensor.living_room_temperature_monitor
-        variables:
-          window_entity_ids:
+      - type: conditional
+        conditions:
+          - entity: input_boolean.simple_smart_home_mode
+            state: "off"
+        card:
+          type: custom:button-card
+          template: climate-button
+          entity: climate.ac_damper_living_room
+          name: AC
+          icon: mdi:sofa-outline
+          triggers_update:
             - binary_sensor.balcony_window
             - binary_sensor.kitchen_window
-          temperature_monitor_entity_id: sensor.living_room_temperature_monitor
-          damper_name: ac_damper_living_room
+            - sensor.living_room_temperature_monitor
+          variables:
+            window_entity_ids:
+              - binary_sensor.balcony_window
+              - binary_sensor.kitchen_window
+            temperature_monitor_entity_id: sensor.living_room_temperature_monitor
+            damper_name: ac_damper_living_room
 
       - type: custom:button-card
         template: ha-button
         entity: fan.living_room_fan
         name: "Fan"
         icon: mdi:ceiling-fan
+        styles:
+          card:
+            - height: 115px
+
 
       - type: conditional
         conditions:
@@ -40,8 +50,16 @@ cards:
             tablet_id: house_tablet
             tablet_friendly_name: Mr. White
           triggers_update: input_number.house_tablet_volume
+          styles:
+            card:
+              - height: 115px
+
 
       - type: custom:button-card
         template: tv-button
         entity: media_player.living_room_tv
         name: TV
+        styles:
+          card:
+            - height: 115px
+
