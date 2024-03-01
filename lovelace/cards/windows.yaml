@@ -1,0 +1,100 @@
+type: custom:layout-card
+layout_type: custom:grid-layout
+layout:
+  grid-template-columns: repeat(5, 1fr)
+  grid-template-rows: repeat(2, 1fr)
+  grid-auto-flow: column
+  grid-gap: 0px
+  margin: 0px
+
+  mediaquery:
+    "(max-width: 600px)":
+      grid-template-columns: repeat(2, 1fr)
+      grid-template-rows: repeat(4, 1fr)
+      grid-auto-flow: row
+
+cards:
+
+  #Balcony
+  - type: 'custom:button-card'
+    template:
+      - card_room_windows
+      - purple_on
+    name: Balcony
+    icon: mdi:sofa
+    entity: binary_sensor.balcony_window
+    variables:
+      card_room_windows_shutter_entity: "cover.living_room_shutter"
+      card_room_windows_curtain_entity: "cover.living_room_curtain"
+      card_room_windows_tap_action_navigation_path: "living-room"
+      
+  #Kitchen
+  - type: 'custom:button-card'
+    template:
+      - card_room_windows
+      - purple_on
+    name: Kitchen
+    icon: mdi:faucet-variant
+    entity: binary_sensor.kitchen_window
+    variables:
+      card_room_windows_shutter_entity: "cover.kitchen_shutter"
+      card_room_windows_curtain_entity: "cover.kitchen_curtain"
+      card_room_windows_tap_action_navigation_path: "living-room"
+
+  #Office
+  - type: 'custom:button-card'
+    template:
+      - card_room_windows
+    name: Office
+    icon: mdi:monitor
+    entity: binary_sensor.office_window
+    variables:
+      card_room_windows_shutter_entity: "cover.office_shutter"
+      card_room_windows_curtain_entity: "cover.office_curtain"
+      card_room_windows_tap_action_navigation_path: "office"
+
+  #Guests
+  - type: 'custom:button-card'
+    template:
+      - card_room_windows
+      - purple_on
+    name: Guests
+    icon: mdi:account-multiple
+    entity: binary_sensor.guests_window
+    variables:
+      card_room_windows_shutter_entity: "cover.guests_shutter"
+      card_room_windows_tap_action_navigation_path: "guests"
+
+  #Bedroom
+  - type: 'custom:button-card'
+    template:
+      - card_room_windows
+    name: Bedroom
+    icon: mdi:bed-king-outline
+    entity: binary_sensor.bedroom_window
+    variables:
+      card_room_windows_shutter_entity: "cover.bedroom_shutter"
+      card_room_windows_curtain_entity: "cover.bedroom_curtain"
+      card_room_windows_tap_action_navigation_path: "bedroom"
+
+  #Riley
+  - type: 'custom:button-card'
+    template:
+      - card_room_windows
+      - purple_on
+    name: Riley
+    icon: mdi:face-woman-outline
+    entity: binary_sensor.riley_window
+    variables:
+    card_room_windows_tap_action_navigation_path: "riley"
+
+  #Bathroom
+  - type: 'custom:button-card'
+    template:
+      - card_room_windows
+      - purple_on
+    name: Bathroom
+    icon: mdi:shower
+    entity: binary_sensor.bathroom_window
+    variables:
+      card_room_windows_tap_action_navigation_path: "bathroom"
