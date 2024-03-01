@@ -1,0 +1,12 @@
+---
+custom_card_vertical_button:
+  template: 
+    - card_vertical_button
+    - yellow_on
+  name: ""
+  variables:
+    ulm_card_vertical_button_state: ""
+    ulm_card_vertical_button_color: ""
+  styles:
+    card:
+      - height: 95px

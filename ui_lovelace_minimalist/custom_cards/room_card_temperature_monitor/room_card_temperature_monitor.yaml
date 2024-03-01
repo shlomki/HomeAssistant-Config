@@ -1,0 +1,19 @@
+room_card_temperature_monitor:
+  label: |
+    [[[ if (variables && 'temperature_monitor_entity_id' in variables) {
+            let monitor = states[variables.temperature_monitor_entity_id].state;
+            let monitor_color = '';
+            if (monitor.includes('Cold')) {
+              monitor_color = 'turquoise';
+            } else if (monitor.includes('Hot')) {
+              monitor_color = 'red';
+            }
+
+            if (entity.attributes.temperature != 'unavailable' && entity.attributes.temperature != 'unknown') {
+              return '<div style="color: ' + monitor_color + '">' + entity.attributes.temperature + '°C</div>';
+            }
+            else {
+              return '';
+            }
+          }
+        ]]]

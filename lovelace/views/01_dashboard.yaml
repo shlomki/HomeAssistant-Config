@@ -13,6 +13,12 @@ layout:
 
   height: 99%
 
+card_mod:
+  style: |
+    .mdc-dialog {
+      --dialog-backdrop-filter: blur(10px);
+    }
+
 cards:
 
   - type: custom:mushroom-title-card
@@ -36,10 +42,7 @@ cards:
           browser_mod:
             service: browser_mod.popup
             data:
-              card_mod:
-                style:
-                  #popup header
-                  .:
+              title: Notifications
               content: !include /config/lovelace/cards/notifications.yaml
               
 
@@ -54,6 +57,7 @@ cards:
           browser_mod:
             service: browser_mod.popup
             data:
+              title: Weather
               content: !include /config/lovelace/cards/weather.yaml
     alignment: end
     view_layout:
@@ -85,10 +89,17 @@ cards:
         entity: input_boolean.guest_mode
         icon_color: "{{ 'green' if states(entity) == 'on' else '' }}"
         tap_action:
-          action: call-service
-          service: input_boolean.toggle
-          target:
-            entity_id: input_boolean.guest_mode
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              title: Guest Mode Settings
+              content: !include /config/lovelace/cards/guest_mode.yaml
+        # tap_action:
+        #   action: call-service
+        #   service: input_boolean.toggle
+        #   target:
+        #     entity_id: input_boolean.guest_mode
 
     view_layout:
       grid-area: badges
@@ -126,6 +137,7 @@ cards:
               browser_mod:
                 service: browser_mod.popup
                 data:
+                  title: Entrance
                   content: !include /config/lovelace/cards/quick_status_entrance.yaml
 
           - type: custom:mushroom-template-card
@@ -146,13 +158,11 @@ cards:
               browser_mod:
                 service: browser_mod.popup
                 data:
+                  title: Windows
                   content: 
                     type: vertical-stack
                     cards:
-
-                      - !include /config/lovelace/cards/control_windows_shutters.yaml
-                      - !include /config/lovelace/cards/control_windows_curtains.yaml
-                      - !include /config/lovelace/cards/control_windows_other.yaml
+                      - !include /config/lovelace/cards/windows.yaml
 
           - type: custom:mushroom-template-card
             primary: Lights
@@ -171,11 +181,8 @@ cards:
               browser_mod:
                 service: browser_mod.popup
                 data:
-                  content:
-                    type: vertical-stack
-                    cards:
-                      - !include /config/lovelace/cards/control_lights_row1.yaml
-                      - !include /config/lovelace/cards/control_lights_row2.yaml
+                  title: Lights
+                  content: !include /config/lovelace/cards/control_lights_stacks.yaml
 
       - type: horizontal-stack
         cards:
@@ -192,58 +199,114 @@ cards:
               browser_mod:
                 service: browser_mod.popup
                 data:
+                  title: Shower
                   content: !include /config/lovelace/cards/control_shower.yaml
 
-          - type: custom:mushroom-template-card
-            primary: AC
-            entity: group.dampers
-            fill_container: true
-            secondary: |-
-              {% if is_state(entity, 'on') %}
-                {% set count = expand(entity) %}
-                {{ (count | selectattr('state', 'eq', 'fan_only') | list | length) }} On
-              {% endif %}
-            icon: >-
-              {% set ac_state = states('climate.mainac') %}
-              {% if ac_state == 'heat' %}
-                mdi:weather-sunny
-              {% elif ac_state == 'cool' %}
-                mdi:snowflake
-              {% elif ac_state == 'fan_only' %}
-                mdi:fan
-              {% elif ac_state == 'off' %}
-                mdi:power-plug-off
-              {% endif %}
-              
-            icon_color: >- 
-              {% if is_state(entity, 'on') %}
-                {% if is_state('climate.main_ac', 'heat') %}
+          - type: conditional
+            conditions:
+              - entity: input_boolean.simple_smart_home_mode
+                state: "off"
+            card:
+              type: custom:mushroom-template-card
+              primary: AC
+              entity: group.dampers
+              fill_container: true
+              secondary: |-
+                {% if is_state(entity, 'on') %}
+                  {% set count = expand(entity) %}
+                  {{ (count | selectattr('state', 'eq', 'fan_only') | list | length) }} On
+                {% endif %}
+              icon: >-
+                {% set ac_state = states('climate.mainac') %}
+                {% if ac_state == 'heat' %}
+                  mdi:weather-sunny
+                {% elif ac_state == 'cool' %}
+                  mdi:snowflake
+                {% elif ac_state == 'fan_only' %}
+                  mdi:fan
+                {% elif ac_state == 'off' %}
+                  mdi:power-plug-off
+                {% endif %}
+                
+              icon_color: >- 
+                {% if is_state(entity, 'on') %}
+                  {% set ac_state = states('climate.mainac') %}
+                  {% if ac_state == 'heat' %}
+                    red
+                  {% elif ac_state == 'cool' %}
+                    blue
+                  {% elif ac_state == 'fan_only' %}
+                    blue
+                  {% endif %}
+                {% endif %}
+
+              layout: vertical
+              badge_icon: >-
+                {% set monitor = states('sensor.all_rooms_temperature_monitor') %}
+                {% if (monitor == "Hot" or monitor == "Very Hot") %}
+                  mdi:fire
+                {% elif (monitor == "Cold" or monitor == "Very Cold") %}
+                  mdi:snowflake
+                {% endif %}
+              badge_color: >-
+                {% set monitor = states('sensor.all_rooms_temperature_monitor') %}
+                {% if (monitor == "Hot" or monitor == "Very Hot") %}
                   red
-                {% else %}
+                {% elif (monitor == "Cold" or monitor == "Very Cold") %}
                   blue
                 {% endif %}
-              {% endif %}
-            layout: vertical
-            badge_icon: >-
-              {% set monitor = states('sensor.all_rooms_temperature_monitor') %}
-              {% if (monitor == "Hot" or monitor == "Very Hot") %}
-                mdi:fire
-              {% elif (monitor == "Cold" or monitor == "Very Cold") %}
-                mdi:snowflake
-              {% endif %}
-            badge_color: >-
-              {% set monitor = states('sensor.all_rooms_temperature_monitor') %}
-              {% if (monitor == "Hot" or monitor == "Very Hot") %}
-                red
-              {% elif (monitor == "Cold" or monitor == "Very Cold") %}
-                blue
-              {% endif %}
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  content: !include /config/lovelace/cards/control_ac.yaml
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.popup
+                  data:
+                    title: Air Conditioning
+                    content: !include /config/lovelace/cards/control_ac.yaml
+
+          - type: conditional
+            conditions:
+              - entity: input_boolean.simple_smart_home_mode
+                state: "on"
+            card:
+              type: custom:mushroom-template-card
+              primary: AC
+              entity: switch.mainac
+              fill_container: true
+              secondary: |-
+                {% if is_state(entity, 'on') %}
+                  {% set count = expand('group.dampers') %}
+                  {{ (count | selectattr('state', 'eq', 'fan_only') | list | length) }} Rooms
+                {% endif %}
+
+              icon: >-
+                {% set ac_state = states('climate.mainac') %}
+                {% if ac_state == 'heat' %}
+                  mdi:weather-sunny
+                {% elif ac_state == 'cool' %}
+                  mdi:snowflake
+                {% elif ac_state == 'fan_only' %}
+                  mdi:fan
+                {% elif ac_state == 'off' %}
+                  mdi:power
+                {% endif %}
+                
+              icon_color: >- 
+                {% if is_state(entity, 'on') %}
+                  {% if is_state('climate.mainac', 'heat') %}
+                    red
+                  {% else %}
+                    blue
+                  {% endif %}
+                {% endif %}
+              layout: vertical
+
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.popup
+                  data:
+                    title: Air Conditioning
+                    content: !include /config/lovelace/cards/control_ac_simple.yaml
 
 
           - type: custom:mushroom-template-card
@@ -263,6 +326,7 @@ cards:
               browser_mod:
                 service: browser_mod.popup
                 data:
+                  title: Fans
                   content: !include /config/lovelace/cards/control_fans.yaml
 
       - type: horizontal-stack
@@ -284,6 +348,7 @@ cards:
               browser_mod:
                 service: browser_mod.popup
                 data:
+                  title: Screens
                   content: !include /config/lovelace/cards/control_screens.yaml
 
           - type: custom:mushroom-template-card
@@ -293,11 +358,8 @@ cards:
             layout: vertical
             fill_container: true
             tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  content: !include /config/lovelace/cards/control_rooms.yaml
+              action: navigate
+              navigation_path: rooms
 
           - type: custom:mushroom-template-card
             primary: Quick
@@ -312,6 +374,7 @@ cards:
               browser_mod:
                 service: browser_mod.popup
                 data:
+                  title: Quick
                   content: !include /config/lovelace/cards/control_scenes.yaml
 
     view_layout:
@@ -335,6 +398,7 @@ cards:
           browser_mod:
             service: browser_mod.popup
             data:
+              title: Power
               content: !include /config/lovelace/cards/power.yaml
 
     view_layout:

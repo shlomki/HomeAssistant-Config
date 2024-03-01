@@ -1,4 +1,10 @@
 container:
+  tap_action:
+    action: none
+  double_tap_action:
+    action: none
+  hold_action:
+    action: none
   styles:
     card:
       - padding: 0
@@ -21,3 +27,4 @@ container:
         - padding: 0.3em 0.5em 0.3em 0.5em
         - border-width: 15px
         - background: var( --lovelace-background, var(--primary-background-color) )
+        - text-align: left

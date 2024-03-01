@@ -1,0 +1,56 @@
+---
+card_room_cover_stop:
+  tap_action:
+    action: call-service
+    service: cover.stop_cover
+    service_data:
+      entity_id: |
+        [[[ return entity?.entity_id; ]]]
+
+  state:
+    - operator: "template"
+      value: "[[[ return !entity?.entity_id ]]]"
+      styles:
+        card:
+          - display: "none"
+
+    - icon: mdi:stop
+      value: "opening"
+      id: "opening"
+      styles:
+        icon:
+          - color: "rgba(var(--color-theme),0.2)"
+        img_cell:
+          - background-color: "rgba(var(--color-theme),0.15)"
+
+    - icon: mdi:stop
+      styles:
+        icon:
+          - color: "rgba(var(--color-theme),0.2)"
+        img_cell:
+          - background-color: "rgba(var(--color-theme),0.15)"
+      value: "closing"
+      id: "closing"
+
+    - styles:
+        icon:
+          - color: "rgba(var(--color-yellow),1)"
+        label:
+          - color: "rgba(var(--color-yellow-text),1)"
+        name:
+          - color: "rgba(var(--color-yellow-text),1)"
+        img_cell:
+          - background-color: "rgba(var(--color-yellow), 0.2)"
+        card:
+          - background-color: "rgba(var(--color-background-yellow),var(--opacity-bg))"
+      value: "open"
+      id: "open"
+
+    - styles:
+        icon:
+          - color: "rgba(var(--color-theme),0.2)"
+        img_cell:
+          - background-color: "rgba(var(--color-theme),0.15)"
+
+      value: "closed"
+      id: "closed"

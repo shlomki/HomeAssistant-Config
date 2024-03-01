@@ -1,0 +1,258 @@
+
+type: horizontal-stack
+cards:
+
+  - type: vertical-stack
+    cards:
+      #Living Room
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: call-service
+          service: light.toggle
+          service_data:
+            entity_id: light.living_room_lights
+        double_tap_action:
+          action: call-service
+          service: homeassistant.turn_on
+          service_data:
+            entity_id: group.living_room_lights
+        hold_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              title: Living Room
+              content: !include /config/lovelace/room_cards/living_room/lights.yaml
+        entity: group.living_room_lights
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.living_room ]]]"
+        icon: mdi:sofa-outline
+        icon_height: 50px
+
+      #Balcony
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: call-service
+          service: light.toggle
+          service_data:
+            entity_id: light.balcony_lights
+        double_tap_action:
+          action: call-service
+          service: homeassistant.turn_on
+          service_data:
+            entity_id: group.balcony_lights
+        hold_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              title: Balcony
+              content: !include /config/lovelace/room_cards/balcony/lights.yaml
+        entity: group.balcony_lights
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.balcony ]]]"
+        icon_height: 50px
+        icon: mdi:string-lights
+
+      #Kitchen
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: call-service
+          service: light.toggle
+          service_data:
+            entity_id: light.kitchen_lights
+        double_tap_action:
+          action: call-service
+          service: homeassistant.turn_on
+          service_data:
+            entity_id: group.kitchen_lights
+        hold_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              title: Kitchen
+              content: !include /config/lovelace/room_cards/kitchen/lights.yaml
+        entity: group.kitchen_lights
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.kitchen ]]]"
+        icon_height: 50px
+        icon: mdi:silverware-fork-knife
+
+      #Toilet
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: call-service
+          service: light.toggle
+          service_data:
+            entity_id: light.toilet_lights
+        double_tap_action:
+          action: call-service
+          service: homeassistant.turn_on
+          service_data:
+            entity_id:
+              - light.toilet_main
+        hold_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              title: Toilet
+              content: !include /config/lovelace/room_cards/toilet/lights.yaml
+        entity: group.toilet_lights
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.toilet ]]]"
+        icon_height: 50px
+        icon: mdi:toilet
+
+      #Bathroom
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: call-service
+          service: light.toggle
+          service_data:
+            entity_id: light.bathroom_lights
+        double_tap_action:
+          action: call-service
+          service: homeassistant.turn_on
+          service_data:
+            entity_id: group.bathroom_lights
+        hold_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              title: Bathroom
+              content: !include /config/lovelace/room_cards/bathroom/lights.yaml
+        entity: group.bathroom_lights
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bathroom ]]]"
+        icon_height: 50px
+        icon: mdi:shower
+
+                  
+  - type: vertical-stack
+    cards:
+      #Hallway
+      - type: custom:button-card
+        template: ha-button
+        icon: mdi:home-outline
+        tap_action:
+          action: toggle
+        double_tap_action:
+          action: call-service
+          service: homeassistant.turn_on
+          service_data:
+            entity_id: light.hallway_lights
+        hold_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              title: Hallway
+              content: !include /config/lovelace/room_cards/hallway/lights.yaml
+        entity: light.hallway_lights
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.hallway ]]]"
+        icon_height: 50px
+
+      #Office
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: call-service
+          service: light.toggle
+          service_data:
+            entity_id: light.office_lights
+        double_tap_action:
+          action: call-service
+          service: homeassistant.turn_on
+          service_data:
+            entity_id: group.office_lights
+        hold_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              title: Office
+              content: !include /config/lovelace/room_cards/office/lights.yaml
+        entity: group.office_lights
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.office ]]]"
+        icon_height: 50px
+        icon: mdi:monitor
+
+      #Guests
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: toggle
+        double_Tap_action:
+          action: call-service
+          service: homeassistant.turn_on
+          service_data:
+            entity_id: light.guests_lights
+        hold_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              title: Guests
+              content: !include /config/lovelace/room_cards/guests/lights.yaml
+        entity: light.guests_lights
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.guests ]]]"
+        icon_height: 50px
+        icon: mdi:account-multiple
+
+      #Riley
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: toggle
+        double_tap_action:
+          action: call-service
+          service: homeassistant.turn_on
+          service_data:
+            entity_id: light.riley_lights
+        hold_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              title: Riley
+              content: !include /config/lovelace/room_cards/riley/lights.yaml
+        entity: light.riley_lights
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.riley ]]]"
+        icon_height: 50px
+        icon: mdi:face-woman-outline
+        lock:
+          enabled: >-
+            [[[ return
+            states["input_boolean.riley_is_sleeping"].state
+            == "on" ]]]
+          duration: 3
+        triggers_update:
+          - input_boolean.riley_is_sleeping
+
+      #Bedroom
+      - type: custom:button-card
+        template: ha-button
+        tap_action:
+          action: call-service
+          service: light.toggle
+          service_data:
+            entity_id: light.bedroom_lights
+        double_tap_action:
+          action: call-service
+          service: homeassistant.turn_on
+          service_data:
+            entity_id: group.bedroom_lights
+        hold_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              title: Bedroom
+              content: !include /config/lovelace/room_cards/bedroom/lights.yaml
+        entity: group.bedroom_lights
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bedroom ]]]"
+        icon_height: 50px
+        icon: mdi:bed

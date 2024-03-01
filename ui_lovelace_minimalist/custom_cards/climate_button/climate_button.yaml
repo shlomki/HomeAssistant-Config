@@ -1,13 +1,22 @@
+---
 climate-button:
-  template: ha-button
-  
+  template: 
+    - ha-button
+    - yellow_fan_only
+  variables:
+    window_entity_ids: []
+    heater_entity_id: ""
+    heater_entity_id_available: |
+      [[[ return (states[variables.heater_entity_id] && "state" in states[variables.heater_entity_id] && states[variables.heater_entity_id].state != "unavailable"); ]]]
   tap_action:
     action: toggle
   styles:
     card:
-      - height: 105px
+      - height: 115px
     name:
-      - padding-bottom: 10px
+      - margin-top: 0px;
+      - padding-top: 5px !important;
+      - padding-bottom: 5px
     grid:
       - position: relative
     label:
@@ -64,7 +73,7 @@ climate-button:
         - width: 20px
         - visibility: |
             [[[
-              if (variables && 'heater_entity_id' in variables) {
+              if (variables.heater_entity_id_available) {
                 return (states[variables.heater_entity_id].state == "on") ? "visible" : "hidden";
               }
               return "hidden";
@@ -77,12 +86,7 @@ climate-button:
         - width: 20px
         - visibility: |
             [[[ return (variables && 'damper_name' in variables && states["timer." + variables.damper_name].state == "active") ? "visible" : "hidden";  ]]]
-  size: 33%
-  state:
-    - value: "off"
-      color: rgb(68, 115, 158)
-    - value: fan_only
-      color: rgb(253, 216, 53)
+  
   custom_fields:
     window_open: >
       [[[ return '<ha-icon icon="mdi:window-open-variant" style="color: red;"></ha-icon>'; ]]]
@@ -336,12 +340,32 @@ climate-button:
                   variables:
                     value: 240
 
+            # - type: custom:state-switch
+            #   entity: template
+            #   template: > 
+            #     [[[ return (variables && "heater_entity_id" in variables) ? "show" : "hide"; ]]]
+            #   states:
+            #     "show":
+            #       type: vertical-stack
+            #       cards:
+            #         - type: custom:button-card
+            #           template: title
+            #           name: "Heater"
+
+            #         - type: custom:button-card
+            #           template: ha-button
+            #           entity: >
+            #             [[[ return (variables && "heater_entity_id" in variables) ? variables.heater_entity_id : ""; ]]] 
+            #           name: "Heater"
+            #           icon: mdi:radiator
+
+
             - type: custom:state-switch
               entity: template
               template: > 
-                [[[ return (variables && "heater_entity_id" in variables) ? "show" : "hide"; ]]]
+                [[[ return (variables.heater_entity_id_available) ? "show" : "hide"; ]]]
               states:
-                "show":
+                show:
                   type: vertical-stack
                   cards:
                     - type: custom:button-card
@@ -354,3 +378,50 @@ climate-button:
                         [[[ return (variables && "heater_entity_id" in variables) ? variables.heater_entity_id : ""; ]]] 
                       name: "Heater"
                       icon: mdi:radiator
+
+climate_button_state_colors:
+  state:
+    - styles:
+        icon:
+          - color: "rgba(var(--color-yellow),1)"
+        label:
+          - color: "rgba(var(--color-yellow-text),1)"
+        name:
+          - color: "rgba(var(--color-yellow-text),1)"
+        img_cell:
+          - background-color: "rgba(var(--color-yellow), 0.2)"
+        card:
+          - background-color: "rgba(var(--color-background-yellow),var(--opacity-bg))"
+      operator: "template"
+      value: "[[[ return entity.state == 'fan_only' || entity.state == 'cool' || entity.state == 'dry'; ]]]"
+      id: "blue"
+
+    - styles:
+        icon:
+          - color: "rgba(var(--color-red),1)"
+        label:
+          - color: "rgba(var(--color-red-text),1)"
+        name:
+          - color: "rgba(var(--color-red-text),1)"
+        img_cell:
+          - background-color: "rgba(var(--color-red), 0.2)"
+        card:
+          - background-color: "rgba(var(--color-background-red),var(--opacity-bg))"
+      value: "heat"
+      id: "heat"
+
+    - styles:
+        icon:
+          - color: "rgba(var(--color-yellow),1)"
+        label:
+          - color: "rgba(var(--color-yellow-text),1)"
+        name:
+          - color: "rgba(var(--color-yellow-text),1)"
+        img_cell:
+          - background-color: "rgba(var(--color-yellow), 0.2)"
+        card:
+          - background-color: "rgba(var(--color-background-yellow),var(--opacity-bg))"
+      value: "auto"
+      id: "auto"
+
+

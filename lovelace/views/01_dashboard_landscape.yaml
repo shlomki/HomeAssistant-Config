@@ -1,75 +1,125 @@
 title: Dashboard
 path: dashboard
-visible:
-  - user: 954f920b6d6b4dd795e5ea5ab3f225d5
-  - user: 9ccaeb57363d4902b296eb297da459e3
-  - user: aa6d3713da1a4e1eac92dd176a3ae708
-  - user: 441ffac368ed4f50911212c0816b227a
-panel: true
 icon: mdi:view-dashboard-variant-outline
-badges: []
+type: custom:grid-layout
+layout:
+  grid-template-columns: auto 35%
+  grid-template-rows: 17% 7% auto 7%
+  grid-template-areas: |
+    "header notification"
+    "badges badges"
+    "main main"
+    "footer footer"
+
+  height: 99%
+
 cards:
-  - type: vertical-stack
-    cards:
 
-      #Title
-      - type: custom:button-card
-        template: title-large
-        name: >
-          [[[ 
-            let lang = states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state;
-            let greeting = states['sensor.localization_' + lang].attributes[ states["sensor.time_of_day"].state.toLowerCase() + '_greeting'];
-            let family = states['sensor.localization_' + lang].attributes.the_green_family;
-            return greeting + ", " + family;]]]
+  - type: custom:mushroom-title-card
+    title: "{{ states('sensor.greeting_in_other_languages') }}, {{ user }}!"
+    subtitle: "(that's {{ states('sensor.greeting_in_english') }} in {{ states('input_select.todays_greeting_launguage') }}!)"
+    view_layout:
+      grid-area: header
+  - type: custom:mushroom-chips-card
+    
+    chips:
+      - type: template
+        entity: sensor.notification_count
+        icon: mdi:bell-outline
+        content: |-
+          {% set count = states(entity) | int %}
+          {{ count if count > 0 else '' }}
+        icon_color: |-
+          {{ 'red' if (states(entity) | int) > 0 }}
+        tap_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              # card_mod:
+              #   style:
+              #     #popup header
+              #     .:
+              content: !include /config/lovelace/cards/notifications.yaml
+              
 
-      - type: horizontal-stack
-        cards:
+      - type: menu
 
-          - type: vertical-stack
-            cards:
+      - type: weather
+        entity: weather.max_temp
+        show_conditions: true
+        show_temperature: true
+        tap_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              content: !include /config/lovelace/cards/weather.yaml
+    alignment: end
+    view_layout:
+      grid-area: notification
 
-              # - type: custom:button-card
-              #   template: title
-              #   name: >
-              #     [[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes[ states["sensor.time_of_day"].state.toLowerCase() + '_greeting'] ]]]
+  # - type: horizontal-stack
+  #   cards:
 
-              - type: horizontal-stack
-                cards:
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: entity
+        entity: person.shlomi
+        use_entity_picture: true
+      - type: entity
+        entity: person.inbal
+        use_entity_picture: true
 
-                  #Who's Home
-                  - !include /config/lovelace/cards/whos_home_title_2_rows.yaml
+      - type: template
+        icon: mdi:account-circle
+        content: '{{ ''Awake'' if states(entity) == ''off'' else ''Sleeping''}}'
+        entity: input_boolean.riley_is_sleeping
+        picture: /local/photos/riley_awake.jpg
+        tap_action:
+          action: call-service
+          service: input_boolean.toggle
+          target:
+            entity_id: input_boolean.riley_is_sleeping
 
-                  - type: vertical-stack
-                    cards:
-
-                      - type: custom:button-card
-                        template: title
-                        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.weather ]]]"
-
-                      - type: custom:weather-card
-                        entity: weather.outside_weather
-                        details: false
-
-
-              - !include /config/lovelace/cards/control_windows_shutters.yaml
-
-              - !include /config/lovelace/cards/control_windows_curtains.yaml
-
-              # - type: 'custom:digital-clock'
-              #   secondLineFormat: "cccc, yyyy LLL dd, hh:mm:ss a"
-              #   firstLineFormat: ""
-
-          - type: vertical-stack
-            cards:
-  
-              - !include /config/lovelace/cards/quick_status_entrance_title.yaml
-
-              - !include /config/lovelace/cards/control_lights_title_2rows.yaml
-
-              - !include /config/lovelace/cards/control_ac_title.yaml
-
-              - !include /config/lovelace/cards/control_fans_title.yaml
+      - type: template
+        icon: mdi:account-circle
+        content: 'Guests'
+        entity: input_boolean.guest_mode
+        icon_color: "{{ 'green' if states(entity) == 'on' else '' }}"
+        tap_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              content: !include /config/lovelace/cards/guest_mode.yaml
 
 
+    view_layout:
+      grid-area: badges
+    alignment: center
+
+  - !include /config/lovelace/cards/rooms.yaml
 
 
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: template
+        entity: sensor.power_cost_per_hour
+        icon: mdi:lightning-bolt-circle
+        icon_color: |-
+          {% set cost = states(entity) | float %}
+          {{ '' if cost <= 1.5 else 'orange' if cost <= 2.2 else 'red' }}
+        content: >-
+          Power consumption is {% set cost = states(entity) | float %}
+          {{ 'normal' if cost <= 1.5 else 'medium' if cost <= 2.2 else 'high' }}
+          ({{ states(entity) }} ILS per hour)
+        tap_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              content: !include /config/lovelace/cards/power.yaml
+
+    view_layout:
+      grid-area: footer

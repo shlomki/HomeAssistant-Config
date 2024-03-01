@@ -1,0 +1,103 @@
+climate_room_button:
+  state:
+    - value: heat_fan_only
+      id: "heat_fan_only"
+      icon: mdi:heat-wave
+      styles:
+        icon:
+          - color: "rgba(var(--color-red),1)"
+        label:
+          - color: "rgba(var(--color-red-text),1)"
+        name:
+          - color: "rgba(var(--color-red-text),1)"
+        img_cell:
+          - background-color: "rgba(var(--color-red), 0.2)"
+
+    - value: cool_fan_only
+      id: "cool_fan_only"
+      icon: mdi:snowflake
+      styles:
+        icon:
+          - color: "rgba(var(--color-blue),1)"
+        label:
+          - color: "rgba(var(--color-blue-text),1)"
+        name:
+          - color: "rgba(var(--color-blue-text),1)"
+        img_cell:
+          - background-color: "rgba(var(--color-blue), 0.2)"
+
+    - value: fan_only_fan_only
+      id: "fan_only_fan_only"
+      icon: mdi:fan
+      styles:
+        icon:
+          - color: "rgba(var(--color-blue),1)"
+        label:
+          - color: "rgba(var(--color-blue-text),1)"
+        name:
+          - color: "rgba(var(--color-blue-text),1)"
+        img_cell:
+          - background-color: "rgba(var(--color-blue), 0.2)"
+
+    - value: dry_fan_only
+      id: "dry_fan_only"
+      icon: mdi:water-percent
+      styles:
+        icon:
+          - color: "rgba(var(--color-blue),1)"
+        label:
+          - color: "rgba(var(--color-blue-text),1)"
+        name:
+          - color: "rgba(var(--color-blue-text),1)"
+        img_cell:
+          - background-color: "rgba(var(--color-blue), 0.2)"
+
+    - value: auto_fan_only
+      id: "auto_fan_only"
+      icon: mdi:autorenew
+      styles:
+        icon:
+          - color: "rgba(var(--color-blue),1)"
+        label:
+          - color: "rgba(var(--color-blue-text),1)"
+        name:
+          - color: "rgba(var(--color-blue-text),1)"
+        img_cell:
+          - background-color: "rgba(var(--color-blue), 0.2)"
+
+    - value: heat_off
+      id: "heat_off"
+      icon: mdi:heat-wave
+
+    - value: cool_off
+      id: "cool_off"
+      icon: mdi:snowflake
+
+    - value: fan_only_off
+      id: "fan_only_off"
+      icon: mdi:fan
+
+    - value: dry_off
+      id: "dry_off"
+      icon: mdi:water-percent
+
+    - value: auto_off
+      id: "auto_off"
+      icon: mdi:autorenew
+
+    - value: off_fan_only
+      id: "off_fan_only"
+      icon: mdi:power-plug-off-outline
+      styles:
+        icon:
+          - color: "rgba(var(--color-blue),1)"
+        label:
+          - color: "rgba(var(--color-blue-text),1)"
+        name:
+          - color: "rgba(var(--color-blue-text),1)"
+        img_cell:
+          - background-color: "rgba(var(--color-blue), 0.2)"
+
+    - value: off_off
+      id: "off"
+      icon: mdi:power-plug-off-outline

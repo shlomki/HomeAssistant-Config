@@ -14,7 +14,7 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:button-card
-            template: ha-button-small-label
+            template: ha-button
             name: Living Room Camera
             label: Power
             show_label: true
@@ -22,7 +22,7 @@ cards:
             icon: mdi:cctv
 
           - type: custom:button-card
-            template: ha-button-small-label
+            template: ha-button
             name: Front Door
             label: Photos & Notifications
             show_label: true
@@ -39,20 +39,12 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:button-card
-            template: ha-button-small-label
+            template: ha-button
             name: Away from Home
-            label: Auto Off
+            label: Turn off when leaving
             show_label: true
             entity: automation.away_from_home_notify
             icon: mdi:home-alert-outline
-
-          - type: custom:button-card
-            template: ha-button-small-label
-            name: Guest Mode
-            label: Auto Off
-            show_label: true
-            entity: automation.guest_mode_turn_off_when_returning_home
-            icon: mdi:account-outline
 
   - type: vertical-stack
     cards:
@@ -64,7 +56,7 @@ cards:
         cards:
 
           - type: custom:button-card
-            template: ha-button-small-label
+            template: ha-button
             name: Shlomi is Home
             label: Notification
             show_label: true
@@ -72,7 +64,7 @@ cards:
             icon: mdi:account-outline
 
           - type: custom:button-card
-            template: ha-button-small-label
+            template: ha-button
             name: Inbal is Home
             label: Notification
             show_label: true
@@ -81,7 +73,7 @@ cards:
 
 
           - type: custom:button-card
-            template: ha-button-small-label
+            template: ha-button
             name: It's Raining
             label: Notification
             show_label: true
@@ -97,7 +89,7 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:button-card
-            template: ha-button-small-label
+            template: ha-button
             name: Closet Light
             label: Auto On
             show_label: true
@@ -105,7 +97,7 @@ cards:
             icon: mdi:hanger
 
           - type: custom:button-card
-            template: ha-button-small-label
+            template: ha-button
             name: Toilet Light
             label: Auto On
             show_label: true
@@ -113,12 +105,20 @@ cards:
             icon: mdi:toilet
 
           - type: custom:button-card
-            template: ha-button-small-label
+            template: ha-button
             name: Stairs Light
             label: Auto On
             show_label: true
             entity: group.stairs_light_automations
             icon: mdi:stairs
+
+          - type: custom:button-card
+            template: ha-button
+            name: Riley Light
+            label: Auto Off
+            show_label: true
+            entity: automation.riley_light_turn_off_when_no_movement
+            icon: mdi:face-woman-outline
 
   - type: vertical-stack
     cards:
@@ -129,7 +129,7 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:button-card
-            template: ha-button-small-label
+            template: ha-button
             name: Front Door
             label: Reminder
             show_label: true
@@ -137,28 +137,29 @@ cards:
             icon: mdi:door-open
 
           - type: custom:button-card
-            template: ha-button-small-label
-            name: Fridge
-            label: Reminder
+            template: ha-button
+            name: Fridges
+            label: Reminders
             show_label: true
-            entity: group.fridge_left_open_automations
+            entity: group.all_fridge_automations
             icon: mdi:fridge-outline
 
           - type: custom:button-card
-            template: ha-button-small-label
-            name: Freezer
+            template: ha-button
+            name: Laundry
             label: Reminder
             show_label: true
-            entity: group.freezer_left_open_automations
-            icon: mdi:fridge-outline
+            entity: group.laundry_machine_automations
+            icon: mdi:washing-machine
 
           - type: custom:button-card
-            template: ha-button-small-label
-            name: Big Freezer
+            template: ha-button
+            name: AC
             label: Reminder
             show_label: true
-            entity: group.big_freezer_left_open_automations
-            icon: mdi:fridge-outline
+            entity: automation.ac_dampers_notification_living_room
+            icon: mdi:snowflake
+
 
   - type: vertical-stack
     cards:
@@ -168,8 +169,18 @@ cards:
 
       - type: horizontal-stack
         cards:
+
           - type: custom:button-card
-            template: ha-button-small-label
+            template: ha-button
+            name: Guest Mode
+            label: Auto On/Off
+            show_label: true
+            entity: group.guest_mode_automations
+            icon: mdi:account-outline
+
+
+          - type: custom:button-card
+            template: ha-button
             name: Schedules
             entity: switch.guest_schedules
             icon: mdi:timer-outline

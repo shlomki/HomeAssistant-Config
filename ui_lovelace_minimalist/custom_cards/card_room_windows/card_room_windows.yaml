@@ -1,0 +1,79 @@
+---
+card_room_windows:
+  template:
+    - card_room
+    - card_room_6_entities
+    - blue_on
+  tap_action:
+    action: fire-dom-event
+    browser_mod:
+      service: browser_mod.sequence
+      data:
+        sequence:
+          - service: browser_mod.navigate
+            data:
+              path: |
+                [[[ return variables.card_room_windows_tap_action_navigation_path; ]]]
+          - service: browser_mod.close_popup
+
+  variables:
+    label_use_temperature: false
+    label_use_brightness: false
+    card_room_windows_shutter_entity: ""
+    card_room_windows_curtain_entity: ""
+
+    entity_1:
+      entity_id: |
+        [[[ return variables.card_room_windows_shutter_entity; ]]]
+      templates: 
+        - card_room_cover_up
+    entity_2:
+      entity_id: |
+        [[[ return variables.card_room_windows_shutter_entity; ]]]
+      templates: 
+        - card_room_cover_stop
+        - card_room_windows_shutter_icon
+    entity_3:
+      entity_id: |
+        [[[ return variables.card_room_windows_shutter_entity; ]]]
+      templates: 
+        - card_room_cover_down
+
+
+    entity_4:
+      entity_id: |
+        [[[ return variables.card_room_windows_curtain_entity; ]]]
+      templates: 
+        - card_room_cover_up
+    entity_5:
+      entity_id: |
+        [[[ return variables.card_room_windows_curtain_entity; ]]]
+      templates: 
+        - card_room_cover_stop
+        - card_room_windows_curtain_icon
+    entity_6:
+      entity_id: |
+        [[[ return variables.card_room_windows_curtain_entity; ]]]
+      templates: 
+        - card_room_cover_down
+
+card_room_windows_shutter_icon:
+  state:
+    - icon: mdi:window-shutter
+      value: "closed"
+      id: "closed"
+
+    - icon: mdi:window-shutter-open
+      value: "open"
+      id: "open"
+
+card_room_windows_curtain_icon:
+  state:
+    - icon: mdi:curtains-closed
+      value: "closed"
+      id: "closed"
+
+    - icon: mdi:curtains
+      value: "open"
+      id: "open"
+

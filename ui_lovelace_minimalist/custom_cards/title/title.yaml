@@ -3,7 +3,7 @@ title:
     card:
       - padding: 0.3em
       - box-shadow: none
-      - background: rgb(0,0,0,0.05)
+      - background: rgb(0,0,0,0)
     name:
       - font-weight: bold
       - font-size: 1.2em
@@ -14,4 +14,4 @@ title-large:
   styles:
     name:
       - font-weight: bold
-      - font-size: 1.6em
+      - font-size: 1.6emπ

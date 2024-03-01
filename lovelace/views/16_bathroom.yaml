@@ -4,6 +4,7 @@ icon: mdi:string-lights
 badges: []
 panel: false
 subview: true
+
 cards:
   - type: vertical-stack
     cards:
@@ -15,7 +16,7 @@ cards:
 
       - !include /config/lovelace/room_cards/bathroom/lights.yaml
 
-      - !include /config/lovelace/cards/control_shower_title.yaml
+      - !include /config/lovelace/cards/control_shower.yaml
 
       - type: custom:decluttering-card
         template: say_something

@@ -1,0 +1,32 @@
+---
+card_room_5_entities:
+  styles:
+    grid:
+      - grid-template-areas: "[[[ return !variables?.entity_1 ? (!variables?.entity_2 ? `'n n n' 'l l i3' 'i i i4'` : `'n n i2' 'l l i3' 'i i i4'`) : `'n n n i1' 'l l l i2' 'i i . i3' 'i i i5 i4'`; ]]]"
+    custom_fields:
+      i5: 
+        - border-radius: "50%"
+        - width: "80%"
+        - height: "80%"
+        - line-height: 0
+        - display: "grid"
+  custom_fields:
+    i5:
+      card:
+        type: "custom:button-card"
+        template: >
+          [[[
+            let templates = [ 'widget_icon_room' ];
+            if (variables?.entity_5?.templates?.length) {
+              templates.push(...variables.entity_5.templates);
+            }
+            return templates;
+          ]]]
+        variables: "[[[ return variables?.entity_5; ]]]"
+        state:
+          - operator: "template"
+            value: "[[[ return !variables.entity_5; ]]]"
+            styles:
+              card:
+                - display: "none"
+        entity: "[[[ return variables?.entity_5?.entity_id; ]]]"

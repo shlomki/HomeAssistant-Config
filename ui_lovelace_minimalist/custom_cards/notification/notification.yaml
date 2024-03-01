@@ -21,7 +21,10 @@ notification:
           - value: 'on'
             id: 'on'
             icon: mdi:bell-check-outline
-            color: black
+            color: var(--primary-text-color)
+        styles:
+          card:
+            - border-width: 1px !important
             
         
   styles:
@@ -32,7 +35,6 @@ notification:
     custom_fields:
       button:
         - padding: 10px 10px 10px 10px
-        - border-width: 15px
         - width: 50px
         - visibility: |
             [[[ return (states[variables.notification_entity].state == "on") ? "visible" : "hidden"; ]]]

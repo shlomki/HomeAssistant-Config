@@ -10,18 +10,7 @@ badges: []
 cards:
   - type: custom:button-card
     template: back-button
-  - type: custom:spotify-card
-    limit: 20
-    playlist_type: default
-    account: default
-    default_device: Amplifier
-    spotify_entity: media_player.spotify_shlomi_green
-    filter_devices:
-      - Announcements
-      - Google TV
-      - CC Audio
-      - Android
-    name: BFF Jukebox
+
   # - type: entities
   #   entities:
       # - type: custom:mini-media-player
@@ -95,3 +84,15 @@ cards:
     show_header_toggle: false
     title: Audio
     type: entities
+  - type: custom:spotify-card
+    limit: 20
+    playlist_type: default
+    account: default
+    default_device: Amplifier
+    spotify_entity: media_player.spotify_shlomi_green
+    filter_devices:
+      - Announcements
+      - Google TV
+      - CC Audio
+      - Android
+    name: BFF Jukebox

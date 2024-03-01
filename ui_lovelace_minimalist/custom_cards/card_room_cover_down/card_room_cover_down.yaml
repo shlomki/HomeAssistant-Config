@@ -1,0 +1,18 @@
+---
+card_room_cover_down:
+  icon: mdi:arrow-down
+  tap_action:
+    action: call-service
+    service: cover.close_cover
+    service_data:
+      entity_id: |
+        [[[ return entity.entity_id; ]]]
+  styles:
+    img_cell:
+      - background-color: rgba(var(--color-theme),0.15);
+  state:
+    - operator: "template"
+      value: "[[[ return !entity?.entity_id ]]]"
+      styles:
+        card:
+          - display: "none"

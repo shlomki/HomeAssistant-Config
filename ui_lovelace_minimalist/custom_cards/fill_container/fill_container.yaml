@@ -1,0 +1,5 @@
+---
+fill_container:
+  styles:
+    card:
+      - height: 100%

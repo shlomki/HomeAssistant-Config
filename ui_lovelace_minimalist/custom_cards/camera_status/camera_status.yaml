@@ -1,0 +1,22 @@
+camera-status:
+  template: 
+    - ha-button
+    - device_tracker_colors
+  icon: mdi:cctv
+  state:
+    - value: "not_home"
+      id: "not_home"
+      styles:
+        icon:
+          - animation: blink 2s ease infinite
+  tap_action:
+    action: fire-dom-event
+    browser_mod:
+      service: browser_mod.sequence
+      data:
+        sequence:
+          - service: browser_mod.navigate
+            data:
+              path: |
+                [[[ return variables.navigation_path; ]]]
+          - service: browser_mod.close_popup

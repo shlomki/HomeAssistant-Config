@@ -1,0 +1,113 @@
+---
+card_room_8_entities:
+  styles:
+    grid:
+      - grid-template-areas: "'n n i5 i1' 'l l i6 i2' 'i i i7 i3' 'i i i8 i4'"
+    custom_fields:
+      i5: 
+        - border-radius: "50%"
+        - width: "80%"
+        - height: "80%"
+        - line-height: 0
+        - display: "grid"
+
+      i6: 
+        - border-radius: "50%"
+        - width: "80%"
+        - height: "80%"
+        - line-height: 0
+        - display: "grid"
+
+      i7: 
+        - border-radius: "50%"
+        - width: "80%"
+        - height: "80%"
+        - line-height: 0
+        - display: "grid"
+
+      i8: 
+        - border-radius: "50%"
+        - width: "80%"
+        - height: "80%"
+        - line-height: 0
+        - display: "grid"
+  custom_fields:
+    i5:
+      card:
+        type: "custom:button-card"
+        template: >
+          [[[
+            let templates = [ 'widget_icon_room' ];
+            if (variables?.entity_5?.templates?.length) {
+              templates.push(...variables.entity_5.templates);
+            }
+            return templates;
+          ]]]
+        variables: "[[[ return variables?.entity_5; ]]]"
+        state:
+          - operator: "template"
+            value: "[[[ return !variables.entity_5; ]]]"
+            styles:
+              card:
+                - display: "none"
+        entity: "[[[ return variables?.entity_5?.entity_id; ]]]"
+
+    i6:
+      card:
+        type: "custom:button-card"
+        template: >
+          [[[
+            let templates = [ 'widget_icon_room' ];
+            if (variables?.entity_6?.templates?.length) {
+              templates.push(...variables.entity_6.templates);
+            }
+            return templates;
+          ]]]
+        variables: "[[[ return variables?.entity_6; ]]]"
+        state:
+          - operator: "template"
+            value: "[[[ return !variables.entity_6; ]]]"
+            styles:
+              card:
+                - display: "none"
+        entity: "[[[ return variables?.entity_6?.entity_id; ]]]"
+
+    i7:
+      card:
+        type: "custom:button-card"
+        template: >
+          [[[
+            let templates = [ 'widget_icon_room' ];
+            if (variables?.entity_7?.templates?.length) {
+              templates.push(...variables.entity_7.templates);
+            }
+            return templates;
+          ]]]
+        variables: "[[[ return variables?.entity_7; ]]]"
+        state:
+          - operator: "template"
+            value: "[[[ return !variables.entity_7; ]]]"
+            styles:
+              card:
+                - display: "none"
+        entity: "[[[ return variables?.entity_7?.entity_id; ]]]"
+
+    i8:
+      card:
+        type: "custom:button-card"
+        template: >
+          [[[
+            let templates = [ 'widget_icon_room' ];
+            if (variables?.entity_8?.templates?.length) {
+              templates.push(...variables.entity_8.templates);
+            }
+            return templates;
+          ]]]
+        variables: "[[[ return variables?.entity_8; ]]]"
+        state:
+          - operator: "template"
+            value: "[[[ return !variables.entity_8; ]]]"
+            styles:
+              card:
+                - display: "none"
+        entity: "[[[ return variables?.entity_8?.entity_id; ]]]"

@@ -13,27 +13,23 @@ cards:
                 - type: custom:button-card
                   template: camera-status
                   entity: device_tracker.ubnt_device_camera_livingroom
-                  variables:
-                    stream: camera.living_room
                   name: Living Room
-                  tap_action:
-                    action: navigate
+                  variables:
                     navigation_path: /lovelace-mobile/living-room
 
                 - type: custom:button-card
                   template: camera-status
                   entity: device_tracker.ubnt_device_camera_balcony
                   name: Balcony
-                  tap_action:
-                    action: navigate
+                  variables:
                     navigation_path: /lovelace-mobile/balcony
 
                 - type: custom:button-card
-                  template: camera-view
+                  template: camera-status
                   entity: device_tracker.ubnt_device_camera_frontdoor
                   name: Front Door
                   variables:
-                    stream: camera.front_door
+                    navigation_path: /lovelace-mobile/living-room#front_door
 
                 # - type: custom:button-card
                 #   template: camera-view
@@ -48,24 +44,21 @@ cards:
                   template: camera-status
                   entity: device_tracker.ubnt_device_camera_office
                   name: Office
-                  tap_action:
-                    action: navigate
+                  variables:
                     navigation_path: /lovelace-mobile/office
 
                 - type: custom:button-card
                   template: camera-status
                   entity: device_tracker.ubnt_device_camera_guests
                   name: Guests
-                  tap_action:
-                    action: navigate
+                  variables:
                     navigation_path: /lovelace-mobile/guests
                     
                 - type: custom:button-card
                   template: camera-status
                   entity: device_tracker.ubnt_device_camera_riley
                   name: Riley
-                  tap_action:
-                    action: navigate
+                  variables:
                     navigation_path: /lovelace-mobile/riley
 
                 # - type: custom:button-card

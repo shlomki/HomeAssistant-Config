@@ -1,15 +1,16 @@
 internet:
-  template: ha-button
+  template: 
+    - ha-button
+    - green_on
+    - red_off
   state:
     - value: 'on'
       id: 'on'
       icon: mdi:earth
-      color: green
       
     - value: 'off'
       id: 'off'
       icon: mdi:earth-remove
-      color: red
       styles:
         icon:
           - animation: blink 2s ease infinite

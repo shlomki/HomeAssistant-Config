@@ -1,0 +1,18 @@
+window_room_button:
+  state:
+    - value: "on"
+      id: "on"
+      icon: mdi:window-open-variant
+      styles:
+        icon:
+          - color: "rgba(var(--color-blue),1)"
+        label:
+          - color: "rgba(var(--color-blue-text),1)"
+        name:
+          - color: "rgba(var(--color-blue-text),1)"
+        img_cell:
+          - background-color: "rgba(var(--color-blue), 0.2)"
+
+    - value: "off"
+      id: "off"
+      icon: mdi:window-closed-variant

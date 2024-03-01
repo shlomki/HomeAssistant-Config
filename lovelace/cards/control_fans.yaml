@@ -1,42 +1,32 @@
-  # type: vertical-stack
-  # cards:
-    # - type: custom:button-card
-    #   template: title
-    #   name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.fans ]]]"
-    #   show_icon: false
-    #   entity: group.all_fans
-    #   double_tap_action:
-    #     action: toggle
-    #     confirmation:
-    #       text: >-
-    #         [[[ return 'Are you sure? Turn ' + (states['group.all_fans'].state == 'off' ? 'ON' : 'OFF') + ' all Fans in the house?']]]
-type: vertical-stack
+type: grid
+columns: 2
+square: false
 cards:
-  - type: horizontal-stack
-    cards:
       - type: custom:button-card
-        template: ha-button
-        entity: fan.balcony_fan
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.balcony ]]]"
-        icon: mdi:ceiling-fan
-
-      - type: custom:button-card
-        template: ha-button
+        template:
+          - ha-button
+          - purple_on
         entity: fan.living_room_fan
         name: "Living Room"
         icon: mdi:ceiling-fan
 
+      - type: conditional
+        conditions:
+          - entity: fan.balcony_fan
+            state_not: "unavailable"
+        card:
+          type: custom:button-card
+          template: 
+            - ha-button
+            - purple_on
+          entity: fan.balcony_fan
+          name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.balcony ]]]"
+          icon: mdi:ceiling-fan
+       
       - type: custom:button-card
-        template: ha-button
-        entity: fan.bedroom_fan
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bedroom ]]]"
-        icon: mdi:ceiling-fan
-
-  - type: horizontal-stack
-    cards:
-        
-      - type: custom:button-card
-        template: ha-button
+        template:
+          - ha-button
+          - purple_on
         entity: fan.office_fan
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.office ]]]"
         icon: mdi:ceiling-fan
@@ -47,7 +37,9 @@ cards:
             state_not: "unavailable"
         card:
           type: custom:button-card
-          template: ha-button
+          template:
+            - ha-button
+            - purple_on
           entity: fan.guests_fan
           name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.guests ]]]"
           icon: mdi:fan
@@ -83,7 +75,9 @@ cards:
             state_not: "unavailable"
         card:
           type: custom:button-card
-          template: ha-button
+          template:
+            - ha-button
+            - purple_on
           entity: fan.riley_fan
           name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.riley ]]]"
           icon: mdi:fan
@@ -122,20 +116,10 @@ cards:
             - input_boolean.riley_is_sleeping
 
 
-
-
-
-  - type: horizontal-stack
-    cards:
-
       - type: custom:button-card
-        color-type: blank-card
-        styles:
-          card:
-            - display: none
-
-      - type: custom:button-card
-        template: ha-button
+        template:
+          - ha-button
+          - purple_on
         entity: switch.toilet_vent
         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.toilet ]]]"
         icon: mdi:hvac
@@ -143,21 +127,20 @@ cards:
       - type: conditional
         conditions:
           - entity: fan.gray_fan
-            state: "unavailable"
-        card:
-            type: custom:button-card
-            color-type: blank-card
-            styles:
-              card:
-                - display: none
-
-      - type: conditional
-        conditions:
-          - entity: fan.gray_fan
             state_not: "unavailable"
         card:
           type: custom:button-card
-          template: ha-button
+          template:
+            - ha-button
+            - purple_on
           entity: fan.gray_fan
           icon: mdi:fan
           name: "Gray Fan"
+
+      - type: custom:button-card
+        template:
+          - ha-button
+          - purple_on
+        entity: fan.bedroom_fan
+        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.bedroom ]]]"
+        icon: mdi:ceiling-fan
