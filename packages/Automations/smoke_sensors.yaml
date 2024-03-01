@@ -1,3 +1,10 @@
+group:
+  Smoke Sensors:
+    entities:
+      - binary_sensor.hallway_front_smoke
+      - binary_sensor.hallway_back_smoke
+      - binary_sensor.electricity_closet_smoke
+
 automation:
   - alias: Smoke - send notification
     mode: parallel

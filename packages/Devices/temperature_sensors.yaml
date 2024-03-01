@@ -6,11 +6,6 @@ sensor:
         unit_of_measurement: "°C"
         value_template: '{{ state_attr("sensor.cat_motion", "temperature") }}'
 
-      # outside_temperature:
-      #   friendly_name: "Outside Temperature"
-      #   unit_of_measurement: '°C'
-      #   value_template: '{{ state_attr("binary_sensor.rain", "temperature") }}'
-
       living_room_temperature_monitor:
         friendly_name: Living Room Temperature
         value_template: >
@@ -21,13 +16,14 @@ sensor:
             Very Hot
           {% elif temp >= temp_max %}
             Hot
+          {% elif temp <= temp_min - 1.5 %}
+            Very Cold
           {% elif temp <= temp_min %}
             Cold
-          {% elif temp <= temp_min - 1.5%}
-            Very Cold
           {% else %}
             Ok
           {% endif %}
+
 
       office_temperature_monitor:
         friendly_name: Office Temperature
@@ -39,13 +35,14 @@ sensor:
             Very Hot
           {% elif temp >= temp_max %}
             Hot
+          {% elif temp <= temp_min - 1.5 %}
+            Very Cold
           {% elif temp <= temp_min %}
             Cold
-          {% elif temp <= temp_min - 1.5%}
-            Very Cold
           {% else %}
             Ok
           {% endif %}
+
 
       guests_temperature_monitor:
         friendly_name: Guests Temperature
@@ -57,13 +54,14 @@ sensor:
             Very Hot
           {% elif temp >= temp_max %}
             Hot
+          {% elif temp <= temp_min - 1.5 %}
+            Very Cold
           {% elif temp <= temp_min %}
             Cold
-          {% elif temp <= temp_min - 1.5%}
-            Very Cold
           {% else %}
             Ok
           {% endif %}
+
 
       riley_temperature_monitor:
         friendly_name: Riley Temperature
@@ -75,13 +73,14 @@ sensor:
             Very Hot
           {% elif temp >= temp_max %}
             Hot
+          {% elif temp <= temp_min - 1.5 %}
+            Very Cold
           {% elif temp <= temp_min %}
             Cold
-          {% elif temp <= temp_min - 1.5%}
-            Very Cold
           {% else %}
             Ok
           {% endif %}
+
 
       bedroom_temperature_monitor:
         friendly_name: Bedroom Temperature
@@ -93,13 +92,14 @@ sensor:
             Very Hot
           {% elif temp >= temp_max %}
             Hot
+          {% elif temp <= temp_min - 1.5 %}
+            Very Cold
           {% elif temp <= temp_min %}
             Cold
-          {% elif temp <= temp_min - 1.5%}
-            Very Cold
           {% else %}
             Ok
           {% endif %}
+
 
       all_rooms_temperature_monitor:
         friendly_name: All Rooms Temperature

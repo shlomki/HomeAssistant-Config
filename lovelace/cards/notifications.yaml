@@ -4,8 +4,48 @@ cards:
 #Container Parent Buttons
   - type: vertical-stack
     cards:
+    #Alarms Button
+    - type: vertical-stack
+      cards:    
+        - type: custom:button-card
+          template: notification
+          layout: icon_name
+          name: "Alarms"
+          entity: binary_sensor.alarms_notification
+          variables:
+            silence_entity: input_boolean.alarms_notification_silence
+            notification_entity: binary_sensor.alarms_notification
+          tap_action:
+            action: navigate
+            navigation_path: "[[[ return (window.location.hash == '#alarms') ? '.' : '#alarms'; ]]]"
+          hold_action:
+            action: more-info
+          state:
+            - value: 'on'
+              id: 'on'
+              icon: mdi:smoke-detector-variant-alert
+              color: red
+              styles:
+                icon:
+                  - animation: blink 2s ease infinite
+              
+            - value: 'off'
+              id: 'off'
+              icon: mdi:smoke-detector-variant
+              color: green
 
-    - type: horizontal-stack
+          triggers_update:
+            - binary_sensor.alarms_notification
+
+        - type: custom:state-switch
+          entity: hash
+          default: none
+          states:
+            alarms: !include /config/lovelace/cards/quick_status_alarms.yaml
+
+
+    #Power Button
+    - type: vertical-stack
       cards:    
         - type: custom:button-card
           template: notification
@@ -16,6 +56,32 @@ cards:
           variables:
             silence_entity: input_boolean.power_outage_notification_silence
             notification_entity: binary_sensor.power_outage_notification
+
+          custom_fields:
+            outages: >
+              [[[ return Math.floor(states['input_number.power_outages_today_count'].state) ]]]
+          triggers_update:
+            - input_number.power_outages_today_count
+
+          styles:
+            custom_fields:
+              outages:
+                - background-color: "orange"
+                - border-radius: 50%
+                - position: absolute
+                - left: 25%
+                - top: 10%
+                - height: 20px
+                - width: 20px
+                - font-size: 8px
+                - line-height: 20px
+                - color: white
+                - visibility: |
+                    [[[
+                      if (states['input_number.power_outages_today_count'].state === "0.0") return "hidden";
+                      return "visible";
+                    ]]]
+
           state:
             - value: ONBATT
               color: red
@@ -35,26 +101,29 @@ cards:
               label: >-
                 [[[ var percent = states['sensor.ups_battery'].state;
           tap_action:
-            action: fire-dom-event
-            browser_mod:
-              service: browser_mod.popup
-              data:
-                content:
-                  type: entities
-                  entities:
-                    - entity: sensor.ups_status
-                    - entity: sensor.ups_battery
-                    - entity: sensor.ups_load
-                    - entity: sensor.ups_time_left
-                    - entity: sensor.ups_time_on_battery
-                    - entity: sensor.ups_transfer_count
-                    - entity: input_datetime.last_power_outage
-                    - entity: input_number.power_outages_today_count
-                    - entity: input_number.power_outages_monthly_count
-                  title: UPS
+            action: navigate
+            navigation_path: "[[[ return (window.location.hash == '#power') ? '.' : '#power'; ]]]"
+
+        - type: custom:state-switch
+          entity: hash
+          default: none
+          states:
+            power: 
+              type: entities
+              entities:
+                - entity: sensor.ups_status
+                - entity: sensor.ups_battery
+                - entity: sensor.ups_load
+                - entity: sensor.ups_time_left
+                - entity: sensor.ups_time_on_battery
+                - entity: sensor.ups_transfer_count
+                - entity: input_datetime.last_power_outage
+                - entity: input_number.power_outages_today_count
+                - entity: input_number.power_outages_monthly_count
+              title: UPS
 
     #Internet Button
-    - type: horizontal-stack
+    - type: vertical-stack
       cards:    
         - type: custom:button-card
           template: notification
@@ -85,9 +154,14 @@ cards:
           triggers_update:
             - binary_sensor.internet_connection_offline_notification
 
+        - type: custom:state-switch
+          entity: hash
+          default: none
+          states:
+            internet: !include /config/lovelace/cards/quick_status_internet.yaml
 
     #Cameras Button
-    - type: horizontal-stack
+    - type: vertical-stack
       cards:    
         - type: custom:button-card
           layout: icon_name
@@ -130,8 +204,14 @@ cards:
           triggers_update:
             - binary_sensor.cameras_offline_notification
 
+        - type: custom:state-switch
+          entity: hash
+          default: none
+          states:
+            cameras: !include /config/lovelace/cards/quick_status_cameras.yaml
+
     #Appliances Button
-    - type: horizontal-stack
+    - type: vertical-stack
       cards:
         - type: custom:button-card
           template: notification
@@ -168,8 +248,14 @@ cards:
           triggers_update:
             - binary_sensor.appliances_notification
 
+        - type: custom:state-switch
+          entity: hash
+          default: none
+          states:
+            appliances: !include /config/lovelace/cards/quick_status_appliances.yaml
+
     #Laundry Machine Button
-    - type: horizontal-stack
+    - type: vertical-stack
       cards:
         - type: custom:button-card
           template: notification
@@ -204,8 +290,14 @@ cards:
           triggers_update:
             - binary_sensor.laundry_machine_notification
 
+        - type: custom:state-switch
+          entity: hash
+          default: none
+          states:
+            laundry_machine: !include /config/lovelace/cards/quick_status_laundry_machine.yaml
+
     #Entities Button
-    - type: horizontal-stack
+    - type: vertical-stack
       cards:    
         - type: custom:button-card
           template: notification
@@ -230,16 +322,8 @@ cards:
           triggers_update:
             - binary_sensor.unavailable_entities_notification
 
-#Hidden Cards
-
-  - type: custom:state-switch
-    entity: hash
-    default: none
-    states:
-      entrance: !include /config/lovelace/cards/quick_status_entrance_container.yaml
-      internet: !include /config/lovelace/cards/quick_status_internet.yaml
-      cameras: !include /config/lovelace/cards/quick_status_cameras.yaml
-      appliances: !include /config/lovelace/cards/quick_status_appliances.yaml
-      laundry_machine: !include /config/lovelace/cards/quick_status_laundry_machine.yaml
-      entities: !include /config/lovelace/cards/quick_status_entities.yaml
-
+        - type: custom:state-switch
+          entity: hash
+          default: none
+          states:
+            entities: !include /config/lovelace/cards/quick_status_entities.yaml

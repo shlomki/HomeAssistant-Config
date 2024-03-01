@@ -1,3 +1,11 @@
+group:
+  Water Leak Sensors:
+    entities:
+      - binary_sensor.kitchen_closet_leak
+      - binary_sensor.bathroom_closet_leak
+      - binary_sensor.bathroom_floor_leak
+      - binary_sensor.air_conditioner_leak
+
 automation:
   - alias: Bathroom closet water leak notify
     trigger:
@@ -36,7 +44,7 @@ automation:
   - alias: Air Conditioner water leak notify
     trigger:
       - platform: state
-        entity_id: binary_sensor.kitchen_closet_leak
+        entity_id: binary_sensor.air_conditioner_leak
         from: 'off'
         to: 'on'
     action:

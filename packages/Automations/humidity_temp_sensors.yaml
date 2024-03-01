@@ -1,24 +1,69 @@
 automation:
-  - alias: House humidity high
+  - alias: House humidity is extreme - notify on telegram
+    id: House humidity is extreme - notify on telegram
+    mode: parallel
     trigger:
-      - platform: numeric_state
+      - platform: state
         entity_id:
-          - sensor.living_room_climate_humidity
-          - sensor.office_climate_humidity
-          - sensor.guests_climate_humidity
-          - sensor.riley_climate_humidity
-          - sensor.bedroom_climate_humidity
-          - sensor.bedroom_closet_climate_humidity
-        above: 70
-      - platform: numeric_state
-        entity_id: sensor.bedroom_closet_climate_humidity
-        above: 67
+          - sensor.living_room_humidity_monitor
+          - sensor.office_humidity_monitor
+          - sensor.guests_humidity_monitor
+          - sensor.riley_humidity_monitor
+          - sensor.bedroom_humidity_monitor
+          - sensor.bedroom_closet_humidity_monitor
+        not_from:
+          - unknown
+          - unavailable
+        to:
+          - "Very High"
+          - "High"
+          - "Low"
+          - "Very Low"
     action:
-      - service: notify.bffs
+      - choose:
+          - conditions:
+              - condition: template
+                value_template: "{{ trigger.to_state.state == 'High' or trigger.to_state.state == 'Very High' }}"
+            sequence:
+              - service: notify.bffs
+                data:
+                  message: >
+                    {{ 'High risk of mold! ' if trigger.to_state.state == 'Very High' }}{{ trigger.to_state.attributes.friendly_name | replace(' Monitor', '') }} is {{ trigger.to_state.state }} ({{ trigger.to_state.attributes.humidity }}%).
+                    {% if (states('sensor.outside_climate_humidity') | float)  >= ((trigger.to_state.attributes.humidity | float) -5 ) %}I recommend opening the windows.{% else %}Time to turn on the AC.{% endif %}
+
+          - conditions:
+              - condition: template
+                value_template: "{{ trigger.to_state.state == 'Low' or trigger.to_state.state == 'Very Low' }}"
+            sequence:
+              - service: notify.bffs
+                data:
+                  message: >
+                    {{ trigger.to_state.attributes.friendly_name | replace(' Monitor', '') }} is {{ trigger.to_state.state }} ({{ trigger.to_state.attributes.humidity }}%).
+                    {% if (states('sensor.outside_climate_humidity') | float)  >= ((trigger.to_state.attributes.humidity | float ) +5 ) %}I recommend opening the windows.{% else %}I recommend using a wet towel, or to create some steam.{% endif %}
+
+
+
+  - alias: House humidity returned to normal - notify shlomi on telegram
+    mode: parallel
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.living_room_humidity_monitor
+          - sensor.office_humidity_monitor
+          - sensor.guests_humidity_monitor
+          - sensor.riley_humidity_monitor
+          - sensor.bedroom_humidity_monitor
+          - sensor.bedroom_closet_humidity_monitor
+        from:
+          - "Very High"
+          - "High"
+          - "Low"
+          - "Very Low"
+        to: "Ok"
+    action:
+      - service: notify.shlomi
         data:
-          message: >
-            {{ trigger.to_state.attributes.friendly_name }} humidity is {{ trigger.to_state.state }}%.
-            {% if ((states('sensor.outside_climate_humidity') | int) - 5) <= (states('sensor.office_humidity') | int) %}Time to open the windows.{% else %}Time to turn on the AC.{% endif %}
+          message: "{{ trigger.to_state.attributes.friendly_name | replace(' Monitor', '') }} returned to normal. Good job!"
 
   - alias: House temp is extreme - notify on telegram
     trigger:
@@ -41,31 +86,31 @@ automation:
           entity_id: script.telegram_message_with_ac_buttons
         data:
           variables:
-            message: "{{ trigger.to_state.attributes.friendly_name }} temperature is {{ trigger.to_state.state | lower }} ({{ states(trigger.to_state.entity_id | replace('_temperature_monitor', '_climate_temperature'))}})."
+            message: "{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state | lower }} ({{ states(trigger.to_state.entity_id | replace('_temperature_monitor', '_climate_temperature'))}})."
             room_friendly_name: "{{ trigger.to_state.attributes.friendly_name | replace(' Temperature', '') }}"
 
-  - alias: House temp returned to normal temp - notify on telegram
-    trigger:
-      - platform: state
-        entity_id:
-          - sensor.living_room_temperature_monitor
-          - sensor.office_temperature_monitor
-          - sensor.guests_temperature_monitor
-          - sensor.riley_temperature_monitor
-          - sensor.bedroom_temperature_monitor
-        not_from:
-          - unknown
-          - unavailable
-        to:
-          - "Ok"
-    action:
-      - service: script.turn_on
-        target:
-          entity_id: script.telegram_message_with_ac_buttons
-        data:
-          variables:
-            message: "{{ trigger.to_state.attributes.friendly_name }} returned to normal temperatures ({{ states(trigger.to_state.entity_id | replace('_temperature_monitor', '_climate_temperature'))}})."
-            room_friendly_name: "{{ trigger.to_state.attributes.friendly_name | replace(' Temperature', '') }}"
+  # - alias: House temp returned to normal temp - notify on telegram
+  #   trigger:
+  #     - platform: state
+  #       entity_id:
+  #         - sensor.living_room_temperature_monitor
+  #         - sensor.office_temperature_monitor
+  #         - sensor.guests_temperature_monitor
+  #         - sensor.riley_temperature_monitor
+  #         - sensor.bedroom_temperature_monitor
+  #       not_from:
+  #         - unknown
+  #         - unavailable
+  #       to:
+  #         - "Ok"
+  #   action:
+  #     - service: script.turn_on
+  #       target:
+  #         entity_id: script.telegram_message_with_ac_buttons
+  #       data:
+  #         variables:
+  #           message: "{{ trigger.to_state.attributes.friendly_name }} returned to normal temperatures ({{ states(trigger.to_state.entity_id | replace('_temperature_monitor', '_climate_temperature'))}})."
+  #           room_friendly_name: "{{ trigger.to_state.attributes.friendly_name | replace(' Temperature', '') }}"
 
   - alias: Mold Risk Index High
     trigger:
@@ -78,7 +123,7 @@ automation:
         data:
           message: >
             {{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}%.
-            {% if ((states('sensor.outside_climate_humidity') | int) - 5) <= (states('sensor.office_humidity') | int) %}Time to open the windows.{% else %}Time to turn on the AC.{% endif %}
+            {% if ((state_attr('weather.outside_weather', 'humidity') | float) - 5) <= (states('sensor.office_humidity') | float) %}Time to open the windows.{% else %}Time to turn on the AC.{% endif %}
 
   - alias: Mold Risk Index Returned to Normal
     trigger:

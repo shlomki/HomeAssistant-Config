@@ -1,0 +1,218 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: container
+    name: Alarms
+    custom_fields:
+      buttons:
+        card:
+          type: vertical-stack
+          cards:
+            # - type: "custom:button-card"
+            #   color_type: blank-card
+
+          - type: 'custom:button-card'
+            template: card_title
+            name: Smoke Detectors
+
+          - type: horizontal-stack
+            cards:
+
+              - type: custom:button-card
+                template:  card_generic_swap
+                variables:
+                  ulm_card_generic_swap_name: Electricity Closet
+                  ulm_card_generic_swap_color: red
+                  ulm_card_generic_swap_icon: mdi:fire-alert
+                entity: binary_sensor.electricity_closet_smoke
+                tap_action:
+                  action: more-info
+                
+              - type: custom:button-card
+                template:  card_generic_swap
+                variables:
+                  ulm_card_generic_swap_name: Hallway Front
+                  ulm_card_generic_swap_color: red
+                  ulm_card_generic_swap_icon: mdi:fire-alert
+                entity: binary_sensor.hallway_front_smoke
+
+
+          - type: horizontal-stack
+            cards:
+
+              - type: custom:button-card
+                template:  card_generic_swap
+                variables:
+                  ulm_card_generic_swap_name: Hallway Back
+                  ulm_card_generic_swap_color: red
+                  ulm_card_generic_swap_icon: mdi:fire-alert
+                entity: binary_sensor.hallway_back_smoke
+
+              - type: "custom:button-card"
+                color_type: blank-card
+
+
+          - type: 'custom:button-card'
+            template: card_title
+            name: Humidity Sensors
+
+          - type: horizontal-stack
+            cards:
+
+              - type: custom:mushroom-template-card
+                primary: Living Room
+                secondary: "{{ states(entity) }} ({{ state_attr(entity, 'humidity') }}%)"
+                icon: mdi:water-percent-alert
+                icon_color: "{{ 'blue' if states(entity) | contains('High') else 'red' if states(entity) | contains('Low') }}"
+                layout: horizontal
+                entity: sensor.living_room_humidity_monitor
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.sequence
+                    data:
+                      sequence:
+                        - service: browser_mod.close_popup
+                        - service: browser_mod.more_info
+                          data:
+                            entity: sensor.living_room_climate_humidity
+
+
+              - type: custom:mushroom-template-card
+                primary: Office
+                secondary: "{{ states(entity) }} ({{ state_attr(entity, 'humidity') }}%)"
+                icon: mdi:water-percent-alert
+                icon_color: "{{ 'blue' if states(entity) | contains('High') else 'red' if states(entity) | contains('Low') }}"
+                layout: horizontal
+                entity: sensor.office_humidity_monitor
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.sequence
+                    data:
+                      sequence:
+                        - service: browser_mod.close_popup
+                        - service: browser_mod.more_info
+                          data:
+                            entity: sensor.office_climate_humidity
+                
+
+          - type: horizontal-stack
+            cards:
+
+              - type: custom:mushroom-template-card
+                primary: Guests
+                secondary: "{{ states(entity) }} ({{ state_attr(entity, 'humidity') }}%)"
+                icon: mdi:water-percent-alert
+                icon_color: "{{ 'blue' if states(entity) | contains('High') else 'red' if states(entity) | contains('Low') }}"
+                layout: horizontal
+                entity: sensor.guests_humidity_monitor
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.sequence
+                    data:
+                      sequence:
+                        - service: browser_mod.close_popup
+                        - service: browser_mod.more_info
+                          data:
+                            entity: sensor.guests_climate_humidity
+
+              - type: custom:mushroom-template-card
+                primary: Riley
+                secondary: "{{ states(entity) }} ({{ state_attr(entity, 'humidity') }}%)"
+                icon: mdi:water-percent-alert
+                icon_color: "{{ 'blue' if states(entity) | contains('High') else 'red' if states(entity) | contains('Low') }}"
+                layout: horizontal
+                entity: sensor.riley_humidity_monitor
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.sequence
+                    data:
+                      sequence:
+                        - service: browser_mod.close_popup
+                        - service: browser_mod.more_info
+                          data:
+                            entity: sensor.riley_climate_humidity
+
+
+          - type: horizontal-stack
+            cards:
+
+              - type: custom:mushroom-template-card
+                primary: Bedroom
+                secondary: "{{ states(entity) }} ({{ state_attr(entity, 'humidity') }}%)"
+                icon: mdi:water-percent-alert
+                icon_color: "{{ 'blue' if states(entity) | contains('High') else 'red' if states(entity) | contains('Low') }}"
+                layout: horizontal
+                entity: sensor.bedroom_humidity_monitor
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.sequence
+                    data:
+                      sequence:
+                        - service: browser_mod.close_popup
+                        - service: browser_mod.more_info
+                          data:
+                            entity: sensor.bedroom_climate_humidity
+
+
+              - type: custom:mushroom-template-card
+                primary: Closet
+                secondary: "{{ states(entity) }} ({{ state_attr(entity, 'humidity') }}%)"
+                icon: mdi:water-percent-alert
+                icon_color: "{{ 'blue' if states(entity) | contains('High') else 'red' if states(entity) | contains('Low') }}"
+                layout: horizontal
+                entity: sensor.bedroom_closet_humidity_monitor
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.sequence
+                    data:
+                      sequence:
+                        - service: browser_mod.close_popup
+                        - service: browser_mod.more_info
+                          data:
+                            entity: sensor.bedroom_closet_climate_humidity
+
+          - type: 'custom:button-card'
+            template: card_title
+            name: Water Leak Sensors
+
+          - type: horizontal-stack
+            cards:
+
+              - type: custom:button-card
+                template:  card_generic_swap
+                variables:
+                  ulm_card_generic_swap_name: Bathroom Closet
+                  ulm_card_generic_swap_color: red
+                entity: binary_sensor.bathroom_closet_leak
+
+              - type: custom:button-card
+                template:  card_generic_swap
+                variables:
+                  ulm_card_generic_swap_name: Kitchen Closet
+                  ulm_card_generic_swap_color: red
+                entity: binary_sensor.kitchen_closet_leak
+
+
+          - type: horizontal-stack
+            cards:
+
+              - type: custom:button-card
+                template:  card_generic_swap
+                variables:
+                  ulm_card_generic_swap_name: Bathroom Floor
+                  ulm_card_generic_swap_color: red
+                entity: binary_sensor.bathroom_floor_leak
+
+              - type: custom:button-card
+                template:  card_generic_swap
+                variables:
+                  ulm_card_generic_swap_name: Air Conditioner
+                  ulm_card_generic_swap_color: red
+                entity: binary_sensor.air_conditioner_leak
+

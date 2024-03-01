@@ -1,6 +1,7 @@
 group:
   notifications_group:
     entities:
+      - binary_sensor.alarms_notification
       - binary_sensor.power_outage_notification
       - binary_sensor.internet_connection_offline_notification
       - binary_sensor.cameras_offline_notification
@@ -9,6 +10,7 @@ group:
       - binary_sensor.unavailable_entities_notification
 
 input_boolean:
+  alarms_notification_silence:
   power_outage_notification_silence:
   internet_connection_offline_notification_silence:
   cameras_offline_notification_silence:
@@ -22,8 +24,14 @@ template:
         state: "{{ expand('group.notifications_group') | selectattr('state', 'eq', 'on') | selectattr('attributes.silenced', 'eq', false) | list | length }}"
 
   - binary_sensor:
+      - name: Alarms Notification
+        state: "{{ is_state('group.smoke_sensors', 'on') or is_state('group.water_leak_sensors', 'on') or is_state('binary_sensor.humidity_monitors_alert', 'on') }}"
+        attributes:
+          silenced: "{{ is_state('input_boolean.alarms_notification_silence', 'on') }}"
+
+  - binary_sensor:
       - name: Power Outage Notification
-        state: "{{ not is_state('sensor.ups_status', 'ONLINE') }}"
+        state: "{{ (not is_state('sensor.ups_status', 'ONLINE')) or (not is_state('input_number.power_outages_today_count', '0.0')) }}"
         attributes:
           silenced: "{{ is_state('input_boolean.power_outage_notification_silence', 'on') }}"
 
@@ -64,6 +72,7 @@ automation:
     trigger:
       - platform: state
         entity_id: 
+          - binary_sensor.alarms_notification
           - binary_sensor.power_outage_notification
           - binary_sensor.internet_connection_offline_notification
           - binary_sensor.cameras_offline_notification
@@ -100,3 +109,63 @@ automation:
       - service: input_boolean.turn_off
         data:
           entity_id: "input_boolean.laundry_machine_notification_silence"
+
+  - id: Reset Power Notification Silencing
+    alias: Reset Power Notification Silencing
+    trigger:
+      #This sensor has multiple states. If it has changed from one state to another, which is not "Ok", reset the notification silenceing
+      - platform: state
+        entity_id: 
+          - sensor.ups_status
+          - input_number.power_outages_today_count
+
+    condition:
+      - alias: "This notification was silenced"
+        condition: state
+        entity_id: input_boolean.power_outage_notification_silence
+        state: "on"
+        
+    action:
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.power_outage_notification_silence
+
+  - id: Reset Alarms Notification Silencing
+    alias: Reset Alarms Notification Silencing
+    trigger:
+      #This sensor has multiple entities. If another entity was turned on, reset the notification.
+      - platform: state
+        entity_id: 
+          - binary_sensor.hallway_front_smoke
+          - binary_sensor.hallway_back_smoke
+          - binary_sensor.electricity_closet_smoke
+          - binary_sensor.kitchen_closet_leak
+          - binary_sensor.bathroom_closet_leak
+          - binary_sensor.bathroom_floor_leak
+          - binary_sensor.air_conditioner_leak
+        from: "off"
+        to: "on"
+
+      - platform: state
+        entity_id: 
+          - sensor.living_room_humidity_monitor
+          - sensor.office_humidity_monitor
+          - sensor.guests_humidity_monitor
+          - sensor.riley_humidity_monitor
+          - sensor.bedroom_closet_humidity_monitor
+          - sensor.bedroom_humidity_monitor
+        from: "Ok"
+        not_to:
+          - unavailable
+          - unknown
+
+    condition:
+      - alias: "This notification was silenced"
+        condition: state
+        entity_id: input_boolean.alarms_notification_silence
+        state: "on"
+        
+    action:
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.alarms_notification_silence
