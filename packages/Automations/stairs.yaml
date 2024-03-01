@@ -29,18 +29,36 @@ automation:
     trigger:
       - platform: state
         entity_id: 
-          - binary_sensor.front_door
           - binary_sensor.stairs_motion
         from: "on"
         to: "off"
+        
+      - platform: state
+        entity_id: 
+          - binary_sensor.front_door
+        from: "on"
+        to: "off"
+        for:
+          minutes: 3
+
     condition: #Turn off only if both door is closed and there is no motion
-      condition: state
-      entity_id: 
-        - binary_sensor.front_door
-        - binary_sensor.stairs_motion
-      state: 
-        - 'off'
-        - 'unavailable'
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: 
+              - binary_sensor.front_door
+            state: 
+              - 'off'
+              - 'unavailable'
+            for:
+              minutes: 3
+
+          - condition: state
+            entity_id: 
+              - binary_sensor.stairs_motion
+            state: 
+              - 'off'
+              - 'unavailable'
     action:
       - service: switch.turn_off
         entity_id: switch.stairs_group

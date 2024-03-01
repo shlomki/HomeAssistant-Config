@@ -21,6 +21,11 @@ group:
       - automation.big_freezer_left_open_reminder_10
       - automation.big_freezer_left_open_reminder_20
 
+  all_fridge_automations:
+    entities:
+      - group.fridge_left_open_automations
+      - group.freezer_left_open_automations
+      - group.big_freezer_left_open_automations
 
 automation:
 

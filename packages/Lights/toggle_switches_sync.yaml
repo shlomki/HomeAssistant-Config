@@ -5,12 +5,6 @@ group:
       - switch.hallway_toggle_back
       - switch.hallway_toggle_front
 
-  balcony_fan_group:
-    entities:
-      - fan.balcony_fan
-      - switch.balcony_fan_toggle
-
-
 automation:
   - alias: Living room sync fan light
     max_exceeded: silent
@@ -18,8 +12,8 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - light.living_room_main
-          - light.living_room_ceiling_fan
+          - switch.living_room_fan_light_toggle
+          - light.living_room_fan
         not_from:
           - unavailable
           - unknown
@@ -28,9 +22,27 @@ automation:
           - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
+        target:
+          entity_id: "{{ ['switch.living_room_fan_light_toggle', 'light.living_room_fan'] | reject('is_state', trigger.to_state.state) | list }}"
+
+  - alias: Living room sync curtain light
+    max_exceeded: silent
+    mode: single
+    trigger:
+      - platform: state
         entity_id:
-          - light.living_room_main
-          - light.living_room_ceiling_fan
+          - light.living_room_curtain_light
+          - switch.living_room_curtain_light_toggle
+        not_from:
+          - unavailable
+          - unknown
+        not_to:
+          - unavailable
+          - unknown
+    action:
+      - service: "homeassistant.turn_{{ trigger.to_state.state }}"
+        target:
+          entity_id: "{{ ['light.living_room_curtain_light', 'switch.living_room_curtain_light_toggle'] | reject('is_state', trigger.to_state.state) | list }}"
 
   - alias: Living room sync side lamp
     max_exceeded: silent
@@ -48,9 +60,8 @@ automation:
           - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id:
-          - light.living_room_side_lamp
-          - switch.living_room_side_lamp_toggle
+        target:
+          entity_id: "{{ ['light.living_room_side_lamp', 'switch.living_room_side_lamp_toggle'] | reject('is_state', trigger.to_state.state) | list }}"
 
   - alias: Living room tv light sync dimmer
     max_exceeded: silent
@@ -68,9 +79,8 @@ automation:
           - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id:
-          - switch.living_room_tv_light_toggle
-          - light.living_room_tv_light
+        target:
+          entity_id: "{{ ['switch.living_room_tv_light_toggle', 'light.living_room_tv_light'] | reject('is_state', trigger.to_state.state) | list }}"
 
   - alias: Stairs switch sync
     max_exceeded: silent
@@ -104,10 +114,8 @@ automation:
           - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id:
-          - light.balcony_fan
-          - light.balcony_main
-          
+        target:
+          entity_id: "{{ ['light.balcony_fan', 'light.balcony_main'] | reject('is_state', trigger.to_state.state) | list }}"
 
   - alias: Office switches sync bff light
     id: Office switches sync bff light
@@ -126,9 +134,8 @@ automation:
           - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id:
-          - light.office_bff_light
-          - switch.office_bff_light_toggle
+        target:
+          entity_id: "{{ ['light.office_bff_light', 'switch.office_bff_light_toggle'] | reject('is_state', trigger.to_state.state) | list }}"
 
   - alias: Riley toggle sync main light
     id: Riley toggle sync main light
@@ -170,6 +177,49 @@ automation:
       - service: light.toggle
         entity_id: light.riley_main
 
+
+  - alias: Bathroom toggle sync light
+    id: Bathroom toggle sync light
+    max_exceeded: silent
+    mode: single
+    trigger:
+      #Riley's toggle button was pressed
+      - platform: state
+        entity_id: sensor.bathroom_toggle
+        not_from:
+          - unavailable
+          - unknown
+        to:
+          - single
+          - double
+          - long
+
+    # condition:
+    #   - condition: or
+    #     conditions:
+    #       #Allow using the button only when Riley isn't sleeping
+    #       - alias: "Riley isn't sleeping"
+    #         condition: state
+    #         entity_id: input_boolean.riley_is_sleeping
+    #         state: "off"
+
+    #       #Or when Riley is sleeping, but the light is on (and she would like to turn it off)
+    #       - condition: and
+    #         conditions:
+    #           - alias: "Riley is sleeping"
+    #             condition: state
+    #             entity_id: input_boolean.riley_is_sleeping
+    #             state: "on"
+    #           - alias: "The light is on"
+    #             condition: state
+    #             entity_id: light.riley_main
+    #             state: "on"
+    action:
+      - service: "{{ 'homeassistant.turn_on' if trigger.to_state.state == 'double' else 'light.toggle' }}"
+        target:
+          entity_id: "{{ 'group.bathroom_lights' if trigger.to_state.state == 'double' else 'light.bathroom_lights' }}"
+
+
   - alias: Guests switches sync main
     max_exceeded: silent
     mode: single
@@ -186,9 +236,8 @@ automation:
           - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id:
-          - switch.guests_main
-          - switch.guests_main_toggle
+        target:
+          entity_id: "{{ ['switch.guests_main', 'switch.guests_main_toggle'] | reject('is_state', trigger.to_state.state) | list }}"
 
   - alias: Bathroom cabinet sync
     max_exceeded: silent
@@ -206,8 +255,8 @@ automation:
           - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id:
-          - light.bathroom_cabinet_group
+        target:
+          entity_id: "{{ ['light.bathroom_cabinet', 'switch.bathroom_cabinet_toggle'] | reject('is_state', trigger.to_state.state) | list }}"
 
   - alias: Hallway sync switches when controllers change
     max_exceeded: silent
@@ -263,7 +312,7 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - switch.riley_scene_toggle
+          - switch.riley_scene
         not_from:
           - unavailable
           - unknown
@@ -277,50 +326,14 @@ automation:
         data:
           brightness: "{{ 255 if state_attr('light.riley_main', 'brightness')|int < 127 else 1 }}"
 
-  - alias: Bedroom switches sync main
+  - alias: Bedroom right bed switches sync
     max_exceeded: silent
     mode: single
     trigger:
       - platform: state
         entity_id:
-          - switch.bedroom_main_toggle_left
           - switch.bedroom_main_toggle_right
-        not_from:
-          - unavailable
-          - unknown
-        not_to:
-          - unavailable
-          - unknown
-    action:
-      - service: light.toggle
-        entity_id: light.bedroom_main
-
-  - alias: Bedroom switches sync entrance
-    max_exceeded: silent
-    mode: single
-    trigger:
-      - platform: state
-        entity_id:
-          - switch.bedroom_entrance_toggle_left
           - switch.bedroom_entrance_toggle_right
-        not_from:
-          - unavailable
-          - unknown
-        not_to:
-          - unavailable
-          - unknown
-    action:
-      - service: light.toggle
-        entity_id: light.bedroom_entrance
-
-  - alias: Bedroom fan toggles
-    max_exceeded: silent
-    mode: single
-    trigger:
-      - platform: state
-        entity_id:
-          - switch.bedroom_fan_toggle
-          - switch.bedroom_fan_toggle_left
           - switch.bedroom_fan_toggle_right
         not_from:
           - unavailable
@@ -329,8 +342,33 @@ automation:
           - unavailable
           - unknown
     action:
-      - service: fan.toggle
-        entity_id: fan.bedroom_fan
+      - service: homeassistant.toggle
+        target:
+          entity_id: |
+            {% set toggle_entity = trigger.to_state.entity_id | replace("_toggle_right", "") %}
+            {{ toggle_entity | replace('switch.', 'fan.') if entity | contains('fan') else toggle_entity }}
+
+  - alias: Bedroom left bed switches sync
+    max_exceeded: silent
+    mode: single
+    trigger:
+      - platform: state
+        entity_id:
+          - switch.bedroom_main_toggle_left
+          - switch.bedroom_entrance_toggle_left
+          - switch.bedroom_fan_toggle_left
+        not_from:
+          - unavailable
+          - unknown
+        not_to:
+          - unavailable
+          - unknown
+    action:
+      - service: homeassistant.toggle
+        target:
+          entity_id: |
+            {% set toggle_entity = trigger.to_state.entity_id | replace("_toggle_left", "") %}
+            {{ toggle_entity | replace('switch.', 'fan.') if entity | contains('fan') else toggle_entity }}
 
   - alias: Balcony fan sync switch
     max_exceeded: silent
@@ -348,7 +386,8 @@ automation:
           - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id: group.balcony_fan_group
+        target:
+          entity_id: "{{ ['fan.balcony_fan', 'switch.balcony_fan_toggle'] | reject('is_state', trigger.to_state.state) | list }}"
 
   - alias: Balcony string lights sync switch
     max_exceeded: silent
@@ -366,6 +405,31 @@ automation:
           - unknown
     action:
       - service: "homeassistant.turn_{{ trigger.to_state.state }}"
-        entity_id:
-          - light.balcony_string_lights
-          - switch.balcony_string_lights_toggle
+        target:
+          entity_id: "{{ ['light.balcony_string_lights', 'switch.balcony_string_lights_toggle'] | reject('is_state', trigger.to_state.state) | list }}"
+
+
+switch:
+  - platform: template
+    switches:
+      bedroom_right_bed_switches_sync:
+        friendly_name: Bedroom Right Bed Switches Sync
+        value_template: "{{ is_state('automation.bedroom_right_bed_switches_sync', 'on') }}"
+        turn_on:
+
+          - wait_template: "{{ is_state('script.click_to_wake_up', 'off') }}"
+            timeout:
+              seconds: 15
+            continue_on_timeout: true
+
+          - service: automation.turn_on
+            entity_id: automation.bedroom_right_bed_switches_sync
+
+        turn_off:
+          - wait_template: "{{ is_state('script.click_to_wake_up', 'off') }}"
+            timeout:
+              seconds: 15
+            continue_on_timeout: true
+
+          - service: automation.turn_off
+            entity_id: automation.bedroom_right_bed_switches_sync

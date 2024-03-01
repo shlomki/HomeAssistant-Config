@@ -26,7 +26,7 @@ group:
 
   Living Room Lights:
     entities:
-      - light.living_room_main
+      - light.living_room_fan
       - light.living_room_curtain_light
       - light.living_room_entrance
       - light.living_room_hallway
@@ -47,6 +47,7 @@ group:
     entities:
       - light.balcony_main
       - light.balcony_string_lights
+      - light.balcony_fan
 
   Balcony Dimmable Lights:
     entities:
@@ -116,6 +117,12 @@ group:
     entities:
       - light.bedroom_entrance
 
+  Non Zigbee Lights:
+    entities:
+      - light.living_room_fan
+      - light.balcony_fan
+      - light.toilet_night_light
+
 light:
   #A light entity that encapsulates all lights in the house, uses zigbee groups defined in Zigbee2MQTT
   - platform: group
@@ -123,7 +130,7 @@ light:
     entities:
       - light.master_living_room
       - light.master_bedroom
-      - light.toilet_night_light
+      - light.non_zigbee_lights
 
   #A light entity that encapsulates all lights in the house except for Riley's room, uses zigbee groups defined in Zigbee2MQTT
   - platform: group
@@ -131,7 +138,20 @@ light:
     entities:
       - light.master_living_room
       - light.master_bedroom_without_riley
-      - light.toilet_night_light
+      - light.non_zigbee_lights
+
+  - platform: template
+    lights:
+      non_zigbee_lights:
+        value_template: "{{ is_state('group.non_zigbee_lights', 'on') }}"
+        turn_on:
+          service: homeassistant.turn_on
+          target:
+            entity_id: group.non_zigbee_lights
+        turn_off:
+          - service: light.turn_off
+            target:
+              entity_id: group.non_zigbee_lights
 
   - platform: template
     lights:

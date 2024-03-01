@@ -43,3 +43,27 @@ automation:
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.riley_is_sleeping
+
+  - id: Riley Light - Turn off when no movement
+    alias: Riley Light - Turn off when no movement
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.riley_motion
+        from: "on"
+        to: "off"
+        for:
+          minutes: 30
+    condition:
+      - and:
+        - alias: "Riley light is on"
+          condition: state
+          entity_id: light.riley_main
+          state: "on"
+        - alias: "Riley is awake"
+          condition: state
+          entity_id: input_boolean.riley_is_sleeping
+          state: "off"
+    action:
+      - service: light.turn_off
+        target:
+          entity_id: light.riley_main

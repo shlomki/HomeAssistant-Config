@@ -6,6 +6,12 @@ input_select:
         - Running
         - Clean
 
+group:
+  laundry_machine_automations:
+    entities:
+      - automation.laundry_machine_set_status
+      - automation.laundry_machine_finished_running
+
 automation:
   - alias: Laundry Machine - Set Status
     trigger:

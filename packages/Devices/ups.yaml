@@ -95,3 +95,26 @@ automation:
         target:
           entity_id: input_number.power_outages_monthly_count
 
+  - alias: Power - notify on power outage
+    trigger:
+      - platform: state
+        entity_id: sensor.ups_status
+        from: "ONLINE"
+        to: "ONBATT"
+        id: "outage"
+
+      - platform: state
+        entity_id: sensor.ups_status
+        from: "ONBATT"
+        to: "ONLINE"
+        id: "normal_power"
+
+    action:
+      - service: notify.shlomi
+        data:
+          message: |
+            {% if trigger.id == "outage" %}
+              Power outage at home, running on UPS! Battery: {{ states('sensor.ups_battery') }}
+            {% elif trigger.id == "normal_power" %}
+              Power has returned! Battery: {{ states('sensor.ups_battery') }}
+            {% endif %}
