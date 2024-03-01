@@ -1,6 +1,6 @@
 # Welcome to shlomki/HomeAssistant-Config!
 
-Hi! My name is Shlomi, I'm not an expert in Home Assistant but I do have some nice automations and ideas to share with you, so I've uploaded my HA configuration here.
+Hi! My name is Shlomi, after spending quite some time with Home Assistant I decided it would be nice to share some of my nice automations and ideas with you, so I've uploaded my HA configuration here.
 Feel free to browse.
 
 
@@ -10,9 +10,10 @@ Feel free to browse.
 
 This is the base directory for the configuration. The files are:
 
- - **custom_components** - This is where I store third party components that I've edited to fit my needs.
+ - **lovelace** - All of my UI.
  - **packages** - This is where most of the logic is stored, you should definitely look at this folder.
  - **python_scripts** - A few helper scripts I've written that I use in my automations regularly. These scripts do slightly more complicated logic that's too much for yaml to handle.
+ - **ui_lovelace_minimalist/custom_cards** - Some of my own button-card templates, and some customizations on top of UI Lovelace Minimalist.
 
 ## /packages Directory - The good stuff!
 
@@ -21,4 +22,16 @@ This is the base directory for the configuration. The files are:
  - **Devices** - Other devices such as Cameras, Broadlink controllers, Shelly relays, TVs, etc.
  - **Lights** - Anything regarding the lights around the house.
  - **Services** - External services and helpers such as telegram, Google Maps, etc.
- - **Windows** - Controlling windows, shutters, curtains.
+
+# Overview & Screenshots
+
+## The Home Screen
+Tablet:
+![Home Screen - Tablet](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/tablet_homescreen.png?raw=true)
+![Home Screen- Mobile](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/mobile_homescreen.png?raw=true)
+![Power](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/power.png?raw=true)
+![Lights](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/lights.png?raw=true)
+![Guest Mode](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/guest_mode.png?raw=true)
+![Shower](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/shower.png?raw=true)
+![Rooms](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/rooms.png?raw=true)
+![Windows](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/windows.png?raw=true)
