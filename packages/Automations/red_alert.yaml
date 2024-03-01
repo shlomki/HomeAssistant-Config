@@ -51,7 +51,7 @@ binary_sensor:
                     'ראשון לציון - מזרח' in state_attr('sensor.red_alert', 'current')['data'] }}
 
 automation:
-  - alias: Red Alert - Notify BFFs
+  - alias: Red Alert - Notify Shlomi
     trigger:
       - platform: state
         entity_id: binary_sensor.red_alert_in_my_area
@@ -60,7 +60,20 @@ automation:
         for:
           seconds: 1
     action:
-      - service: notify.bffs
+      - service: notify.shlomi
+        data:
+          message: Red Alert at home!
+
+  - alias: Red Alert - Notify Inbal
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.red_alert_in_my_area
+        from: "off"
+        to: "on"
+        for:
+          seconds: 1
+    action:
+      - service: notify.inbal
         data:
           message: Red Alert at home!
 
@@ -149,7 +162,7 @@ automation:
 
     action:
       - service: light.turn_on
-        entity_id: light.living_room_main
+        entity_id: light.living_room_curtain_light
 
   - alias: Red Alert - Turn on lights office
     trigger:

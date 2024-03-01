@@ -1,12 +1,12 @@
 group:
   cameras:
     entities:
-      - camera.front_door
-      - camera.living_room
+      - camera.front_door_sub
+      - camera.living_room_sub
       # - camera.hallway
-      - camera.office
-      - camera.guests
-      - camera.riley
+      - camera.office_sub
+      - camera.guests_sub
+      - camera.riley_sub
       # - camera.bedroom
 
   cameras_device_trackers:

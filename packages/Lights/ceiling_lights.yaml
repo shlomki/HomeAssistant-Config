@@ -211,17 +211,6 @@ automation:
       - service: input_boolean.turn_off
         entity_id: input_boolean.living_room_color_fix
 
-  - alias: Office Light Color Fix Check
-    description: ""
-    trigger:
-      - platform: state
-        entity_id: switch.office_main
-        to: "off"
-        for: "60"
-    action:
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.office_main_color_fix
-
   - alias: Guests Light Color Fix Check
     description: ""
     trigger:

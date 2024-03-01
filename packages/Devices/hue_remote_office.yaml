@@ -48,16 +48,25 @@ automation:
                     {% set current = state_attr('fan.office_fan', 'percentage') %}
                     {{ step if (current + step > 101) else (current + step) }}
 
-          ## Button 4 Release Press: AC Toggle
+          ## Button 4 Release Press: Office AC Toggle
           - conditions: "{{ button_code == 'off_press_release' }}"
             sequence:
               - service: "climate.turn_{{ 'on' if is_state('climate.ac_damper_office', 'off') else 'off' }}"
                 target:
                   entity_id: climate.ac_damper_office
                   
-          ## Button 4 Release Hold: AC Turn off all dampers
-          - conditions: "{{ button_code == 'off_hold_release' }}"
+          ## Button 4 Release Hold: Toggle multiple dampers
+          - conditions: "{{ button_code == 'off_hold_release' and is_state('group.dampers', 'on') }}"
             sequence:
               - service: homeassistant.turn_off
                 target:
                   entity_id: group.dampers
+
+          - conditions: "{{ button_code == 'off_hold_release' and is_state('group.dampers', 'off') }}"
+            sequence:
+              - service: "climate.turn_on"
+                target:
+                  entity_id: 
+                    - climate.ac_damper_living_room
+                    - climate.ac_damper_office
+                    - climate.ac_damper_guests

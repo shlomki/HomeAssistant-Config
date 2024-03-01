@@ -7,6 +7,7 @@ group:
 binary_sensor:
   - platform: group
     name: "Toilet Occupancy"
+    unique_id: "Toilet Occupancy"
     device_class: occupancy
     entities:
       - binary_sensor.toilet_motion

@@ -43,6 +43,7 @@ frontend:
   themes: !include_dir_merge_named themes
 
 recorder:
+  purge_keep_days: 30
   include:
     domains:
       - switch
@@ -52,6 +53,8 @@ recorder:
       - fan
       - device_tracker
       - lock
+      - person
+      - media_player
     entity_globs:
       - sensor.ups_*
       - binary_sensor.*door*
@@ -65,6 +68,7 @@ recorder:
       - sensor.*_temperature_monitor
     entities:
       - input_select.laundry_machine_status
+      - input_boolean.guest_mode
       - binary_sensor.fridge
       - binary_sensor.freezer
       - binary_sensor.big_freezer
@@ -73,7 +77,6 @@ recorder:
       - sensor.shelly_3em_channel_c_power
       - sensor.outside_climate_temperature
       - sensor.outside_climate_humidity
-      - sensor.solar_system_temperature
       - sensor.front_door_lock_battery_level
       - binary_sensor.rain
       - sensor.riley_main_toggle
@@ -86,8 +89,21 @@ recorder:
       - sensor.yogurt_maker_energy
       - sensor.riley_heater_power
       - sensor.riley_heater_energy
-      
-
+      - sensor.guest_names
+      - sensor.guests_connected_to_wifi
+      - group.dampers
+      - input_text.energy_total_yesterday
+      - sensor.water_boiler_temperature_top
+      - sensor.water_boiler_temperature_middle
+      - sensor.water_boiler_temperature_bottom
+      - sensor.hot_showers_available
+      - input_number.water_boiler_wanted_showers
+      - sensor.water_boiler_temperature_top_average
+      - sensor.water_boiler_temperature_middle_adjusted
+      - sensor.water_boiler_temperature_middle_adjusted_average
+      - sensor.water_boiler_temperature_bottom_average
+      - sensor.hot_showers_available_average
+      - script.click_to_wake_up
 
 lovelace:
   mode: storage

@@ -91,9 +91,15 @@ automation:
         entity_id: binary_sensor.doorbell
         from: 'off'
         to: 'on'
+    condition:
+      - alias: "Tablet is Home"
+        condition: state
+        entity_id: device_tracker.tablet_white
+        state: "home"
     action:
       - variables:
           fully_kiosk_was_in_foreground: "{{ is_state('sensor.house_tablet_foreground_app', 'de.ozerov.fully') }}" #Was Fully Kiosk in the foreground?
+          tablet_was_off: "{{ is_state('switch.house_tablet_screen', 'off') }}" #Was the tablet screen off?
 
       - service: fully_kiosk.load_url
         data:
@@ -110,6 +116,15 @@ automation:
         timeout:
           minutes: 1
         continue_on_timeout: true
+
+      - if:
+        - alias: "The tablet was off"
+          condition: template
+          value_template: "{{ tablet_was_off }}"
+        then:
+          - service: switch.turn_off
+            target:
+              entity_id: switch.house_tablet_screen
 
       - if:
         - alias: "A different app was in the foreground"

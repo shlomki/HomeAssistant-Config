@@ -2,7 +2,7 @@ group:
   scenes:
     entities:
       - switch.evening_scene
-      - sensor.sleep_scene
+      - switch.sleep_scene
       - switch.housekeeper_unlock_and_lock_door
       - switch.dance_freeze_game
 
@@ -23,9 +23,9 @@ scene:
     icon: "mdi:sleep"
     entities:
       light.all_lights: off
-      cover.bedroom_shutter:
-        state: open
-        current_position: 11
+      # cover.bedroom_shutter:
+      #   state: open
+      #   current_position: 11
       lock.front_door: "locked"
       switch.house_tablet_screen: off
       media_player.living_room_tv: off
@@ -36,10 +36,10 @@ sensor:
       sleep_scene:
         friendly_name: "Sleep Scene"
         value_template: "{{ (is_state('group.all_lights', 'off') and
-          is_state_attr('cover.bedroom_shutter', 'current_position', 11) and
           is_state('lock.front_door', 'locked') and
           is_state('switch.house_tablet_screen', 'off') and
           is_state('media_player.living_room_tv', 'off')) | replace(true, 'on') | replace(false, 'off') }}"
+          # is_state_attr('cover.bedroom_shutter', 'current_position', 11) and
 
 switch:
   - platform: template
@@ -50,7 +50,7 @@ switch:
 
           is_state('light.living_room_entrance', 'off') and
           is_state('light.living_room_hallway', 'off') and
-          is_state('light.living_room_main', 'off') and
+          is_state('light.living_room_fan', 'off') and
           is_state('light.living_room_tv_light', 'off') and
           is_state('light.living_room_curtain_light', 'off') and
 
@@ -77,3 +77,27 @@ switch:
           target:
             entity_id:
               - light.all_lights
+
+
+      sleep_scene:
+        value_template: "{{ (is_state('group.all_lights', 'off') and
+          is_state('lock.front_door', 'locked') and
+          is_state('switch.house_tablet_screen', 'off') and
+          is_state('media_player.living_room_tv', 'off')) | replace(true, 'on') | replace(false, 'off') }}"
+        turn_on:
+          - service: lock.lock
+            target:
+              entity_id: lock.front_door
+
+          - service: homeassistant.turn_off
+            target:
+              entity_id:
+                - light.all_lights
+                - switch.house_tablet_screen
+                - media_player.living_room_tv
+
+        turn_off:
+          service: light.turn_on
+          target:
+            entity_id:
+              - light.living_room_lights

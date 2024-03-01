@@ -110,7 +110,7 @@ automation:
             value_template: "{{ trigger.id == 'turn_on' }}"
         then:
           delay:
-            minutes: 1
+            minutes: 2
 
       - service: "automation.{{ trigger.id }}"
         data:
@@ -150,6 +150,7 @@ group:
       - switch.guests_main_toggle
       - switch.bathroom_heater
       - switch.water_boiler
+      - sensor.solar_system_temperature
       - light.bathroom_main
       - light.bathroom_laundry
       - switch.riley_main
@@ -242,8 +243,8 @@ group:
       # - switch.gray_fan_smart_plug
       - fan.living_room_fan
       - fan.office_fan
-      - fan.balcony_fan
-      - fan.riley_fan
+      # - fan.balcony_fan
+      # - fan.riley_fan
       - fan.bedroom_fan
       
       #Smart Plugs

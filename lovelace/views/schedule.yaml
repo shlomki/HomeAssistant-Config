@@ -20,7 +20,6 @@ cards:
       - cover.living_room_shutter
       - cover.office_curtain
       - cover.office_shutter
-      - switch.water_boiler
       - lock.front_door
       - script.housekeeper_unlock_and_lock_door
       - group.bffs
@@ -29,9 +28,24 @@ cards:
       - light.yule_trees
       - light.office_bff_light
       - light.living_room_side_lamp
-      - switch.water_boiler_with_timer
+      - light.living_room_lights
+      - light.office_lights
+      - light.balcony_lights
+      - light.kitchen_lights
+      - light.hallway_lights
+      - light.toilet_lights
+      - light.bathroom_lights
+      - light.office_lights
+      - light.guests_lights
+      - light.riley_lights
+      - light.bedroom_lights
+      - input_number.water_boiler_timer_duration
+      - input_number.water_boiler_wanted_showers
+      - switch.water_boiler
+      - switch.water_boiler_with_hot_shower_check
       - switch.shlomi_pc
       - script.click_to_wake_up
+      - switch.bedroom_right_bed_switches_sync
 
     exclude: []
     title: true

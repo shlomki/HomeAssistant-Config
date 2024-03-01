@@ -19,9 +19,9 @@ automation:
           ## Button 1 Release Hold: Sleep
           - conditions: "{{ button_code == 'on_hold_release' }}"
             sequence:
-              - service: scene.turn_on
+              - service: switch.turn_on
                 target:
-                  entity_id: scene.sleep
+                  entity_id: switch.sleep_scene
 
           ## Button 2 Release Short Press When in Motion: Stop Bedroom Curtain
           - conditions: "{{ button_code == 'up_press_release' and (is_state('cover.bedroom_curtain_with_moving_state', 'opening') or is_state('cover.bedroom_curtain_with_moving_state', 'closing')) }}"

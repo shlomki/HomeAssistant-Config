@@ -27,6 +27,7 @@ automation:
           mac: !secret balcony_tv_mac
 
   - alias: Subwoofer - Turn on
+    id: Subwoofer - Turn on
     trigger:
       - platform: state
         entity_id: media_player.living_room_tv

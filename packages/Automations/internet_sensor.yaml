@@ -1,8 +1,8 @@
 binary_sensor:
-  - platform: ping
-    host: 8.8.8.8
-    name: "Google Connection"
-    scan_interval: 60
+  # - platform: ping
+  #   host: 8.8.8.8
+  #   name: "Google Connection"
+  #   scan_interval: 60
 
   - platform: template
     sensors:
