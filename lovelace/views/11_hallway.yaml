@@ -1,0 +1,16 @@
+title: Hallway
+path: hallway
+icon: mdi:string-lights
+badges: []
+panel: false
+subview: true
+
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: title-large
+        name: Hallway
+
+      - !include /config/lovelace/room_cards/hallway/lights.yaml
+

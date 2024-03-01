@@ -5,7 +5,7 @@ badges: []
 subview: false
 panel: true
 cards:
-
-      - type: 'custom:webrtc-camera'
-        entity: camera.riley
-        style: "video {aspect-ratio: 16/9; object-fit: fill;}"
+      - !include /config/lovelace/room_cards/riley/camera.yaml
+      # - type: 'custom:webrtc-camera'
+      #   entity: camera.riley
+      #   style: "video {aspect-ratio: 16/9; object-fit: fill;}"

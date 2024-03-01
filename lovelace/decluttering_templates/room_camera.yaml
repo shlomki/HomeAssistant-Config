@@ -1,0 +1,20 @@
+room_camera:
+  default:
+    - camera_entity_hd: camera.living_room_main
+    - camera_entity_sd: camera.living_room_sub
+    - interserction: 0
+  card:
+    type: 'custom:webrtc-camera'
+    mode: mse
+    intersection: '[[interserction]]'
+    muted: true
+    ui: true
+    style: "video {aspect-ratio: 16/9}"
+
+    streams:
+      - entity: '[[camera_entity_hd]]'
+        name: HD
+        
+      - entity: '[[camera_entity_sd]]'
+        name: SD
+        

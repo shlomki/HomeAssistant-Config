@@ -1,66 +1,66 @@
-type: vertical-stack
-cards:
-  - type: custom:button-card
-    template: title
-    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lights ]]]"
+# type: vertical-stack
+# cards:
+#   - type: custom:button-card
+#     template: title
+#     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lights ]]]"
 
-  - type: conditional
-    conditions:
-      - entity: light.living_room_dimmable_lights
-        state: "on"
-    card:
-      type: custom:slider-entity-row
-      entity: light.living_room_dimmable_lights
-      full_row: true
-      min: 1
-      max: 100
-      step: 5
+#   - type: conditional
+#     conditions:
+#       - entity: light.living_room_dimmable_lights
+#         state: "on"
+#     card:
+#       type: custom:slider-entity-row
+#       entity: light.living_room_dimmable_lights
+#       full_row: true
+#       min: 1
+#       max: 100
+#       step: 5
 
-  - type: horizontal-stack
-    cards:
-      - type: custom:button-card
-        template: ha-button
-        entity: light.living_room_main
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.main ]]]"
-        icon: mdi:sofa-outline
-        icon_height: 50px
+#   - type: horizontal-stack
+#     cards:
+#       - type: custom:button-card
+#         template: ha-button
+#         entity: light.living_room_fan
+#         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.fan ]]]"
+#         icon: mdi:ceiling-fan-light
+#         icon_height: 50px
 
-      - type: custom:button-card
-        template: ha-button
-        entity: light.living_room_entrance
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.entrance ]]]"
-        icon: mdi:door
-        icon_height: 50px
+#       - type: custom:button-card
+#         template: ha-button
+#         entity: light.living_room_entrance
+#         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.entrance ]]]"
+#         icon: mdi:door
+#         icon_height: 50px
 
-      - type: custom:button-card
-        template: ha-button
-        entity: light.living_room_hallway
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.hallway ]]]"
-        icon: mdi:hexagon-multiple-outline
-        icon_height: 50px
+#       - type: custom:button-card
+#         template: ha-button
+#         entity: light.living_room_hallway
+#         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.hallway ]]]"
+#         icon: mdi:hexagon-multiple-outline
+#         icon_height: 50px
 
-  - type: horizontal-stack
-    cards:
-      - type: custom:button-card
-        template: ha-button
-        entity: light.living_room_tv_light
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.tv_light ]]]"
-        icon: mdi:television-classic
-        icon_height: 50px
+#   - type: horizontal-stack
+#     cards:
+#       - type: custom:button-card
+#         template: ha-button
+#         entity: light.living_room_tv_light
+#         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.tv_light ]]]"
+#         icon: mdi:television-classic
+#         icon_height: 50px
 
-      - type: custom:button-card
-        template: ha-button
-        entity: light.living_room_side_lamp
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.side_lamp ]]]"
-        icon: mdi:floor-lamp-torchiere-variant
-        icon_height: 50px
+#       - type: custom:button-card
+#         template: ha-button
+#         entity: light.living_room_side_lamp
+#         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.side_lamp ]]]"
+#         icon: mdi:floor-lamp-torchiere-variant
+#         icon_height: 50px
 
-      - type: custom:button-card
-        template: ha-button
-        entity: light.living_room_curtain_light
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.curtain_light ]]]"
-        icon: mdi:curtains
-        icon_height: 50px
+#       - type: custom:button-card
+#         template: ha-button
+#         entity: light.living_room_curtain_light
+#         name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.curtain_light ]]]"
+#         icon: mdi:curtains
+#         icon_height: 50px
 
       # - type: custom:button-card
       #   template: ha-button
@@ -80,4 +80,117 @@ cards:
       #     entity: group.yule_trees
 
 
-  - !include /config/lovelace/room_cards/kitchen/lights.yaml
+  # - !include /config/lovelace/room_cards/kitchen/lights.yaml
+
+type: vertical-stack
+cards:
+
+  - type: 'custom:button-card'
+    template: title
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lights ]]]"
+
+  - type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-template-columns: repeat(3, 1fr)
+      grid-auto-flow: row
+      grid-gap: 0px
+      margin: 0px
+
+      mediaquery:
+        "(max-width: 600px)":
+          grid-template-columns: repeat(2, 1fr)
+    cards:
+
+      - type: "custom:button-card"
+        template: 
+          - card_light
+          - fill_container
+        entity: light.living_room_fan
+        variables:
+          ulm_card_light_name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.fan ]]]"
+          ulm_card_light_icon: mdi:ceiling-fan-light
+
+      - type: "custom:button-card"
+        template: 
+          - card_light
+          - fill_container
+        entity: light.living_room_entrance
+        variables:
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_collapse: true
+          ulm_card_light_name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.entrance ]]]"
+          ulm_card_light_icon: mdi:hexagon-multiple-outline
+
+      - type: "custom:button-card"
+        template: 
+          - card_light
+          - fill_container
+        entity: light.living_room_hallway
+        variables:
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_collapse: true
+          ulm_card_light_name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.hallway ]]]"
+          ulm_card_light_icon: mdi:hexagon-multiple-outline
+
+      - type: "custom:button-card"
+        template: 
+          - card_light
+          - fill_container
+        entity: light.living_room_tv_light
+        variables:
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_collapse: true
+          ulm_card_light_name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.tv_light ]]]"
+          ulm_card_light_icon: mdi:television-classic
+
+      - type: "custom:button-card"
+        template: 
+          - card_light
+          - fill_container
+        entity: light.living_room_side_lamp
+        variables:
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_collapse: true
+          ulm_card_light_name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.side_lamp ]]]"
+          ulm_card_light_icon: mdi:floor-lamp-torchiere-variant
+
+      - type: "custom:button-card"
+        template: 
+          - card_light
+          - fill_container
+        entity: light.living_room_curtain_light
+        variables:
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_collapse: true
+          ulm_card_light_name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.curtain_light ]]]"
+          ulm_card_light_icon: mdi:curtains
+
+      - type: "custom:button-card"
+        template: 
+          - card_light
+          - fill_container
+        entity: light.kitchen_island
+        variables:
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_collapse: true
+          ulm_card_light_name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.kitchen_island ]]]"
+          ulm_card_light_icon: mdi:cube-outline      
+
+      - type: "custom:button-card"
+        template:
+          - card_light
+          - fill_container
+        entity: light.kitchen_pantry
+        variables:
+          ulm_card_light_name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.kitchen_pantry ]]]"
+          ulm_card_light_icon: mdi:fridge-outline
+
+      - type: "custom:button-card"
+        template:
+          - card_light
+          - fill_container
+        entity: light.kitchen_counter
+        variables:
+          ulm_card_light_name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.kitchen_counter ]]]"
+          ulm_card_light_icon: mdi:countertop-outline

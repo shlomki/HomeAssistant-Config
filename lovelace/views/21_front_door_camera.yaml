@@ -11,7 +11,8 @@ cards:
   #       template: title-large
   #       name: Front Door Camera
 
-    - type: 'custom:webrtc-camera'
-      entity: camera.front_door
-      style: "video {aspect-ratio: 16/9; object-fit: fit;}"
-      muted: true
+    - type: custom:decluttering-card
+      template: room_camera
+      variables:
+        - camera_entity_hd: 'camera.front_door_main'
+        - camera_entity_sd: 'camera.front_door_sub'

@@ -1,0 +1,9 @@
+title: Rooms
+path: rooms
+icon: mdi:floor-plan
+badges: []
+panel: true
+subview: true
+
+cards: 
+  - !include /config/lovelace/cards/rooms.yaml

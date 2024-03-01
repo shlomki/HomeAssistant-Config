@@ -8,7 +8,8 @@ wallpanel:
 
 decluttering_templates: !include_dir_merge_named /config/lovelace/decluttering_templates/
 
-button_card_templates: !include_dir_merge_named /config/lovelace/button_card_templates/
+# button_card_templates: !include_dir_merge_named /config/lovelace/button_card_templates/
+button_card_templates: !include_dir_merge_named "custom_components/ui_lovelace_minimalist/__ui_minimalist__/ulm_templates/"
 
 views:
   - !include /config/lovelace/views/01_dashboard.yaml
@@ -21,6 +22,7 @@ views:
   - !include /config/lovelace/views/08_config_ac.yaml
   - !include /config/lovelace/views/09_servers.yaml
   - !include /config/lovelace/views/10_dev.yaml
+  - !include /config/lovelace/views/11_hallway.yaml
   - !include /config/lovelace/views/schedule.yaml
   - !include /config/lovelace/views/12_living_room.yaml
   - !include /config/lovelace/views/13_balcony.yaml
@@ -31,3 +33,4 @@ views:
   - !include /config/lovelace/views/18_guests.yaml
   - !include /config/lovelace/views/19_riley.yaml
   - !include /config/lovelace/views/20_bedroom.yaml
+  - !include /config/lovelace/views/rooms.yaml

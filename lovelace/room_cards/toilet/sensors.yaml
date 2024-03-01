@@ -1,47 +1,64 @@
-type: vertical-stack
-cards:
-  - type: custom:button-card
-    template: title
-    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.smart_home_status ]]]"
+# type: vertical-stack
+# cards:
+#   - type: custom:button-card
+#     template: title
+#     name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.smart_home_status ]]]"
 
-  - type: horizontal-stack
-    cards:
-      - type: custom:button-card
-        template: ha-button
-        entity: binary_sensor.toilet_presence
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.occupied ]]]"
-        icon: mdi:account-outline
-        state:
-          - value: 'on'
-            id: 'on'
-            color: rgb(253, 216, 53)
-            name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.occupied ]]]"
-            icon: mdi:account
-          - value: 'off'
-            id: 'off'
-            color: rgb(68, 115, 158)
-            name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.vacant ]]]"
-            icon: mdi:account-outline
-          - value: 'unavailable'
-            color: lightgray
-            name: "Unknown"
+  # - type: horizontal-stack
+  #   cards:
+  #     - type: custom:button-card
+  #       template: ha-button
+  #       entity: binary_sensor.toilet_presence
+  #       name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.occupied ]]]"
+  #       icon: mdi:account-outline
+  #       state:
+  #         - value: 'on'
+  #           id: 'on'
+  #           color: rgb(253, 216, 53)
+  #           name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.occupied ]]]"
+  #           icon: mdi:account
+  #         - value: 'off'
+  #           id: 'off'
+  #           color: rgb(68, 115, 158)
+  #           name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.vacant ]]]"
+  #           icon: mdi:account-outline
+  #         - value: 'unavailable'
+  #           color: lightgray
+  #           name: "Unknown"
 
-      - type: custom:button-card
-        template: ha-button
-        entity: binary_sensor.toilet_door
-        icon: mdi:door-open
-        state:
-          - value: 'on'
-            id: 'on'
-            color: rgb(253, 216, 53)
-            name: "Open"
-            icon: mdi:door-open
-          - value: 'off'
-            id: 'off'
-            color: rgb(68, 115, 158)
-            name: "Closed"
-            icon: mdi:door-closed
-          - value: 'unavailable'
-            color: lightgray
-            name: "Unknown"
+  #     - type: custom:button-card
+  #       template: ha-button
+  #       entity: binary_sensor.toilet_door
+  #       icon: mdi:door-open
+  #       state:
+  #         - value: 'on'
+  #           id: 'on'
+  #           color: rgb(253, 216, 53)
+  #           name: "Open"
+  #           icon: mdi:door-open
+  #         - value: 'off'
+  #           id: 'off'
+  #           color: rgb(68, 115, 158)
+  #           name: "Closed"
+  #           icon: mdi:door-closed
+  #         - value: 'unavailable'
+  #           color: lightgray
+  #           name: "Unknown"
+
+type: custom:mushroom-chips-card
+alignment: center
+chips:
+
+  - type: template
+    icon: '{{ ''mdi:account'' if states(entity) == ''on'' else ''mdi:account-outline''}}'
+    icon_color: '{{ ''red'' if states(entity) == ''on''}}' 
+    content: '{{ ''Occupied'' if states(entity) == ''on'' else ''Vacant''}}'
+    
+    entity: binary_sensor.toilet_presence
+
+  - type: entity
+    entity: binary_sensor.toilet_door
+    content_info: name
+    name: Door
+    icon_color: green
 

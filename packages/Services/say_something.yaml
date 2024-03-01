@@ -1,16 +1,22 @@
 input_text:
   say_something_living_room:
     name: Say Something
+    max: 255
   say_something_balcony:
     name: Say Something
+    max: 255
   say_something_office:
     name: Say Something
+    max: 255
   say_something_guests:
     name: Say Something
+    max: 255
   say_something_bathroom:
     name: Say Something
+    max: 255
   say_something_bedroom:
     name: Say Something
+    max: 255
 
 input_select:
   say_something_language:

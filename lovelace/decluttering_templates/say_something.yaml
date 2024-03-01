@@ -8,8 +8,12 @@ say_something:
 
       - type: entities
         entities:
-          - entity: input_text.say_something_[[room_name]]
-            type: 'custom:text-input-row'
+
+          - type: custom:lovelace-multiline-text-input-card
+            autosave: true
+            entity: input_text.say_something_[[room_name]]
+            max_length: 250
+            min_length: 0
 
           - entity: input_select.say_something_language
             icon: mdi:translate

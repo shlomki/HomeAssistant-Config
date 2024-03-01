@@ -7,16 +7,33 @@ cards:
   - type: horizontal-stack
     cards:
 
-      - type: custom:button-card
-        template: ha-button
-        entity: light.office_main
-        name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.main ]]]"
-        icon: mdi:lightbulb-outline
-        icon_height: 50px
+      # - type: custom:button-card
+      #   template: ha-button
+      #   entity: light.office_main
+      #   name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.main ]]]"
+      #   icon: mdi:lightbulb-outline
 
-      - type: custom:button-card
-        template: ha-button
-        entity: light.office_bff_light
-        name: "BFF"
+      # - type: custom:button-card
+      #   template: ha-button
+      #   entity: light.office_bff_light
+      #   name: "BFF"
+      #   icon: mdi:alpha-b
+
+      - type: "custom:button-card"
+        template: 
+          - card_light
+          - fill_container
+        entity: light.office_main
+        variables:
+          ulm_card_light_name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.main ]]]"
+        icon: mdi:lightbulb-outline
+
+      - type: "custom:button-card"
+        template: 
+          - card_light
+          - fill_container
+        entity: light.riley_main
+        variables:
+          ulm_card_light_enable_slider: false
+          ulm_card_light_name: "BFF"
         icon: mdi:alpha-b
-        icon_height: 50px

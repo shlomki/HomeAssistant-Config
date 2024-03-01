@@ -1,0 +1,28 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: title
+    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.lights ]]]"
+
+  - type: horizontal-stack
+    cards:
+
+      - type: "custom:button-card"
+        template: 
+          - card_light
+          - fill_container
+        entity: light.hallway_front
+        variables:
+          ulm_card_light_enable_slider: true
+          ulm_card_light_name: "Front"
+          ulm_card_light_icon: mdi:led-strip-variant
+
+      - type: "custom:button-card"
+        template: 
+          - card_light
+          - fill_container
+        entity: light.hallway_back
+        variables:
+          ulm_card_light_enable_slider: true
+          ulm_card_light_name: "Back"
+          ulm_card_light_icon: mdi:led-strip-variant

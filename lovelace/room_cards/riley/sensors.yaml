@@ -1,22 +1,26 @@
-type: vertical-stack
-cards:
-  - type: custom:button-card
-    template: title
-    name: "[[[ return states['sensor.localization_' + states['input_select.local_lang_' + user.name.replace(' ','_').toLowerCase()].state].attributes.smart_home_status ]]]"
+type: custom:mushroom-chips-card
+alignment: center
+chips:
 
-  - type: horizontal-stack
-    cards:
-      - type: picture-entity
-        entity: input_boolean.riley_is_sleeping
-        show_name: false
-        show_state: false
-        tap_action:
-          action: toggle
-        hold_action:
-          action: more-info
-        state_image:
-          'on': /local/photos/riley_sleeping.jpg
-          'off': /local/photos/riley_awake.jpg
-        state_filter:
-          'off': brightness(100%) saturate(1)
-          'on': brightness(85%) saturate(0)
+  - type: template
+    icon: mdi:account-circle
+    content: '{{ ''Awake'' if states(entity) == ''off'' else ''Sleeping''}}'
+    entity: input_boolean.riley_is_sleeping
+    picture: /local/photos/riley_awake.jpg
+    tap_action:
+      action: call-service
+      service: input_boolean.toggle
+      target:
+        entity_id: input_boolean.riley_is_sleeping
+
+  - type: entity
+    entity: binary_sensor.riley_door
+    content_info: name
+    name: Door
+    icon_color: green
+
+  - type: entity
+    entity: binary_sensor.riley_window
+    content_info: name
+    name: Window
+    icon_color: blue

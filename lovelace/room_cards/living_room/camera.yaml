@@ -1,4 +1,33 @@
-type: 'custom:webrtc-camera'
-entity: camera.living_room
-mode: mse
-intersection: 0
+type: vertical-stack
+cards:
+  - type: custom:state-switch
+    entity: hash
+    default: living_room
+    states:
+      living_room:
+        type: custom:decluttering-card
+        template: room_camera
+        variables:
+          - camera_entity_hd: 'camera.living_room_main'
+          - camera_entity_sd: 'camera.living_room_sub'
+
+      front_door:
+        type: custom:decluttering-card
+        template: room_camera
+        variables:
+          - camera_entity_hd: 'camera.front_door_main'
+          - camera_entity_sd: 'camera.front_door_sub'
+          - interserction: 0.5
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        name: Living Room
+        tap_action:
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#entities') ? '.' : '#living_room'; ]]]"
+      - type: custom:button-card
+        name: Front Door
+        tap_action:
+          action: navigate
+          navigation_path: "[[[ return (window.location.hash == '#entities') ? '.' : '#front_door'; ]]]"

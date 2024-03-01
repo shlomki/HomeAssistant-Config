@@ -1,0 +1,480 @@
+view_layout:
+  grid-area: main
+
+# type: custom:layout-card
+# layout_type: custom:horizontal-layout
+# layout:
+#   width: 190
+#   max-width: 200
+#   max_cols: 5
+#   card_margin: 8px 4px 8px 4px
+# cards:
+
+type: custom:layout-card
+layout_type: custom:grid-layout
+layout:
+  grid-template-columns: repeat(5, 1fr)
+  grid-template-rows: repeat(2, 1fr)
+  grid-auto-flow: row
+  grid-gap: 0px
+  margin: 0px
+
+  mediaquery:
+    "(max-width: 600px)":
+      grid-template-columns: repeat(2, 1fr)
+      grid-template-rows: repeat(5, 1fr)
+      grid-auto-flow: column
+# card_mod:
+#   style: |
+#     grid-layout #root {
+#       --masonry-view-card-margin: 0px;
+#     }
+
+cards:
+
+  #Living Room
+  - type: 'custom:button-card'
+    template:
+      - card_room
+      - green_on
+      - room_card_temperature_monitor
+    name: Living Room
+    icon: mdi:sofa
+    entity: binary_sensor.living_room_sensor
+    tap_action:
+      action: navigate
+      navigation_path: 'living-room'
+    triggers_update:
+      - sensor.living_room_temperature_monitor
+    variables:
+      label_use_temperature: true
+      label_use_brightness: false
+      temperature_monitor_entity_id: sensor.living_room_temperature_monitor
+      entity_1:
+        entity_id: light.living_room_lights
+        templates:
+          - yellow_on
+        tap_action:
+          action: toggle
+      entity_2:
+        entity_id: fan.living_room_fan
+        templates:
+          - blue_on
+        tap_action:
+          action: none
+      entity_3:
+        entity_id: sensor.ac_damper_living_room_state
+        templates:
+          - climate_room_button
+        tap_action:
+          action: call-service
+          service: script.toggle_dampers
+          service_data:
+            damper: climate.ac_damper_living_room
+      entity_4:
+        entity_id: media_player.living_room_tv
+        templates:
+          - purple_on
+
+
+  #Balcony
+  - type: 'custom:button-card'
+    template:
+      - card_room
+      - purple_on
+    name: Balcony
+    icon: mdi:string-lights
+    entity: binary_sensor.balcony_room_sensor
+    tap_action:
+      action: navigate
+      navigation_path: 'balcony'
+    variables:
+      label_use_temperature: true
+      label_use_brightness: false
+      entity_1:
+        entity_id: light.balcony_lights
+        templates:
+          - yellow_on
+      entity_2:
+        entity_id: fan.balcony_fan
+        templates:
+          - blue_on
+      entity_3:
+        entity_id: media_player.balcony_tv
+        templates:
+          - purple_on
+      entity_4:
+        entity_id: binary_sensor.balcony_window
+        templates:
+          - window_room_button
+
+
+  #Kitchen
+  - type: 'custom:button-card'
+    template:
+      - card_room
+      - blue_on
+      - room_card_temperature_monitor
+    name: Kitchen
+    icon: mdi:faucet-variant
+    entity: binary_sensor.kitchen_room_sensor
+    tap_action:
+      action: navigate
+      navigation_path: 'living-room'
+    triggers_update:
+      - sensor.living_room_temperature_monitor
+    variables:
+      label_use_temperature: true
+      label_use_brightness: false
+      temperature_monitor_entity_id: sensor.living_room_temperature_monitor
+      entity_1:
+        entity_id: light.kitchen_lights
+        templates:
+          - yellow_on
+        tap_action:
+          action: toggle
+      entity_2:
+        entity_id: binary_sensor.fridge
+        templates:
+          - blue_on
+        tap_action:
+          action: none
+      entity_3:
+        entity_id: binary_sensor.freezer
+        templates:
+          - purple_on
+        tap_action:
+          action: none
+      entity_4:
+        entity_id: binary_sensor.kitchen_window
+        templates:
+          - window_room_button
+        tap_action:
+          action: none
+
+  
+  #Toilet
+
+  - type: 'custom:button-card'
+    template:
+      - card_room
+      - red_on
+    name: Toilet
+    label: >
+      [[[ return entity.attributes.occupied == "on" ? "Occupied" : "Vacant" ]]]
+    icon: mdi:toilet
+    entity: binary_sensor.toilet_room_sensor
+    tap_action:
+      action: navigate
+      navigation_path: 'toilet'
+    variables:
+      label_use_temperature: false
+      label_use_brightness: false
+      entity_1:
+        entity_id: light.toilet_lights
+        templates:
+          - yellow_on
+      entity_2:
+        entity_id: switch.toilet_vent
+        templates:
+          - blue_on
+      entity_3:
+        entity_id: binary_sensor.toilet_occupancy
+        icon: mdi:account
+        templates:
+          - red_on
+      entity_4:
+        entity_id: binary_sensor.toilet_door
+        templates:
+          - green_on
+        tap_action:
+          action: none
+
+  #Bathroom
+  - type: 'custom:button-card'
+    template:
+      - card_room
+      - card_room_5_entities
+      - pink_on
+    name: Bathroom
+    label: >
+      [[[ return entity.attributes.showers + " Showers"; ]]]
+    icon: mdi:shower
+    entity: binary_sensor.bathroom_room_sensor
+    tap_action:
+      action: navigate
+      navigation_path: 'bathroom'
+    variables:
+      label_use_temperature: false
+      label_use_brightness: false
+      entity_1:
+        entity_id: light.bathroom_lights
+        templates:
+          - yellow_on
+      entity_2:
+        entity_id: switch.water_boiler
+        icon: mdi:water-boiler
+        templates:
+          - red_on
+      entity_3:
+        entity_id: switch.bathroom_heater
+        icon: mdi:radiator
+        templates:
+          - red_on
+      entity_4:
+        entity_id: binary_sensor.bathroom_window
+        templates:
+          - window_room_button
+        tap_action:
+          action: none
+      entity_5:
+        entity_id: binary_sensor.bathroom_door
+        templates:
+          - green_on
+        tap_action:
+          action: none
+
+  #Hallway
+  - type: 'custom:button-card'
+    template:
+      - card_room
+      - yellow_on
+    name: Hallway
+    icon: mdi:home-outline
+    entity: light.hallway_lights
+    show_label: false
+    tap_action:
+      action: navigate
+      navigation_path: 'hallway'
+    variables:
+      label_use_temperature: false
+      label_use_brightness: false
+      entity_1:
+        entity_id: light.hallway_front
+        templates:
+          - yellow_on
+      entity_2:
+        entity_id: light.hallway_back
+        templates:
+          - yellow_on
+
+
+
+  #Office
+  - type: 'custom:button-card'
+    template:
+      - card_room
+      - card_room_5_entities
+      - yellow_on
+      - room_card_temperature_monitor
+    name: Office
+    icon: mdi:monitor
+    entity: binary_sensor.office_room_sensor
+    tap_action:
+      action: navigate
+      navigation_path: 'office'
+    triggers_update:
+      - sensor.office_temperature_monitor
+    variables:
+      label_use_temperature: true
+      label_use_brightness: false
+      temperature_monitor_entity_id: sensor.office_temperature_monitor
+      entity_1:
+        entity_id: light.office_lights
+        templates:
+          - yellow_on
+        tap_action:
+          action: toggle
+      entity_2:
+        entity_id: sensor.ac_damper_office_state
+        templates:
+          - climate_room_button
+        tap_action:
+          action: call-service
+          service: script.toggle_dampers
+          service_data:
+            damper: climate.ac_damper_office
+      entity_3:
+        entity_id: group.office_devices_others
+        templates:
+          - purple_on
+        tap_action:
+          action: navigate
+          navigation_path: 'office'
+      entity_4:
+        entity_id: binary_sensor.office_window
+        templates:
+          - window_room_button
+        tap_action:
+          action: none
+      entity_5:
+        entity_id: binary_sensor.office_door
+        templates:
+          - green_on
+        tap_action:
+          action: none
+
+
+  #Guests
+  - type: 'custom:button-card'
+    template:
+      - card_room
+      - card_room_5_entities
+      - purple_on
+      - room_card_temperature_monitor
+    name: Guests
+    icon: mdi:account-multiple
+    entity: binary_sensor.guests_room_sensor
+    tap_action:
+      action: navigate
+      navigation_path: 'guests'
+    triggers_update:
+      - sensor.guests_temperature_monitor
+    variables:
+      label_use_temperature: true
+      label_use_brightness: false
+      temperature_monitor_entity_id: sensor.guests_temperature_monitor
+      entity_1:
+        entity_id: light.guests_lights
+        templates:
+          - yellow_on
+        tap_action:
+          action: toggle
+      entity_2:
+        entity_id: sensor.ac_damper_guests_state
+        templates:
+          - climate_room_button
+        tap_action:
+          action: call-service
+          service: script.toggle_dampers
+          service_data:
+            damper: climate.ac_damper_guests
+      entity_3:
+        entity_id: binary_sensor.big_freezer
+        templates:
+          - purple_on
+        tap_action:
+          action: none
+      entity_4:
+        entity_id: binary_sensor.guests_window
+        templates:
+          - window_room_button
+        tap_action:
+          action: none
+      entity_5:
+        entity_id: binary_sensor.guests_door
+        templates:
+          - green_on
+        tap_action:
+          action: none
+
+  #Riley
+  - type: 'custom:button-card'
+    template:
+      - card_room
+      - card_room_5_entities
+      - green_on
+      - room_card_temperature_monitor
+    name: Riley
+    icon: mdi:face-woman-outline
+    entity: binary_sensor.riley_room_sensor
+    tap_action:
+      action: navigate
+      navigation_path: 'riley'
+    lock:
+      enabled: >-
+        [[[ return
+        states["input_boolean.riley_is_sleeping"].state
+        == "on" ]]]
+      duration: 3
+    triggers_update:
+      - sensor.riley_temperature_monitor
+    variables:
+      label_use_temperature: true
+      label_use_brightness: false
+      temperature_monitor_entity_id: sensor.riley_temperature_monitor
+      entity_1:
+        entity_id: light.riley_lights
+        templates:
+          - yellow_on
+        tap_action:
+          action: toggle
+      entity_2:
+        entity_id: sensor.ac_damper_riley_state
+        templates:
+          - climate_room_button
+        tap_action:
+          action: call-service
+          service: script.toggle_dampers
+          service_data:
+            damper: climate.ac_damper_riley
+      entity_3:
+        entity_id: input_boolean.riley_is_sleeping
+        templates:
+          - riley_sleeping_room_button
+      entity_4:
+        entity_id: binary_sensor.riley_window
+        templates:
+          - window_room_button
+        tap_action:
+          action: none
+      entity_5:
+        entity_id: binary_sensor.riley_door
+        templates:
+          - green_on
+        tap_action:
+          action: none
+
+  #Bedroom
+  - type: 'custom:button-card'
+    template:
+      - card_room
+      - card_room_5_entities
+      - pink_on
+      - room_card_temperature_monitor
+    name: Bedroom
+    icon: mdi:bed-king-outline
+    entity: binary_sensor.bedroom_room_sensor
+    tap_action:
+      action: navigate
+      navigation_path: 'bedroom'
+    triggers_update:
+      - sensor.bedroom_temperature_monitor
+    variables:
+      label_use_temperature: true
+      label_use_brightness: false
+      temperature_monitor_entity_id: sensor.bedroom_temperature_monitor
+      entity_1:
+        entity_id: light.bedroom_lights
+        templates:
+          - yellow_on
+        tap_action:
+          action: toggle
+      entity_2:
+        entity_id: sensor.ac_damper_bedroom_state
+        templates:
+          - climate_room_button
+        tap_action:
+          action: call-service
+          service: script.toggle_dampers
+          service_data:
+            damper: climate.ac_damper_bedroom
+      entity_3:
+        entity_id: group.bedroom_devices_others
+        templates:
+          - purple_on
+        tap_action:
+          action: navigate
+          navigation_path: 'bedroom'
+      entity_4:
+        entity_id: binary_sensor.bedroom_window
+        templates:
+          - window_room_button
+        tap_action:
+          action: none
+      entity_5:
+        entity_id: binary_sensor.bedroom_door
+        templates:
+          - green_on
+        tap_action:
+          action: none

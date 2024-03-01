@@ -3,4 +3,6 @@ type: picture-glance
 entities: []
 camera_image: camera.bedroom
 aspect_ratio: 1.33
+mode: mse
 intersection: 0
+muted: true

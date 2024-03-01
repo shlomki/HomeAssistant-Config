@@ -1,0 +1,8 @@
+automation:
+  - alias: 'Set Home Assistant theme at startup'
+    trigger:
+      platform: homeassistant
+      event: start
+    action:
+      service: frontend.set_theme
+      data: minimalist-desktop

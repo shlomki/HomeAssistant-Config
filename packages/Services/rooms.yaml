@@ -1,0 +1,129 @@
+group:
+  Living Room Devices Others:
+    icon: mdi:dots-horizontal
+    entities:
+      - media_player.living_room_tv
+      - fan.living_room_fan
+
+  Living Room Devices All:
+    entities:
+      - light.living_room_lights
+      - climate.ac_damper_living_room
+      - group.living_room_devices_others
+
+  Kitchen Room Devices All:
+    entities:
+      - light.kitchen_lights
+      - binary_sensor.fridge
+      - binary_sensor.freezer
+
+  Balcony Devices All:
+    entities:
+      - light.balcony_lights
+      - fan.balcony_fan
+      - media_player.balcony_tv
+
+  Bathroom Devices All:
+    entities:
+      - light.bathroom_lights    
+      - switch.water_boiler
+      - switch.bathroom_heater
+
+  Toilet Devices All:
+    entities:
+      - light.toilet_lights    
+      - switch.toilet_vent
+      - binary_sensor.toilet_occupancy
+
+  Office Devices All:
+    icon: mdi:dots-horizontal
+    entities:
+      - light.office_lights
+      - climate.ac_damper_office
+      - group.office_devices_others
+
+  Office Devices Others:
+    icon: mdi:dots-horizontal
+    entities:
+      - switch.shlomi_pc
+      - fan.office_fan
+
+  Guests Devices All:
+    entities:
+      - light.guests_lights
+      - binary_sensor.big_freezer
+      - climate.ac_damper_guests
+
+  Riley Devices All:
+    entities:
+      - light.riley_lights
+      - climate.ac_damper_riley
+      - switch.riley_heater
+
+
+  Bedroom Devices Others:
+    icon: mdi:dots-horizontal
+    entities:
+      - fan.bedroom_fan
+      - media_player.bedroom_tv
+
+  Bedroom Devices All:
+    entities:
+      - light.bedroom_lights
+      - climate.ac_damper_bedroom
+      - group.bedroom_devices_others
+
+template:
+  - binary_sensor:
+    - name: "Living Room Sensor"
+      state: "{{ expand('group.living_room_devices_all') | selectattr('state', 'in', [ 'on', 'fan_only' ]) | list | count > 0 }}"
+      attributes:
+        temperature: "{{ states('sensor.living_room_climate_temperature') }}"
+
+  - binary_sensor:
+    - name: "Balcony Room Sensor"
+      state: "{{ expand('group.balcony_devices_all') | selectattr('state', 'in', [ 'on', 'fan_only' ]) | list | count > 0 }}"
+      attributes:
+        temperature: "{{ states('sensor.outside_climate_temperature') }}"
+
+  - binary_sensor:
+    - name: "Kitchen Room Sensor"
+      state: "{{ expand('group.kitchen_room_devices_all') | selectattr('state', 'in', [ 'on', 'fan_only' ]) | list | count > 0 }}"
+      attributes:
+        temperature: "{{ states('sensor.living_room_climate_temperature') }}"
+
+  - binary_sensor:
+    - name: "Bathroom Room Sensor"
+      state: "{{ expand('group.bathroom_devices_all') | selectattr('state', 'in', [ 'on', 'fan_only' ]) | list | count > 0 }}"
+      attributes:
+        showers: "{{ states('sensor.hot_showers_available') }}"
+
+  - binary_sensor:
+    - name: "Toilet Room Sensor"
+      state: "{{ expand('group.toilet_devices_all') | selectattr('state', 'in', [ 'on', 'fan_only' ]) | list | count > 0 }}"
+      attributes:
+        occupied: "{{ states('binary_sensor.toilet_occupancy') }}"
+
+  - binary_sensor:
+    - name: "Office Room Sensor"
+      state: "{{ expand('group.office_devices_all') | selectattr('state', 'in', [ 'on', 'fan_only' ]) | list | count > 0 }}"
+      attributes:
+        temperature: "{{ states('sensor.office_climate_temperature') }}"
+
+  - binary_sensor:
+    - name: "Guests Room Sensor"
+      state: "{{ expand('group.guests_devices_all') | selectattr('state', 'in', [ 'on', 'fan_only' ]) | list | count > 0 }}"
+      attributes:
+        temperature: "{{ states('sensor.guests_climate_temperature') }}"
+
+  - binary_sensor:
+    - name: "Riley Room Sensor"
+      state: "{{ expand('group.riley_devices_all') | selectattr('state', 'in', [ 'on', 'fan_only' ]) | list | count > 0 }}"
+      attributes:
+        temperature: "{{ states('sensor.riley_climate_temperature') }}"
+
+  - binary_sensor:
+    - name: "Bedroom Room Sensor"
+      state: "{{ expand('group.bedroom_devices_all') | selectattr('state', 'in', [ 'on', 'fan_only' ]) | list | count > 0 }}"
+      attributes:
+        temperature: "{{ states('sensor.bedroom_climate_temperature') }}"

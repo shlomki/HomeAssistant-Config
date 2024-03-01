@@ -24,6 +24,38 @@ sensor:
         friendly_name: AC State
         value_template: "{{ states(states('input_text.ac_entity_id')) + '_' + states('group.dampers') }}"
 
+  - platform: template
+    sensors:
+      ac_damper_living_room_state:
+        friendly_name: AC Damper Living Room State
+        value_template: "{{ states(states('input_text.ac_entity_id')) + '_' + states('climate.ac_damper_living_room') }}"
+
+  - platform: template
+    sensors:
+      ac_damper_office_state:
+        friendly_name: AC Damper Office State
+        value_template: "{{ states(states('input_text.ac_entity_id')) + '_' + states('climate.ac_damper_office') }}"
+
+  - platform: template
+    sensors:
+      ac_damper_guests_state:
+        friendly_name: AC Damper Guests State
+        value_template: "{{ states(states('input_text.ac_entity_id')) + '_' + states('climate.ac_damper_guests') }}"
+
+  - platform: template
+    sensors:
+      ac_damper_riley_state:
+        friendly_name: AC Damper Riley State
+        value_template: "{{ states(states('input_text.ac_entity_id')) + '_' + states('climate.ac_damper_riley') }}"
+
+  - platform: template
+    sensors:
+      ac_damper_bedroom_state:
+        friendly_name: AC Damper Bedroom State
+        value_template: "{{ states(states('input_text.ac_entity_id')) + '_' + states('climate.ac_damper_bedroom') }}"
+
+
+
 climate:
   - platform: smartir
     name: Living Room AC
@@ -86,8 +118,11 @@ script:
     alias: Toggle Dampers
     mode: queued
     sequence:
-      - service: homeassistant.turn_{{ 'on' if is_state('group.dampers', 'off') else 'off' }}
-        entity_id: group.dampers
+      - variables:
+          damper: "{{ 'group.dampers' if damper == '' else damper }}"
+      - service: "homeassistant.turn_{{ 'on' if is_state(damper, 'off') else 'off' }}"
+        data:
+          entity_id: "{{ damper }}"
 
 input_boolean:
   ac_damper_living_room_need_update:
@@ -313,24 +348,22 @@ automation:
         to:
           - "off"
           - "fan_only"
-        for:
-          seconds: 3
 
       - platform: state
         entity_id:
           - climate.ac_damper_living_room
         attribute: temperature
-        for:
-          seconds: 3
 
       - platform: state
         entity_id:
           - climate.ac_damper_living_room
         attribute: fan_mode
-        for:
-          seconds: 3
 
     action:
+      - alias: "Wait 3 seconds before starting"
+        delay:
+          seconds: 3
+  
       - alias: "Repeat transmission 3 times with 3 seconds delay"
         repeat:
           count: "{{ 3 }}"
@@ -354,24 +387,23 @@ automation:
         to:
           - "off"
           - "fan_only"
-        for:
-          seconds: 3
 
       - platform: state
         entity_id:
           - climate.ac_damper_office
         attribute: temperature
-        for:
-          seconds: 3
 
       - platform: state
         entity_id:
           - climate.ac_damper_office
         attribute: fan_mode
-        for:
-          seconds: 3
+
 
     action:
+      - alias: "Wait 3 seconds before starting"
+        delay:
+          seconds: 3
+
       - alias: "Repeat transmission 3 times with 3 seconds delay"
         repeat:
           count: "{{ 3 }}"
@@ -395,24 +427,22 @@ automation:
         to:
           - "off"
           - "fan_only"
-        for:
-          seconds: 3
 
       - platform: state
         entity_id:
           - climate.ac_damper_guests
         attribute: temperature
-        for:
-          seconds: 3
 
       - platform: state
         entity_id:
           - climate.ac_damper_guests
         attribute: fan_mode
-        for:
-          seconds: 3
 
     action:
+      - alias: "Wait 3 seconds before starting"
+        delay:
+          seconds: 3
+
       - alias: "Repeat transmission 3 times with 3 seconds delay"
         repeat:
           count: "{{ 3 }}"
@@ -436,24 +466,22 @@ automation:
         to:
           - "off"
           - "fan_only"
-        for:
-          seconds: 3
 
       - platform: state
         entity_id:
           - climate.ac_damper_riley
         attribute: temperature
-        for:
-          seconds: 3
 
       - platform: state
         entity_id:
           - climate.ac_damper_riley
         attribute: fan_mode
-        for:
-          seconds: 3
 
     action:
+      - alias: "Wait 3 seconds before starting"
+        delay:
+          seconds: 3
+
       - alias: "Repeat transmission 3 times with 3 seconds delay"
         repeat:
           count: "{{ 3 }}"
@@ -477,24 +505,22 @@ automation:
         to:
           - "off"
           - "fan_only"
-        for:
-          seconds: 3
 
       - platform: state
         entity_id:
           - climate.ac_damper_bedroom
         attribute: temperature
-        for:
-          seconds: 3
 
       - platform: state
         entity_id:
           - climate.ac_damper_bedroom
         attribute: fan_mode
-        for:
-          seconds: 3
 
     action:
+      - alias: "Wait 3 seconds before starting"
+        delay:
+          seconds: 3
+
       - alias: "Repeat transmission 3 times with 3 seconds delay"
         repeat:
           count: "{{ 3 }}"
@@ -562,3 +588,242 @@ automation:
           fan_mode: auto
         target:
           entity_id: climate.mainac
+
+############################################
+######### Open door notifications  #########
+############################################
+
+#Living room
+#Bathroom door is open
+#Balcony window is open
+#Kitchen window is open
+#Room doors open while their ac is off
+
+  - id: AC Dampers Notification Living Room
+    alias: AC Dampers Notification Living Room
+    mode: restart
+    trigger:
+
+      # Living Room AC turned on
+      # - id: ac
+      #   platform: state
+      #   entity_id: climate.ac_damper_living_room
+      #   from: "off"
+      #   to: "fan_only"
+      #   for:
+      #     minutes: 5
+
+      # Windows were opened
+      - id: windows
+        platform: state
+        entity_id: 
+          - binary_sensor.balcony_window
+          - binary_sensor.kitchen_window
+        from: "off"
+        to: "on"
+        for:
+          minutes: 5
+        
+      # Doors were opened
+      - id: doors
+        platform: state
+        entity_id: 
+          - binary_sensor.office_door
+          - binary_sensor.guests_door
+          - binary_sensor.bathroom_door
+          - binary_sensor.riley_door
+          - binary_sensor.bedroom_door
+        from: "off"
+        to: "on"
+        for:
+          minutes: 5
+
+    variables:
+      balcony_window_open: "{{ 'חלון המרפסת' if is_state('binary_sensor.balcony_window', 'on') else '' }}"
+      kitchen_window_open: "{{ 'חלון המטבח' if is_state('binary_sensor.kitchen_window', 'on') else '' }}"
+
+      office_door_open: "{{ 'דלת חדר העבודה' if (is_state('binary_sensor.office_door', 'on') and is_state('climate.ac_damper_office', 'off')) else '' }}"
+      guests_door_open: "{{ 'דלת חדר האורחים' if is_state('binary_sensor.guests_door', 'on') and is_state('climate.ac_damper_guests', 'off') else '' }}"
+      bathroom_door_open: "{{ 'דלת המקלחת' if is_state('binary_sensor.bathroom_door', 'on') else '' }}"
+      riley_door_open: "{{ 'דלת חדר ריילי' if is_state('binary_sensor.riley_door', 'on') and is_state('climate.ac_damper_riley', 'off') else '' }}"
+      bedroom_door_open: "{{ 'דלת חדר ההורים' if is_state('binary_sensor.bedroom_door', 'on') and is_state('climate.ac_damper_bedroom', 'off') else '' }}"
+
+      full_list: "{{ [balcony_window_open, kitchen_window_open, office_door_open, guests_door_open, bathroom_door_open, riley_door_open, bedroom_door_open] | select('ne', '') | join (', ') }}"
+
+    condition:
+      - and:
+        - alias: "Living Room AC is on"
+          condition: state
+          entity_id: climate.ac_damper_living_room
+          state: fan_only
+
+        - alias: "Windows or doors are open"
+          condition: template
+          value_template: "{{ balcony_window_open != '' or kitchen_window_open != '' or office_door_open != '' or guests_door_open != '' or bathroom_door_open != '' or riley_door_open != '' or bedroom_door_open != '' }}"
+
+    action:
+      - service: "tts.cloud_say"
+        data:
+          entity_id: media_player.announcements
+          message: "היי, המזגן דולק. נא לסגור את {{ full_list }}. זה בית משפחת גרין, אז בואו נהייה ירוקים לסביבה."
+          language: "he-IL"
+
+
+      # - wait_template: "{{ balcony_window_open == '' and kitchen_window_open == '' and office_door_open == '' and guests_door_open == '' and bathroom_door_open == '' and riley_door_open == '' and bedroom_door_open == '' }}"
+      #   timeout:
+      #     seconds: 30
+      #   continue_on_timeout: true
+
+      # - if: 
+      #     #Everything was closed in time
+      #     - condition: template
+      #       value_template: "{{ wait.remaining > 0 }}" #If there was time remaining in the timeout
+      #   then: 
+      #     #Congratulate
+      #     - service: "tts.cloud_say"
+      #       data:
+      #         entity_id: media_player.announcements
+      #         message: "כל הכבוד לכם. עכשיו אתם גרינים של כבוד."
+      #         language: "he-IL"
+      #   else:
+      #     #Remind
+      #     - service: "tts.cloud_say"
+      #       data:
+      #         entity_id: media_player.announcements
+      #         message: "היי, המזגן דולק. נא לסגור את {{ full_message }}. זה בית משפחת גרין, אז בואו נהייה ירוקים לסביבה."
+      #         language: "he-IL"
+
+     
+
+#Rooms
+#Door is open while ac is on and it's not 
+
+
+switch:
+  - platform: template
+    switches:
+      ac_damper_living_room:
+        value_template: "{{ is_state('climate.ac_damper_living_room', 'fan_only') }}"
+        turn_on:
+          service: climate.turn_on
+          target:
+            entity_id: climate.ac_damper_living_room
+        turn_off:
+          service: climate.turn_off
+          target:
+            entity_id: climate.ac_damper_living_room
+        icon_template: >-
+          {% if is_state('climate.mainac', 'heat') %}
+            mdi:heat-wave
+          {% elif is_state('climate.mainac', 'cool') %}
+            mdi:snowflake
+          {% elif is_state('climate.mainac', 'fan_only') %}
+            mdi:fan
+          {% elif is_state('climate.mainac', 'auto') %}
+            mdi:thermometer-auto
+          {% elif is_state('climate.mainac', 'dry') %}
+            mdi:water-percent
+          {% else %}
+            mdi:power-plug-off-outline
+          {% endif %}
+
+      ac_damper_office:
+        value_template: "{{ is_state('climate.ac_damper_office', 'fan_only') }}"
+        turn_on:
+          service: climate.turn_on
+          target:
+            entity_id: climate.ac_damper_office
+        turn_off:
+          service: climate.turn_off
+          target:
+            entity_id: climate.ac_damper_office
+        icon_template: >-
+          {% if is_state('climate.mainac', 'heat') %}
+            mdi:heat-wave
+          {% elif is_state('climate.mainac', 'cool') %}
+            mdi:snowflake
+          {% elif is_state('climate.mainac', 'fan_only') %}
+            mdi:fan
+          {% elif is_state('climate.mainac', 'auto') %}
+            mdi:thermometer-auto
+          {% elif is_state('climate.mainac', 'dry') %}
+            mdi:water-percent
+          {% else %}
+            mdi:power-plug-off-outline
+          {% endif %}
+
+      ac_damper_guests:
+        value_template: "{{ is_state('climate.ac_damper_guests', 'fan_only') }}"
+        turn_on:
+          service: climate.turn_on
+          target:
+            entity_id: climate.ac_damper_guests
+        turn_off:
+          service: climate.turn_off
+          target:
+            entity_id: climate.ac_damper_guests
+        icon_template: >-
+          {% if is_state('climate.mainac', 'heat') %}
+            mdi:heat-wave
+          {% elif is_state('climate.mainac', 'cool') %}
+            mdi:snowflake
+          {% elif is_state('climate.mainac', 'fan_only') %}
+            mdi:fan
+          {% elif is_state('climate.mainac', 'auto') %}
+            mdi:thermometer-auto
+          {% elif is_state('climate.mainac', 'dry') %}
+            mdi:water-percent
+          {% else %}
+            mdi:power-plug-off-outline
+          {% endif %}
+
+
+      ac_damper_riley:
+        value_template: "{{ is_state('climate.ac_damper_riley', 'fan_only') }}"
+        turn_on:
+          service: climate.turn_on
+          target:
+            entity_id: climate.ac_damper_riley
+        turn_off:
+          service: climate.turn_off
+          target:
+            entity_id: climate.ac_damper_living_room
+        icon_template: >-
+          {% if is_state('climate.mainac', 'heat') %}
+            mdi:heat-wave
+          {% elif is_state('climate.mainac', 'cool') %}
+            mdi:snowflake
+          {% elif is_state('climate.mainac', 'fan_only') %}
+            mdi:fan
+          {% elif is_state('climate.mainac', 'auto') %}
+            mdi:thermometer-auto
+          {% elif is_state('climate.mainac', 'dry') %}
+            mdi:water-percent
+          {% else %}
+            mdi:power-plug-off-outline
+          {% endif %}
+
+      ac_damper_bedroom:
+        value_template: "{{ is_state('climate.ac_damper_bedroom', 'fan_only') }}"
+        turn_on:
+          service: climate.turn_on
+          target:
+            entity_id: climate.ac_damper_bedroom
+        turn_off:
+          service: climate.turn_off
+          target:
+            entity_id: climate.ac_damper_bedroom
+        icon_template: >-
+          {% if is_state('climate.mainac', 'heat') %}
+            mdi:heat-wave
+          {% elif is_state('climate.mainac', 'cool') %}
+            mdi:snowflake
+          {% elif is_state('climate.mainac', 'fan_only') %}
+            mdi:fan
+          {% elif is_state('climate.mainac', 'auto') %}
+            mdi:thermometer-auto
+          {% elif is_state('climate.mainac', 'dry') %}
+            mdi:water-percent
+          {% else %}
+            mdi:power-plug-off-outline
+          {% endif %}

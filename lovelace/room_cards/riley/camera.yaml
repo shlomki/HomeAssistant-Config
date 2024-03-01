@@ -1,4 +1,13 @@
 type: 'custom:webrtc-camera'
-entity: camera.riley
-intersection: 0
 mode: mse
+intersection: 0
+muted: true
+ui: true
+
+streams:
+  - entity: camera.riley_main
+    name: HD
+    
+  - entity: camera.riley_sub
+    name: SD
+    

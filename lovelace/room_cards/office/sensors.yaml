@@ -1,0 +1,15 @@
+type: custom:mushroom-chips-card
+alignment: center
+chips:
+
+  - type: entity
+    entity: binary_sensor.office_door
+    content_info: name
+    name: Door
+    icon_color: green
+
+  - type: entity
+    entity: binary_sensor.office_window
+    content_info: name
+    name: Window
+    icon_color: blue
