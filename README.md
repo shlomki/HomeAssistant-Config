@@ -23,14 +23,17 @@ This is the base directory for the configuration. The files are:
  - **Lights** - Anything regarding the lights around the house.
  - **Services** - External services and helpers such as telegram, Google Maps, etc.
 
-# Overview & Screenshots
+# Screenshots
 
 ## The Home Screen
-Tablet:
+Tablet (a dashboard for quick control of lights, AC and other devices in all areas of the house):
 ![Home Screen - Tablet](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/tablet_homescreen.png?raw=true)
+
+Mobile:
 ![Home Screen- Mobile](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/mobile_homescreen.png?raw=true)
 ![Power](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/power.png?raw=true)
 ![Lights](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/lights.png?raw=true)
+![Air Conditioning](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/air_conditioning.png?raw=true)
 ![Guest Mode](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/guest_mode.png?raw=true)
 ![Shower](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/shower.png?raw=true)
 ![Rooms](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/rooms.png?raw=true)
