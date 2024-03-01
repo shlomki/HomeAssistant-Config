@@ -1,87 +1,152 @@
-type: horizontal-stack
+type: vertical-stack
 cards:
-  - type: custom:button-card
-    template: ha-button
-    icon: mdi:water-boiler
-    name: Boiler
-    entity: switch.water_boiler_with_timer
-    tap_action:
-      action: toggle
-    styles:
-      label:
-        - font-size: 10px
-    show_label: true
-    label: >
-      [[[ 
-        if (states['binary_sensor.water_boiler_was_on_today'].state == 'on') {
-          return '<div>On for ' + states["sensor.water_boiler_metrics_duration_last_time"].state + '</div>' +
-          ((states['switch.water_boiler'].state == 'off') ? '<div>' + states["sensor.water_boiler_metrics_time_since_finished"].state + ' ago' : '') + '</div>'; 
-          } ]]]
-      
 
-  - type: grid
-    columns: 2
-    square: false
+  - type: custom:button-card
+    template: title
+    name: Water Boiler
+
+
+  - type: custom:mushroom-chips-card
+    alignment: center
+    chips:
+
+      - type: template
+        icon: mdi:shower
+        content: "{{ states('sensor.hot_showers_available') }} Showers"
+        entity: sensor.hot_showers_available
+
+      - type: template
+        entity: switch.water_boiler_with_hot_shower_check
+        icon:  |
+          {% if is_state('binary_sensor.water_boiler_was_on_today', 'on') %}
+            mdi:timer-outline
+          {% else %} 
+            mdi:solar-power-variant-outline
+          {% endif %}
+        content: |
+          {% if is_state('binary_sensor.water_boiler_was_on_today', 'on') %}
+            On for {{ states('sensor.water_boiler_metrics_duration_last_time') }}
+            {% if is_state('switch.water_boiler', 'off') %}
+              ({{ states('sensor.water_boiler_metrics_time_since_finished') }} ago)
+            {% endif %}
+            {% else %}
+            Solar only
+          {% endif %}
+
+  - type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-template-columns: 1fr 4fr
+      grid-auto-flow: row
+      grid-gap: 0px
+  
     cards:
+
       - type: custom:button-card
-        template: timer-button
-        name: 30m
-        entity: input_number.water_boiler_timer_duration
-        variables:
-          value: 30
-      - type: custom:button-card
-        template: timer-button
-        name: 45m
-        entity: input_number.water_boiler_timer_duration
-        variables:
-          value: 45
-      - type: custom:button-card
-        template: timer-button
-        name: 1H
-        entity: input_number.water_boiler_timer_duration
-        variables:
-          value: 60
-      - type: custom:button-card
-        template: timer-button
-        name: 2H
-        entity: input_number.water_boiler_timer_duration
-        variables:
-          value: 120
+        template: 
+          - ha-button
+          - red_on
+          - fill_container
+        icon: mdi:power
+        name: Boiler
+        entity: switch.water_boiler_with_hot_shower_check
+        tap_action:
+          action: toggle
+        hold_action:
+          action: more-info
+
+      - type: conditional
+        conditions:
+          - entity: input_select.water_boiler_heating_method
+            state: "By Showers"
+        card:
+          type: vertical-stack
+          cards:
+            - type: "custom:button-card"
+              template: card_input_number
+              entity: input_number.water_boiler_wanted_showers
+              icon: mdi:fire
+              variables:
+                ulm_card_input_number_name: "Choose showers"
+              custom_fields:
+                item1:
+                  card:
+                    show_last_changed: false
+                    label: How many would you like?
+
+            - type: horizontal-stack
+              cards:
+                - type: "custom:button-card"
+                  name: Use timer instead
+                  tap_action:
+                    action: call-service
+                    service: input_select.select_next
+                    service_data:
+                      entity_id: input_select.water_boiler_heating_method
+                      cycle: true
+
+      - type: conditional
+        conditions:
+          - entity: input_select.water_boiler_heating_method
+            state: "By Timer"
+        card:
+          type: vertical-stack
+          cards:
+            - type: "custom:button-card"
+              template: card_input_number
+              entity: input_number.water_boiler_timer_duration
+              variables:
+                ulm_card_input_number_name: "Set time limit"
+              custom_fields:
+                item1:
+                  card:
+                    show_last_changed: false
+                    label: How long should the boiler run?
+                  
+            - type: horizontal-stack
+              cards:
+                - type: "custom:button-card"
+                  name: Choose showers instead
+                  tap_action:
+                    action: call-service
+                    service: input_select.select_next
+                    service_data:
+                      entity_id: input_select.water_boiler_heating_method
+                      cycle: true
 
   - type: custom:button-card
-    template: ha-button
-    icon: mdi:radiator
+    template: title
     name: Heater
-    entity: switch.bathroom_heater
-    tap_action:
-      action: toggle
-    hold_action:
-      action: more-info
-  - type: grid
-    columns: 2
-    square: false
+
+  - type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-template-columns: 1fr 4fr
+      grid-auto-flow: row
+      grid-gap: 0px
     cards:
+
       - type: custom:button-card
-        template: timer-button
-        name: 10m
+        template: 
+          - ha-button
+          - red_on
+          - fill_container
+        icon: mdi:radiator
+        name: Heater
+        entity: switch.bathroom_heater
+        tap_action:
+          action: toggle
+        hold_action:
+          action: more-info
+
+      - type: "custom:button-card"
+        template: card_input_number
         entity: input_number.bathroom_heater_timer_duration
         variables:
-          value: 10
-      - type: custom:button-card
-        template: timer-button
-        name: 20m
-        entity: input_number.bathroom_heater_timer_duration
-        variables:
-          value: 20
-      - type: custom:button-card
-        template: timer-button
-        name: 30m
-        entity: input_number.bathroom_heater_timer_duration
-        variables:
-          value: 30
-      - type: custom:button-card
-        template: timer-button
-        name: 40m
-        entity: input_number.bathroom_heater_timer_duration
-        variables:
-          value: 40
+          ulm_card_input_number_name: "Set time limit"
+        custom_fields:
+          item1:
+            card:
+              show_last_changed: false
+              label: How long should the heater run?
+

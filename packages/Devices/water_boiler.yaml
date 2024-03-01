@@ -1,3 +1,10 @@
+input_select:
+  water_boiler_heating_method:
+    name: Water Boiler Heating Method
+    options:
+      - By Showers
+      - By Timer
+
 input_datetime:
   water_boiler_last_on:
     has_date: true
@@ -5,6 +12,45 @@ input_datetime:
   water_boiler_last_off:
     has_date: true
     has_time: true
+
+input_number:
+  water_boiler_wanted_showers:
+    name: Water Boiler Wanted Showers
+    min: 1
+    max: 5
+    step: 1
+
+  water_boiler_temperature_middle_static_adjustment:
+    name: Water Boiler Temp Middle Static Adjustment
+    min: 0
+    max: 100
+    step: 0.1
+
+  water_boiler_temperature_middle_adjustment_amount:
+    name: Water Boiler Temp Middle Adjustment Amount
+    min: 0
+    max: 50
+    step: 0.1
+
+input_button:
+  water_boiler_wanted_showers_more:
+    name: יותר
+    icon: mdi:plus
+
+  water_boiler_wanted_showers_less:
+    name: פחות
+    icon: mdi:minus
+
+  water_boiler_timer_more:
+    name: יותר
+    icon: mdi:plus
+
+  water_boiler_timer_less:
+    name: פחות
+    icon: mdi:minus
+
+input_boolean:
+  water_boiler_temperature_middle_adjustment:
 
 automation:
   - id: Water Boiler - Save On Off Time
@@ -36,24 +82,250 @@ automation:
     action:
       - service: notify.bffs
         data:
-          message: 'Water boiler finished after {{ states("sensor.water_boiler_metrics_duration_last_time") }}! Have a nice shower :)'
+          message: 'Water boiler finished after {{ states("sensor.water_boiler_metrics_duration_last_time") }}! {{ states("sensor.hot_showers_available_english") }} available. Have a nice shower :)'
 
-  - id: Water Boiler - Update Timer
-    alias: Water Boiler - Update Timer
+  - id: Water Boiler - Select Method
+    alias: Water Boiler - Select Method
     trigger:
       - platform: state
+        entity_id: input_number.water_boiler_wanted_showers
+        id: showers
+      - platform: state
         entity_id: input_number.water_boiler_timer_duration
+        id: timer
+    action:
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.water_boiler_heating_method
+        data:
+          option: "By {{ trigger.id | capitalize }}"
+
+  - id: Water Boiler - Adjust Middle Templerature Sensor
+    alias: Water Boiler - Adjust Middle Templerature Sensor
+    trigger:
+      #When boiler has been off for 5 minutes
+      - platform: state
+        entity_id: switch.water_boiler
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+        id: 'off'
+
+      - platform: state
+        entity_id: switch.water_boiler
+        from: 'off'
+        to: 'on'
+        id: 'on'
+
+      - platform: state
+        entity_id: switch.water_boiler
+        from: 'off'
+        to: 'on'
+        for:
+          minutes: 5
+        id: 'adjust_on'
+
+      - platform: state
+        entity_id: switch.water_boiler
+        from: 'on'
+        to: 'off'
+        id: 'adjust_off'
+
+    action:
+      - choose:
+          - conditions:
+            - alias: "Water boiler was turned on"
+              condition: template
+              value_template: "{{ trigger.id == 'on' }}"
+            sequence:
+              #Save the current temperature
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.water_boiler_temperature_middle_static_adjustment
+                data:
+                  value: "{{ states('sensor.water_boiler_temperature_middle') }}"
+
+              #Reset temperature adjustment amount
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.water_boiler_temperature_middle_adjustment_amount
+                data:
+                  value: "0"
+
+              #Start adjustment
+              - service: "input_boolean.turn_on"
+                data:
+                  entity_id: input_boolean.water_boiler_temperature_middle_adjustment
+
+          - conditions:
+            - alias: "Water boiler was turned on a few minutes ago and temp needs to be adjusted"
+              condition: template
+              value_template: "{{ trigger.id == 'adjust_on' }}"
+            sequence:
+              #Set temperature amount
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.water_boiler_temperature_middle_adjustment_amount
+                data:
+                  value: "{{ (states('sensor.water_boiler_temperature_middle') | float - states('input_number.water_boiler_temperature_middle_static_adjustment') | float) | round(1) }}"
+
+          - conditions:
+            - alias: "Water boiler was turned off"
+              condition: template
+              value_template: "{{ trigger.id == 'adjust_off' }}"
+            sequence:
+              #Save the current adjusted temperature
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.water_boiler_temperature_middle_static_adjustment
+                data:
+                  value: "{{ states('sensor.water_boiler_temperature_middle_adjusted') }}"
+
+              #Reset temperature adjustment amount
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.water_boiler_temperature_middle_adjustment_amount
+                data:
+                  value: "0"
+
+          - conditions:
+            - alias: "Water boiler was turned off 5 minutes ago"
+              condition: template
+              value_template: "{{ trigger.id == 'off' }}"
+            sequence:
+              #Stop adjustment
+              - service: "input_boolean.turn_off"
+                data:
+                  entity_id: input_boolean.water_boiler_temperature_middle_adjustment
+
+  - id: Water Boiler - Turn Off Boiler When Timer Ended
+    alias: Water Boiler - Turn Off Boiler When Timer Ended
+    mode: single
+    max_exceeded: silent
+
+    trigger:
+      - platform: state
+        entity_id: switch.water_boiler
+        from: "off"
+        to: "on"
+        for:
+          minutes: "{{ states('input_number.water_boiler_timer_duration') | int }}"
+
     condition:
+
+      - alias: "Selected Heating Method is By Timer"
+        condition: state
+        entity_id: input_select.water_boiler_heating_method
+        state: "By Timer"
+
       - alias: "Water Boiler is On"
         condition: state
         entity_id: switch.water_boiler
         state: "on"
+        for:
+          minutes: 10
+
     action:
-      - service: switcher_kis.turn_on_with_timer
+      - service: switch.turn_off
         target:
           entity_id: switch.water_boiler
+      - service: notify.shlomi
         data:
-          timer_minutes: "{{ states('input_number.water_boiler_timer_duration') | int }}"
+          message: Water boiler timer reached
+
+  - id: Water Boiler - Turn Off Boiler When Reached Wanted Showers
+    alias: Water Boiler - Turn Off Boiler When Reached Wanted Showers
+    mode: single
+    max_exceeded: silent
+
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.hot_showers_available
+        value_template: "{{ state.state | float - 0.2 }}"
+        above: input_number.water_boiler_wanted_showers
+
+      - platform: state
+        entity_id: switch.water_boiler
+        from: "off"
+        to: "on"
+        for:
+          minutes: 10
+
+    condition:
+
+      - alias: "Selected Heating Method is By Showers"
+        condition: state
+        entity_id: input_select.water_boiler_heating_method
+        state: "By Showers"
+
+      - condition: numeric_state
+        entity_id: sensor.hot_showers_available
+        value_template: "{{ state.state | float - 0.2 }}"
+        above: input_number.water_boiler_wanted_showers
+
+      - alias: "Water Boiler is On"
+        condition: state
+        entity_id: switch.water_boiler
+        state: "on"
+        for:
+          minutes: 10
+
+    action:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.water_boiler
+      - service: notify.shlomi
+        data:
+          message: Reached wanted showers
+  
+  - id: Water Boiler - Wanted Showers Input Buttons
+    alias: Water Boiler - Wanted Showers Input Buttons
+    trigger:
+      - platform: state
+        entity_id: 
+          - input_button.water_boiler_wanted_showers_more
+          - input_button.water_boiler_wanted_showers_less
+    action:
+      - choose: #If this isn't the selected heating method, change the method first
+          - conditions:
+              - condition: template
+                value_template: "{{ is_state('input_select.water_boiler_heating_method', 'By Timer') }}"
+            sequence:
+              - service: input_select.select_option
+                target:
+                  entity_id: input_select.water_boiler_heating_method
+                data:
+                  option: "By Showers"
+        default:
+          - service: "input_number.{{ 'increment' if trigger.to_state.entity_id | contains('more') else 'decrement' }}"
+            target:
+              entity_id: input_number.water_boiler_wanted_showers
+        
+  - id: Water Boiler - Timer Input Buttons
+    alias: Water Boiler - Timer Input Buttons
+    trigger:
+      - platform: state
+        entity_id: 
+          - input_button.water_boiler_timer_more
+          - input_button.water_boiler_timer_less
+    action:
+      - choose:
+          - conditions: #If this isn't the selected heating method, change the method first
+              - condition: template
+                value_template: "{{ is_state('input_select.water_boiler_heating_method', 'By Showers') }}"
+            sequence:
+              - service: input_select.select_option
+                target:
+                  entity_id: input_select.water_boiler_heating_method
+                data:
+                  option: "By Timer"
+
+        default:
+          - service: "input_number.{{ 'increment' if trigger.to_state.entity_id | contains('more') else 'decrement' }}"
+            target:
+              entity_id: input_number.water_boiler_timer_duration
+            
 
 sensor:
   - platform: history_stats
@@ -72,6 +344,35 @@ sensor:
     start: "{{ (now() | as_timestamp - 43200) | as_datetime }}"
     end: "{{ now() }}"
 
+  - platform: min_max
+    type: mean
+    name: Water Boiler Temperature
+    entity_ids:
+      - sensor.water_boiler_temperature_top
+      - sensor.water_boiler_temperature_middle_adjusted
+      - sensor.water_boiler_temperature_bottom
+
+  - platform: average
+    name: 'Water Boiler Temperature Top Average'
+    duration:
+      minutes: 25
+    entities:
+      - sensor.water_boiler_temperature_top
+
+  - platform: average
+    name: 'Water Boiler Temperature Middle Adjusted Average'
+    duration:
+      minutes: 25
+    entities:
+      - sensor.water_boiler_temperature_middle_adjusted
+
+  - platform: average
+    name: 'Water Boiler Temperature Bottom Average'
+    duration:
+      minutes: 25
+    entities:
+      - sensor.water_boiler_temperature_bottom
+
 template:
   - sensor:
     - name: "Water Boiler Metrics Duration Last Time"
@@ -79,6 +380,84 @@ template:
         {% set from_time = as_timestamp(now()) if is_state('switch.water_boiler', 'on') else state_attr('input_datetime.water_boiler_last_off', 'timestamp') %}
         {{ as_datetime(from_time - state_attr('input_datetime.water_boiler_last_on', 'timestamp')).strftime('%-Hh %-Mm') | regex_replace(find='^0h ', replace='') | regex_replace(find='\s+0m$', replace='') }}
 
+
+  - sensor:
+      #When the boiler is on, there is a spike of temperature around the middle sensor. At this point, we would like to adjust the sensor so we have a correct reading while the boiler is on.
+      #To adjust the sensor, a measurement is taken the moment the boiler was turned on, and another a few minutes after.
+      #The difference in temperature is saved and substracted from the sensor reading.
+    - name: "Water Boiler Temperature Middle Adjusted"
+      unit_of_measurement: °C
+      icon: mdi:thermometer
+      state: >
+        {% set middle = states('sensor.water_boiler_temperature_middle') | float %}
+        {% set middle_static_adjustment = states('input_number.water_boiler_temperature_middle_static_adjustment') | float %}
+        {% set middle_adjustment_amount = states('input_number.water_boiler_temperature_middle_adjustment_amount') | float %}
+        {% set adjustment_enabled = is_state('input_boolean.water_boiler_temperature_middle_adjustment', 'on') %}
+        
+        {% if adjustment_enabled and middle_adjustment_amount > 0 %}
+          {{ middle - middle_adjustment_amount }}
+        {% elif adjustment_enabled and middle_adjustment_amount == 0.0 %}
+          {{ middle_static_adjustment }}
+        {% else %}
+          {{ middle }}
+        {% endif %}
+
+  - sensor:
+    - name: "Hot Showers Available"
+      state_class: measurement
+      #Minimum degrees: 29. Number of Sensors: 3. Average shower degrees hit: 17.
+      state: |
+        {% set showers = ((states('sensor.water_boiler_temperature_top') | float + states('sensor.water_boiler_temperature_middle_adjusted') | float + states('sensor.water_boiler_temperature_bottom') | float - (29 * 3) ) / 17) | round(1) %}
+        {{ showers if showers > 0 else 0 }}
+
+    - name: "Hot Showers Available Average"
+      state_class: measurement
+      #Minimum degrees: 29. Number of Sensors: 3. Average shower degrees hit: 17.
+      state: |
+        {% set showers = ((states('sensor.water_boiler_temperature_top_average') | float + states('sensor.water_boiler_temperature_middle_adjusted_average') | float + states('sensor.water_boiler_temperature_bottom_average') | float - (29 * 3) ) / 17) | round(1) %}
+        {{ showers if showers > 0 else 0 }}
+
+  - sensor:
+    - name: "Water Boiler Wanted Showers"
+      state: "{{ states('input_number.water_boiler_wanted_showers') | int if is_state('input_select.water_boiler_heating_method', 'By Showers') else '-' }}"
+        
+    - name: "Hot Showers Available Hebrew"
+      state: |
+        {% set showers = states("sensor.hot_showers_available") | round (1) %}
+        {% if showers <= 0.4 %}
+        אין מים חמים בכלל
+        {% elif showers >= 0.5 and showers <= 0.8 %}
+        פחות ממקלחת אחת
+        {% elif showers >= 0.9 and showers <= 1.5 %}
+        מקלחת אחת
+        {% elif showers >= 1.6 and showers <= 1.8 %}
+        כמעט 2 מקלחות
+        {% elif showers >= 1.9 and showers <= 2.5 %}
+        2 מקלחות
+        {% elif showers >= 2.6 and showers <= 2.8 %}
+        כמעט 3 מקלחות
+        {% elif showers >= 2.9 %}
+        3 מקלחות או יותר
+        {% endif %}
+
+    - name: "Hot Showers Available English"
+      state: |
+        {% set showers = states("sensor.hot_showers_available") | round (1) %}
+        {% if showers <= 0.4 %}
+        No hot water
+        {% elif showers >= 0.5 and showers <= 0.8 %}
+        Less than 1 shower
+        {% elif showers >= 0.9 and showers <= 1.5 %}
+        1 shower
+        {% elif showers >= 1.6 and showers <= 1.8 %}
+        Almost 2 showers
+        {% elif showers >= 1.9 and showers <= 2.5 %}
+        2 showers
+        {% elif showers >= 2.6 and showers <= 2.8 %}
+        Almost 3 showes
+        {% elif showers >= 2.9 %}
+        3 or more showers
+        {% endif %}
 
   - trigger:
     - platform: time_pattern
@@ -103,16 +482,68 @@ template:
 switch:
   - platform: template
     switches:
-      water_boiler_with_timer:
-        unique_id: "Water Boiler With Timer"
+      water_boiler_with_hot_shower_check:
+        unique_id: "Water Boiler With Hot Shower Check"
         value_template: "{{ is_state('switch.water_boiler', 'on') }}"
         turn_on:
-          service: switcher_kis.turn_on_with_timer
-          target:
-            entity_id: switch.water_boiler
-          data:
-            timer_minutes: "{{ states('input_number.water_boiler_timer_duration') | int }}"
+          - if: #If number of showers was selected 
+              - alias: "If number of showers was selected"
+                condition: numeric_state
+                entity_id: input_number.water_boiler_wanted_showers
+                below: 5
+              - alias: "And number of showers has already been reached"
+                condition: template
+                value_template: "{{ states('input_number.water_boiler_wanted_showers') | float <= states('sensor.hot_showers_available') | float }}"
+            then:
+              - service: notify.shlomi
+                data:
+                  message: '{{ states("sensor.hot_showers_available") }} showers available. No need to run the boiler. Have a nice shower :)'       
+            else: #Then turn on the boiler
+              - service: switch.turn_on
+                entity_id: switch.water_boiler
+
         turn_off:
           service: switch.turn_off
           target:
             entity_id: switch.water_boiler
+
+# switch:
+#   - platform: template
+#     switches:
+#       water_boiler_with_timer:
+#         unique_id: "Water Boiler With Timer"
+#         value_template: "{{ is_state('switch.water_boiler', 'on') }}"
+#         turn_on:
+#           - if: #If timer is set to 180 minutes, don't use timer 
+#               - alias: "If timer is set to more than 150 minutes"
+#                 condition: numeric_state
+#                 entity_id: input_number.water_boiler_timer_duration
+#                 above: 150
+#             then: #Then turn the boiler on without a timer
+#               - service: switch.turn_on
+#                 entity_id: switch.water_boiler
+#             else:
+#               - service: switcher_kis.turn_on_with_timer
+#                 target:
+#                   entity_id: switch.water_boiler
+#                 data:
+#                   timer_minutes: "{{ states('input_number.water_boiler_timer_duration') | int }}"
+#         turn_off:
+#           service: switch.turn_off
+#           target:
+#             entity_id: switch.water_boiler
+
+# climate:
+#   - platform: generic_thermostat
+#     name: Water Boiler
+#     heater: switch.water_boiler
+#     target_sensor: sensor.water_boiler_temperature
+#     min_temp: 40
+#     max_temp: 70
+#     ac_mode: false
+#     cold_tolerance: 3
+#     hot_tolerance: 3
+#     min_cycle_duration:
+#       seconds: 5
+#     initial_hvac_mode: "off"
+#     precision: 1
