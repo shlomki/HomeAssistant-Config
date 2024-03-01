@@ -7,9 +7,11 @@ Feel free to browse.
 
 ## The Home Screen
 Tablet (a dashboard for quick control of lights, AC and other devices in all areas of the house):
+
 ![Home Screen - Tablet](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/tablet_homescreen.png?raw=true)
 
 Mobile:
+
 ![Home Screen- Mobile](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/mobile_homescreen.png?raw=true)
 ![Power](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/power.png?raw=true)
 ![Lights](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/lights.png?raw=true)
