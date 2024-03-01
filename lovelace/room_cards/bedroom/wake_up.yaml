@@ -1,0 +1,34 @@
+type: vertical-stack
+cards:
+
+  - type: horizontal-stack
+    cards:
+      - type: 'custom:time-picker-card'
+        entity: input_datetime.click_to_wake_up
+        hour_mode: 24
+        hide:
+          name: true
+
+      - type: 'custom:button-card'
+        template: 
+          - ha-button
+          - fill_container
+        icon: mdi:alarm-plus
+        entity: script.click_to_wake_up_add_a_new_schedule
+        name: Add
+        styles:
+          card:
+            - width: 60px
+
+  - type: custom:auto-entities
+    show_empty: false
+    card:
+      type: entities
+      title: Active Alarms
+      show_header_toggle: false
+    sort:
+      method: name
+    filter:
+      include: 
+        - entity_id: "*schedule_wake_up_at*"
+          domain: switch

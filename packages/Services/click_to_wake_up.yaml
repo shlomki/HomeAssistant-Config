@@ -1,0 +1,83 @@
+script:
+  click_to_wake_up:
+    alias: "Click to Wake Up"
+    variables:
+      original_automation_state: "{{ states('automation.bedroom_right_bed_switches_sync') }}"
+    sequence:
+      - service: automation.turn_off
+        entity_id: automation.bedroom_right_bed_switches_sync
+
+      - repeat:
+          count: 10
+          sequence:  
+            - service: switch.toggle
+              data:
+                entity_id: switch.bedroom_fan_toggle_right
+            - delay:
+                seconds: 1
+                
+      - service: "automation.turn_{{ original_automation_state }}"
+        entity_id: automation.bedroom_right_bed_switches_sync
+
+  click_to_wake_up_add_a_new_schedule:
+    alias: "Add a New Wake Up Schedule"
+    sequence:
+      - service: scheduler.add
+        data:
+          name: "Wake Up at {{ states('input_datetime.click_to_wake_up')[:-3] }}"
+          repeat_type: single
+          timeslots:
+            - start: "{{ states('input_datetime.click_to_wake_up') }}"
+              actions: 
+                entity_id: script.click_to_wake_up
+                service: script.turn_on
+
+input_datetime:
+  click_to_wake_up:
+    name: Wake Up Time
+    has_date: false
+    has_time: true
+
+
+automation:
+  - id: Click To Wake Up - Delete Disabled Schedules
+    alias: Click To Wake Up - Delete Disabled Schedules
+    trigger: 
+      #When a switch.turn_off event is called
+      - platform: event
+        event_type: "call_service"
+        event_data:
+          domain: switch
+          service: turn_off
+
+    condition:
+      #Check if the entity_id starts with 'switch.schedule_wake_up_at'
+      condition: template
+      value_template: "{{ trigger.event.data.service_data.entity_id is match('switch.schedule_wake_up_at', ignorecase=False) }}"
+
+    action:
+      #If it does, remove it
+      - service: scheduler.remove
+        data:
+          entity_id: "{{ trigger.event.data.service_data.entity_id }}"
+
+template:
+  # - trigger:
+  #     #When new entities are created or removed
+  #     - platform: event
+  #       event_type: "entity_registry_updated"
+  #       event_data:
+  #         action: create
+
+  #     - platform: event
+  #       event_type: "entity_registry_updated"
+  #       event_data:
+  #         action: remove
+
+  #     - platform: event
+  #       event_type: event_template_reloaded
+
+    binary_sensor:
+      # Keep track if any switches start with 'switch.schedule_wake_up_at'
+      - name: "Click to Wake Up Alarms Active"
+        state: "{{ states.switch | map(attribute='entity_id') | select('match', 'switch.schedule_wake_up_at_') | list | count > 0 }}"

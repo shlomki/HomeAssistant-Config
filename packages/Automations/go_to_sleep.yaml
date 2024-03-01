@@ -1,3 +1,4 @@
+
 input_boolean:
   go_to_sleep:
     name: Go to Sleep
@@ -11,22 +12,4 @@ script:
         data:
           media_content_id: 'https://storage.googleapis.com/relaxation-sounds/forest_3600.mp3'
           media_content_type: music
-
-  click_to_wake_up:
-      alias: "Click to Wake Up"
-      sequence:
-        - service: automation.turn_off
-          entity_id: automation.bedroom_fan_toggles
-
-        - repeat:
-            count: 6
-            sequence:  
-              - service: switch.toggle
-                data:
-                  entity_id: switch.bedroom_fan_toggle_right
-              - delay:
-                  seconds: 1
-                  
-        - service: automation.turn_on
-          entity_id: automation.bedroom_fan_toggles
 
