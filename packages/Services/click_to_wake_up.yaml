@@ -4,9 +4,11 @@ script:
     variables:
       original_automation_state: "{{ states('automation.bedroom_right_bed_switches_sync') }}"
     sequence:
+      #Decouple the switch from turning the lights on by disabling the automation
       - service: automation.turn_off
         entity_id: automation.bedroom_right_bed_switches_sync
 
+      #Turn the switch on & off 10 times to create a gentle clicking sound
       - repeat:
           count: 10
           sequence:  
@@ -16,9 +18,11 @@ script:
             - delay:
                 seconds: 1
                 
+      #Restore the original state of the automation
       - service: "automation.turn_{{ original_automation_state }}"
         entity_id: automation.bedroom_right_bed_switches_sync
 
+  #A script that adds a new schedule in the Scheduler integration according to the selected time in the UI
   click_to_wake_up_add_a_new_schedule:
     alias: "Add a New Wake Up Schedule"
     sequence:
@@ -40,6 +44,7 @@ input_datetime:
 
 
 automation:
+  #An automation that deletes disabled schedules
   - id: Click To Wake Up - Delete Disabled Schedules
     alias: Click To Wake Up - Delete Disabled Schedules
     trigger: 
@@ -62,6 +67,7 @@ automation:
           entity_id: "{{ trigger.event.data.service_data.entity_id }}"
 
 template:
+  #This trigger part doesn't work as expected yet so it's commented-out
   # - trigger:
   #     #When new entities are created or removed
   #     - platform: event
@@ -77,6 +83,7 @@ template:
   #     - platform: event
   #       event_type: event_template_reloaded
 
+    #Since the binary sensor monitors the entire switch domain, throttling will occur (up to 1 update per second).
     binary_sensor:
       # Keep track if any switches start with 'switch.schedule_wake_up_at'
       - name: "Click to Wake Up Alarms Active"
