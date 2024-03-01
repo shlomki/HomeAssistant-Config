@@ -1,0 +1,137 @@
+input_number:
+  room_humidity_min:
+    min: 0
+    max: 100
+    step: 1
+  room_humidity_max:
+    min: 0
+    max: 100
+    step: 1
+
+template:
+  - binary_sensor:
+      - name: Humidity Monitors Alert
+        state: >
+          {% set monitors = [ states('sensor.living_room_humidity_monitor'), states('sensor.office_humidity_monitor'), states('sensor.guests_humidity_monitor'), states('sensor.riley_humidity_monitor'), states('sensor.bedroom_humidity_monitor'), states('sensor.bedroom_closet_humidity_monitor') ] %}
+          {{ monitors | select( 'in', [ 'Very High', 'High', 'Low', 'Very Low' ]) | list | count > 0 }}
+
+
+  - sensor:
+      - name: Living Room Humidity Monitor
+        attributes:
+          humidity: "{{ states('sensor.living_room_climate_humidity') }}"
+        state: >
+          {% set humidity = states('sensor.living_room_climate_humidity') | float(50) %}
+          {% set humidity_max = states('input_number.room_humidity_max') | int(100) %}
+          {% set humidity_min = states('input_number.room_humidity_min') | int(0) %}
+          {% if humidity >= (humidity_max + 6) %}
+            Very High
+          {% elif humidity >= humidity_max %}
+            High
+          {% elif humidity <= humidity_min %}
+            Low
+          {% elif humidity <= (humidity_min - 6) %}
+            Very Low
+          {% else %}
+            Ok
+          {% endif %}
+
+  - sensor:
+      - name: Office Humidity Monitor
+        attributes:
+          humidity: "{{ states('sensor.office_climate_humidity') }}"
+        state: >
+          {% set humidity = states('sensor.office_climate_humidity') | float(50) %}
+          {% set humidity_max = states('input_number.room_humidity_max') | int(100) %}
+          {% set humidity_min = states('input_number.room_humidity_min') | int(0) %}
+          {% if humidity >= (humidity_max + 6) %}
+            Very High
+          {% elif humidity >= humidity_max %}
+            High
+          {% elif humidity <= humidity_min %}
+            Low
+          {% elif humidity <= (humidity_min - 6) %}
+            Very Low
+          {% else %}
+            Ok
+          {% endif %}
+
+  - sensor:
+      - name: Guests Humidity Monitor
+        attributes:
+          humidity: "{{ states('sensor.guests_climate_humidity') }}"
+        state: >
+          {% set humidity = states('sensor.guests_climate_humidity') | float(50) %}
+          {% set humidity_max = states('input_number.room_humidity_max') | int(100) %}
+          {% set humidity_min = states('input_number.room_humidity_min') | int(0) %}
+          {% if humidity >= (humidity_max + 6) %}
+            Very High
+          {% elif humidity >= humidity_max %}
+            High
+          {% elif humidity <= humidity_min %}
+            Low
+          {% elif humidity <= (humidity_min - 6) %}
+            Very Low
+          {% else %}
+            Ok
+          {% endif %}
+
+  - sensor:
+      - name: Riley Humidity Monitor
+        attributes:
+          humidity: "{{ states('sensor.riley_climate_humidity') }}"
+        state: >
+          {% set humidity = states('sensor.riley_climate_humidity') | float(50) %}
+          {% set humidity_max = states('input_number.room_humidity_max') | int(100) %}
+          {% set humidity_min = states('input_number.room_humidity_min') | int(0) %}
+          {% if humidity >= (humidity_max + 6) %}
+            Very High
+          {% elif humidity >= humidity_max %}
+            High
+          {% elif humidity <= humidity_min %}
+            Low
+          {% elif humidity <= (humidity_min - 6) %}
+            Very Low
+          {% else %}
+            Ok
+          {% endif %}
+
+  - sensor:
+      - name: Bedroom Humidity Monitor
+        attributes:
+          humidity: "{{ states('sensor.bedroom_climate_humidity') }}"
+        state: >
+          {% set humidity = states('sensor.bedroom_climate_humidity') | float(50) %}
+          {% set humidity_max = states('input_number.room_humidity_max') | int(100) %}
+          {% set humidity_min = states('input_number.room_humidity_min') | int(0) %}
+          {% if humidity >= (humidity_max + 6) %}
+            Very High
+          {% elif humidity >= humidity_max %}
+            High
+          {% elif humidity <= humidity_min %}
+            Low
+          {% elif humidity <= (humidity_min - 6) %}
+            Very Low
+          {% else %}
+            Ok
+          {% endif %}
+
+  - sensor:
+      - name: Bedroom Closet Humidity Monitor
+        attributes:
+          humidity: "{{ states('sensor.bedroom_closet_climate_humidity') }}"
+        state: >
+          {% set humidity = states('sensor.bedroom_closet_climate_humidity') | float(50) %}
+          {% set humidity_max = states('input_number.room_humidity_max') | int(100) %}
+          {% set humidity_min = states('input_number.room_humidity_min') | int(0) %}
+          {% if humidity >= (humidity_max + 6) %}
+            Very High
+          {% elif humidity >= humidity_max %}
+            High
+          {% elif humidity <= humidity_min %}
+            Low
+          {% elif humidity <= (humidity_min - 6) %}
+            Very Low
+          {% else %}
+            Ok
+          {% endif %}
