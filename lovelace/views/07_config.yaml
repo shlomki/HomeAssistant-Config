@@ -32,14 +32,12 @@ cards:
       - entity: sensor.shelly_3em_channel_a_power
       - entity: sensor.shelly_3em_channel_b_power
       - entity: sensor.shelly_3em_channel_c_power
-      - entity: sensor.shelly_3em_channel_a_current
-      - entity: sensor.shelly_3em_channel_b_current
-      - entity: sensor.shelly_3em_channel_c_current
       - entity: sensor.shelly_3em_channel_a_voltage
       - entity: sensor.shelly_3em_channel_b_voltage
       - entity: sensor.shelly_3em_channel_c_voltage
     title: Power Consumption
     show_header_toggle: false
+
   - type: entities
     entities:
       - entity: input_text.power_monthly_additional_cost
@@ -48,11 +46,46 @@ cards:
       - entity: input_text.power_nis_per_kwh
       - entity: input_text.energy_total_yesterday
       - entity: input_text.energy_total_previous_bill
+      - entity: input_text.energy_total_calibration
     title: Power Consumption Cost Calc
+
+  - type: entities
+    entities:
+      - entity: switch.count_partial_bill
+      - entity: input_text.energy_partial_period_start
+      - entity: input_text.energy_partial_period_end
+      - entity: counter.partial_bill_days
+      - entity: sensor.energy_total_partial_bill
+      - entity: sensor.energy_total_partial_bill_cost
+    title: Partial Power Consumption
+    show_header_toggle: false
+
+
+  - type: entities
+    entities:
+      - entity: switch.balcony_peripherals_power
+      - entity: select.balcony_peripherals_power_power_on_behavior
+    title: Balcony Peripherals Power
+
+  - type: entities
+    entities:
+      - entity: switch.count_partial_water_bill
+      - entity: input_text.water_partial_period_start
+      - entity: input_text.water_partial_period_end
+      - entity: input_text.water_nis_per_cubic_meter_low_rate
+      - entity: input_text.water_nis_per_cubic_meter_high_rate     
+      - entity: input_text.water_monthly_additional_cost 
+      - entity: counter.partial_water_bill_days
+      - entity: sensor.water_total_partial_bill
+      - entity: sensor.water_total_partial_bill_cost
+    title: Partial Water Consumption
+    show_header_toggle: false
+
   - type: entities
     entities:
       - entity: input_boolean.show_fans_in_ui
     title: UI Control
+
   - type: custom:auto-entities
     card:
       type: entities
@@ -64,3 +97,4 @@ cards:
       exclude: []
     sort:
       method: state
+

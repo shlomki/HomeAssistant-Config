@@ -1,0 +1,67 @@
+input_text:
+  energy_partial_period_start:
+    name: Total Energy Partial Period Start
+  energy_partial_period_end:
+    name: Total Energy Partial Period End
+
+counter:
+  partial_bill_days:
+    name: Partial Bill Days Count
+    initial: 0
+    step: 1
+
+sensor:
+  - platform: template
+    sensors:
+      energy_total_partial_bill:
+        friendly_name: "Total Energy Partial Bill"
+        value_template: "{{ (states('input_text.energy_partial_period_end') | float) - (states('input_text.energy_partial_period_start') | float) }}"
+        unit_of_measurement: "kWh"
+
+  - platform: template
+    sensors:
+      energy_total_partial_bill_cost:
+        friendly_name: "Partial Bill Cost"
+        value_template: "{{ ((states('sensor.energy_total_partial_bill') | float) * (states('input_text.power_nis_per_kwh') | float) + (states('input_text.power_monthly_additional_cost')|int  / 60 * states('counter.partial_bill_days')|int ) ) |round(1) }}" 
+        unit_of_measurement: "NIS"
+
+
+automation:
+  - alias: Energy count partial bill
+    trigger:
+      - platform: time
+        at: "00:00:00"
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.energy_partial_period_end
+          value: "{{ states('sensor.energy_total') }}"
+      - service: counter.increment 
+        target:
+          entity_id: counter.partial_bill_days
+
+switch:
+  - platform: template
+    switches:
+      count_partial_bill:
+        unique_id: "Count Partial Bill"
+        friendly_name: "Count Partial Bill"
+        value_template: "{{ is_state('automation.energy_count_partial_bill', 'on') }}"
+        turn_on:
+          - service: input_text.set_value
+            data:
+              entity_id: 
+                - input_text.energy_partial_period_start
+                - input_text.energy_partial_period_end
+              value: "{{ states('sensor.energy_total') }}"
+          - service: counter.reset
+            target:
+              entity_id: counter.partial_bill_days
+          - service: automation.turn_on
+            target:
+              entity_id: automation.energy_count_partial_bill
+              
+        turn_off:
+          - service: automation.turn_off
+            target:
+              entity_id: automation.energy_count_partial_bill

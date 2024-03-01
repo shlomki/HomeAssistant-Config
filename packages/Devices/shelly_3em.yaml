@@ -25,6 +25,8 @@ input_text:
     name: Total Energy Previous Bill
   energy_total_yesterday:
     name: Total Energy Yesterday
+  energy_total_calibration:
+    name: Total Energy Calibration
 
 input_number:
   power_bill_cutoff_day:
@@ -60,7 +62,7 @@ sensor:
       energy_total:
         friendly_name: "Total Energy"
         unit_of_measurement: 'kWh'
-        value_template: "{{ states('sensor.shelly_3em_channel_a_energy') | float + states('sensor.shelly_3em_channel_b_energy') | float  + states('sensor.shelly_3em_channel_c_energy') | float}}"
+        value_template: "{{ states('sensor.shelly_3em_channel_a_energy') | float + states('sensor.shelly_3em_channel_b_energy') | float  + states('sensor.shelly_3em_channel_c_energy') | float + states('input_text.energy_total_calibration') | float }}"
 
   - platform: template
     sensors:
@@ -90,12 +92,14 @@ sensor:
         value_template: "{{ ((states('sensor.energy_total_today') | float) * (states('input_text.power_nis_per_kwh') | float))|round(1) }}"
         unit_of_measurement: "NIS"
 
-  - platform: template
-    sensors:
-      power_nis_per_kwh:
-        friendly_name: Power NIS per kWh (incl. VAT)
-        value_template: "{{ states('input_text.power_nis_per_kwh') | float }}"
-        unit_of_measurement: "NIS"
+  - platform: history_stats
+    name: AC on time 7 days
+    entity_id: group.dampers
+    state: "on"
+    type: time
+    end: "{{ now() }}"
+    duration:
+      days: 7
 
 automation:
   - alias: Energy save previous bill
@@ -126,3 +130,4 @@ automation:
       data:
         entity_id: input_text.energy_total_yesterday
         value: "{{ states('sensor.energy_total') }}"
+

@@ -1,0 +1,80 @@
+input_text:
+  water_partial_period_start:
+    name: Water Partial Period Start
+  water_partial_period_end:
+    name: Water Partial Period End
+  water_monthly_additional_cost:
+    name: Water Monthly Additional Cost
+  water_nis_per_cubic_meter_low_rate:
+    name: NIS Per Cubic Meter of Water (Low)
+  water_nis_per_cubic_meter_high_rate:
+    name: NIS Per Cubic Meter of Water (High)
+    
+
+counter:
+  partial_water_bill_days:
+    name: Partial Bill Days Count
+    initial: 0
+    step: 1
+
+sensor:
+  - platform: template
+    sensors:
+      water_total_partial_bill:
+        friendly_name: "Total Water Partial Bill"
+        value_template: "{{ (states('input_text.water_partial_period_end') | float) - (states('input_text.water_partial_period_start') | float) }}"
+        unit_of_measurement: "m³"
+
+  - platform: template
+    sensors:
+      water_total_partial_bill_cost:
+        friendly_name: "Partial Bill Cost"
+        value_template: "{{ ((states('sensor.water_total_partial_bill') | float) * (states('input_text.water_nis_per_cubic_meter_low_rate') | float) + (states('input_text.water_monthly_additional_cost')|int  / 60 * states('counter.partial_water_bill_days')|int ) ) |round(1) }}" 
+        unit_of_measurement: "NIS"
+
+
+automation:
+  - alias: Water count partial bill
+    mode: restart
+    trigger:
+      - platform: time
+        at: "00:00:00"
+    action:
+      #Increment the days count
+      - service: counter.increment 
+        target:
+          entity_id: counter.partial_water_bill_days
+      #Make sure the meter sensor is readable (will wait until the automation is triggered to run again)
+      - wait_template: "{{ not is_state('sensor.water_consumption_meter', 'unavailable') and not is_state('sensor.water_consumption_meter', 'unknown') }}"
+      #Update the period end input_text
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.water_partial_period_end
+          value: "{{ states('sensor.water_consumption_meter') }}"
+
+
+switch:
+  - platform: template
+    switches:
+      count_partial_water_bill:
+        unique_id: "Count Partial Water Bill"
+        friendly_name: "Count Partial Water Bill"
+        value_template: "{{ is_state('automation.water_count_partial_bill', 'on') }}"
+        turn_on:
+          - service: input_text.set_value
+            data:
+              entity_id: 
+                - input_text.water_partial_period_start
+                - input_text.water_partial_period_end
+              value: "{{ states('sensor.water_consumption_meter') }}"
+          - service: counter.reset
+            target:
+              entity_id: counter.partial_water_bill_days
+          - service: automation.turn_on
+            target:
+              entity_id: automation.water_count_partial_bill
+              
+        turn_off:
+          - service: automation.turn_off
+            target:
+              entity_id: automation.water_count_partial_bill
