@@ -1,4 +1,4 @@
-# Welcome to shlomki/HomeAssistant-Config!
+# Welcome to shlomki's HomeAssistant Config!
 
 Hi! My name is Shlomi, after spending quite some time with Home Assistant I decided it would be nice to share some of my nice automations and ideas with you, so I've uploaded my HA configuration here.
 Feel free to browse.
