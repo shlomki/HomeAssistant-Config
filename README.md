@@ -5,12 +5,13 @@ Feel free to browse.
 
 # Screenshots
 
-## The Home Screen
-Tablet (a dashboard for quick control of lights, AC and other devices in all areas of the house):
+## Tablet
+A dashboard for quick control of lights, AC and other devices, in all areas of the house. The idea is to allow the control of many types of devices with just one tap.
 
 ![Home Screen - Tablet](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/tablet_homescreen.png?raw=true)
 
-Mobile:
+## Mobile:
+Designed to be more minimalistic, and provide access to different devices around the house grouped by device type, rather than by room.
 
 ![Home Screen- Mobile](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/mobile_homescreen.png?raw=true)
 ![Power](https://github.com/shlomki/HomeAssistant-Config/blob/main/examples/power.png?raw=true)
@@ -35,7 +36,7 @@ This is the base directory for the configuration. The files are:
 ## /packages Directory - The good stuff!
 
  - **Automations** - Anything that happens by itself, automagically.
- - **Climate** - Configurations regarding AC HVAC units, fans.
+ - **Climate** - Configurations regarding HVAC units, fans.
  - **Devices** - Other devices such as Cameras, Broadlink controllers, Shelly relays, TVs, etc.
  - **Lights** - Anything regarding the lights around the house.
  - **Services** - External services and helpers such as telegram, Google Maps, etc.
