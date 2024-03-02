@@ -1,7 +1,10 @@
-# Welcome to shlomki's HomeAssistant Config!
+# Welcome to shlomki's Home Assistant Config!
 
 Hi! My name is Shlomi, after spending quite some time with Home Assistant I decided it would be nice to share some of my nice automations and ideas with you, so I've uploaded my HA configuration here.
 Feel free to browse.
+
+# Disclaimer
+This code was written for my own personal needs, most of it was customized in ways which might not fit your own needs and might not work for you as it does for me. However, you can still use it as a good starting point and build on top of it. Use at your own risk. Good luck!
 
 # Screenshots
 
