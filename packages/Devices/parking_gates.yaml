@@ -1,18 +1,22 @@
 rest_command:
-  open_parking_gate:
-    url: "https://api1.pal-es.com/v1/bt/device/{{deviceId}}/open-gate?outputNum=1" 
-    method: "GET"
-    headers:
-      x-bt-user-token: !secret palgate_token
-    timeout: 60
+  open_sarters_parking_gate:
+    url: !secret sarter_parking_gate_url
+    method: "POST"
+    payload: !secret sarter_parking_gate_payload
+    timeout: 20
 
 script:
   open_lower_gate_online:
     alias: Open Lower Gate Online
     sequence:
-        - service: rest_command.open_parking_gate
-          data:
-            deviceId: !secret palgate_deviceId
+      - service: google_assistant_sdk.send_text_command
+        data:
+          command: "Open Lower Parking Gate"
+
+  open_sarters_parking_gate_online:
+    alias: Open Sarters Parking Gate Online
+    sequence:
+        - service: rest_command.open_sarters_parking_gate
 
 automation:
 - alias: Parking gates - Turn off remotes after 3 seconds
