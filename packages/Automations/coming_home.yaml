@@ -9,8 +9,11 @@ automation:
     action:
       - service: notify.bffs
         data:
-          # message: 'Bffushkit came home! &lt;3'
           message: 'Bffushkit is {{trigger.to_state.state}}'
+
+      - service: script.navigate_to_entrace_card
+        data:
+          browser_id: "{{ trigger.to_state.entity_id | replace('person.', '') }}_app"
 
   - alias: Shlomi came home
     trigger:
@@ -18,12 +21,28 @@ automation:
         entity_id: person.shlomi
         from: not_home
         to: home
-#    condition:
-#      - condition: state
-#        entity_id: person.inbal
-#        state: not_home
     action:
-      - service: notify.bffs
+      - service: notify.shlomi
         data:
-          # message: 'Bffush came home! &lt;3'
-          message: 'Bffush is {{trigger.to_state.state}}'
+          message: 'Bffush is {{ trigger.to_state.state }}'
+
+      - service: script.navigate_to_entrace_card
+        data:
+          browser_id: "{{ trigger.to_state.entity_id | replace('person.', '') }}_app"
+
+script:
+  navigate_to_entrace_card:
+    mode: parallel
+    sequence:
+      - alias: "Wait until the Home Assistant app connection is available"
+        wait_template: "{{ is_state('sensor.' + browser_id + '_browser_visibility', 'visible') }}"
+        timeout:
+          seconds: 20
+        continue_on_timeout: false
+
+      - service: browser_mod.popup
+        data:
+          title: Welcome Home
+          content: !include /config/lovelace/cards/quick_status_entrance.yaml
+          browser_id:
+            - "{{ browser_id }}"
