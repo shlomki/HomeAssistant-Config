@@ -329,11 +329,12 @@ automation:
 
 sensor:
   - platform: history_stats
-    name: Water Boiler Metrics Duration Today
+    name: Water Boiler Metrics On Duration Past 12hr
     entity_id: switch.water_boiler
     state: "on"
     type: time
-    start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+    duration: 
+      hours: 12
     end: "{{ now() }}"
 
   - platform: history_stats
@@ -341,7 +342,8 @@ sensor:
     entity_id: switch.water_boiler
     state: "on"
     type: count
-    start: "{{ (now() | as_timestamp - 43200) | as_datetime }}"
+    duration: 
+      hours: 12
     end: "{{ now() }}"
 
   - platform: min_max
@@ -379,6 +381,11 @@ template:
       state: >
         {% set from_time = as_timestamp(now()) if is_state('switch.water_boiler', 'on') else state_attr('input_datetime.water_boiler_last_off', 'timestamp') %}
         {{ as_datetime(from_time - state_attr('input_datetime.water_boiler_last_on', 'timestamp')).strftime('%-Hh %-Mm') | regex_replace(find='^0h ', replace='') | regex_replace(find='\s+0m$', replace='') }}
+
+
+  - sensor:
+    - name: "Water Boiler Metrics On Duration Past 12hr"
+      state: "{{ (states('sensor.water_boiler_metrics_on_duration_past_12hr') | float * 60) | round(0) }} "
 
 
   - sensor:
@@ -487,10 +494,10 @@ switch:
         value_template: "{{ is_state('switch.water_boiler', 'on') }}"
         turn_on:
           - if: #If number of showers was selected 
-              - alias: "If number of showers was selected"
-                condition: numeric_state
-                entity_id: input_number.water_boiler_wanted_showers
-                below: 5
+              - alias: "If heating method is by showers"
+                condition: state
+                entity_id: input_select.water_boiler_heating_method
+                state: "By Showers"
               - alias: "And number of showers has already been reached"
                 condition: template
                 value_template: "{{ states('input_number.water_boiler_wanted_showers') | float <= states('sensor.hot_showers_available') | float }}"
