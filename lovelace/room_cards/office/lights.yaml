@@ -32,7 +32,7 @@ cards:
         template: 
           - card_light
           - fill_container
-        entity: light.riley_main
+        entity: light.office_bff_light
         variables:
           ulm_card_light_enable_slider: false
           ulm_card_light_name: "BFF"
