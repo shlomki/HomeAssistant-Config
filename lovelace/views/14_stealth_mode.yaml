@@ -41,7 +41,7 @@ cards:
           - type: custom:button-card
             template: ha-button
             name: Away from Home
-            label: Turn off when leaving
+            label: Turn things off when leaving
             show_label: true
             entity: automation.away_from_home_notify
             icon: mdi:home-alert-outline
@@ -84,14 +84,16 @@ cards:
     cards:
       - type: custom:button-card
         template: title
-        name: Lights Auto On
+        name: Automatic Turn On/Off
 
-      - type: horizontal-stack
+      - type: grid
+        columns: 4
+        square: false
         cards:
           - type: custom:button-card
             template: ha-button
             name: Closet Light
-            label: Auto On
+            label: Auto On/Off
             show_label: true
             entity: group.closet_light_automations
             icon: mdi:hanger
@@ -99,15 +101,23 @@ cards:
           - type: custom:button-card
             template: ha-button
             name: Toilet Light
-            label: Auto On
+            label: Auto On/Off
             show_label: true
             entity: group.toilet_light_automations
             icon: mdi:toilet
 
           - type: custom:button-card
             template: ha-button
+            name: Toilet Vent
+            label: Auto On/Off
+            show_label: true
+            entity: group.toilet_vent_automations
+            icon: mdi:hvac
+
+          - type: custom:button-card
+            template: ha-button
             name: Stairs Light
-            label: Auto On
+            label: Auto On/Off
             show_label: true
             entity: group.stairs_light_automations
             icon: mdi:stairs
@@ -173,7 +183,7 @@ cards:
           - type: custom:button-card
             template: ha-button
             name: Guest Mode
-            label: Auto On/Off
+            label: Enable automatically
             show_label: true
             entity: group.guest_mode_automations
             icon: mdi:account-outline
@@ -182,6 +192,8 @@ cards:
           - type: custom:button-card
             template: ha-button
             name: Schedules
+            label: Windows/lights in guest room
+            show_label: true
             entity: switch.guest_schedules
             icon: mdi:timer-outline
 
