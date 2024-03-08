@@ -2,7 +2,12 @@ group:
   toilet_light_automations:
     entities:
       - automation.toilet_light_on_motion
+
+  toilet_vent_automations:
+    entities:
       - automation.toilet_turn_on_vent_if_theres_someone_in_the_toilet_for_a_few_mins
+      - automation.toilet_turn_off_vent_automatically
+
 
 binary_sensor:
   - platform: group
@@ -37,7 +42,7 @@ automation:
       - service: light.turn_{{ trigger.id }}
         entity_id: light.toilet_lights
 
-  - alias: Toilet Turn on vent if theres someone in the toilet for a few mins
+  - alias: Toilet turn on vent if theres someone in the toilet for a few mins
     mode: restart
     trigger:
       - platform: state
@@ -57,18 +62,21 @@ automation:
       #Make it smell better
       - service: switch.turn_on
         entity_id: switch.toilet_vent
-      - delay:
+
+  - alias: Toilet turn off vent automatically
+    mode: restart
+    trigger:
+      - platform: state
+        entity_id: switch.toilet_vent
+        to: 'on'
+        for:
           minutes: 8
+
+    action:
       - service: switch.turn_off
         entity_id: switch.toilet_vent
 
 switch:
-  # - platform: broadlink
-  #   mac: !secret office_mac
-  #   switches:
-  #     - name: Toilet Vent
-  #       command_on: 'si4yABEFEQUHDwcPEQUHDxEFEQUHDxEFBxAHDxEFEQURBQcQBw8HDxEFBw8RBQcQEQURBQehAAAAAAAA'
-  #       command_off: 'sm0yABEFEQURBQcPBw8HDxEFBw8HDwcPEgURBQehEgUSBQcPBw8RBQcPEQURBQcPEQUHDwcPAAAAAAAA'
 
   - platform: broadlink
     mac: !secret office_mac
