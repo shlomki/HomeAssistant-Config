@@ -33,11 +33,11 @@ automation:
     action:
       - service: camera.snapshot
         data:
-          entity_id: camera.front_door
+          entity_id: camera.front_door_snapshots_main
           filename: "{{ front_door_photo }}"
       - service: camera.snapshot
         data:
-          entity_id: camera.living_room
+          entity_id: camera.living_room_snapshots_main
           filename: "{{ living_room_photo }}"
       - service: script.notify_shlomi_when_away_with_photo_actions
         data:
@@ -77,7 +77,7 @@ automation:
     action:
       - service: camera.snapshot
         data:
-          entity_id: camera.front_door
+          entity_id: camera.front_door_snapshots_main
           filename: "{{ filename }}"
       - service: script.notify_bffs_photo
         data:
